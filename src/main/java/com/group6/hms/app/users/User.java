@@ -1,4 +1,4 @@
-package users;
+package com.group6.hms.app.users;
 
 public abstract class User {
 

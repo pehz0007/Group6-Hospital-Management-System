@@ -1,6 +1,6 @@
-package system;
+package com.group6.hms.app.system;
 
-import users.User;
+import com.group6.hms.app.users.User;
 
 import java.io.File;
 import java.util.Collection;
