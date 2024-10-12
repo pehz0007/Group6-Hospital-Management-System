@@ -59,11 +59,11 @@ public abstract class Screen implements ScreenLifeCycle {
 
 
     /**
-     * Start a new {@code Screen Manager} with a new navigation stack
-     * @param screen the initial screen to display
+     * Start a new {@code Screen} with a new navigation stack
+     * @param newScreen the initial screen to display
      */
-    protected void newScreenManager(Screen screen) {
-        ScreenManager sm = new ScreenManager(screen, consoleInterface);
+    protected void newScreen(Screen newScreen) {
+        screenManager.newScreen(newScreen);
     }
 
     /// NAVIGATIONS
@@ -112,7 +112,7 @@ public abstract class Screen implements ScreenLifeCycle {
      *
      * @param color The {@link ConsoleColor} to set the text to.
      */
-    protected void setConsoleColor(ConsoleColor color) {
+    protected void setCurrentConsoleColor(ConsoleColor color) {
         consoleInterface.setCurrentConsoleColor(color);
     }
 

@@ -32,10 +32,11 @@ import java.util.Map;
 public abstract class OptionScreen extends Screen{
 
     // A map to store the available options, where the key is the option ID and the value is the option description
-    private Map<Integer, String> options = new HashMap<Integer, String>();
+    private Map<Integer, Option> options = new HashMap<Integer, Option>();
 
     // Flag indicating whether the user is allowed to go back to the previous screen
-    private boolean allowBack = true;
+    protected boolean allowBack = true;
+    private final static int BACK_ID = 0;
 
 
     /**
@@ -77,7 +78,12 @@ public abstract class OptionScreen extends Screen{
      * @param allowBack If true, the back option will be available; otherwise, it will not display the back option
      */
     protected void setAllowBack(boolean allowBack){
-        this.allowBack = false;
+        this.allowBack = allowBack;
+        if(allowBack){
+            addOption(BACK_ID, "Back", ConsoleColor.WHITE);
+        }else{
+            removeOption(BACK_ID);
+        }
     }
 
     ///
@@ -91,7 +97,31 @@ public abstract class OptionScreen extends Screen{
      * @param optionDescription A description of what the option represents.
      */
     protected void addOption(int optionID, String optionDescription){
-        options.put(optionID, optionDescription);
+        addOption(optionID, optionDescription, ConsoleColor.PURPLE);
+    }
+
+    /**
+     * Adds an option to the screen that the user can select.
+     *
+     * @param optionID The unique ID for the option.
+     * @param optionDescription A description of what the option represents.
+     * @param consoleColor Set the color of the option.
+     */
+    protected void addOption(int optionID, String optionDescription, ConsoleColor consoleColor){
+        options.put(optionID, new Option(optionID, optionDescription, consoleColor));
+    }
+
+    /**
+     * Removes an option from the screen that the user can select.
+     *
+     * @param optionID The unique ID for the option to be removed.
+     */
+    protected void removeOption(int optionID){
+        if(options.containsKey(optionID)){
+            options.remove(optionID);
+        }else{
+            throw new OptionNotAvailableToBeRemoveException("Option is not available to be remove!");
+        }
     }
 
     /**
@@ -102,9 +132,17 @@ public abstract class OptionScreen extends Screen{
     public void readUserOption(){
         print("\tPlease select an option: ");
         int selectedOptionId = readInt();
-        // Go back one screen
-        if(allowBack && selectedOptionId == 0) navigateBack();
-        handleOption(selectedOptionId);
+        handleOptionOnBack(selectedOptionId);
+
+    }
+
+    protected void handleOptionOnBack(int optionId){
+        if (optionId == BACK_ID && allowBack) {
+            // Go back one screen
+            navigateBack();
+        } else {
+            handleOption(optionId);
+        }
     }
 
     /**
@@ -123,13 +161,9 @@ public abstract class OptionScreen extends Screen{
      * If back navigation is allowed, a '0: <Back>' option is displayed as well.
      */
     public void displayOptions() {
-        if(allowBack){
-            consoleInterface.setCurrentConsoleColor(ConsoleColor.WHITE);
-            println(0 + ": <Back>");
-        }
-        consoleInterface.setCurrentConsoleColor(ConsoleColor.PURPLE);
-        for (Map.Entry<Integer, String> option : options.entrySet()) {
-            println(option.getKey() + ": <" + option.getValue() + ">");
+        for (Map.Entry<Integer, Option> option : options.entrySet()) {
+            setCurrentConsoleColor(option.getValue().color());
+            println(option.getKey() + ": <" + option.getValue().optionDescription() + ">");
         }
     }
 

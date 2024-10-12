@@ -6,7 +6,6 @@ import com.group6.hms.framework.auth.LoginManager;
 import com.group6.hms.framework.auth.User;
 import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.Screen;
-import com.group6.hms.framework.screens.ScreenManager;
 
 public class LoginScreen extends Screen {
 
@@ -25,7 +24,7 @@ public class LoginScreen extends Screen {
     public void onStart() {
         super.onStart();
 
-        setConsoleColor(ConsoleColor.PURPLE);
+        setCurrentConsoleColor(ConsoleColor.PURPLE);
         boolean loginSuccessful = false;
         while (!loginSuccessful) {
             print("Username: ");
@@ -41,8 +40,8 @@ public class LoginScreen extends Screen {
                 User currentUser = LoginManager.getCurrentlyLoggedInUser();
 
                 switch (currentUser.getRole()) {
-                    case PatientRole p -> newScreenManager(new PatientScreen());
-                    case DoctorRole d -> newScreenManager(new DoctorScreen());
+                    case PatientRole p -> newScreen(new PatientScreen());
+                    case DoctorRole d -> newScreen(new DoctorScreen());
                     default -> throw new IllegalStateException("Unexpected value: " + currentUser.getRole());
                 }
 

@@ -6,8 +6,9 @@ import java.util.Stack;
  * This class manages the navigation between various screens.
  * It keeps track of the current screen and a stack of previous screens for handling back navigation.
  */
-public class ScreenManager {
+public class ScreenManager implements Runnable{
 
+    private ApplicationHandle applicationHandle;
     //Current screen which is shown to the user which is also at the top of the navigation stack
     private Screen currentScreen;
     //Console interface for displaying screen;
@@ -25,7 +26,20 @@ public class ScreenManager {
         this.navigationStack = new Stack<>();
         this.currentScreen = mainScreen;
         this.consoleInterface = consoleInterface;
-        navigateToScreen(mainScreen);
+    }
+
+    protected void setApplicationHandle(ApplicationHandle applicationHandle) {
+        this.applicationHandle = applicationHandle;
+    }
+
+    /**
+     * Start a new {@code Screen} with a new navigation stack
+     * @param newScreen the initial screen to display
+     */
+    protected void newScreen(Screen newScreen) {
+        applicationHandle.requireSwitchingScreen();
+        this.currentScreen = newScreen;
+        this.navigationStack.clear();
     }
 
     /**
@@ -80,7 +94,7 @@ public class ScreenManager {
     public void navigateBack() {
         Screen previousScreen = currentScreen;
 
-        if(navigationStack.size() == 1) throw new ScreenManagerEmptyNavigationStack("Cannot navigate back when the navigation stack has only one screen");
+        if(navigationStack.size() == 1) throw new ScreenManagerEmptyNavigationStackException("Cannot navigate back when the navigation stack has only one screen");
 
         //Pop the current screen
         Screen nextScreen = navigationStack.pop();
@@ -99,4 +113,8 @@ public class ScreenManager {
 
     }
 
+    @Override
+    public void run() {
+        navigateToScreen(currentScreen);
+    }
 }

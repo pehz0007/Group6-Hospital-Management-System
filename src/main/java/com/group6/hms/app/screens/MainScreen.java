@@ -9,7 +9,6 @@ public class MainScreen extends OptionScreen {
 
     @Override
     public void onStart() {
-        setAllowBack(false);
         addOption(1, "Login");
         addOption(2, "Exit");
         super.onStart();

@@ -6,7 +6,6 @@ import java.io.Console;
 import java.io.IOException;
 import java.util.Objects;
 import java.util.Scanner;
-import java.util.stream.Stream;
 
 import static com.group6.hms.framework.screens.ConsoleColor.*;
 

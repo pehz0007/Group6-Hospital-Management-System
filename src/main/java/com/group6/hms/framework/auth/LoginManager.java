@@ -8,6 +8,7 @@ public class LoginManager {
 
     private static ThreadLocal<User> currentlyLoggedInUser = new ThreadLocal<>();
 
+
     public void createUser(String username, char[] password, Role role){
         userStorageProvider.addNewItem(new User(PasswordUtils.generateUUID(), username, PasswordUtils.hashPassword(password), role));
     }
@@ -39,4 +40,13 @@ public class LoginManager {
     public static User getCurrentlyLoggedInUser() {
         return currentlyLoggedInUser.get();
     }
+
+    public static void logout(){
+        currentlyLoggedInUser.remove();
+    }
+
+    public static boolean isLoggedIn(){
+        return currentlyLoggedInUser.get() != null;
+    }
+
 }
