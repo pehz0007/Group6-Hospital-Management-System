@@ -1,4 +1,4 @@
-package com.group6.hms.framework.auth;
+package com.group6.hms.app.auth;
 
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;

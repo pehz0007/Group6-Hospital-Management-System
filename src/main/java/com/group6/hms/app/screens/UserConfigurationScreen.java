@@ -1,5 +1,7 @@
 package com.group6.hms.app.screens;
 
+import com.group6.hms.app.auth.LoginManager;
+import com.group6.hms.app.auth.User;
 import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.OptionScreen;
 
@@ -22,6 +24,11 @@ public class UserConfigurationScreen extends OptionScreen {
 
     @Override
     protected void handleOption(int optionId) {
+        switch (optionId){
+            case CHANGE_PASSWORD -> {
+                User user = LoginManager.getCurrentlyLoggedInUser();
 
+            }
+        }
     }
 }

@@ -1,4 +1,6 @@
-package com.group6.hms.framework.auth;
+package com.group6.hms.app.auth;
+
+import com.group6.hms.app.auth.roles.Role;
 
 import java.io.Serializable;
 import java.util.UUID;

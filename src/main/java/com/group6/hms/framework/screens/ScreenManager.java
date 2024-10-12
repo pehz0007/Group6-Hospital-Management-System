@@ -43,16 +43,14 @@ public class ScreenManager implements Runnable{
     }
 
     /**
-     * Navigates to the specified {@code Screen}. It sets the new {@code Screen} as the current screen,
-     * adds it to the {@code Screen} stack, and calls the necessary lifecycle methods.
+     * Display the current {@code Screen} and push the screen to the navigation stack calls the necessary lifecycle methods.
      *
-     * @param nextScreen The screen to navigate to.
+     * @param nextScreen The screen to display.
      */
     public void displayScreen(Screen nextScreen) {
         //Set current screen to the next screen
         currentScreen = nextScreen;
         initScreen(nextScreen);
-        navigationStack.push(nextScreen);
 
         //Clear console
         consoleInterface.clearConsole();
@@ -81,10 +79,6 @@ public class ScreenManager implements Runnable{
         previousScreen.onNextScreen(nextScreen);
 
         applicationHandle.requireSwitchingScreen();
-
-//        //Lifecycle (OnStart): Call the onStart once the screen is printed to the console
-//        nextScreen.onStart();
-
     }
 
     /**
@@ -131,13 +125,6 @@ public class ScreenManager implements Runnable{
 
         //Lifecycle (onBack): Call the onFinish to inform the screen its has been pop off the navigation stack
         nextScreen.onBack(previousScreen);
-
-//        //Print the next screen to the console
-//        printScreen(nextScreen);
-
-//        //Lifecycle (onStart): Call the onStart to start the screen again.
-//        nextScreen.onStart();
-
     }
 
     @Override

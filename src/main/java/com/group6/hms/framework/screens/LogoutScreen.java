@@ -1,6 +1,6 @@
 package com.group6.hms.framework.screens;
 
-import com.group6.hms.framework.auth.LoginManager;
+import com.group6.hms.app.auth.LoginManager;
 
 public abstract class LogoutScreen extends OptionScreen{
 

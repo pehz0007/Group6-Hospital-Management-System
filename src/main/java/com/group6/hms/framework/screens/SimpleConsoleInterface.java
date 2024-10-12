@@ -99,8 +99,6 @@ public class SimpleConsoleInterface implements ConsoleInterface {
         return scanner.nextLine();
     }
 
-
-
     @Override
     public int readInt() {
         String number = scanner.nextLine();

@@ -1,9 +1,8 @@
 package com.group6.hms.app.screens;
 
-import com.group6.hms.app.roles.DoctorRole;
-import com.group6.hms.app.roles.PatientRole;
-import com.group6.hms.framework.auth.LoginManager;
-import com.group6.hms.framework.auth.User;
+import com.group6.hms.app.auth.LoginManager;
+import com.group6.hms.app.auth.User;
+import com.group6.hms.app.auth.roles.Role;
 import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.Screen;
 
@@ -14,15 +13,12 @@ public class LoginScreen extends Screen {
     public LoginScreen() {
         super("Login");
 //        setPrintHeader(false);
-
-        //CREATE SAMPLE USERS
-        loginManager.createUser("Patient 1", "Password1".toCharArray(), new PatientRole());
-        loginManager.createUser("Doctor 1", "Password2".toCharArray(), new DoctorRole());
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        loginManager.loadUsersFromFile();
 
         setCurrentConsoleColor(ConsoleColor.PURPLE);
         boolean loginSuccessful = false;
@@ -40,8 +36,9 @@ public class LoginScreen extends Screen {
                 User currentUser = LoginManager.getCurrentlyLoggedInUser();
 
                 switch (currentUser.getRole()) {
-                    case PatientRole p -> newScreen(new PatientScreen());
-                    case DoctorRole d -> newScreen(new DoctorScreen());
+                    case Role.Patient -> newScreen(new PatientScreen());
+                    case Role.Doctor -> newScreen(new DoctorScreen());
+                    case Role.Administrator -> newScreen(new AdministratorScreen());
                     default -> throw new IllegalStateException("Unexpected value: " + currentUser.getRole());
                 }
 
