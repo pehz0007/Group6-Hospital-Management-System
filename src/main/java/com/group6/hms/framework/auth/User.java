@@ -1,8 +1,9 @@
 package com.group6.hms.framework.auth;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class User {
+public class User implements Serializable {
 
     private final UUID userId;
     private final String username;
