@@ -130,6 +130,7 @@ public abstract class OptionScreen extends Screen{
      * Otherwise, the selected option is passed to handleOption().
      */
     public void readUserOption(){
+        setCurrentConsoleColor(ConsoleColor.PURPLE);
         print("\tPlease select an option: ");
         int selectedOptionId = readInt();
         handleOptionOnBack(selectedOptionId);

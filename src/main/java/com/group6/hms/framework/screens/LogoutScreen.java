@@ -24,9 +24,8 @@ public abstract class LogoutScreen extends OptionScreen{
 
     @Override
     protected void handleOptionOnBack(int optionId) {
-        super.handleOptionOnBack(optionId);
-        if(optionId == LOGOUT_ID)logout();
-        else handleOption(optionId);
+        if(optionId == LOGOUT_ID) logout();
+        else super.handleOptionOnBack(optionId);
     }
 
     protected abstract void onLogout();
