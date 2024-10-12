@@ -1,12 +1,22 @@
 package com.group6.hms.framework.screens;
 
+import java.io.Console;
+import java.io.IOException;
+import java.util.Objects;
 import java.util.Scanner;
 import java.util.stream.Stream;
 
 import static com.group6.hms.framework.screens.ConsoleColor.*;
 
-public class SimpleScreenInputInterface implements ScreenInputInterface {
+/**
+ * This class implements {@link ConsoleInterface} for the local terminal and support text color and basic I/O
+ */
+public class SimpleConsoleInterface implements ConsoleInterface {
 
+    /**
+     * Color code for ansi color
+     * See: <a href="https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797#color-codes">Color Codes</a>
+     */
     public enum AnsiColor {
 
         ANSI_RESET(null, "\u001B[0m"),
@@ -44,14 +54,17 @@ public class SimpleScreenInputInterface implements ScreenInputInterface {
     private Scanner scanner = new Scanner(System.in);
     private Stream<String> inputsTokens = scanner.tokens();
     private AnsiColor consoleColor = AnsiColor.ANSI_WHITE;
+    private Console console = System.console();
 
     @Override
     public boolean isColorSupported() {
+        //Color text is supported
         return true;
     }
 
     @Override
     public void setCurrentConsoleColor(ConsoleColor color) {
+        //Find the matching color from ConsoleColor to AnsiColor
         for (AnsiColor ansiColor : AnsiColor.values()) {
             if (color.equals(ansiColor.getColor())) {
                 this.consoleColor = ansiColor;
@@ -61,13 +74,38 @@ public class SimpleScreenInputInterface implements ScreenInputInterface {
     }
 
     @Override
+    public char[] readPassword() {
+        if(Objects.isNull(console)){
+            return scanner.nextLine().toCharArray();
+        }else {
+            return console.readPassword();
+        }
+    }
+
+    @Override
+    public void clearConsole() {
+        try {
+            if (System.getProperty("os.name").contains("Windows")) {
+                new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
+            }
+            else {
+                System.out.print("\033\143");
+            }
+        } catch (IOException | InterruptedException ex) {}
+    }
+
+    @Override
     public String readString() {
         return scanner.nextLine();
     }
 
+
+
     @Override
     public int readInt() {
-        return Integer.parseInt(inputsTokens.findFirst().get());
+        int result = Integer.parseInt(inputsTokens.findFirst().get());
+        scanner.nextLine(); // Consume newline
+        return result;
     }
 
     @Override
