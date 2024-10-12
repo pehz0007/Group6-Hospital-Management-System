@@ -1,5 +1,6 @@
 package com.group6.hms.framework.auth;
 
+import java.io.File;
 import java.util.Arrays;
 
 public class LoginManager {
@@ -7,7 +8,12 @@ public class LoginManager {
     private StorageProvider<User> userStorageProvider = new UserInMemoryStorageProvider();
 
     private static ThreadLocal<User> currentlyLoggedInUser = new ThreadLocal<>();
+    private static final File usersFile = new File("users.ser");
 
+    public static void main(String[] args) {
+        StorageProvider<User> userStorageProvider = new UserInMemoryStorageProvider();
+        userStorageProvider.loadFromFile(usersFile);
+    }
 
     public void createUser(String username, char[] password, Role role){
         userStorageProvider.addNewItem(new User(PasswordUtils.generateUUID(), username, PasswordUtils.hashPassword(password), role));
