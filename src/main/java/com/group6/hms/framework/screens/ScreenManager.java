@@ -75,7 +75,7 @@ public class ScreenManager implements Runnable{
         //Set current screen to the next screen
         currentScreen = nextScreen;
         initScreen(nextScreen);
-        navigationStack.push(nextScreen);
+//        navigationStack.push(nextScreen);
 
         //Lifecycle (onNextScreen): Call the onNextScreen to inform the previous screen that the screen has been changed
         previousScreen.onNextScreen(nextScreen);
