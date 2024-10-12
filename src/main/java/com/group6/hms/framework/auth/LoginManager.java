@@ -6,7 +6,7 @@ public class LoginManager {
 
     private StorageProvider<User> userStorageProvider = new UserInMemoryStorageProvider();
 
-    private User currentlyLoggedInUser;
+    private static ThreadLocal<User> currentlyLoggedInUser = new ThreadLocal<>();
 
     public void createUser(String username, char[] password, Role role){
         userStorageProvider.addNewItem(new User(PasswordUtils.generateUUID(), username, PasswordUtils.hashPassword(password), role));
@@ -22,7 +22,7 @@ public class LoginManager {
 
         //Verify password
         boolean result = Arrays.equals(user.getPasswordHashed(), PasswordUtils.hashPassword(password));
-        if(result)currentlyLoggedInUser = user;
+        if(result)currentlyLoggedInUser.set(user);
         return result;
 
     }
@@ -36,7 +36,7 @@ public class LoginManager {
         return null;
     }
 
-    public User getCurrentlyLoggedInUser() {
-        return currentlyLoggedInUser;
+    public static User getCurrentlyLoggedInUser() {
+        return currentlyLoggedInUser.get();
     }
 }

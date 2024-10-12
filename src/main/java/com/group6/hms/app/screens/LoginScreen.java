@@ -1,5 +1,6 @@
 package com.group6.hms.app.screens;
 
+import com.group6.hms.app.roles.DoctorRole;
 import com.group6.hms.app.roles.PatientRole;
 import com.group6.hms.framework.auth.LoginManager;
 import com.group6.hms.framework.auth.User;
@@ -33,9 +34,13 @@ public class LoginScreen extends Screen {
         if(loginManager.login(username, password)) {
             println("Login Successful");
 
-            User currentUser = loginManager.getCurrentlyLoggedInUser();
+            User currentUser = LoginManager.getCurrentlyLoggedInUser();
 
-            println("Welcome, " + currentUser.getUsername());
+            switch (currentUser.getRole()) {
+                case PatientRole p -> navigateToScreen(new PatientScreen());
+                case DoctorRole d -> navigateToScreen(new DoctorScreen());
+                default -> throw new IllegalStateException("Unexpected value: " + currentUser.getRole());
+            }
 
         }else {
             println("Login Failed");
