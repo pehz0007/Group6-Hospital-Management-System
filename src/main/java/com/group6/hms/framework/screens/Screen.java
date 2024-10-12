@@ -98,6 +98,16 @@ public abstract class Screen implements ScreenLifeCycle {
     /// READING & PRINTING
 
     /**
+     * Sets the current text color in the console. The next print operation
+     * will use the color specified by {@code color}.
+     *
+     * @param color The {@link ConsoleColor} to set the text to.
+     */
+    protected void setConsoleColor(ConsoleColor color) {
+        consoleInterface.setCurrentConsoleColor(color);
+    }
+
+    /**
      * Read a {@code String} from the current console.
      * @return The string entered by the user.
      */
@@ -133,11 +143,11 @@ public abstract class Screen implements ScreenLifeCycle {
      * Displays the screen header. This can be disabled using {@link #setPrintHeader(boolean)}.
      * The header includes a title centered and wrapped with borders.
      */
-    public void displayHeader() {
+    public void displayHeader(int totalWidth) {
         if (!printHeader) return;
         consoleInterface.setCurrentConsoleColor(ConsoleColor.CYAN);
         int headerLength = title.length();
-        int totalWidth = headerLength + 20;
+//        int totalWidth = headerLength + 20;
 
         // Top border
         println("=".repeat(totalWidth));

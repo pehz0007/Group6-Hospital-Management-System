@@ -59,7 +59,7 @@ public class ScreenManager {
      * @param screen The screen whose header and content will be displayed.
      */
     private void printScreen(Screen screen) {
-        screen.displayHeader();
+        screen.displayHeader(50);
     }
 
     /**
