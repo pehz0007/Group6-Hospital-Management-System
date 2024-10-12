@@ -57,6 +57,15 @@ public abstract class Screen implements ScreenLifeCycle {
         this.printHeader = printHeader;
     }
 
+
+    /**
+     * Start a new {@code Screen Manager} with a new navigation stack
+     * @param screen the initial screen to display
+     */
+    protected void newScreenManager(Screen screen) {
+        ScreenManager sm = new ScreenManager(screen, consoleInterface);
+    }
+
     /// NAVIGATIONS
 
     /**

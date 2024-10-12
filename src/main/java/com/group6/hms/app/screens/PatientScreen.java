@@ -15,6 +15,7 @@ public class PatientScreen extends OptionScreen {
 
     @Override
     public void onStart() {
+        setAllowBack(false);
         addOption(1, "Show Medical Record");
         super.onStart();
         println("Welcome, " + LoginManager.getCurrentlyLoggedInUser().getUsername());

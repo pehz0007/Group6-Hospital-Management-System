@@ -10,10 +10,13 @@ public class DoctorScreen extends OptionScreen {
      */
     protected DoctorScreen() {
         super("Doctor Menu");
+    }
+
+    @Override
+    public void onStart() {
+        setAllowBack(false);
         println("Welcome, " + LoginManager.getCurrentlyLoggedInUser().getUsername());
-
-//        addOption(1, "");
-
+        super.onStart();
     }
 
     @Override
