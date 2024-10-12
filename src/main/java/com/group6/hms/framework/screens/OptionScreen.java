@@ -56,7 +56,15 @@ public abstract class OptionScreen extends Screen{
     public void onStart() {
         super.onStart();
         displayOptions();
-        readUserOption();
+        boolean readingOption = true;
+        do{
+            try{
+                readUserOption();
+                readingOption = false;
+            }catch (ConsoleInputFormatException ignored){
+                println("Invalid option!");
+            }
+        }while(readingOption);
     }
 
     ///

@@ -1,5 +1,7 @@
 package com.group6.hms.framework.screens;
 
+import com.google.common.primitives.Ints;
+
 import java.io.Console;
 import java.io.IOException;
 import java.util.Objects;
@@ -52,7 +54,6 @@ public class SimpleConsoleInterface implements ConsoleInterface {
     }
 
     private Scanner scanner = new Scanner(System.in);
-    private Stream<String> inputsTokens = scanner.tokens();
     private AnsiColor consoleColor = AnsiColor.ANSI_WHITE;
     private Console console = System.console();
 
@@ -103,8 +104,9 @@ public class SimpleConsoleInterface implements ConsoleInterface {
 
     @Override
     public int readInt() {
-        int result = Integer.parseInt(inputsTokens.findFirst().get());
-        scanner.nextLine(); // Consume newline
+        String number = scanner.nextLine();
+        Integer result = Ints.tryParse(number);
+        if(result == null)throw new ConsoleInputFormatException("Unable to parse number: " + number);
         return result;
     }
 

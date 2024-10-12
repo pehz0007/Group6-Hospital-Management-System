@@ -15,7 +15,7 @@ public class MainScreen extends OptionScreen {
         switch(optionId) {
             case 1 -> navigateToScreen(new LoginScreen());
             case 2 -> {
-                println("HMS - System shutting down...\n");
+                println("com.group6.hms.app.HMS - System shutting down...\n");
                 System.exit(0);
             }
         }
