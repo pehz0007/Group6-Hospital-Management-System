@@ -7,4 +7,6 @@ public class DoctorRole extends Role {
     public String toString() {
         return "Doctor";
     }
+
+
 }
