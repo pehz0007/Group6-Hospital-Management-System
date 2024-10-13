@@ -1,12 +1,14 @@
 package com.group6.hms.app.auth;
 
 import com.group6.hms.app.auth.roles.Role;
+import com.group6.hms.framework.screens.HeaderField;
 
 import java.io.Serializable;
 import java.util.UUID;
 
 public class User implements Serializable {
 
+    @HeaderField(width = 40)
     private final UUID userId;
     private final String username;
     private final byte[] passwordHashed;

@@ -4,6 +4,7 @@ import com.group6.hms.app.auth.roles.Role;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Map;
 import java.util.UUID;
 
@@ -69,6 +70,10 @@ public class LoginManager {
         userStorageProvider.addNewItem(updatedUser);
         
         currentlyLoggedInUser.set(updatedUser);
+    }
+
+    public Collection<User> getAllUsers(){
+        return userStorageProvider.getItems();
     }
 
     public static User getCurrentlyLoggedInUser() {

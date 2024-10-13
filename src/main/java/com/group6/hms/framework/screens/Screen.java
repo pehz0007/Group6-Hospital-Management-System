@@ -1,5 +1,6 @@
 package com.group6.hms.framework.screens;
 
+import java.lang.reflect.Field;
 import java.util.Objects;
 
 /**
@@ -112,7 +113,7 @@ public abstract class Screen implements ScreenLifeCycle {
      *
      * @param color The {@link ConsoleColor} to set the text to.
      */
-    protected void setCurrentConsoleColor(ConsoleColor color) {
+    public void setCurrentConsoleColor(ConsoleColor color) {
         consoleInterface.setCurrentConsoleColor(color);
     }
 
@@ -135,14 +136,14 @@ public abstract class Screen implements ScreenLifeCycle {
     /**
      * Print a {@code String} to the current console.
      */
-    protected void print(String s) {
+    public void print(String s) {
         consoleInterface.print(s);
     }
 
     /**
      * Print a {@code String} to the current console with a newline.
      */
-    protected void println(String s) {
+    public void println(String s) {
         consoleInterface.println(s);
     }
 
@@ -168,6 +169,8 @@ public abstract class Screen implements ScreenLifeCycle {
         // Bottom border
         println("=".repeat(totalWidth));
     }
+
+
 
 
 }
