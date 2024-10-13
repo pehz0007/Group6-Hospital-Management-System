@@ -2,6 +2,7 @@ package com.group6.hms.app.screens;
 
 import com.group6.hms.app.roles.DoctorRole;
 import com.group6.hms.app.roles.PatientRole;
+import com.group6.hms.app.roles.PharmacistRole;
 import com.group6.hms.framework.auth.LoginManager;
 import com.group6.hms.framework.auth.User;
 import com.group6.hms.framework.screens.ConsoleColor;
@@ -18,6 +19,7 @@ public class LoginScreen extends Screen {
         //CREATE SAMPLE USERS
         loginManager.createUser("Patient 1", "Password1".toCharArray(), new PatientRole());
         loginManager.createUser("Doctor 1", "Password2".toCharArray(), new DoctorRole());
+        loginManager.createUser("Pharmacist 1", "Password3".toCharArray(), new PharmacistRole());
     }
 
     @Override
@@ -42,6 +44,7 @@ public class LoginScreen extends Screen {
                 switch (currentUser.getRole()) {
                     case PatientRole p -> newScreen(new PatientScreen());
                     case DoctorRole d -> newScreen(new DoctorScreen());
+                    case PharmacistRole ph -> newScreen(new PharmacistScreen());
                     default -> throw new IllegalStateException("Unexpected value: " + currentUser.getRole());
                 }
 
