@@ -20,7 +20,7 @@ public class MainScreen extends OptionScreen {
             case 1 -> navigateToScreen(new LoginScreen());
             case 2 -> {
                 println("HMS - System shutting down...\n");
-                System.exit(0);
+                doNotLoopScreen();
             }
         }
     }

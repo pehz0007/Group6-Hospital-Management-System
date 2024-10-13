@@ -73,7 +73,6 @@ public class ScreenManager implements Runnable{
         //Set current screen to the next screen
         currentScreen = nextScreen;
         initScreen(nextScreen);
-//        navigationStack.push(nextScreen);
 
         //Lifecycle (onNextScreen): Call the onNextScreen to inform the previous screen that the screen has been changed
         previousScreen.onNextScreen(nextScreen);
@@ -125,6 +124,13 @@ public class ScreenManager implements Runnable{
 
         //Lifecycle (onBack): Call the onFinish to inform the screen its has been pop off the navigation stack
         nextScreen.onBack(previousScreen);
+    }
+
+    /**
+     * Do not display the screen again and will instead end the application once the screen exit
+     */
+    protected void doNotLoopScreen() {
+        applicationHandle.doNotKeepRunning();
     }
 
     @Override

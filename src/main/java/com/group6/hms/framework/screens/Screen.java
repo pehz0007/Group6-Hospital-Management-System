@@ -87,6 +87,13 @@ public abstract class Screen implements ScreenLifeCycle {
         screenManager.navigateBack();
     }
 
+    /**
+     * Do not display the screen again and will instead end the application once the screen exit
+     */
+    protected void doNotLoopScreen(){
+        screenManager.doNotLoopScreen();
+    }
+
     /// SCREEN LIFECYCLE
     @Override
     public void onStart() {
