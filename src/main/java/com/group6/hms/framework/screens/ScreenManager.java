@@ -40,6 +40,7 @@ public class ScreenManager implements Runnable{
         applicationHandle.requireSwitchingScreen();
         this.currentScreen = newScreen;
         this.navigationStack.clear();
+        this.navigationStack.push(currentScreen);
     }
 
     /**
@@ -73,6 +74,7 @@ public class ScreenManager implements Runnable{
         //Set current screen to the next screen
         currentScreen = nextScreen;
         initScreen(nextScreen);
+        navigationStack.push(currentScreen);
 
         //Lifecycle (onNextScreen): Call the onNextScreen to inform the previous screen that the screen has been changed
         previousScreen.onNextScreen(nextScreen);
@@ -109,8 +111,8 @@ public class ScreenManager implements Runnable{
         //Pop the current screen
         Screen previousScreen = navigationStack.pop();
 
-        //Pop the new screen
-        Screen nextScreen = navigationStack.pop();
+        //Peek the new screen
+        Screen nextScreen = navigationStack.peek();
         currentScreen = nextScreen;
         //Lifecycle (onFinish): Call the onFinish to inform the screen its has been pop off the navigation stack
         previousScreen.onFinish();
