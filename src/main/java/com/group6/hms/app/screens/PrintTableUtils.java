@@ -90,7 +90,7 @@ public class PrintTableUtils {
 
     private static void printHeaderFields(Screen screen, ConsoleColor borderColor, Field[] fields, ConsoleColor headerFieldColor) {
         // Print top border
-        screen.setCurrentConsoleColor(borderColor);
+        screen.setCurrentTextConsoleColor(borderColor);
         printSeparator(screen, fields);
 
         // Print field names as headers with borders
@@ -101,13 +101,13 @@ public class PrintTableUtils {
             String fieldName = (headerField != null && !headerField.name().isEmpty()) ? headerField.name() : convertCamelCaseToNormal(field.getName());
 
             if (show) { // Only print if show is true
-                screen.setCurrentConsoleColor(borderColor);
+                screen.setCurrentTextConsoleColor(borderColor);
                 screen.print("|");
-                screen.setCurrentConsoleColor(headerFieldColor);
+                screen.setCurrentTextConsoleColor(headerFieldColor);
                 screen.print(String.format("%-" + fieldWidth + "s", fieldName)); // Print field name (header)
             }
         }
-        screen.setCurrentConsoleColor(borderColor);
+        screen.setCurrentTextConsoleColor(borderColor);
         screen.println("|"); // End the row with a border
 
         // Print middle border
@@ -125,16 +125,16 @@ public class PrintTableUtils {
                 try {
                     Object value = field.get(item); // Get the value of the field for the given object
 
-                    screen.setCurrentConsoleColor(borderColor);
+                    screen.setCurrentTextConsoleColor(borderColor);
                     screen.print("|");
-                    screen.setCurrentConsoleColor(valueFieldColor);
+                    screen.setCurrentTextConsoleColor(valueFieldColor);
                     screen.print(String.format("%-" + fieldWidth + "s", value != null ? value.toString() : "null")); // Print value
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
             }
         }
-        screen.setCurrentConsoleColor(borderColor);
+        screen.setCurrentTextConsoleColor(borderColor);
         screen.println("|"); // End the row with a border
     }
 }

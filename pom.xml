@@ -33,6 +33,11 @@
             <artifactId>guava</artifactId>
             <version>33.3.1-jre</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.lalyos</groupId>
+            <artifactId>jfiglet</artifactId>
+            <version>0.0.3</version>
+        </dependency>
     </dependencies>
 
 

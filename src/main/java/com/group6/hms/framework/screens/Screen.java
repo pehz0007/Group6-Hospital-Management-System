@@ -1,6 +1,7 @@
 package com.group6.hms.framework.screens;
 
-import java.lang.reflect.Field;
+import com.github.lalyos.jfiglet.FigletFont;
+
 import java.util.Objects;
 
 /**
@@ -120,8 +121,18 @@ public abstract class Screen implements ScreenLifeCycle {
      *
      * @param color The {@link ConsoleColor} to set the text to.
      */
-    public void setCurrentConsoleColor(ConsoleColor color) {
-        consoleInterface.setCurrentConsoleColor(color);
+    public void setCurrentTextConsoleColor(ConsoleColor color) {
+        consoleInterface.setCurrentTextConsoleColor(color);
+    }
+
+    /**
+     * Sets the current background color in the console. The next print operation
+     * will use the color as background specified by {@code color}.
+     *
+     * @param color The {@link ConsoleColor} to set the text to.
+     */
+    public void setCurrentBackgroundConsoleColor(ConsoleColor color) {
+        consoleInterface.setCurrentBackgroundConsoleColor(color);
     }
 
     /**
@@ -162,19 +173,45 @@ public abstract class Screen implements ScreenLifeCycle {
      */
     public void displayHeader(int totalWidth) {
         if (!printHeader) return;
-        consoleInterface.setCurrentConsoleColor(ConsoleColor.CYAN);
-        int headerLength = title.length();
-//        int totalWidth = headerLength + 20;
+        consoleInterface.setCurrentTextConsoleColor(ConsoleColor.CYAN);
 
-        // Top border
+        // Generate the ASCII art for the title
+        String asciiTitle = FigletFont.convertOneLine(title);
+
+        // Split the generated ASCII art into lines
+        String[] asciiTitleLines = asciiTitle.split("\n");
+
+        // Determine the longest line in the ASCII art for proper border width
+        int maxLength = 0;
+        for (String line : asciiTitleLines) {
+            if (line.length() > maxLength) {
+                maxLength = line.length();
+            }
+        }
+
+        // If totalWidth is less than the longest line, use maxLength + 4 as totalWidth
+        totalWidth = Math.max(totalWidth, maxLength + 4);
+
+        // Print top border
         println("=".repeat(totalWidth));
 
-        // Format the title centered within the total width
-        String title = String.format("%" + (totalWidth / 2 + headerLength / 2) + "s", this.title);
-        println(title);
+        // Print each line of ASCII art with left and right borders
+        for (String line : asciiTitleLines) {
+            // Center the line within the total width
+            int padding = (totalWidth - 2 - line.length()) / 2;
+            String paddedLine = " ".repeat(padding) + line + " ".repeat(padding);
 
-        // Bottom border
+            // Ensure the line fits in case of odd totalWidth
+            paddedLine = paddedLine.length() > totalWidth - 2
+                    ? paddedLine.substring(0, totalWidth - 2)
+                    : paddedLine;
+
+            println("|" + paddedLine + "|");
+        }
+
+        // Print bottom border
         println("=".repeat(totalWidth));
+
     }
 
 

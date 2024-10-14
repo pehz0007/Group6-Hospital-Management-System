@@ -20,7 +20,7 @@ public class AdministratorScreen extends LogoutScreen {
      * Constructor to initialize the AdministratorScreen.
      **/
     protected AdministratorScreen() {
-        super("Administrator Screen");
+        super("Administrator");
         loginManager = new LoginManager();
 
         addOption(CREATE_USER, "Create User");

@@ -136,8 +136,8 @@ public abstract class OptionScreen extends Screen{
      * Otherwise, the selected option is passed to handleOption().
      */
     public void readUserOption(){
-        setCurrentConsoleColor(ConsoleColor.PURPLE);
-        print("\tPlease select an option: ");
+        setCurrentTextConsoleColor(ConsoleColor.YELLOW);
+        print("\t\tPlease select an option: ");
         int selectedOptionId = readInt();
         handleOptionOnBack(selectedOptionId);
 
@@ -168,10 +168,13 @@ public abstract class OptionScreen extends Screen{
      * If back navigation is allowed, a '0: <Back>' option is displayed as well.
      */
     public void displayOptions() {
+        setCurrentTextConsoleColor(ConsoleColor.WHITE);
+        println("OPTIONS:");
         for (Map.Entry<Integer, Option> option : options.entrySet()) {
-            setCurrentConsoleColor(option.getValue().color());
-            println(option.getKey() + ": <" + option.getValue().optionDescription() + ">");
+            setCurrentTextConsoleColor(option.getValue().color());
+            println("\t" + option.getKey() + ": <" + option.getValue().optionDescription() + ">");
         }
+        setCurrentBackgroundConsoleColor(null);
     }
 
 }

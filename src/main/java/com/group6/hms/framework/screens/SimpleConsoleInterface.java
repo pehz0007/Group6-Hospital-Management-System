@@ -20,40 +20,52 @@ public class SimpleConsoleInterface implements ConsoleInterface {
      */
     public enum AnsiColor {
 
-        ANSI_RESET(null, "\u001B[0m"),
-        ANSI_BLACK(BLACK, "\033[0;90m"),
-        ANSI_RED(RED, "\033[0;91m"),
-        ANSI_GREEN(GREEN, "\033[0;92m"),
-        ANSI_YELLOW(YELLOW, "\033[0;93m"),
-        ANSI_BLUE(BLUE, "\033[0;94m"),
-        ANSI_PURPLE(PURPLE, "\033[0;95m"),
-        ANSI_CYAN(CYAN, "\033[0;96m"),
-        ANSI_WHITE(WHITE, "\033[0;97m");
+        ANSI_RESET(null, "\u001B[0m", "\u001B[0m"),
+        ANSI_BLACK(BLACK, "\033[0;90", ";100"),
+        ANSI_RED(RED, "\033[0;91", ";101"),
+        ANSI_GREEN(GREEN, "\033[0;92", ";102"),
+        ANSI_YELLOW(YELLOW, "\033[0;93", ";103"),
+        ANSI_BLUE(BLUE, "\033[0;94", ";104"),
+        ANSI_PURPLE(PURPLE, "\033[0;95", ";105"),
+        ANSI_CYAN(CYAN, "\033[0;96", ";106"),
+        ANSI_WHITE(WHITE, "\033[0;97", ";107");
 
         private final ConsoleColor color;
-        private final String consolePrefix;
+        private final String foregroundCode;
+        private final String backgroundCode;
 
-        AnsiColor(ConsoleColor color, String consolePrefix) {
+        AnsiColor(ConsoleColor color, String foregroundCode, String backgroundCode) {
             this.color = color;
-            this.consolePrefix = consolePrefix;
+            this.foregroundCode = foregroundCode;
+            this.backgroundCode = backgroundCode;
         }
 
         public ConsoleColor getColor() {
             return color;
         }
 
-        public String getConsolePrefix() {
-            return consolePrefix;
+        public String getForegroundCode() {
+            return foregroundCode;
+        }
+
+        public String getBackgroundCode() {
+            return backgroundCode;
         }
 
         @Override
         public String toString() {
-            return getConsolePrefix();
+            return getForegroundCode();
+        }
+
+        // Method to reset both foreground and background colors
+        public static String reset() {
+            return ANSI_RESET.toString();
         }
     }
 
     private Scanner scanner = new Scanner(System.in);
-    private AnsiColor consoleColor = AnsiColor.ANSI_WHITE;
+    private ConsoleColor textConsoleColor = ConsoleColor.WHITE;
+    private ConsoleColor backgroundConsoleColor = null;
     private Console console = System.console();
 
     @Override
@@ -63,21 +75,31 @@ public class SimpleConsoleInterface implements ConsoleInterface {
     }
 
     @Override
-    public void setCurrentConsoleColor(ConsoleColor color) {
+    public void setCurrentTextConsoleColor(ConsoleColor color) {
+        textConsoleColor = color;
+    }
+
+    @Override
+    public void setCurrentBackgroundConsoleColor(ConsoleColor color) {
+        backgroundConsoleColor = color;
+    }
+
+    private AnsiColor toAsciiColor(ConsoleColor color) {
+        if (color == null) return null;
         //Find the matching color from ConsoleColor to AnsiColor
         for (AnsiColor ansiColor : AnsiColor.values()) {
             if (color.equals(ansiColor.getColor())) {
-                this.consoleColor = ansiColor;
-                break;
+                return ansiColor;
             }
         }
+        return null;
     }
 
     @Override
     public char[] readPassword() {
-        if(Objects.isNull(console)){
+        if (Objects.isNull(console)) {
             return scanner.nextLine().toCharArray();
-        }else {
+        } else {
             return console.readPassword();
         }
     }
@@ -87,11 +109,11 @@ public class SimpleConsoleInterface implements ConsoleInterface {
         try {
             if (System.getProperty("os.name").contains("Windows")) {
                 new ProcessBuilder("cmd", "/c", "cls").inheritIO().start().waitFor();
-            }
-            else {
+            } else {
                 System.out.print("\033\143");
             }
-        } catch (IOException | InterruptedException ex) {}
+        } catch (IOException | InterruptedException ex) {
+        }
     }
 
     @Override
@@ -103,7 +125,7 @@ public class SimpleConsoleInterface implements ConsoleInterface {
     public int readInt() {
         String number = scanner.nextLine();
         Integer result = Ints.tryParse(number);
-        if(result == null)throw new ConsoleInputFormatException("Unable to parse number: " + number);
+        if (result == null) throw new ConsoleInputFormatException("Unable to parse number: " + number);
         return result;
     }
 
@@ -114,11 +136,31 @@ public class SimpleConsoleInterface implements ConsoleInterface {
 
     @Override
     public void print(String s) {
-        System.out.print(consoleColor + s + AnsiColor.ANSI_RESET);
+        AnsiColor textColor = toAsciiColor(textConsoleColor);
+        AnsiColor bgColor = toAsciiColor(backgroundConsoleColor);
+
+        // Apply text color and optionally background color
+        String code = textColor.getForegroundCode();
+        if (bgColor != null) {
+            code += bgColor.getBackgroundCode();
+        }
+        code += "m";
+        System.out.print(code + s + AnsiColor.ANSI_RESET);
     }
+
 
     @Override
     public void println(String s) {
-        System.out.println(consoleColor + s + AnsiColor.ANSI_RESET);
+        AnsiColor textColor = toAsciiColor(textConsoleColor);
+        AnsiColor bgColor = toAsciiColor(backgroundConsoleColor);
+
+        // Apply text color and optionally background color
+        String code = textColor.getForegroundCode();
+        if (bgColor != null) {
+            code += bgColor.getBackgroundCode();
+        }
+        code += "m";
+
+        System.out.println(code + s + AnsiColor.ANSI_RESET);
     }
 }

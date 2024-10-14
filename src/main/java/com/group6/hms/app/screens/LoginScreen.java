@@ -20,7 +20,7 @@ public class LoginScreen extends Screen {
         super.onStart();
         loginManager.loadUsersFromFile();
 
-        setCurrentConsoleColor(ConsoleColor.PURPLE);
+        setCurrentTextConsoleColor(ConsoleColor.PURPLE);
         boolean loginSuccessful = false;
         while (!loginSuccessful) {
             print("Username: ");

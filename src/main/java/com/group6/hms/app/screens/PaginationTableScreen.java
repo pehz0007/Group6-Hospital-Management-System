@@ -55,7 +55,7 @@ public class PaginationTableScreen<T> extends OptionScreen {
     }
 
     private void printPaginationCounter(){
-        setCurrentConsoleColor(ConsoleColor.YELLOW);
+        setCurrentTextConsoleColor(ConsoleColor.YELLOW);
         println("Page " + currentPage + " of " + maxPage);
     }
 
