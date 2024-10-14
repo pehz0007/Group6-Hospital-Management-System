@@ -10,13 +10,13 @@ public class DoctorScreen extends LogoutScreen {
      */
     protected DoctorScreen() {
         super("Doctor Menu");
-        addOption(1, "View Patient Medical Records");
-        addOption(2, "Update Patient Medical Records");
-        addOption(3, "View Personal Schedule");
-        addOption(4, "Set Availability for Appointments");
-        addOption(5, "Accept or Decline Appointment Requests");
-        addOption(6, "View Upcoming Appointments");
-        addOption(7, "Record Appointment Outcome");
+        addOption(2, "View Patient Medical Records");
+        addOption(3, "Update Patient Medical Records");
+        addOption(4, "View Personal Schedule");
+        addOption(5, "Set Availability for Appointments");
+        addOption(6, "Accept or Decline Appointment Requests");
+        addOption(7, "View Upcoming Appointments");
+        addOption(8, "Record Appointment Outcome");
     }
 
     @Override

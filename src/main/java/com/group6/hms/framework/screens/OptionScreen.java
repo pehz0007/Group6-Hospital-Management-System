@@ -137,7 +137,7 @@ public abstract class OptionScreen extends Screen{
      */
     public void readUserOption(){
         setCurrentTextConsoleColor(ConsoleColor.YELLOW);
-        print("\t\tPlease select an option: ");
+        print("\nPlease select an option: ");
         int selectedOptionId = readInt();
         handleOptionOnBack(selectedOptionId);
 
@@ -169,7 +169,7 @@ public abstract class OptionScreen extends Screen{
      */
     public void displayOptions() {
         setCurrentTextConsoleColor(ConsoleColor.WHITE);
-        println("OPTIONS:");
+        println("OPTIONS:\n");
         for (Map.Entry<Integer, Option> option : options.entrySet()) {
             setCurrentTextConsoleColor(option.getValue().color());
             println("\t" + option.getKey() + ": <" + option.getValue().optionDescription() + ">");

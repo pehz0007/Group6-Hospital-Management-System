@@ -41,6 +41,7 @@ public class PaginationTableScreen<T> extends OptionScreen {
     public void onStart() {
         PrintTableUtils.printItemsAsTable(this, getPage(items, currentPage, pageSize));
         printPaginationCounter();
+        println("");
         setAllowBack(true);
 
         super.onStart();

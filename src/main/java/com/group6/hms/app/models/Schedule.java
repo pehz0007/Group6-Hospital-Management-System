@@ -10,9 +10,9 @@ public class Schedule {
     }
 
     public void addAppointment(Appointment appointment) {
-        Appointment newAppointment = new Appointment();
-        newAppointment = appointment;
-        appointments.add(newAppointment);
+//        Appointment newAppointment = new Appointment();
+//        newAppointment = appointment;
+//        appointments.add(newAppointment);
     }
 
     public void removeAppointment(Appointment appointment) {
