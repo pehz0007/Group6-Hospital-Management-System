@@ -19,7 +19,7 @@ public class UserInMemoryStorageProvider implements StorageProvider<User> {
 
     @Override
     public void saveToFile(File file) {
-        // serialize HasMap
+        // serialize HashMap
         try (FileOutputStream fileOut = new FileOutputStream(file);
              ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
             out.writeObject(users); // Serialize the HashMap
