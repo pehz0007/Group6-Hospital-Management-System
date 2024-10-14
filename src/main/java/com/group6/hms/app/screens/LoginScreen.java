@@ -38,6 +38,7 @@ public class LoginScreen extends Screen {
                 switch (currentUser.getRole()) {
                     case Role.Patient -> newScreen(new PatientScreen());
                     case Role.Doctor -> newScreen(new DoctorScreen());
+                    case Role.Pharmacist -> newScreen(new PharmacistScreen());
                     case Role.Administrator -> newScreen(new AdministratorScreen());
                     default -> throw new IllegalStateException("Unexpected value: " + currentUser.getRole());
                 }
