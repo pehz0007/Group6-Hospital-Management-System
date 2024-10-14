@@ -32,7 +32,7 @@ public class PaginationTableScreen<T> extends OptionScreen {
         super(header);
         this.items = items;
         this.pageSize = pageSize;
-        this.maxPage = (int) (double) (items.size() / pageSize) + 1; // Ceil the page size
+        this.maxPage = (int) (double) (items.size() / pageSize); // Ceil the page size
 
         updateOptions();
     }
