@@ -5,12 +5,12 @@ import com.group6.hms.framework.screens.OptionScreen;
 public class MainScreen extends OptionScreen {
     public MainScreen() {
         super("HMS - Hospital Management System");
+        addOption(1, "Login");
+        addOption(2, "Exit");
     }
 
     @Override
     public void onStart() {
-        addOption(1, "Login");
-        addOption(2, "Exit");
         super.onStart();
     }
 

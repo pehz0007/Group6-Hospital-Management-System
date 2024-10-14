@@ -10,6 +10,7 @@ import java.util.Map;
  *     public class Menu extends OptionScreen {
  *
  *         public Menu(){
+ *              super("Menu");
  *              addOption(1, "Option 1");
  *              addOption(2, "Option 2");
  *         }
@@ -79,9 +80,9 @@ public abstract class OptionScreen extends Screen{
      */
     protected void setAllowBack(boolean allowBack){
         this.allowBack = allowBack;
-        if(allowBack){
+        if(allowBack && !containsOption(BACK_ID)){
             addOption(BACK_ID, "Back", ConsoleColor.WHITE);
-        }else{
+        }else if(!allowBack && containsOption(BACK_ID)){
             removeOption(BACK_ID);
         }
     }
@@ -100,6 +101,10 @@ public abstract class OptionScreen extends Screen{
         addOption(optionID, optionDescription, ConsoleColor.PURPLE);
     }
 
+    protected boolean containsOption(int optionID){
+        return options.containsKey(optionID);
+    }
+
     /**
      * Adds an option to the screen that the user can select.
      *
@@ -108,6 +113,7 @@ public abstract class OptionScreen extends Screen{
      * @param consoleColor Set the color of the option.
      */
     protected void addOption(int optionID, String optionDescription, ConsoleColor consoleColor){
+        if(options.containsKey(optionID))throw new OptionAlreadyExistsException("Option already exists for option, " + optionID + ": <" + options.get(optionID).optionDescription() + ">");
         options.put(optionID, new Option(optionID, optionDescription, consoleColor));
     }
 

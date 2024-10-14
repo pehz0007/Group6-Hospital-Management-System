@@ -1,7 +1,12 @@
 package com.group6.hms.app.screens;
 
 import com.group6.hms.app.auth.LoginManager;
+import com.group6.hms.app.auth.User;
 import com.group6.hms.framework.screens.LogoutScreen;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 public class AdministratorScreen extends LogoutScreen {
 
@@ -9,23 +14,24 @@ public class AdministratorScreen extends LogoutScreen {
     private final int VIEW_ALL_USERS = 3;
     private final int VIEW_APPOINTMENTS = 4;
 
-    private LoginManager loginManager = new LoginManager();
+    private LoginManager loginManager;
 
     /**
      * Constructor to initialize the AdministratorScreen.
      **/
     protected AdministratorScreen() {
         super("Administrator Screen");
+        loginManager = new LoginManager();
 
+        addOption(CREATE_USER, "Create User");
+        addOption(VIEW_ALL_USERS, "View All Users");
+        addOption(VIEW_APPOINTMENTS, "View All Appointments");
     }
 
     @Override
     public void onStart() {
-        addOption(CREATE_USER, "Create User");
-        addOption(VIEW_ALL_USERS, "View All Users");
-        addOption(VIEW_APPOINTMENTS, "View All Appointments");
-
         loginManager.loadUsersFromFile();
+
         super.onStart();
     }
 
@@ -43,7 +49,8 @@ public class AdministratorScreen extends LogoutScreen {
 
             }
             case VIEW_ALL_USERS -> {
-                PrintTableUtils.printItemsAsTable(this, loginManager.getAllUsers());
+                Collection<User> users = loginManager.getAllUsers();
+                navigateToScreen(new PaginationTableScreen<>("Users", new ArrayList<>(users)));
             }
             case VIEW_APPOINTMENTS -> {
                 //Retrieve all Appointments in the database

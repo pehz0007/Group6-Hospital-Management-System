@@ -13,12 +13,12 @@ public class UserConfigurationScreen extends OptionScreen {
      */
     public UserConfigurationScreen() {
         super("User Configuration");
+        addOption(CHANGE_PASSWORD, "Change Password", ConsoleColor.YELLOW);
     }
 
     @Override
     public void onStart() {
         setAllowBack(true);
-        addOption(CHANGE_PASSWORD, "Change Password", ConsoleColor.YELLOW);
         super.onStart();
     }
 

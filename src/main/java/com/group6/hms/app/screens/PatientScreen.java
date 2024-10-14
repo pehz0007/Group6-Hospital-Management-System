@@ -13,14 +13,13 @@ public class PatientScreen extends LogoutScreen {
      */
     protected PatientScreen() {
         super("Patient Menu");
-
+        addOption(MEDICAL_RECORD, "Show Medical Record");
+        addOption(USER_CONFIGURATION, "Edit User Profile");
     }
 
     @Override
     public void onStart() {
         println("Welcome, " + LoginManager.getCurrentlyLoggedInUser().getUsername());
-        addOption(MEDICAL_RECORD, "Show Medical Record");
-        addOption(USER_CONFIGURATION, "Edit User Profile");
         super.onStart();
     }
 

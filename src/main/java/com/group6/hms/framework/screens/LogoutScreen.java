@@ -14,11 +14,11 @@ public abstract class LogoutScreen extends OptionScreen{
      */
     protected LogoutScreen(String header) {
         super(header);
+        addOption(LOGOUT_ID, "Logout");
     }
 
     @Override
     public void onStart() {
-        addOption(LOGOUT_ID, "Logout");
         super.onStart();
     }
 
