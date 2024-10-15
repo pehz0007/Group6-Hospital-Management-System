@@ -1,5 +1,6 @@
 package com.group6.hms.framework.screens;
 
+import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
 
 import java.io.Console;
@@ -117,6 +118,12 @@ public class SimpleConsoleInterface implements ConsoleInterface {
     }
 
     @Override
+    public void waitForKeyPress() {
+        println("Press <enter> to continue");
+        scanner.nextLine();
+    }
+
+    @Override
     public String readString() {
         return scanner.nextLine();
     }
@@ -131,7 +138,10 @@ public class SimpleConsoleInterface implements ConsoleInterface {
 
     @Override
     public double readDouble() {
-        return 0;
+        String number = scanner.nextLine();
+        Double result = Doubles.tryParse(number);
+        if (result == null) throw new ConsoleInputFormatException("Unable to parse number: " + number);
+        return result;
     }
 
     @Override

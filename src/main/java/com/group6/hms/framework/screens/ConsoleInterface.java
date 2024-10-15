@@ -43,6 +43,11 @@ public interface ConsoleInterface {
     void clearConsole();
 
     /**
+     * Wait for a key press from the current console.
+     */
+    void waitForKeyPress();
+
+    /**
      * Read a {@code String} from the current console.
      * @return The string entered by the user.
      */

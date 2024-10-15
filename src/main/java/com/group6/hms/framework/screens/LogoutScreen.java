@@ -4,6 +4,7 @@ import com.group6.hms.app.auth.LoginManager;
 
 public abstract class LogoutScreen extends OptionScreen{
 
+    private LoginManager loginManager;
     private final static int LOGOUT_ID = 1;
 
     /**
@@ -19,6 +20,7 @@ public abstract class LogoutScreen extends OptionScreen{
 
     @Override
     public void onStart() {
+        loginManager = LoginManager.INSTANCE.getLoginManager();
         super.onStart();
     }
 
@@ -31,7 +33,7 @@ public abstract class LogoutScreen extends OptionScreen{
     protected abstract void onLogout();
 
     private void logout() {
-        LoginManager.logout();
+        loginManager.logout();
         onLogout();
     }
 }

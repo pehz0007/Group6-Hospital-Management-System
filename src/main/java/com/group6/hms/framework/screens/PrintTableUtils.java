@@ -1,8 +1,4 @@
-package com.group6.hms.app.screens;
-
-import com.group6.hms.framework.screens.ConsoleColor;
-import com.group6.hms.framework.screens.HeaderField;
-import com.group6.hms.framework.screens.Screen;
+package com.group6.hms.framework.screens;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
@@ -37,7 +33,7 @@ public class PrintTableUtils {
     }
 
 
-    public static void printItemsAsTable(Screen screen, Collection<?> items) {
+    public static <T> void printItemsAsTable(Screen screen, Collection<T> items) {
         if (items == null || items.isEmpty()) {
             screen.println("No items to display.");
             return;

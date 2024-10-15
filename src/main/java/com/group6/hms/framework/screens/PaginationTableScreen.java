@@ -1,7 +1,4 @@
-package com.group6.hms.app.screens;
-
-import com.group6.hms.framework.screens.ConsoleColor;
-import com.group6.hms.framework.screens.OptionScreen;
+package com.group6.hms.framework.screens;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,7 +18,7 @@ public class PaginationTableScreen<T> extends OptionScreen {
     /**
      * Constructor to initialize the PaginationTableScreen.
      */
-    protected PaginationTableScreen(String header, List<T> items) {
+    public PaginationTableScreen(String header, List<T> items) {
         this(header, items, DEFAULT_PAGE_SIZE);
     }
 

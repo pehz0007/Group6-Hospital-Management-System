@@ -24,6 +24,7 @@ public class UserInMemoryStorageProvider implements StorageProvider<User> {
              ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
             out.writeObject(users); // Serialize the HashMap
         } catch (IOException e) {
+            e.printStackTrace();
             System.err.println("File Save Error");
         }
     }
@@ -38,6 +39,7 @@ public class UserInMemoryStorageProvider implements StorageProvider<User> {
             users = (Map<UUID, User>) in.readObject();
             //System.out.println("HashMap has been deserialized.");
         } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
             System.err.println("File Load Error");
         }
     }

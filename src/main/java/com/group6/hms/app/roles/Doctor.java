@@ -1,26 +1,31 @@
 package com.group6.hms.app.roles;
-import java.util.ArrayList;
 
+import com.group6.hms.app.auth.User;
 import com.group6.hms.app.models.Schedule;
 import com.group6.hms.app.models.Appointment;
 
 
-public class DoctorRole {
-    private int id;
+public class Doctor extends User {
     private String name;
 //    private ArrayList<PatientRole> patientRoles;
-    private Schedule schedules; // binary tree and hash table
+//    private Schedule schedules; // binary tree and hash table
 
 
-    public DoctorRole() {
-        this.id = 0;
+    public Doctor(String username, char[] password) {
+        super(username, password);
         this.name = null;
 //        patientRoles = new ArrayList<>();
-        schedules = new Schedule();
+//        schedules = new Schedule();
 
 
     }
-//    public PatientRole getPatient() {
+
+    @Override
+    public String getRoleName() {
+        return "Doctor";
+    }
+
+    //    public PatientRole getPatient() {
 //        // search through the patientlist,
 //        return null;
 //    }
@@ -44,12 +49,12 @@ public class DoctorRole {
 
     }
 
-    public boolean viewPersonalSchedule() {
-        ArrayList<Appointment> schedules= new ArrayList<>();
-        schedules = this.schedules.getAppointments();
-        this.schedules.viewAppointments(schedules);
-        return false;
-    }
+//    public boolean viewPersonalSchedule() {
+//        ArrayList<Appointment> schedules= new ArrayList<>();
+//        schedules = this.schedules.getAppointments();
+//        this.schedules.viewAppointments(schedules);
+//        return false;
+//    }
 
     public void setAvailability(){
 

@@ -1,14 +1,17 @@
-package com.group6.hms.app.screens;
+package com.group6.hms.app.screens.doctor;
 
 import com.group6.hms.app.auth.LoginManager;
+import com.group6.hms.app.screens.MainScreen;
 import com.group6.hms.framework.screens.LogoutScreen;
 
 public class DoctorScreen extends LogoutScreen {
 
+    private LoginManager loginManager;
+
     /**
      * Constructor to initialize the DoctorScreen.
      */
-    protected DoctorScreen() {
+    public DoctorScreen() {
         super("Doctor Menu");
         addOption(2, "View Patient Medical Records");
         addOption(3, "Update Patient Medical Records");
@@ -21,7 +24,8 @@ public class DoctorScreen extends LogoutScreen {
 
     @Override
     public void onStart() {
-        println("Welcome, " + LoginManager.getCurrentlyLoggedInUser().getUsername());
+        loginManager = LoginManager.INSTANCE.getLoginManager();
+        println("Welcome, " + loginManager.getCurrentlyLoggedInUser().getUsername());
         super.onStart();
     }
 

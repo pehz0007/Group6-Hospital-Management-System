@@ -144,6 +144,21 @@ public abstract class Screen implements ScreenLifeCycle {
     }
 
     /**
+     * Wait for a key press from the current console.
+     */
+    protected void waitForKeyPress() {
+        consoleInterface.waitForKeyPress();
+    }
+
+    /**
+     * Read a {@code Double} from the current console.
+     * @return The double entered by the user.
+     */
+    protected double readDouble() {
+        return consoleInterface.readDouble();
+    }
+
+    /**
      * Read a {@code int} from the current console.
      * @return The int entered by the user.
      */

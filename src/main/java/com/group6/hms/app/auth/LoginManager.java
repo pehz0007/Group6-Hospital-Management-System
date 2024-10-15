@@ -1,28 +1,34 @@
 package com.group6.hms.app.auth;
 
-import com.group6.hms.app.auth.roles.Role;
+import com.group6.hms.app.roles.Administrator;
+import com.group6.hms.app.roles.Doctor;
+import com.group6.hms.app.roles.Patient;
+import com.group6.hms.app.roles.Pharmacist;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Map;
-import java.util.UUID;
 
 public class LoginManager {
 
+    public static final LoginManagerHolder INSTANCE = new LoginManagerHolder();
     private StorageProvider<User> userStorageProvider = new UserInMemoryStorageProvider();
 
-    private static ThreadLocal<User> currentlyLoggedInUser = new ThreadLocal<>();
+    private User currentLoginUser = null;
     private static final File usersFile = new File("users.ser");
 
+    /**
+     * RUN THIS TO RESET DATABASE
+     *
+     */
     public static void main(String[] args) {
         //Generate sample file
-        LoginManager loginManager = new LoginManager();
+        LoginManager loginManager = INSTANCE.getLoginManager();
 
-        loginManager.createUser("shirokuma", "password".toCharArray(), Role.Patient);
-        loginManager.createUser("tonkatsu", "password".toCharArray(), Role.Doctor);
-        loginManager.createUser("admin", "password".toCharArray(), Role.Administrator);
-        loginManager.createUser("Pharmacist 1", "Password3".toCharArray(), Role.Pharmacist);
+        loginManager.createUser(new Patient("shirokuma", "password".toCharArray()));
+        loginManager.createUser(new Doctor("tonkatsu", "password".toCharArray()));
+        loginManager.createUser(new Administrator("admin", "password".toCharArray()));
+        loginManager.createUser(new Pharmacist("Pharmacist 1", "Password3".toCharArray()));
 
         loginManager.saveUsersToFile();
         loginManager.loadUsersFromFile();
@@ -37,10 +43,9 @@ public class LoginManager {
     }
 
 
-    public void createUser(String username, char[] password, Role role){
-        userStorageProvider.addNewItem(new User(PasswordUtils.generateUUID(), username, PasswordUtils.hashPassword(password), role));
+    public void createUser(User user){
+        userStorageProvider.addNewItem(user);
     }
-
 
     public boolean login(String username, char[] password){
         User user = findUser(username);
@@ -50,7 +55,7 @@ public class LoginManager {
         }
         //Verify password
         boolean result = Arrays.equals(user.getPasswordHashed(), PasswordUtils.hashPassword(password));
-        if(result)currentlyLoggedInUser.set(user);
+        if(result)currentLoginUser = user;
         return result;
 
     }
@@ -65,28 +70,25 @@ public class LoginManager {
     }
 
     public void changePassword(User user, char[] newPassword){
-        userStorageProvider.removeItem(user);
-        User updatedUser = new User(user.getUserId(), user.getUsername(),
-                PasswordUtils.hashPassword(newPassword), user.getRole());
-        userStorageProvider.addNewItem(updatedUser);
-        
-        currentlyLoggedInUser.set(updatedUser);
+        user.changePassword(newPassword);
+        //Update file after user change their password
+        userStorageProvider.saveToFile(usersFile);
     }
 
     public Collection<User> getAllUsers(){
         return userStorageProvider.getItems();
     }
 
-    public static User getCurrentlyLoggedInUser() {
-        return currentlyLoggedInUser.get();
+    public User getCurrentlyLoggedInUser() {
+        return currentLoginUser;
     }
 
-    public static void logout(){
-        currentlyLoggedInUser.remove();
+    public void logout(){
+        currentLoginUser = null;
     }
 
-    public static boolean isLoggedIn(){
-        return currentlyLoggedInUser.get() != null;
+    public boolean isLoggedIn(){
+        return currentLoginUser != null;
     }
 
     /**
@@ -95,7 +97,7 @@ public class LoginManager {
     public void printUsers() {
         for (User user : userStorageProvider.getItems()) {
             System.out.println(user.getUserId());
-            System.out.println(user.getUserId() + "," + user.getUsername() + "," + Arrays.toString(user.getPasswordHashed()) + "," + user.getRole().toString());
+            System.out.println(user.getUserId() + "," + user.getUsername() + "," + Arrays.toString(user.getPasswordHashed()) + "," + user);
         }
     }
 
