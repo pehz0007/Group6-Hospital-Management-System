@@ -136,18 +136,18 @@ public abstract class Screen implements ScreenLifeCycle {
     }
 
     /**
+     * Wait for a key press from the current console.
+     */
+    protected void waitForKeyPress() {
+        consoleInterface.waitForKeyPress();
+    }
+
+    /**
      * Read a {@code String} from the current console.
      * @return The string entered by the user.
      */
     protected String readString() {
         return consoleInterface.readString();
-    }
-
-    /**
-     * Wait for a key press from the current console.
-     */
-    protected void waitForKeyPress() {
-        consoleInterface.waitForKeyPress();
     }
 
     /**
@@ -169,14 +169,14 @@ public abstract class Screen implements ScreenLifeCycle {
     /**
      * Print a {@code String} to the current console.
      */
-    public void print(String s) {
+    protected void print(String s) {
         consoleInterface.print(s);
     }
 
     /**
      * Print a {@code String} to the current console with a newline.
      */
-    public void println(String s) {
+    protected void println(String s) {
         consoleInterface.println(s);
     }
 
@@ -186,7 +186,7 @@ public abstract class Screen implements ScreenLifeCycle {
      * Displays the screen header. This can be disabled using {@link #setPrintHeader(boolean)}.
      * The header includes a title centered and wrapped with borders.
      */
-    public void displayHeader(int totalWidth) {
+    protected void displayHeader(int totalWidth) {
         if (!printHeader) return;
         consoleInterface.setCurrentTextConsoleColor(ConsoleColor.CYAN);
 

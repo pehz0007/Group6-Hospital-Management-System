@@ -1,12 +1,10 @@
 package com.group6.hms.app.screens.patient;
 
-import com.group6.hms.app.auth.LoginManager;
 import com.group6.hms.app.screens.MainScreen;
-import com.group6.hms.framework.screens.LogoutScreen;
+import com.group6.hms.app.auth.LogoutScreen;
 
 public class PatientScreen extends LogoutScreen {
 
-    private LoginManager loginManager;
 
     private static final int MEDICAL_RECORD = 2;
     private static final int USER_CONFIGURATION = 3;
@@ -22,8 +20,7 @@ public class PatientScreen extends LogoutScreen {
 
     @Override
     public void onStart() {
-        loginManager = LoginManager.INSTANCE.getLoginManager();
-        println("Welcome, " + loginManager.getCurrentlyLoggedInUser().getUsername());
+        println("Welcome, " + getLoginManager().getCurrentlyLoggedInUser().getUsername());
         super.onStart();
     }
 

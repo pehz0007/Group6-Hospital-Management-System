@@ -44,6 +44,13 @@ public class ScreenManager implements Runnable{
     }
 
     /**
+     * Do not display the screen again and will instead end the application once the screen exit
+     */
+    protected void doNotLoopScreen() {
+        applicationHandle.doNotKeepRunning();
+    }
+
+    /**
      * Display the current {@code Screen} and push the screen to the navigation stack calls the necessary lifecycle methods.
      *
      * @param nextScreen The screen to display.
@@ -83,26 +90,6 @@ public class ScreenManager implements Runnable{
     }
 
     /**
-     * Helper method to print the next {@code Screen}'s header and display content.
-     *
-     * @param screen The screen whose header and content will be displayed.
-     */
-    private void printScreen(Screen screen) {
-        screen.displayHeader(50);
-    }
-
-    /**
-     * Helper method to set the necessary references for the {@code Screen} class.
-     *
-     * @param screen The screen whose header and content will be displayed.
-     */
-    private void initScreen(Screen screen) {
-        //Set the references to the screen
-        screen.setScreenManager(this);
-        screen.setConsoleInterface(consoleInterface);
-    }
-
-    /**
      * Navigates back to the previous screen. It pops the current screen off the stack,
      * sets the previous screen as the current screen, and calls the necessary lifecycle methods.
      */
@@ -129,11 +116,25 @@ public class ScreenManager implements Runnable{
     }
 
     /**
-     * Do not display the screen again and will instead end the application once the screen exit
+     * Helper method to print the next {@code Screen}'s header and display content.
+     *
+     * @param screen The screen whose header and content will be displayed.
      */
-    protected void doNotLoopScreen() {
-        applicationHandle.doNotKeepRunning();
+    private void printScreen(Screen screen) {
+        screen.displayHeader(50);
     }
+
+    /**
+     * Helper method to set the necessary references for the {@code Screen} class.
+     *
+     * @param screen The screen whose header and content will be displayed.
+     */
+    private void initScreen(Screen screen) {
+        //Set the references to the screen
+        screen.setScreenManager(this);
+        screen.setConsoleInterface(consoleInterface);
+    }
+
 
     @Override
     public void run() {

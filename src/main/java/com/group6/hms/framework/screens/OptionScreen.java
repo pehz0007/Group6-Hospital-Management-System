@@ -36,7 +36,7 @@ public abstract class OptionScreen extends Screen{
     private Map<Integer, Option> options = new HashMap<Integer, Option>();
 
     // Flag indicating whether the user is allowed to go back to the previous screen
-    protected boolean allowBack = true;
+    private boolean allowBack = true;
     private final static int BACK_ID = 0;
 
 
@@ -44,10 +44,10 @@ public abstract class OptionScreen extends Screen{
      * Constructor to initialize the OptionScreen with a header.
      * This constructor passes the header to the parent Screen class.
      *
-     * @param header The title of the screen, which is displayed as a header.
+     * @param title The title of the screen, which is displayed as a header.
      */
-    protected OptionScreen(String header) {
-        super(header);
+    protected OptionScreen(String title) {
+        super(title);
     }
 
     /**
@@ -101,10 +101,6 @@ public abstract class OptionScreen extends Screen{
         addOption(optionID, optionDescription, ConsoleColor.PURPLE);
     }
 
-    protected boolean containsOption(int optionID){
-        return options.containsKey(optionID);
-    }
-
     /**
      * Adds an option to the screen that the user can select.
      *
@@ -115,6 +111,10 @@ public abstract class OptionScreen extends Screen{
     protected void addOption(int optionID, String optionDescription, ConsoleColor consoleColor){
         if(options.containsKey(optionID))throw new OptionAlreadyExistsException("Option already exists for option, " + optionID + ": <" + options.get(optionID).optionDescription() + ">");
         options.put(optionID, new Option(optionID, optionDescription, consoleColor));
+    }
+
+    protected boolean containsOption(int optionID){
+        return options.containsKey(optionID);
     }
 
     /**
@@ -135,7 +135,7 @@ public abstract class OptionScreen extends Screen{
      * If the user selects '0' and back navigation is allowed, the screen navigates back.
      * Otherwise, the selected option is passed to handleOption().
      */
-    public void readUserOption(){
+    protected void readUserOption(){
         setCurrentTextConsoleColor(ConsoleColor.YELLOW);
         print("\nPlease select an option: ");
         int selectedOptionId = readInt();
@@ -167,7 +167,7 @@ public abstract class OptionScreen extends Screen{
      * Displays the list of available options to the user.
      * If back navigation is allowed, a '0: <Back>' option is displayed as well.
      */
-    public void displayOptions() {
+    protected void displayOptions() {
         setCurrentTextConsoleColor(ConsoleColor.WHITE);
         println("OPTIONS:\n");
         for (Map.Entry<Integer, Option> option : options.entrySet()) {

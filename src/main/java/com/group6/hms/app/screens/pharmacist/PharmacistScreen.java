@@ -2,7 +2,7 @@ package com.group6.hms.app.screens.pharmacist;
 
 import com.group6.hms.app.auth.LoginManager;
 import com.group6.hms.app.screens.MainScreen;
-import com.group6.hms.framework.screens.LogoutScreen;
+import com.group6.hms.app.auth.LogoutScreen;
 
 public class PharmacistScreen extends LogoutScreen {
 

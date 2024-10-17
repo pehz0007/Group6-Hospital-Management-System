@@ -38,6 +38,10 @@ public abstract class User implements Serializable {
         return passwordHashed;
     }
 
+    /**
+     * This method is used by the LoginManager to modify the password in the {@code User} object.
+     * Instead, use {@link LoginManager#changePassword(User, char[])} to change the user password
+     */
     protected void changePassword(char[] newPassword) {
         PasswordUtils.verifyPassword(newPassword);
         this.passwordHashed = PasswordUtils.hashPassword(newPassword);

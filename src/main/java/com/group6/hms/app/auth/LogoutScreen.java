@@ -1,8 +1,8 @@
-package com.group6.hms.framework.screens;
+package com.group6.hms.app.auth;
 
-import com.group6.hms.app.auth.LoginManager;
+import com.group6.hms.framework.screens.OptionScreen;
 
-public abstract class LogoutScreen extends OptionScreen{
+public abstract class LogoutScreen extends OptionScreen {
 
     private LoginManager loginManager;
     private final static int LOGOUT_ID = 1;
@@ -11,10 +11,10 @@ public abstract class LogoutScreen extends OptionScreen{
      * Constructor to initialize the LogoutScreen with a header.
      * This constructor passes the header to the parent Screen class.
      *
-     * @param header The title of the screen, which is displayed as a header.
+     * @param title The title of the screen, which is displayed as a header.
      */
-    protected LogoutScreen(String header) {
-        super(header);
+    protected LogoutScreen(String title) {
+        super(title);
         addOption(LOGOUT_ID, "Logout");
     }
 
@@ -31,6 +31,8 @@ public abstract class LogoutScreen extends OptionScreen{
     }
 
     protected abstract void onLogout();
+
+    protected LoginManager getLoginManager() {return loginManager;}
 
     private void logout() {
         loginManager.logout();
