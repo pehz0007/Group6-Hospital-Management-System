@@ -28,4 +28,20 @@ public class Appointment implements Serializable {
     public UUID getAppointmentId() {
         return appointmentId;
     }
+
+    public UUID getPatientId() {
+        return patientId;
+    }
+
+    public UUID getDoctorId() {
+        return doctorId;
+    }
+
+    public LocalDateTime getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(LocalDateTime dateTime) {
+        this.dateTime = dateTime;
+    }
 }
