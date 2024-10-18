@@ -1,9 +1,9 @@
 package com.group6.hms.app;
 
 import com.group6.hms.AppointmentsStorageProvider;
+import com.group6.hms.app.auth.StorageProvider;
 import com.group6.hms.app.models.Appointment;
 import com.group6.hms.app.models.AppointmentStatus;
-import com.group6.hms.framework.auth.StorageProvider;
 
 import java.io.File;
 import java.time.LocalDateTime;
