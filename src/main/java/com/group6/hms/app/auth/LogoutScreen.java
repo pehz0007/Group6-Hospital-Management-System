@@ -16,11 +16,11 @@ public abstract class LogoutScreen extends OptionScreen {
     protected LogoutScreen(String title) {
         super(title);
         addOption(LOGOUT_ID, "Logout");
+        loginManager = LoginManagerHolder.getLoginManager();
     }
 
     @Override
     public void onStart() {
-        loginManager = LoginManager.INSTANCE.getLoginManager();
         super.onStart();
     }
 

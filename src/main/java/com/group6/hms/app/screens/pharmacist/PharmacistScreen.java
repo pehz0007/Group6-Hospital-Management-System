@@ -1,12 +1,9 @@
 package com.group6.hms.app.screens.pharmacist;
 
-import com.group6.hms.app.auth.LoginManager;
 import com.group6.hms.app.screens.MainScreen;
 import com.group6.hms.app.auth.LogoutScreen;
 
 public class PharmacistScreen extends LogoutScreen {
-
-    private LoginManager loginManager;
 
     /**
      * Constructor to initialize the PharmacistScreen.
@@ -21,8 +18,7 @@ public class PharmacistScreen extends LogoutScreen {
 
     @Override
     public void onStart() {
-        loginManager = LoginManager.INSTANCE.getLoginManager();
-        println("Welcome, " + loginManager.getCurrentlyLoggedInUser().getUsername());
+        println("Welcome, " + getLoginManager().getCurrentlyLoggedInUser().getUsername());
 
         super.onStart();
     }

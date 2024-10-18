@@ -1,6 +1,7 @@
 package com.group6.hms.app.screens;
 
 import com.group6.hms.app.auth.LoginManager;
+import com.group6.hms.app.auth.LoginManagerHolder;
 import com.group6.hms.app.auth.User;
 import com.group6.hms.app.roles.Administrator;
 import com.group6.hms.app.roles.Doctor;
@@ -20,13 +21,13 @@ public class LoginScreen extends Screen {
     public LoginScreen() {
         super("Login");
 //        setPrintHeader(false);
+        loginManager = LoginManagerHolder.getLoginManager();
+        loginManager.loadUsersFromFile();
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        loginManager = LoginManager.INSTANCE.getLoginManager();
-        loginManager.loadUsersFromFile();
 
         setCurrentTextConsoleColor(ConsoleColor.PURPLE);
         boolean loginSuccessful = false;
