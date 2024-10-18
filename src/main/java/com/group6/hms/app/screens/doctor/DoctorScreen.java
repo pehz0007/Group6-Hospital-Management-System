@@ -6,8 +6,6 @@ import com.group6.hms.app.auth.LogoutScreen;
 
 public class DoctorScreen extends LogoutScreen {
 
-    private LoginManager loginManager;
-
     /**
      * Constructor to initialize the DoctorScreen.
      */
@@ -24,8 +22,7 @@ public class DoctorScreen extends LogoutScreen {
 
     @Override
     public void onStart() {
-        loginManager = LoginManager.INSTANCE.getLoginManager();
-        println("Welcome, " + loginManager.getCurrentlyLoggedInUser().getUsername());
+        println("Welcome, " + getLoginManager().getCurrentlyLoggedInUser().getUsername());
         super.onStart();
     }
 

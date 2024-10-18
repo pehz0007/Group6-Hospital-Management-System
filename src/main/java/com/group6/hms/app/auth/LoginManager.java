@@ -11,10 +11,9 @@ import java.util.Collection;
 
 public class LoginManager {
 
-    public static final LoginManagerHolder INSTANCE = new LoginManagerHolder();
     private StorageProvider<User> userStorageProvider = new UserInMemoryStorageProvider();
 
-    private User currentLoginUser = null;
+    private ThreadLocal<User> currentLoginUser = new ThreadLocal<>();
     private static final File usersFile = new File("data/users.ser");
 
     /**
@@ -23,7 +22,7 @@ public class LoginManager {
      */
     public static void main(String[] args) {
         //Generate sample file
-        LoginManager loginManager = INSTANCE.getLoginManager();
+        LoginManager loginManager = LoginManagerHolder.getLoginManager();
 
         loginManager.createUser(new Patient("shirokuma", "password".toCharArray()));
         loginManager.createUser(new Doctor("tonkatsu", "password".toCharArray()));
@@ -34,6 +33,8 @@ public class LoginManager {
         loginManager.loadUsersFromFile();
         loginManager.printUsers();
     }
+
+    protected LoginManager() {}
 
     public void loadUsersFromFile(){
         userStorageProvider.loadFromFile(usersFile);
@@ -55,7 +56,7 @@ public class LoginManager {
         }
         //Verify password
         boolean result = Arrays.equals(user.getPasswordHashed(), PasswordUtils.hashPassword(password));
-        if(result)currentLoginUser = user;
+        if(result)currentLoginUser.set(user);
         return result;
 
     }
@@ -80,7 +81,7 @@ public class LoginManager {
     }
 
     public User getCurrentlyLoggedInUser() {
-        return currentLoginUser;
+        return currentLoginUser.get();
     }
 
     public void logout(){

@@ -2,21 +2,21 @@ package com.group6.hms.app.auth;
 
 public class LoginManagerHolder {
 
-    private final ThreadLocal<LoginManagerHolder> loginManagerInstancePerThread = new ThreadLocal<>();
-    private LoginManager loginManager;
+    private static volatile LoginManager instance;
 
-    public LoginManager getLoginManager() {
-        if (loginManagerInstancePerThread.get() == null) {
-            createLoginManager();
-        }
-        return loginManager;
+    // Private constructor to prevent instantiation
+    private LoginManagerHolder() {
     }
 
-    private synchronized void createLoginManager() {
-        if (loginManager == null) {
-            loginManager = new LoginManager();
+    public static LoginManager getLoginManager() {
+        if (instance == null) {
+            synchronized (LoginManagerHolder.class) {
+                if (instance == null) {
+                    instance = new LoginManager();
+                }
+            }
         }
-        loginManagerInstancePerThread.set(this);
+        return instance;
     }
 
 }

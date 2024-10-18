@@ -9,11 +9,12 @@ public class PaginationTableScreen<T> extends OptionScreen {
     private static final int NEXT_PAGE = 2;
     private static final int DEFAULT_PAGE_SIZE = 2;
 
-    private int pageSize = 2;
+    private int pageSize = DEFAULT_PAGE_SIZE;
     private int currentPage = 1;
     private int maxPage = 0;
 
-    private List<T> items;
+    //Invariant: Must be set after the constructor call
+    protected List<T> items;
 
     /**
      * Constructor to initialize the PaginationTableScreen.
@@ -29,19 +30,28 @@ public class PaginationTableScreen<T> extends OptionScreen {
         super(header);
         this.items = items;
         this.pageSize = pageSize;
-        this.maxPage = (int) (double) (items.size() / pageSize); // Ceil the page size
+        if(items != null) setItems(items);
 
         updateOptions();
     }
 
     @Override
     public void onStart() {
-        PrintTableUtils.printItemsAsTable(this, getPage(items, currentPage, pageSize));
+        printTable(getPage(items, currentPage, pageSize));
         printPaginationCounter();
         println("");
         setAllowBack(true);
 
         super.onStart();
+    }
+
+    protected void setItems(List<T> items) {
+        this.items = items;
+        this.maxPage = (int) (double) (items.size() / pageSize); // Ceil the page size
+    }
+
+    protected void printTable(List<T> sublist) {
+        PrintTableUtils.printItemsAsTable(this, sublist);
     }
 
     @Override
@@ -87,6 +97,18 @@ public class PaginationTableScreen<T> extends OptionScreen {
             addOption(NEXT_PAGE, "Next Page");
             nextPageOption = true;
         }
+    }
+
+    public int getPageSize() {
+        return pageSize;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public int getMaxPage() {
+        return maxPage;
     }
 
     /**
