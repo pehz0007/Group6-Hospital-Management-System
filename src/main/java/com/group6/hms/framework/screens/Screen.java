@@ -1,5 +1,7 @@
 package com.group6.hms.framework.screens;
 
+import com.github.lalyos.jfiglet.FigletFont;
+
 import java.util.Objects;
 
 /**
@@ -86,6 +88,13 @@ public abstract class Screen implements ScreenLifeCycle {
         screenManager.navigateBack();
     }
 
+    /**
+     * Do not display the screen again and will instead end the application once the screen exit
+     */
+    protected void doNotLoopScreen(){
+        screenManager.doNotLoopScreen();
+    }
+
     /// SCREEN LIFECYCLE
     @Override
     public void onStart() {
@@ -112,8 +121,25 @@ public abstract class Screen implements ScreenLifeCycle {
      *
      * @param color The {@link ConsoleColor} to set the text to.
      */
-    protected void setCurrentConsoleColor(ConsoleColor color) {
-        consoleInterface.setCurrentConsoleColor(color);
+    public void setCurrentTextConsoleColor(ConsoleColor color) {
+        consoleInterface.setCurrentTextConsoleColor(color);
+    }
+
+    /**
+     * Sets the current background color in the console. The next print operation
+     * will use the color as background specified by {@code color}.
+     *
+     * @param color The {@link ConsoleColor} to set the text to.
+     */
+    public void setCurrentBackgroundConsoleColor(ConsoleColor color) {
+        consoleInterface.setCurrentBackgroundConsoleColor(color);
+    }
+
+    /**
+     * Wait for a key press from the current console.
+     */
+    protected void waitForKeyPress() {
+        consoleInterface.waitForKeyPress();
     }
 
     /**
@@ -122,6 +148,14 @@ public abstract class Screen implements ScreenLifeCycle {
      */
     protected String readString() {
         return consoleInterface.readString();
+    }
+
+    /**
+     * Read a {@code Double} from the current console.
+     * @return The double entered by the user.
+     */
+    protected double readDouble() {
+        return consoleInterface.readDouble();
     }
 
     /**
@@ -152,22 +186,50 @@ public abstract class Screen implements ScreenLifeCycle {
      * Displays the screen header. This can be disabled using {@link #setPrintHeader(boolean)}.
      * The header includes a title centered and wrapped with borders.
      */
-    public void displayHeader(int totalWidth) {
+    protected void displayHeader(int totalWidth) {
         if (!printHeader) return;
-        consoleInterface.setCurrentConsoleColor(ConsoleColor.CYAN);
-        int headerLength = title.length();
-//        int totalWidth = headerLength + 20;
+        consoleInterface.setCurrentTextConsoleColor(ConsoleColor.CYAN);
 
-        // Top border
+        // Generate the ASCII art for the title
+        String asciiTitle = FigletFont.convertOneLine(title);
+
+        // Split the generated ASCII art into lines
+        String[] asciiTitleLines = asciiTitle.split("\n");
+
+        // Determine the longest line in the ASCII art for proper border width
+        int maxLength = 0;
+        for (String line : asciiTitleLines) {
+            if (line.length() > maxLength) {
+                maxLength = line.length();
+            }
+        }
+
+        // If totalWidth is less than the longest line, use maxLength + 4 as totalWidth
+        totalWidth = Math.max(totalWidth, maxLength + 4);
+
+        // Print top border
         println("=".repeat(totalWidth));
 
-        // Format the title centered within the total width
-        String title = String.format("%" + (totalWidth / 2 + headerLength / 2) + "s", this.title);
-        println(title);
+        // Print each line of ASCII art with left and right borders
+        for (String line : asciiTitleLines) {
+            // Center the line within the total width
+            int padding = (totalWidth - 2 - line.length()) / 2;
+            String paddedLine = " ".repeat(padding) + line + " ".repeat(padding);
 
-        // Bottom border
+            // Ensure the line fits in case of odd totalWidth
+            paddedLine = paddedLine.length() > totalWidth - 2
+                    ? paddedLine.substring(0, totalWidth - 2)
+                    : paddedLine;
+
+            println("|" + paddedLine + "|");
+        }
+
+        // Print bottom border
         println("=".repeat(totalWidth));
+
     }
+
+
 
 
 }

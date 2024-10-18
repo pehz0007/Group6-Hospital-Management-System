@@ -40,19 +40,25 @@ public class ScreenManager implements Runnable{
         applicationHandle.requireSwitchingScreen();
         this.currentScreen = newScreen;
         this.navigationStack.clear();
+        this.navigationStack.push(currentScreen);
     }
 
     /**
-     * Navigates to the specified {@code Screen}. It sets the new {@code Screen} as the current screen,
-     * adds it to the {@code Screen} stack, and calls the necessary lifecycle methods.
+     * Do not display the screen again and will instead end the application once the screen exit
+     */
+    protected void doNotLoopScreen() {
+        applicationHandle.doNotKeepRunning();
+    }
+
+    /**
+     * Display the current {@code Screen} and push the screen to the navigation stack calls the necessary lifecycle methods.
      *
-     * @param nextScreen The screen to navigate to.
+     * @param nextScreen The screen to display.
      */
     public void displayScreen(Screen nextScreen) {
         //Set current screen to the next screen
         currentScreen = nextScreen;
         initScreen(nextScreen);
-        navigationStack.push(nextScreen);
 
         //Clear console
         consoleInterface.clearConsole();
@@ -75,16 +81,38 @@ public class ScreenManager implements Runnable{
         //Set current screen to the next screen
         currentScreen = nextScreen;
         initScreen(nextScreen);
-        navigationStack.push(nextScreen);
+        navigationStack.push(currentScreen);
 
         //Lifecycle (onNextScreen): Call the onNextScreen to inform the previous screen that the screen has been changed
         previousScreen.onNextScreen(nextScreen);
 
         applicationHandle.requireSwitchingScreen();
+    }
 
-//        //Lifecycle (OnStart): Call the onStart once the screen is printed to the console
-//        nextScreen.onStart();
+    /**
+     * Navigates back to the previous screen. It pops the current screen off the stack,
+     * sets the previous screen as the current screen, and calls the necessary lifecycle methods.
+     */
+    public void navigateBack() {
+        if(navigationStack.size() == 1) throw new ScreenManagerEmptyNavigationStackException("Cannot navigate back when the navigation stack has only one screen");
+        //Pop the current screen
+        Screen previousScreen = navigationStack.pop();
 
+        //Peek the new screen
+        Screen nextScreen = navigationStack.peek();
+        currentScreen = nextScreen;
+        //Lifecycle (onFinish): Call the onFinish to inform the screen its has been pop off the navigation stack
+        previousScreen.onFinish();
+
+        initScreen(nextScreen);
+
+        //Clear console
+        consoleInterface.clearConsole();
+
+        applicationHandle.requireSwitchingScreen();
+
+        //Lifecycle (onBack): Call the onFinish to inform the screen its has been pop off the navigation stack
+        nextScreen.onBack(previousScreen);
     }
 
     /**
@@ -107,38 +135,6 @@ public class ScreenManager implements Runnable{
         screen.setConsoleInterface(consoleInterface);
     }
 
-    /**
-     * Navigates back to the previous screen. It pops the current screen off the stack,
-     * sets the previous screen as the current screen, and calls the necessary lifecycle methods.
-     */
-    public void navigateBack() {
-        if(navigationStack.size() == 1) throw new ScreenManagerEmptyNavigationStackException("Cannot navigate back when the navigation stack has only one screen");
-        //Pop the current screen
-        Screen previousScreen = navigationStack.pop();
-
-        //Pop the new screen
-        Screen nextScreen = navigationStack.pop();
-        currentScreen = nextScreen;
-        //Lifecycle (onFinish): Call the onFinish to inform the screen its has been pop off the navigation stack
-        previousScreen.onFinish();
-
-        initScreen(nextScreen);
-
-        //Clear console
-        consoleInterface.clearConsole();
-
-        applicationHandle.requireSwitchingScreen();
-
-        //Lifecycle (onBack): Call the onFinish to inform the screen its has been pop off the navigation stack
-        nextScreen.onBack(previousScreen);
-
-//        //Print the next screen to the console
-//        printScreen(nextScreen);
-
-//        //Lifecycle (onStart): Call the onStart to start the screen again.
-//        nextScreen.onStart();
-
-    }
 
     @Override
     public void run() {
