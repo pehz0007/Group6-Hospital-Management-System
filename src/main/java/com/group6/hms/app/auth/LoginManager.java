@@ -15,7 +15,7 @@ public class LoginManager {
     private StorageProvider<User> userStorageProvider = new UserInMemoryStorageProvider();
 
     private User currentLoginUser = null;
-    private static final File usersFile = new File("users.ser");
+    private static final File usersFile = new File("data/users.ser");
 
     /**
      * RUN THIS TO RESET DATABASE
