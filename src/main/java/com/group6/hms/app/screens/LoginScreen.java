@@ -1,30 +1,34 @@
 package com.group6.hms.app.screens;
 
-import com.group6.hms.app.roles.DoctorRole;
-import com.group6.hms.app.roles.PatientRole;
-import com.group6.hms.framework.auth.LoginManager;
-import com.group6.hms.framework.auth.User;
+import com.group6.hms.app.auth.LoginManager;
+import com.group6.hms.app.auth.User;
+import com.group6.hms.app.roles.Administrator;
+import com.group6.hms.app.roles.Doctor;
+import com.group6.hms.app.roles.Patient;
+import com.group6.hms.app.roles.Pharmacist;
+import com.group6.hms.app.screens.admin.AdministratorScreen;
+import com.group6.hms.app.screens.doctor.DoctorScreen;
+import com.group6.hms.app.screens.patient.PatientScreen;
+import com.group6.hms.app.screens.pharmacist.PharmacistScreen;
 import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.Screen;
 
 public class LoginScreen extends Screen {
 
-    private LoginManager loginManager = new LoginManager();
+    private LoginManager loginManager;
 
     public LoginScreen() {
         super("Login");
 //        setPrintHeader(false);
-
-        //CREATE SAMPLE USERS
-        loginManager.createUser("Patient 1", "Password1".toCharArray(), new PatientRole());
-        loginManager.createUser("Doctor 1", "Password2".toCharArray(), new DoctorRole());
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        loginManager = LoginManager.INSTANCE.getLoginManager();
+        loginManager.loadUsersFromFile();
 
-        setCurrentConsoleColor(ConsoleColor.PURPLE);
+        setCurrentTextConsoleColor(ConsoleColor.PURPLE);
         boolean loginSuccessful = false;
         while (!loginSuccessful) {
             print("Username: ");
@@ -33,19 +37,21 @@ public class LoginScreen extends Screen {
             char[] password = consoleInterface.readPassword();
 
             //Perform login authentication
-            if(loginManager.login(username, password)) {
+            if (loginManager.login(username, password)) {
                 loginSuccessful = true;
                 println("Login Successful");
 
-                User currentUser = LoginManager.getCurrentlyLoggedInUser();
+                User currentUser = loginManager.getCurrentlyLoggedInUser();
 
-                switch (currentUser.getRole()) {
-                    case PatientRole p -> newScreen(new PatientScreen());
-                    case DoctorRole d -> newScreen(new DoctorScreen());
-                    default -> throw new IllegalStateException("Unexpected value: " + currentUser.getRole());
+                switch (currentUser) {
+                    case Patient patient -> newScreen(new PatientScreen());
+                    case Doctor doctor -> newScreen(new DoctorScreen());
+                    case Pharmacist pharmacist -> newScreen(new PharmacistScreen());
+                    case Administrator administrator -> newScreen(new AdministratorScreen());
+                    default -> throw new IllegalStateException("Unexpected value: " + currentUser);
                 }
 
-            }else {
+            } else {
                 println("Login Failed");
             }
         }
