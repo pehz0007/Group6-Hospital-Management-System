@@ -2,7 +2,6 @@ package com.group6.hms.app.notifications;
 
 import com.group6.hms.app.auth.LoginManagerHolder;
 import com.group6.hms.app.auth.User;
-import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.PaginationTableScreen;
 import com.group6.hms.framework.screens.PrintTableUtils;
 

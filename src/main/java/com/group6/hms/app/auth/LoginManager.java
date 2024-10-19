@@ -85,7 +85,7 @@ public class LoginManager {
     }
 
     public void logout(){
-        currentLoginUser = null;
+        currentLoginUser.set(null);
     }
 
     public boolean isLoggedIn(){
