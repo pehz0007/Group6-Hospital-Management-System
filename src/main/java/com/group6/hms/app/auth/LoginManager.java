@@ -45,6 +45,7 @@ public class LoginManager {
 
 
     public void createUser(User user){
+        if(findUser(user.getUsername()) != null) throw new UserCreationException("User already exists");
         userStorageProvider.addNewItem(user);
     }
 

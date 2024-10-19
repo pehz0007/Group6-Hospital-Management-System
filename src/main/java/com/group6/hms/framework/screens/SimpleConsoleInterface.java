@@ -2,6 +2,7 @@ package com.group6.hms.framework.screens;
 
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
+import com.group6.hms.framework.screens.option.ConsoleInputFormatException;
 
 import java.io.Console;
 import java.io.IOException;

@@ -1,41 +1,45 @@
-package com.group6.hms.framework.screens;
+package com.group6.hms.framework.screens.pagination;
+
+import com.group6.hms.framework.screens.ConsoleColor;
+import com.group6.hms.framework.screens.ConsoleInterface;
+import com.group6.hms.framework.screens.Screen;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
 
 public class PrintTableUtils {
-    private static void printSeparator(Screen screen, Field[] fields) {
+    private static void printSeparator(ConsoleInterface consoleInterface, Field[] fields) {
         for (Field field : fields) {
             HeaderField headerField = field.getAnnotation(HeaderField.class);
             int fieldWidth = (headerField != null) ? headerField.width() : 20; // Use annotation width or default to 20
-            screen.print("+");
+            consoleInterface.print("+");
             for (int j = 0; j < fieldWidth; j++) {
-                screen.print("-");
+                consoleInterface.print("-");
             }
         }
-        screen.println("+"); // End with a final "+"
+        consoleInterface.println("+"); // End with a final "+"
     }
 
-    public static void printItemAsTable(Screen screen, Object obj) {
+    public static void printItemAsTable(ConsoleInterface consoleInterface, Object obj) {
         ConsoleColor borderColor = ConsoleColor.PURPLE;
         ConsoleColor headerFieldColor = ConsoleColor.WHITE;
         ConsoleColor valueFieldColor = ConsoleColor.GREEN;
         Class<?> objClass = obj.getClass();
         Field[] fields = objClass.getDeclaredFields();
 
-        printHeaderFields(screen, borderColor, fields, headerFieldColor);
+        printHeaderFields(consoleInterface, borderColor, fields, headerFieldColor);
 
         // Print field values with borders
-        printItemEntry(screen, fields, borderColor, valueFieldColor, obj);
+        printItemEntry(consoleInterface, fields, borderColor, valueFieldColor, obj);
 
         // Print bottom border
-        printSeparator(screen, fields);
+        printSeparator(consoleInterface, fields);
     }
 
 
-    public static <T> void printItemsAsTable(Screen screen, Collection<T> items) {
+    public static <T> void printItemsAsTable(ConsoleInterface consoleInterface, Collection<T> items) {
         if (items == null || items.isEmpty()) {
-            screen.println("No items to display.");
+            consoleInterface.println("No items to display.");
             return;
         }
 
@@ -48,12 +52,12 @@ public class PrintTableUtils {
         ConsoleColor headerFieldColor = ConsoleColor.WHITE;
         ConsoleColor valueFieldColor = ConsoleColor.GREEN;
 
-        printHeaderFields(screen, borderColor, fields, headerFieldColor);
+        printHeaderFields(consoleInterface, borderColor, fields, headerFieldColor);
 
         // Print each item's field values
         for (Object item : items) {
-            printItemEntry(screen, fields, borderColor, valueFieldColor, item);
-            printSeparator(screen, fields);
+            printItemEntry(consoleInterface, fields, borderColor, valueFieldColor, item);
+            printSeparator(consoleInterface, fields);
         }
 
 //        // Print bottom border
@@ -84,10 +88,10 @@ public class PrintTableUtils {
         return capitalizedString.toString().trim();
     }
 
-    private static void printHeaderFields(Screen screen, ConsoleColor borderColor, Field[] fields, ConsoleColor headerFieldColor) {
+    private static void printHeaderFields(ConsoleInterface consoleInterface, ConsoleColor borderColor, Field[] fields, ConsoleColor headerFieldColor) {
         // Print top border
-        screen.setCurrentTextConsoleColor(borderColor);
-        printSeparator(screen, fields);
+        consoleInterface.setCurrentTextConsoleColor(borderColor);
+        printSeparator(consoleInterface, fields);
 
         // Print field names as headers with borders
         for (Field field : fields) {
@@ -97,20 +101,20 @@ public class PrintTableUtils {
             String fieldName = (headerField != null && !headerField.name().isEmpty()) ? headerField.name() : convertCamelCaseToNormal(field.getName());
 
             if (show) { // Only print if show is true
-                screen.setCurrentTextConsoleColor(borderColor);
-                screen.print("|");
-                screen.setCurrentTextConsoleColor(headerFieldColor);
-                screen.print(String.format("%-" + fieldWidth + "s", fieldName)); // Print field name (header)
+                consoleInterface.setCurrentTextConsoleColor(borderColor);
+                consoleInterface.print("|");
+                consoleInterface.setCurrentTextConsoleColor(headerFieldColor);
+                consoleInterface.print(String.format("%-" + fieldWidth + "s", fieldName)); // Print field name (header)
             }
         }
-        screen.setCurrentTextConsoleColor(borderColor);
-        screen.println("|"); // End the row with a border
+        consoleInterface.setCurrentTextConsoleColor(borderColor);
+        consoleInterface.println("|"); // End the row with a border
 
         // Print middle border
-        printSeparator(screen, fields);
+        printSeparator(consoleInterface, fields);
     }
 
-    private static void printItemEntry(Screen screen, Field[] fields, ConsoleColor borderColor, ConsoleColor valueFieldColor, Object item) {
+    private static void printItemEntry(ConsoleInterface consoleInterface, Field[] fields, ConsoleColor borderColor, ConsoleColor valueFieldColor, Object item) {
         for (Field field : fields) {
             HeaderField headerField = field.getAnnotation(HeaderField.class);
             boolean show = (headerField == null || headerField.show()); // Default to true if annotation is missing
@@ -121,16 +125,16 @@ public class PrintTableUtils {
                 try {
                     Object value = field.get(item); // Get the value of the field for the given object
 
-                    screen.setCurrentTextConsoleColor(borderColor);
-                    screen.print("|");
-                    screen.setCurrentTextConsoleColor(valueFieldColor);
-                    screen.print(String.format("%-" + fieldWidth + "s", value != null ? value.toString() : "null")); // Print value
+                    consoleInterface.setCurrentTextConsoleColor(borderColor);
+                    consoleInterface.print("|");
+                    consoleInterface.setCurrentTextConsoleColor(valueFieldColor);
+                    consoleInterface.print(String.format("%-" + fieldWidth + "s", value != null ? value.toString() : "null")); // Print value
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
             }
         }
-        screen.setCurrentTextConsoleColor(borderColor);
-        screen.println("|"); // End the row with a border
+        consoleInterface.setCurrentTextConsoleColor(borderColor);
+        consoleInterface.println("|"); // End the row with a border
     }
 }

@@ -1,7 +1,7 @@
 package com.group6.hms.app.screens.admin;
 
 import com.group6.hms.app.auth.User;
-import com.group6.hms.framework.screens.HeaderField;
+import com.group6.hms.framework.screens.pagination.HeaderField;
 
 import java.util.UUID;
 

@@ -5,7 +5,7 @@ import com.group6.hms.app.notifications.Notification;
 import com.group6.hms.app.notifications.NotificationManagerHolder;
 import com.group6.hms.app.notifications.NotificationScreen;
 import com.group6.hms.app.screens.MainScreen;
-import com.group6.hms.framework.screens.PaginationTableScreen;
+import com.group6.hms.framework.screens.pagination.PaginationTableScreen;
 import com.group6.hms.app.auth.LogoutScreen;
 
 import java.util.Collection;
@@ -49,9 +49,7 @@ public class AdministratorScreen extends LogoutScreen {
     protected void handleOption(int optionId) {
         switch (optionId) {
             case CREATE_USER -> {
-                //Create user
-                print("Username:");
-
+                UserUtils.askForUsernameAndPassword(consoleInterface, getLoginManager());
             }
             case VIEW_NOTIFICATIONS -> {
                 navigateToScreen(new NotificationScreen());

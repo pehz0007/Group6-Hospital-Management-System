@@ -1,4 +1,7 @@
-package com.group6.hms.framework.screens;
+package com.group6.hms.framework.screens.option;
+
+import com.group6.hms.framework.screens.ConsoleColor;
+import com.group6.hms.framework.screens.Screen;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +33,7 @@ import java.util.Map;
  * }</pre>
  *
  */
-public abstract class OptionScreen extends Screen{
+public abstract class OptionScreen extends Screen {
 
     // A map to store the available options, where the key is the option ID and the value is the option description
     private Map<Integer, Option> options = new HashMap<Integer, Option>();
@@ -57,16 +60,8 @@ public abstract class OptionScreen extends Screen{
     @Override
     public void onStart() {
         super.onStart();
-        displayOptions();
-        boolean readingOption = true;
-        do{
-            try{
-                readUserOption();
-                readingOption = false;
-            }catch (ConsoleInputFormatException ignored){
-                println("Invalid option!");
-            }
-        }while(readingOption);
+        int selectedOptionId = OptionsUtils.askOptions(consoleInterface, options);
+        handleOptionOnBack(selectedOptionId);
     }
 
     ///
@@ -113,6 +108,11 @@ public abstract class OptionScreen extends Screen{
         options.put(optionID, new Option(optionID, optionDescription, consoleColor));
     }
 
+    /**
+     * Check if the given {@code Option} exist
+     * @param optionID - the option id of the {@code Option}
+     * @return true if the option exist, false otherwise
+     */
     protected boolean containsOption(int optionID){
         return options.containsKey(optionID);
     }
@@ -130,19 +130,12 @@ public abstract class OptionScreen extends Screen{
         }
     }
 
+
     /**
-     * Reads the user's input and handles the selected option.
+     * Handle the selected option.
      * If the user selects '0' and back navigation is allowed, the screen navigates back.
      * Otherwise, the selected option is passed to handleOption().
      */
-    protected void readUserOption(){
-        setCurrentTextConsoleColor(ConsoleColor.YELLOW);
-        print("\nPlease select an option: ");
-        int selectedOptionId = readInt();
-        handleOptionOnBack(selectedOptionId);
-
-    }
-
     protected void handleOptionOnBack(int optionId){
         if (optionId == BACK_ID && allowBack) {
             // Go back one screen

@@ -2,8 +2,8 @@ package com.group6.hms.app.notifications;
 
 import com.group6.hms.app.auth.LoginManagerHolder;
 import com.group6.hms.app.auth.User;
-import com.group6.hms.framework.screens.PaginationTableScreen;
-import com.group6.hms.framework.screens.PrintTableUtils;
+import com.group6.hms.framework.screens.pagination.PaginationTableScreen;
+import com.group6.hms.framework.screens.pagination.PrintTableUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +39,7 @@ public class NotificationScreen extends PaginationTableScreen<Notification> {
 
 
     private void displaySingleNotification(Notification notification) {
-        PrintTableUtils.printItemAsTable(this, notification);
+        PrintTableUtils.printItemAsTable(consoleInterface, notification);
 
     }
 
