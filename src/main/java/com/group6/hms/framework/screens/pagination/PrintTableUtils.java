@@ -2,12 +2,84 @@ package com.group6.hms.framework.screens.pagination;
 
 import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.ConsoleInterface;
-import com.group6.hms.framework.screens.Screen;
 
 import java.lang.reflect.Field;
 import java.util.Collection;
 
 public class PrintTableUtils {
+
+    public static void printItemAsVerticalTable(ConsoleInterface consoleInterface, Object obj) {
+        ConsoleColor borderColor = ConsoleColor.PURPLE;
+        ConsoleColor headerFieldColor = ConsoleColor.WHITE;
+        ConsoleColor valueFieldColor = ConsoleColor.GREEN;
+        Class<?> objClass = obj.getClass();
+        Field[] fields = objClass.getDeclaredFields();
+        int width = 50;
+        consoleInterface.setCurrentTextConsoleColor(borderColor);
+        printSeparator(consoleInterface, width);
+        for (Field field : fields) {
+            HeaderField headerField = field.getAnnotation(HeaderField.class);
+            boolean show = (headerField == null || headerField.show()); // Default to true if annotation is missing
+            int fieldWidth = (headerField != null) ? headerField.width() : 20; // Default width if no annotation
+            String fieldName = (headerField != null && !headerField.name().isEmpty())
+                    ? headerField.name() : convertCamelCaseToNormal(field.getName());
+
+            if (show) { // Only print if show is true
+                field.setAccessible(true); // Allow access to private fields
+                try {
+                    Object value = field.get(obj); // Get the value of the field for the given object
+
+                    // Print header (field name) as the row header
+                    consoleInterface.setCurrentTextConsoleColor(headerFieldColor);
+                    consoleInterface.print(String.format("%-" + fieldWidth + "s", fieldName)); // Print field name (header)
+                    consoleInterface.print(": ");
+
+                    // Print value next to the header
+                    String valueToPrint = value != null ? value.toString() : "null";
+                    String[] valuesToPrint = wrapText(valueToPrint, (width - fieldWidth));
+                    consoleInterface.setCurrentTextConsoleColor(valueFieldColor);
+                    consoleInterface.println(valuesToPrint[0]);
+                    for (int i = 1; i < valuesToPrint.length; i++) {
+                        consoleInterface.println(" ".repeat(fieldWidth + 2) + valuesToPrint[i]);
+                    }
+
+
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        consoleInterface.setCurrentTextConsoleColor(borderColor);
+        printSeparator(consoleInterface, width);
+    }
+
+    // Method to wrap long text into multiple lines based on a width limit
+    private static String[] wrapText(String text, int width) {
+        String[] words = text.split(" ");
+        StringBuilder line = new StringBuilder();
+        StringBuilder result = new StringBuilder();
+
+        for (String word : words) {
+            if (line.length() + word.length() + 1 > width) { // Wrap the text
+                result.append(line.toString().trim()).append("\n");
+                line = new StringBuilder();
+            }
+            line.append(word).append(" ");
+        }
+        result.append(line.toString().trim()); // Add the remaining line
+
+        return result.toString().split("\n"); // Return the wrapped lines
+    }
+
+
+
+    private static void printSeparator(ConsoleInterface consoleInterface, int width) {
+        for (int j = 0; j < width; j++) {
+            consoleInterface.print("-");
+        }
+        consoleInterface.println("+"); // End with a final "+"
+    }
+
     private static void printSeparator(ConsoleInterface consoleInterface, Field[] fields) {
         for (Field field : fields) {
             HeaderField headerField = field.getAnnotation(HeaderField.class);

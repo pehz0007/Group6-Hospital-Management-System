@@ -29,6 +29,15 @@ public class NotificationManager implements NotificationInterface{
     }
 
     @Override
+    public void dismissAllNotificationFromUser(UUID userId) {
+        List<Notification> notifications = getNotifications(userId);
+        int size = notifications.size();
+        for (int i = 0; i < size; i++) {
+            dismissNotification(notifications.getFirst());
+        }
+    }
+
+    @Override
     public List<Notification> getNotifications(UUID userId) {
         if (userId == null) {
             return List.of();

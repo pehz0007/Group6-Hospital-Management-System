@@ -33,24 +33,39 @@ public class PaginationTableScreen<T> extends OptionScreen {
         super(header);
         this.items = items;
         this.pageSize = pageSize;
-        if(items != null) setItems(items);
-
-        updateOptions();
+        if(items != null){
+            setItems(items);
+        }
     }
 
     @Override
     public void onStart() {
-        printTable(getPage(items, currentPage, pageSize));
-        printPaginationCounter();
-        println("");
         setAllowBack(true);
-
         super.onStart();
+    }
+
+    @Override
+    public void onDisplay() {
+        if(items.size() == 0){
+            printEmpty();
+        }else{
+            printTable(getPage(items, currentPage, pageSize));
+            printPaginationCounter();
+        }
+        println("");
+        super.onDisplay();
+    }
+
+    private void printEmpty() {
+        println("");
+        setCurrentTextConsoleColor(ConsoleColor.PURPLE);
+        println("Nothing to be displayed");
     }
 
     protected void setItems(List<T> items) {
         this.items = items;
         this.maxPage = (int) Math.ceil((double)(items.size()) / pageSize); // Ceil the page size
+        updateOptions();
     }
 
     protected void printTable(List<T> sublist) {

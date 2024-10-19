@@ -7,6 +7,7 @@ public interface NotificationInterface {
 
     void createNotification(Notification notification);
     void dismissNotification(Notification notification);
+    void dismissAllNotificationFromUser(UUID userId);
     List<Notification> getNotifications(UUID userId);
 
 }

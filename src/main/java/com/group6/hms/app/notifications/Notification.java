@@ -8,6 +8,7 @@ import java.util.UUID;
 public class Notification {
     private String title;
     private String message;
+    @HeaderField(show = false)
     private LocalDateTime timestamp;
     @HeaderField(show = false)
     private UUID userID;

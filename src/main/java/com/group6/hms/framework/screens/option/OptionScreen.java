@@ -54,12 +54,12 @@ public abstract class OptionScreen extends Screen {
     }
 
     /**
-     * Lifecycle method that is called when the screen is started.
+     * Lifecycle method that is called when the screen is being displayed.
      * This method displays the options and reads user input.
      */
     @Override
-    public void onStart() {
-        super.onStart();
+    public void onDisplay() {
+        super.onDisplay();
         int selectedOptionId = OptionsUtils.askOptions(consoleInterface, options);
         handleOptionOnBack(selectedOptionId);
     }
@@ -151,23 +151,5 @@ public abstract class OptionScreen extends Screen {
      * @param optionId The ID of the option selected by the user.
      */
     protected abstract void handleOption(int optionId);
-
-    ///
-    ///  DISPLAY
-    ///
-
-    /**
-     * Displays the list of available options to the user.
-     * If back navigation is allowed, a '0: <Back>' option is displayed as well.
-     */
-    protected void displayOptions() {
-        setCurrentTextConsoleColor(ConsoleColor.WHITE);
-        println("OPTIONS:\n");
-        for (Map.Entry<Integer, Option> option : options.entrySet()) {
-            setCurrentTextConsoleColor(option.getValue().color());
-            println("\t" + option.getKey() + ": <" + option.getValue().optionDescription() + ">");
-        }
-        setCurrentBackgroundConsoleColor(null);
-    }
 
 }

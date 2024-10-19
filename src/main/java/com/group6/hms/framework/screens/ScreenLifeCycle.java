@@ -8,6 +8,12 @@ public interface ScreenLifeCycle {
      * Called when the screen is starting.
      */
     void onStart();
+
+    /**
+     * Called when the screen is being display.
+     */
+    void onDisplay();
+
     /**
      * Called when the screen is finishing.
      */
