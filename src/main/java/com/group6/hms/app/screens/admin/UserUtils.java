@@ -29,6 +29,9 @@ public class UserUtils {
     ));
 
     public static void askForUsernameAndPassword(ConsoleInterface consoleInterface, LoginManager loginManager) {
+
+        int selectedOptionId = OptionsUtils.askOptions(consoleInterface, options);
+
         // Create user
         consoleInterface.print("Username: ");
         String username = consoleInterface.readString();
@@ -36,14 +39,12 @@ public class UserUtils {
         consoleInterface.print("Password: ");
         char[] password = consoleInterface.readPassword();
 
-        int selectedOptionId = OptionsUtils.askOptions(consoleInterface, options);
-
         User user = switch (selectedOptionId){
-           case ADMIN_ID -> new Administrator(username, password);
-           case PATIENT_ID -> new Patient(username, password);
-           case DOCTOR_ID -> new Doctor(username, password);
-           case PHARMACIST_ID -> new Pharmacist(username, password);
-           default -> throw new IllegalStateException("Unexpected value: " + selectedOptionId);
+            case ADMIN_ID -> new Administrator(username, password);
+            case PATIENT_ID -> new Patient(username, password);
+            case DOCTOR_ID -> new Doctor(username, password);
+            case PHARMACIST_ID -> new Pharmacist(username, password);
+            default -> throw new IllegalStateException("Unexpected value: " + selectedOptionId);
         };
 
         loginManager.createUser(user);

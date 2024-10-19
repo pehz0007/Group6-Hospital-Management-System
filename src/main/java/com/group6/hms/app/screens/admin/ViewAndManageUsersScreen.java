@@ -3,6 +3,7 @@ package com.group6.hms.app.screens.admin;
 import com.group6.hms.app.auth.LoginManager;
 import com.group6.hms.app.auth.LoginManagerHolder;
 import com.group6.hms.app.auth.User;
+import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.pagination.PaginationTableScreen;
 
 import java.util.Collection;
@@ -37,6 +38,9 @@ public class ViewAndManageUsersScreen extends PaginationTableScreen<UserView> {
         if (optionId == CREATE_USER) {
             UserUtils.askForUsernameAndPassword(consoleInterface, loginManager);
             updateUserViewsTable();
+            setCurrentTextConsoleColor(ConsoleColor.GREEN);
+            println("User has been created!");
+            waitForKeyPress();
         }
     }
 }

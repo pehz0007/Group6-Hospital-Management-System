@@ -102,7 +102,8 @@ public class SimpleConsoleInterface implements ConsoleInterface {
         if (Objects.isNull(console)) {
             return scanner.nextLine().toCharArray();
         } else {
-            return console.readPassword();
+            char[] password = console.readPassword();
+            return password;
         }
     }
 
