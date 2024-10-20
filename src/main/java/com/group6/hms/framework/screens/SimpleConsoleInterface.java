@@ -86,6 +86,22 @@ public class SimpleConsoleInterface implements ConsoleInterface {
         backgroundConsoleColor = color;
     }
 
+    @Override
+    public ConsoleColor getCurrentTextConsoleColor() {
+        return textConsoleColor;
+    }
+
+    @Override
+    public ConsoleColor getCurrentBackgroundConsoleColor() {
+        return backgroundConsoleColor;
+    }
+
+    @Override
+    public void resetColor() {
+        textConsoleColor = ConsoleColor.WHITE;
+        backgroundConsoleColor = null;
+    }
+
     private AnsiColor toAsciiColor(ConsoleColor color) {
         if (color == null) return null;
         //Find the matching color from ConsoleColor to AnsiColor

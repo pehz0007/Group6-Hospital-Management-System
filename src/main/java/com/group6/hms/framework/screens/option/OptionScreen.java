@@ -1,10 +1,10 @@
 package com.group6.hms.framework.screens.option;
 
 import com.group6.hms.framework.screens.ConsoleColor;
+import com.group6.hms.framework.screens.InteractiveConsoleInterface;
 import com.group6.hms.framework.screens.Screen;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Option screen extends {@code Screen} with selectable options.
@@ -36,7 +36,7 @@ import java.util.Map;
 public abstract class OptionScreen extends Screen {
 
     // A map to store the available options, where the key is the option ID and the value is the option description
-    private Map<Integer, Option> options = new HashMap<Integer, Option>();
+    private NavigableMap<Integer, Option> options = new TreeMap<>();
 
     // Flag indicating whether the user is allowed to go back to the previous screen
     private boolean allowBack = true;
@@ -60,7 +60,13 @@ public abstract class OptionScreen extends Screen {
     @Override
     public void onDisplay() {
         super.onDisplay();
-        int selectedOptionId = OptionsUtils.askOptions(consoleInterface, options);
+        int selectedOptionId;
+        if(consoleInterface.isConsoleInteractive()){
+            selectedOptionId = OptionsUtils.askOptionsInteractive((InteractiveConsoleInterface) consoleInterface, options);
+        }else{
+            selectedOptionId = OptionsUtils.askOptions(consoleInterface, options);
+
+        }
         handleOptionOnBack(selectedOptionId);
     }
 
