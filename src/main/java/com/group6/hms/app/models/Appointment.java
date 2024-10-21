@@ -1,25 +1,28 @@
 package com.group6.hms.app.models;
 
+import com.group6.hms.app.roles.Doctor;
+import com.group6.hms.app.roles.Patient;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Appointment implements Serializable {
-    private UUID appointmentId;
-    private UUID patientId;
-    private UUID doctorId;
+    private final UUID appointmentId;
+    private final Patient patient;
+    private final Doctor doctor;
     private AppointmentStatus status;
     private LocalDateTime dateTime;
     private AppointmentOutcomeRecord appointmentOutcomeRecord;
 
-    public Appointment(UUID patientId, UUID doctorId, AppointmentStatus status, LocalDateTime dateTime) {
-        this(patientId, doctorId, status, dateTime, null);
+    public Appointment(Patient patient, Doctor doctor, AppointmentStatus status, LocalDateTime dateTime) {
+        this(patient, doctor, status, dateTime, null);
     }
 
-    public Appointment(UUID patientId, UUID doctorId, AppointmentStatus status, LocalDateTime dateTime, AppointmentOutcomeRecord appointmentOutcomeRecord) {
+    public Appointment(Patient patient, Doctor doctor, AppointmentStatus status, LocalDateTime dateTime, AppointmentOutcomeRecord appointmentOutcomeRecord) {
         this.appointmentId = UUID.randomUUID();
-        this.patientId = patientId;
-        this.doctorId = doctorId;
+        this.patient = patient;
+        this.doctor = doctor;
         this.status = status;
         this.dateTime = dateTime;
         this.appointmentOutcomeRecord = appointmentOutcomeRecord;
@@ -29,12 +32,12 @@ public class Appointment implements Serializable {
         return appointmentId;
     }
 
-    public UUID getPatientId() {
-        return patientId;
+    public Patient getPatient() {
+        return patient;
     }
 
-    public UUID getDoctorId() {
-        return doctorId;
+    public Doctor getDoctor() {
+        return doctor;
     }
 
     public LocalDateTime getDateTime() {
