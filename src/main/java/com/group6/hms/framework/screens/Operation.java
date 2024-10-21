@@ -6,4 +6,5 @@ public enum Operation {
     LEFT,
     RIGHT,
     ENTER,
+    EXIT
 }

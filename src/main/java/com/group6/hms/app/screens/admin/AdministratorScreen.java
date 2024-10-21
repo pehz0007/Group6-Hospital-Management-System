@@ -1,13 +1,19 @@
 package com.group6.hms.app.screens.admin;
 
+import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import com.group6.hms.app.auth.User;
+import com.group6.hms.app.models.AppointmentStatus;
 import com.group6.hms.app.notifications.Notification;
 import com.group6.hms.app.notifications.NotificationManagerHolder;
 import com.group6.hms.app.notifications.NotificationScreen;
 import com.group6.hms.app.screens.MainScreen;
 import com.group6.hms.app.auth.LogoutScreen;
+import com.group6.hms.framework.screens.calendar.CalendarScreen;
 
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.*;
 
 public class AdministratorScreen extends LogoutScreen {
 
@@ -55,6 +61,13 @@ public class AdministratorScreen extends LogoutScreen {
                 navigateToScreen(new ViewAndManageUsersScreen());
             }
             case VIEW_APPOINTMENTS -> {
+
+                //SAMPLE
+                Multimap<LocalDate, AppointmentView> appointmentViews = MultimapBuilder.hashKeys().arrayListValues().build();
+                var a1 = new AppointmentView(UUID.randomUUID(), UUID.randomUUID(), AppointmentStatus.CONFIRMED, LocalDateTime.now());
+                appointmentViews.put(a1.getEventDateTime().toLocalDate(), a1);
+                navigateToScreen(new CalendarScreen<>("Appointments", appointmentViews));
+
                 //Retrieve all Appointments in the database
 
                 //Display all the Appointments

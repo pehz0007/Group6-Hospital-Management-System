@@ -37,6 +37,14 @@ public class Appointment implements Serializable {
         return doctorId;
     }
 
+    public AppointmentStatus getStatus() {
+        return status;
+    }
+
+    public AppointmentOutcomeRecord getAppointmentOutcomeRecord() {
+        return appointmentOutcomeRecord;
+    }
+
     public LocalDateTime getDateTime() {
         return dateTime;
     }

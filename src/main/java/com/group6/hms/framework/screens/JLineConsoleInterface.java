@@ -2,7 +2,6 @@ package com.group6.hms.framework.screens;
 
 import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
-import com.group6.hms.app.CalendarApp;
 import com.group6.hms.framework.screens.option.ConsoleInputFormatException;
 import org.fusesource.jansi.Ansi;
 import org.jline.keymap.BindingReader;
@@ -10,7 +9,6 @@ import org.jline.keymap.KeyMap;
 import org.jline.reader.LineReader;
 import org.jline.reader.LineReaderBuilder;
 import org.jline.reader.UserInterruptException;
-import org.jline.terminal.Size;
 import org.jline.terminal.Terminal;
 import org.jline.terminal.TerminalBuilder;
 import org.jline.utils.InfoCmp;
@@ -42,6 +40,7 @@ public class JLineConsoleInterface implements InteractiveConsoleInterface {
             keyMap.bind(Operation.LEFT, key(terminal, InfoCmp.Capability.key_left));
             keyMap.bind(Operation.RIGHT, key(terminal, InfoCmp.Capability.key_right));
             keyMap.bind(Operation.ENTER, key(terminal, InfoCmp.Capability.carriage_return));
+            keyMap.bind(Operation.EXIT, "q");
 
         } catch (IOException e) {
             e.printStackTrace();
