@@ -3,26 +3,26 @@ package com.group6.hms.app.auth;
 import java.io.*;
 import java.util.*;
 
-public class UserInMemoryStorageProvider implements StorageProvider<User> {
+public class SerializationStorageProvider<T> implements StorageProvider<T> {
 
-    private Map<UUID, User> users = new HashMap<UUID, User>();
+    private List<T> items = new LinkedList<>();
 
     @Override
-    public void addNewItem(User item) {
-        users.put(item.getUserId(), item);
+    public void addNewItem(T item) {
+        items.add(item);
     }
 
     @Override
-    public void removeItem(User item) {
-        users.remove(item.getUserId(), item);
+    public void removeItem(T item) {
+        items.remove(item);
     }
 
     @Override
     public void saveToFile(File file) {
-        // serialize HashMap
+        // serialize list
         try (FileOutputStream fileOut = new FileOutputStream(file);
              ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
-            out.writeObject(users); // Serialize the HashMap
+            out.writeObject(items);
         } catch (IOException e) {
             e.printStackTrace();
             System.err.println("File Save Error");
@@ -32,12 +32,11 @@ public class UserInMemoryStorageProvider implements StorageProvider<User> {
 
     @Override
     public void loadFromFile(File file) {
-        // Deserialize the HashMap
+        // Deserialize list
         try (FileInputStream fileIn = new FileInputStream(file);
              ObjectInputStream in = new ObjectInputStream(fileIn)) {
             // deserialize object
-            users = (Map<UUID, User>) in.readObject();
-            //System.out.println("HashMap has been deserialized.");
+            items = (LinkedList<T>) in.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             System.err.println("File Load Error");
@@ -45,7 +44,7 @@ public class UserInMemoryStorageProvider implements StorageProvider<User> {
     }
 
     @Override
-    public Collection<User> getItems() {
-        return users.values();
+    public Collection<T> getItems() {
+        return items;
     }
 }

@@ -6,6 +6,9 @@ import com.group6.hms.app.models.Appointment;
 import java.io.*;
 import java.util.*;
 
+
+
+// TODO: DELETE IF NOTHING WRONG
 public class AppointmentsStorageProvider implements StorageProvider<Appointment> {
     private ArrayList<Appointment> appointments = new ArrayList<Appointment>();
 
