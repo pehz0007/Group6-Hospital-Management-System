@@ -60,13 +60,7 @@ public abstract class OptionScreen extends Screen {
     @Override
     public void onDisplay() {
         super.onDisplay();
-        int selectedOptionId;
-        if(consoleInterface.isConsoleInteractive()){
-            selectedOptionId = OptionsUtils.askOptionsInteractive((InteractiveConsoleInterface) consoleInterface, options);
-        }else{
-            selectedOptionId = OptionsUtils.askOptions(consoleInterface, options);
-
-        }
+        int selectedOptionId = OptionsUtils.askOptions(consoleInterface, options);
         handleOptionOnBack(selectedOptionId);
     }
 

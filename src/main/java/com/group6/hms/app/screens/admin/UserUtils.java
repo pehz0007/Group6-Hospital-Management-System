@@ -12,6 +12,7 @@ import com.group6.hms.framework.screens.option.Option;
 import com.group6.hms.framework.screens.option.OptionsUtils;
 
 import java.util.Map;
+import java.util.NavigableMap;
 import java.util.TreeMap;
 
 public class UserUtils {
@@ -21,7 +22,7 @@ public class UserUtils {
     private static final int DOCTOR_ID = 3;
     private static final int PHARMACIST_ID = 4;
 
-    private static final Map<Integer, Option> options = new TreeMap<>(Map.of(
+    private static final NavigableMap<Integer, Option> options = new TreeMap<>(Map.of(
             ADMIN_ID, new Option(ADMIN_ID, "Admin", ConsoleColor.PURPLE),
             PATIENT_ID, new Option(PATIENT_ID, "Patient", ConsoleColor.PURPLE),
             DOCTOR_ID, new Option(DOCTOR_ID, "Doctor", ConsoleColor.PURPLE),

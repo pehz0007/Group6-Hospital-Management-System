@@ -11,6 +11,31 @@ import java.util.NavigableMap;
 public class OptionsUtils {
 
     /**
+     * Prompts the user to select an option from the given list of options.
+     *
+     * If the {@code consoleInterface} implements the {@link InteractiveConsoleInterface},
+     * it will invoke {@link OptionsUtils#askOptionsInteractive(InteractiveConsoleInterface, NavigableMap)}
+     * to handle the option selection interactively.
+     *
+     * Otherwise, it will call {@link OptionsUtils#askOptionsNonInteractive(ConsoleInterface, Map)}
+     * to process the options non-interactively.
+     *
+     * @param consoleInterface The console interface used to display and interact with the list of options.
+     * @param options The map of selectable options, where the key is the option ID and the value is the option description.
+     * @return The ID of the option selected by the user.
+     */
+
+    public static int askOptions(ConsoleInterface consoleInterface, NavigableMap<Integer, Option> options){
+        int selectedOptionId;
+        if(consoleInterface.isConsoleInteractive()){
+            selectedOptionId = OptionsUtils.askOptionsInteractive((InteractiveConsoleInterface) consoleInterface, options);
+        }else{
+            selectedOptionId = OptionsUtils.askOptionsNonInteractive(consoleInterface, options);
+        }
+        return selectedOptionId;
+    }
+
+    /**
      * Reads the user's input and return the selected option.
      * @param consoleInterface - The console interface use to display the options
      * @param options - The list of selectable option to be display
@@ -89,13 +114,13 @@ public class OptionsUtils {
      * @param options - The list of selectable option to be display
      * @return the option id of the selected option given by the user
      */
-    public static int askOptions(ConsoleInterface consoleInterface, Map<Integer, Option> options){
+    public static int askOptionsNonInteractive(ConsoleInterface consoleInterface, Map<Integer, Option> options){
         boolean readingOption = true;
         int selectedOption = Integer.MIN_VALUE;
-        displayOptions(consoleInterface, options);
+        displayOptionsNonInteractive(consoleInterface, options);
         do{
             try{
-                selectedOption = readUserOption(consoleInterface, options);
+                selectedOption = readUserOptionNonInteractive(consoleInterface, options);
                 if(!options.containsKey(selectedOption)) throw new ConsoleInputNotFoundException("Option not found");
                 readingOption = false;
             }catch (ConsoleInputFormatException | ConsoleInputNotFoundException e){
@@ -105,7 +130,7 @@ public class OptionsUtils {
         return selectedOption;
     }
 
-    private static int readUserOption(ConsoleInterface consoleInterface, Map<Integer, Option> options){
+    private static int readUserOptionNonInteractive(ConsoleInterface consoleInterface, Map<Integer, Option> options){
         consoleInterface.setCurrentTextConsoleColor(ConsoleColor.YELLOW);
         consoleInterface.print("\nPlease select an option: ");
         int selectedOptionId = consoleInterface.readInt();
@@ -117,7 +142,7 @@ public class OptionsUtils {
      * @param consoleInterface - The console interface use to display the options
      * @param options - The list of selectable option to be display
      */
-    public static void displayOptions(ConsoleInterface consoleInterface, Map<Integer, Option> options){
+    public static void displayOptionsNonInteractive(ConsoleInterface consoleInterface, Map<Integer, Option> options){
         consoleInterface.setCurrentTextConsoleColor(ConsoleColor.WHITE);
         consoleInterface.println("OPTIONS:\n");
         for (Map.Entry<Integer, Option> option : options.entrySet()) {
