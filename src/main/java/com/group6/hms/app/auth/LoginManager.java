@@ -11,7 +11,7 @@ import java.util.Collection;
 
 public class LoginManager {
 
-    private StorageProvider<User> userStorageProvider = new UserInMemoryStorageProvider();
+    private StorageProvider<User> userStorageProvider = new SerializationStorageProvider<>();
 
     private ThreadLocal<User> currentLoginUser = new ThreadLocal<>();
     private static final File usersFile = new File("data/users.ser");
