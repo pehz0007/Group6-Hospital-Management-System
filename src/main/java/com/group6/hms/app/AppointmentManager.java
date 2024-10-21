@@ -1,6 +1,6 @@
 package com.group6.hms.app;
 
-import com.group6.hms.AppointmentsStorageProvider;
+import com.group6.hms.app.auth.SerializationStorageProvider;
 import com.group6.hms.app.auth.StorageProvider;
 import com.group6.hms.app.models.Appointment;
 import com.group6.hms.app.models.AppointmentStatus;
@@ -14,8 +14,11 @@ import java.util.List;
 
 public class AppointmentManager {
     private static final File appointmentsFile = new File("appointments.ser");
-    private final StorageProvider<Appointment> appointmentStorageProvider = new AppointmentsStorageProvider(appointmentsFile);
+    private final StorageProvider<Appointment> appointmentStorageProvider = new SerializationStorageProvider<>();
 
+    public AppointmentManager() {
+        appointmentStorageProvider.loadFromFile(appointmentsFile);
+    }
     public ArrayList<Appointment> getAllAppointments() {
         return (ArrayList<Appointment>) appointmentStorageProvider.getItems();
     }
@@ -23,6 +26,11 @@ public class AppointmentManager {
     // for the patient to get their scheduled appointments
     public ArrayList<Appointment> getAppointmentsByPatient(Patient patient) {
         List<Appointment> aptList = appointmentStorageProvider.getItems().stream().filter(apt -> apt.getPatient().getUserId().equals(patient.getUserId())).toList();
+        return new ArrayList<>(aptList);
+    }
+
+    public ArrayList<Appointment> getAppointmentsByDoctor(Doctor doctor) {
+        List<Appointment> aptList = appointmentStorageProvider.getItems().stream().filter(apt -> apt.getPatient().getUserId().equals(doctor.getUserId())).toList();
         return new ArrayList<>(aptList);
     }
 
