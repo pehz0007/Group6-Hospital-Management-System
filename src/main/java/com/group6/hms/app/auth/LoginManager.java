@@ -8,6 +8,8 @@ import com.group6.hms.app.roles.Pharmacist;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 public class LoginManager {
 
@@ -92,6 +94,14 @@ public class LoginManager {
     public boolean isLoggedIn(){
         return currentLoginUser != null;
     }
+
+    public Collection<Doctor> getDoctors() {
+        return getAllUsers().parallelStream()
+                .filter(Doctor.class::isInstance)
+                .map(Doctor.class::cast)
+                .collect(Collectors.toList());
+    }
+
 
     /**
      * Print the list of users inside the database
