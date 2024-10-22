@@ -29,9 +29,32 @@ public class AppointmentManager {
         return new ArrayList<>(aptList);
     }
 
-    public ArrayList<Appointment> getAppointmentsByDoctor(Doctor doctor) {
-        List<Appointment> aptList = appointmentStorageProvider.getItems().stream().filter(apt -> apt.getPatient().getUserId().equals(doctor.getUserId())).toList();
+    public ArrayList<Appointment> getAppointmentsByDoctorAndStatus(Doctor doctor, AppointmentStatus status) {
+        List<Appointment> aptList = appointmentStorageProvider.getItems().stream().filter(apt -> apt.getDoctor().getUserId().equals(doctor.getUserId()) && apt.getStatus() == AppointmentStatus.CONFIRMED).toList();
         return new ArrayList<>(aptList);
+    }
+
+    public void acceptAppointmentRequest(Appointment appointment) {
+        appointmentStorageProvider.getItems().stream().filter(a -> a.getAppointmentId().equals(appointment.getAppointmentId())).findFirst().ifPresent(a -> {
+            a.setStatus(AppointmentStatus.CONFIRMED);
+        });
+
+        // update file
+        appointmentStorageProvider.saveToFile(appointmentsFile);
+        System.out.println("Appointment accepted!");
+    }
+
+    public void declineAppointmentRequest(Appointment appointment) {
+        appointmentStorageProvider.getItems().stream().filter(a -> a.getAppointmentId().equals(appointment.getAppointmentId())).findFirst().ifPresent(a -> {
+            a.setStatus(AppointmentStatus.CANCELLED);
+        });
+
+        // TODO: UPDATE AVAILABILITY
+
+        // update file
+        appointmentStorageProvider.saveToFile(appointmentsFile);
+        System.out.println("Appointment declined!!");
+
     }
 
     // for the patient to schedule an appointment
@@ -43,10 +66,14 @@ public class AppointmentManager {
         }
 
         // schedule the appointment
-        Appointment appt = new Appointment(patient, doctor, AppointmentStatus.CONFIRMED, dateTime);
+        Appointment appt = new Appointment(patient, doctor, AppointmentStatus.REQUESTED, dateTime);
+
+        // TODO: UPDATE AVAILABILITY
+
+        // update file
         appointmentStorageProvider.addNewItem(appt);
         appointmentStorageProvider.saveToFile(appointmentsFile);
-        System.out.println("Successfully scheduled appointment");
+        System.out.println("Successfully requested for an appointment. Do come back to check if the doctor has confirmed the appointment.");
     }
 
     // for the patient to change the date/time of their appointment (if possible)
@@ -57,14 +84,27 @@ public class AppointmentManager {
             return;
         }
 
-        appointmentStorageProvider.getItems().stream().filter(a -> a.getAppointmentId().equals(appointment.getAppointmentId())).findFirst().ifPresent(a -> a.setDateTime(newDateTime));
+        appointmentStorageProvider.getItems().stream().filter(a -> a.getAppointmentId().equals(appointment.getAppointmentId())).findFirst().ifPresent(a -> {
+            a.setDateTime(newDateTime);
+            a.setStatus(AppointmentStatus.REQUESTED);
+        });
+
+        // TODO: UPDATE AVAILABILITY
+
+        // update file
         appointmentStorageProvider.saveToFile(appointmentsFile);
-        System.out.println("Successfully changed appointment date and time");
+        System.out.println("Successfully changed appointment date and time. The doctor will have to confirm your appointment again.");
     }
 
     // for the patient to cancel their appointment
     public void cancelAppointment(Appointment appointment) {
-        appointmentStorageProvider.removeItem(appointment);
+//        appointmentStorageProvider.removeItem(appointment);
+        appointmentStorageProvider.getItems().stream().filter(a -> a.getAppointmentId().equals(appointment.getAppointmentId())).findFirst().ifPresent(a -> {
+            a.setStatus(AppointmentStatus.CANCELLED);
+        });
+        // TODO: UPDATE AVAILABILITY
+
+        // update file
         appointmentStorageProvider.saveToFile(appointmentsFile);
         System.out.println("Successfully cancelled appointment");
     }
