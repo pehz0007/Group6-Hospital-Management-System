@@ -137,6 +137,7 @@ public class AppointmentManager {
 
     public void updateAppointmentOutcomeRecordMedicationStatus(AppointmentOutcomeRecord record, MedicationStatus status) {
         appointmentOutcomeStorageProvider.getItems().stream().filter(rec -> rec.getRecordId().equals(record.getRecordId())).findFirst().ifPresent(rec -> rec.setMedicationStatus(status));
+        appointmentOutcomeStorageProvider.saveToFile(appointmentOutcomesFIle);
     }
 
     private boolean checkIsDoctorFree(Doctor doctor, LocalDateTime dateTime) {
