@@ -1,17 +1,10 @@
-package com.group6.hms.app;
+package com.group6.hms.app.managers;
 
-import com.group6.hms.app.auth.MultiStorageProvider;
-import com.group6.hms.app.auth.SerializationMapStorageProvider;
-import com.group6.hms.app.auth.StorageProvider;
-import com.group6.hms.app.models.Appointment;
 import com.group6.hms.app.models.Availability;
 import com.group6.hms.app.roles.Doctor;
 
-import java.io.File;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 public class AvailabilityManager {
 // TODO: FIGURE OUT THE STORAGE

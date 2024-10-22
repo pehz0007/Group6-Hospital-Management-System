@@ -1,7 +1,7 @@
-package com.group6.hms.app;
+package com.group6.hms.app.managers;
 
-import com.group6.hms.app.auth.SerializationStorageProvider;
-import com.group6.hms.app.auth.StorageProvider;
+import com.group6.hms.app.storage.SerializationStorageProvider;
+import com.group6.hms.app.storage.StorageProvider;
 import com.group6.hms.app.models.Appointment;
 import com.group6.hms.app.models.AppointmentStatus;
 import com.group6.hms.app.roles.Doctor;
