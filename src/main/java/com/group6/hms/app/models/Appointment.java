@@ -40,6 +40,15 @@ public class Appointment implements Serializable {
         return doctor;
     }
 
+
+    public AppointmentStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(AppointmentStatus newStatus) {
+        this.status = newStatus;
+    }
+
     public LocalDateTime getDateTime() {
         return dateTime;
     }
