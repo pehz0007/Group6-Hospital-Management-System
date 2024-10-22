@@ -1,6 +1,5 @@
-package com.group6.hms;
+package com.group6.hms.app.storage;
 
-import com.group6.hms.app.auth.StorageProvider;
 import com.group6.hms.app.models.Appointment;
 
 import java.io.*;

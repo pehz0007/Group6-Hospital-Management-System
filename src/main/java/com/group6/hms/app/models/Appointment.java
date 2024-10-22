@@ -13,23 +13,29 @@ public class Appointment implements Serializable {
     private final Doctor doctor;
     private AppointmentStatus status;
     private LocalDateTime dateTime;
-    private AppointmentOutcomeRecord appointmentOutcomeRecord;
+    private UUID appointmentOutcomeRecordId;
 
     public Appointment(Patient patient, Doctor doctor, AppointmentStatus status, LocalDateTime dateTime) {
         this(patient, doctor, status, dateTime, null);
     }
 
-    public Appointment(Patient patient, Doctor doctor, AppointmentStatus status, LocalDateTime dateTime, AppointmentOutcomeRecord appointmentOutcomeRecord) {
+    public Appointment(Patient patient, Doctor doctor, AppointmentStatus status, LocalDateTime dateTime, UUID appointmentOutcomeRecordId) {
         this.appointmentId = UUID.randomUUID();
         this.patient = patient;
         this.doctor = doctor;
         this.status = status;
         this.dateTime = dateTime;
-        this.appointmentOutcomeRecord = appointmentOutcomeRecord;
+        this.appointmentOutcomeRecordId = appointmentOutcomeRecordId;
     }
 
     public UUID getAppointmentId() {
         return appointmentId;
+    }
+
+    public UUID getAppointmentOutcomeRecordId() { return appointmentOutcomeRecordId; }
+
+    public void setAppointmentOutcomeRecordId(UUID id) {
+        this.appointmentOutcomeRecordId = id;
     }
 
     public Patient getPatient() {
