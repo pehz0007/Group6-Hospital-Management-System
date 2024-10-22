@@ -135,6 +135,10 @@ public class AppointmentManager {
         return appointmentOutcomeStorageProvider.getItems().stream().filter(outcome ->outcome.getMedicationStatus().equals(medicationStatus)).toList();
     }
 
+    public void updateAppointmentOutcomeRecordMedicationStatus(AppointmentOutcomeRecord record, MedicationStatus status) {
+        appointmentOutcomeStorageProvider.getItems().stream().filter(rec -> rec.getRecordId().equals(record.getRecordId())).findFirst().ifPresent(rec -> rec.setMedicationStatus(status));
+    }
+
     private boolean checkIsDoctorFree(Doctor doctor, LocalDateTime dateTime) {
         // check if doctor is free during the timeslot
         List<Appointment> filteredAppointments = appointmentStorageProvider.getItems().stream()
