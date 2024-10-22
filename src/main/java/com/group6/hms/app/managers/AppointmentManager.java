@@ -1,5 +1,7 @@
 package com.group6.hms.app.managers;
 
+import com.group6.hms.app.MedicationStatus;
+import com.group6.hms.app.models.AppointmentOutcomeRecord;
 import com.group6.hms.app.storage.SerializationStorageProvider;
 import com.group6.hms.app.storage.StorageProvider;
 import com.group6.hms.app.models.Appointment;
@@ -14,10 +16,13 @@ import java.util.List;
 
 public class AppointmentManager {
     private static final File appointmentsFile = new File("appointments.ser");
+    private static final File appointmentOutcomesFIle = new File("appointment_outcomes.ser");
     private final StorageProvider<Appointment> appointmentStorageProvider = new SerializationStorageProvider<>();
+    private final StorageProvider<AppointmentOutcomeRecord> appointmentOutcomeStorageProvider = new SerializationStorageProvider<>();
 
     public AppointmentManager() {
         appointmentStorageProvider.loadFromFile(appointmentsFile);
+        appointmentOutcomeStorageProvider.loadFromFile(appointmentOutcomesFIle);
     }
     public ArrayList<Appointment> getAllAppointments() {
         return (ArrayList<Appointment>) appointmentStorageProvider.getItems();
@@ -107,6 +112,27 @@ public class AppointmentManager {
         // update file
         appointmentStorageProvider.saveToFile(appointmentsFile);
         System.out.println("Successfully cancelled appointment");
+    }
+
+    // for doctor to set the appointment as completed and set the outcome record
+    public void completeAppointment(Appointment appointment, AppointmentOutcomeRecord appointmentOutcomeRecord) {
+        appointmentStorageProvider.getItems().stream().filter(a -> a.getAppointmentId().equals(appointment.getAppointmentId())).findFirst().ifPresent(a -> {
+            a.setStatus(AppointmentStatus.COMPLETED);
+        });
+        appointment.setAppointmentOutcomeRecordId(appointmentOutcomeRecord.getRecordId());
+        appointmentOutcomeStorageProvider.addNewItem(appointmentOutcomeRecord);
+        appointmentOutcomeStorageProvider.saveToFile(appointmentOutcomesFIle);
+    }
+
+    // for patient to view their outcomes
+    public List<AppointmentOutcomeRecord> getAppointmentOutcomeRecordsByPatient(Patient patient) {
+        return appointmentOutcomeStorageProvider.getItems().stream().filter(outcome ->outcome.getPatientId().equals(patient.getUserId())).toList();
+
+    }
+
+    // for Pharmacist to fulfil medication order
+    public List<AppointmentOutcomeRecord> getAppointmentOutcomeRecordsByStatus(MedicationStatus medicationStatus) {
+        return appointmentOutcomeStorageProvider.getItems().stream().filter(outcome ->outcome.getMedicationStatus().equals(medicationStatus)).toList();
     }
 
     private boolean checkIsDoctorFree(Doctor doctor, LocalDateTime dateTime) {
