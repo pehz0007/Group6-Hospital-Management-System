@@ -15,7 +15,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>3.4.1</version>
                 <configuration>
-<!--                    <mainClass>com.group6.hms.framework.screens.calendar.CalendarScreen</mainClass>-->
+<!--                    <mainClass>Test</mainClass>-->
                     <mainClass>com.group6.hms.app.HMS</mainClass>
                 </configuration>
             </plugin>

@@ -33,12 +33,17 @@ public class JLineConsoleInterface implements InteractiveConsoleInterface {
             terminal.puts(InfoCmp.Capability.keypad_xmit);
             reader = LineReaderBuilder.builder().terminal(terminal).build();
             bindingReader = new BindingReader(terminal.reader());
+            terminal.enterRawMode();
 
             // Add navigation bindings for arrow keys
-            keyMap.bind(Operation.UP, key(terminal, InfoCmp.Capability.key_up));
-            keyMap.bind(Operation.DOWN, key(terminal, InfoCmp.Capability.key_down));
-            keyMap.bind(Operation.LEFT, key(terminal, InfoCmp.Capability.key_left));
-            keyMap.bind(Operation.RIGHT, key(terminal, InfoCmp.Capability.key_right));
+//            keyMap.bind(Operation.UP, key(terminal, InfoCmp.Capability.key_up));
+//            keyMap.bind(Operation.DOWN, key(terminal, InfoCmp.Capability.key_down));
+//            keyMap.bind(Operation.LEFT, key(terminal, InfoCmp.Capability.key_left));
+//            keyMap.bind(Operation.RIGHT, key(terminal, InfoCmp.Capability.key_right));
+            keyMap.bind(Operation.UP, "\033[A");    // Escape sequence for UP arrow
+            keyMap.bind(Operation.DOWN, "\033[B");  // Escape sequence for DOWN arrow
+            keyMap.bind(Operation.LEFT, "\033[D");  // Escape sequence for LEFT arrow
+            keyMap.bind(Operation.RIGHT, "\033[C"); // Escape sequence for RIGHT arrow
             keyMap.bind(Operation.ENTER, key(terminal, InfoCmp.Capability.carriage_return));
             keyMap.bind(Operation.EXIT, "q");
 
@@ -204,7 +209,8 @@ public class JLineConsoleInterface implements InteractiveConsoleInterface {
 
     @Override
     public Operation readUserKey() {
-        return bindingReader.readBinding(keyMap);
+        Operation operation = bindingReader.readBinding(keyMap);
+        return operation;
     }
 
     private int[] cursorPos;
