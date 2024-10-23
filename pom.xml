@@ -30,45 +30,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>33.3.1-jre</version>
-        </dependency>
-        <dependency>
             <groupId>com.github.lalyos</groupId>
             <artifactId>jfiglet</artifactId>
             <version>0.0.3</version>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>org.jline</groupId>-->
-<!--            <artifactId>jline</artifactId>-->
-<!--            <version>${jline.version}</version>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>org.jline</groupId>-->
-<!--            <artifactId>jline-terminal-ffm</artifactId>-->
-<!--            <version>${jline.version}</version>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>org.jline</groupId>-->
-<!--            <artifactId>jline-reader</artifactId>-->
-<!--            <version>${jline.version}</version>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>org.jline</groupId>-->
-<!--            <artifactId>jline-style</artifactId>-->
-<!--            <version>${jline.version}</version>-->
-<!--        </dependency>-->
-
-<!--        <dependency>-->
-<!--            <groupId>org.jline</groupId>-->
-<!--            <artifactId>jline-terminal-jansi</artifactId>-->
-<!--            <version>${jline.version}</version>-->
-<!--        </dependency>-->
     </dependencies>
 
 

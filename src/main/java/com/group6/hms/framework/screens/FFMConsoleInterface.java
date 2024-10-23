@@ -1,7 +1,5 @@
 package com.group6.hms.framework.screens;
 
-import com.google.common.primitives.Doubles;
-import com.google.common.primitives.Ints;
 import com.group6.hms.framework.screens.option.ConsoleInputFormatException;
 import com.group6.hms.framework.screens.terminal.AnsiColor;
 import com.group6.hms.framework.screens.terminal.Terminal;
@@ -176,7 +174,7 @@ public class FFMConsoleInterface implements InteractiveConsoleInterface {
     @Override
     public int readInt() {
         String number = readString();
-        Integer result = Ints.tryParse(number);
+        Integer result = NumberUtils.tryParseInt(number);
         if (result == null) throw new ConsoleInputFormatException("Unable to parse number: " + number);
         return result;
     }
@@ -184,7 +182,7 @@ public class FFMConsoleInterface implements InteractiveConsoleInterface {
     @Override
     public double readDouble() {
         String number = readString();
-        Double result = Doubles.tryParse(number);
+        Double result = NumberUtils.tryParseDouble(number);
         if (result == null) throw new ConsoleInputFormatException("Unable to parse number: " + number);
         return result;
     }

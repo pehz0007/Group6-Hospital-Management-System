@@ -1,18 +1,12 @@
 package com.group6.hms.app.screens.admin;
 
-import com.google.common.collect.Multimap;
-import com.google.common.collect.MultimapBuilder;
 import com.group6.hms.app.auth.User;
-import com.group6.hms.app.models.AppointmentStatus;
 import com.group6.hms.app.notifications.Notification;
 import com.group6.hms.app.notifications.NotificationManagerHolder;
 import com.group6.hms.app.notifications.NotificationScreen;
 import com.group6.hms.app.screens.MainScreen;
 import com.group6.hms.app.auth.LogoutScreen;
-import com.group6.hms.framework.screens.calendar.CalendarScreen;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.*;
 
 public class AdministratorScreen extends LogoutScreen {

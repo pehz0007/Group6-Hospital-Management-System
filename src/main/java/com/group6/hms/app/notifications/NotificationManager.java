@@ -1,47 +1,51 @@
 package com.group6.hms.app.notifications;
 
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.MultimapBuilder;
+import java.util.*;
 
-import java.util.List;
-import java.util.UUID;
+public class NotificationManager implements NotificationInterface {
 
-public class NotificationManager implements NotificationInterface{
-
-    private ListMultimap<UUID, Notification> notifications;
+    private Map<UUID, List<Notification>> notifications;
 
     public NotificationManager() {
-        this.notifications = MultimapBuilder.hashKeys().arrayListValues().build();
+        this.notifications = new HashMap<>();
     }
 
     @Override
     public void createNotification(Notification notification) {
         if (notification != null) {
-            notifications.put(notification.getUserID(), notification);
+            UUID userId = notification.getUserID();
+            notifications.putIfAbsent(userId, new ArrayList<>()); // Initialize the list if not present
+            notifications.get(userId).add(notification); // Add the notification to the user's list
         }
     }
 
     @Override
     public void dismissNotification(Notification notification) {
         if (notification != null) {
-            notifications.remove(notification.getUserID(), notification);
+            List<Notification> userNotifications = notifications.get(notification.getUserID());
+            if (userNotifications != null) {
+                userNotifications.remove(notification); // Remove the specific notification
+                if (userNotifications.isEmpty()) {
+                    notifications.remove(notification.getUserID()); // Remove the user if no notifications left
+                }
+            }
         }
     }
 
     @Override
     public void dismissAllNotificationFromUser(UUID userId) {
-        List<Notification> notifications = getNotifications(userId);
-        int size = notifications.size();
-        for (int i = 0; i < size; i++) {
-            dismissNotification(notifications.getFirst());
+        List<Notification> userNotifications = getNotifications(userId);
+        if (userNotifications != null) {
+            userNotifications.clear(); // Clear all notifications for the user
+            notifications.remove(userId); // Remove the user from the map if they have no notifications left
         }
     }
 
     @Override
     public List<Notification> getNotifications(UUID userId) {
         if (userId == null) {
-            return List.of();
+            return List.of(); // Return an empty list if userId is null
         }
-        return notifications.get(userId);
+        return notifications.getOrDefault(userId, List.of()); // Return notifications or an empty list
     }
 }

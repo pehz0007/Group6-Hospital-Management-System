@@ -1,7 +1,5 @@
 package com.group6.hms.framework.screens;
 
-import com.google.common.primitives.Doubles;
-import com.google.common.primitives.Ints;
 import com.group6.hms.framework.screens.option.ConsoleInputFormatException;
 import com.group6.hms.framework.screens.terminal.AnsiColor;
 
@@ -92,7 +90,7 @@ public class SimpleConsoleInterface implements ConsoleInterface {
     @Override
     public int readInt() {
         String number = scanner.nextLine();
-        Integer result = Ints.tryParse(number);
+        Integer result = NumberUtils.tryParseInt(number);
         if (result == null) throw new ConsoleInputFormatException("Unable to parse number: " + number);
         return result;
     }
@@ -100,7 +98,7 @@ public class SimpleConsoleInterface implements ConsoleInterface {
     @Override
     public double readDouble() {
         String number = scanner.nextLine();
-        Double result = Doubles.tryParse(number);
+        Double result = NumberUtils.tryParseDouble(number);
         if (result == null) throw new ConsoleInputFormatException("Unable to parse number: " + number);
         return result;
     }

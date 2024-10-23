@@ -1,24 +1,20 @@
 package com.group6.hms.framework.screens.calendar;
 
-import com.google.common.collect.Multimap;
 import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.InteractiveConsoleInterface;
 import com.group6.hms.framework.screens.Operation;
 import com.group6.hms.framework.screens.Screen;
-import com.group6.hms.framework.screens.option.Option;
 import com.group6.hms.framework.screens.option.OptionScreen;
-import com.group6.hms.framework.screens.option.OptionsUtils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collection;
-import java.util.NavigableMap;
-import java.util.TreeMap;
+import java.util.Map;
 
 public class CalendarScreen<Event extends EventInterface> extends OptionScreen {
 
     // Store events
-    private final Multimap<LocalDate, Event> events;
+    private final Map<LocalDate, Collection<Event>> events;
 
     // Current day navigation state
     private LocalDate currentDate = LocalDate.now();
@@ -35,7 +31,7 @@ public class CalendarScreen<Event extends EventInterface> extends OptionScreen {
      *
      * @param title The title of the screen to be displayed as a header.
      */
-    public CalendarScreen(String title, Multimap<LocalDate, Event> events) {
+    public CalendarScreen(String title, Map<LocalDate, Collection<Event>> events) {
         super(title);
         this.events = events;
         setAllowBack(true);
