@@ -16,7 +16,6 @@
                 <version>3.4.1</version>
                 <configuration>
                     <mainClass>com.group6.hms.app.HMS</mainClass>
-<!--                    <mainClass>com.group6.hms.framework.screens.terminal.win.WindowsTerminal</mainClass>-->
                 </configuration>
             </plugin>
         </plugins>

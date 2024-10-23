@@ -5,6 +5,7 @@ import com.google.common.primitives.Ints;
 import com.group6.hms.framework.screens.option.ConsoleInputFormatException;
 import com.group6.hms.framework.screens.terminal.AnsiColor;
 import com.group6.hms.framework.screens.terminal.Terminal;
+import com.group6.hms.framework.screens.terminal.mac.MacOsTerminal;
 import com.group6.hms.framework.screens.terminal.win.WindowsTerminal;
 
 import java.io.Console;
@@ -28,7 +29,7 @@ public class FFMConsoleInterface implements InteractiveConsoleInterface {
 
     // Constructor to initialize the terminal
     public FFMConsoleInterface() {
-        this.terminal = new WindowsTerminal();
+        this.terminal = new MacOsTerminal();
         this.terminal.enableRawMode();  // Enable raw mode using the terminal interface
 
         keyMap.put("\033[A", Operation.UP);
@@ -92,7 +93,7 @@ public class FFMConsoleInterface implements InteractiveConsoleInterface {
 
                 // Handle enter or carriage return
                 if (character == '\n' || character == '\r') {
-                    System.out.println(); // Move to the next line
+                    newLine();
                     break; // Exit the loop on Enter or Carriage Return
                 }
 
@@ -128,6 +129,7 @@ public class FFMConsoleInterface implements InteractiveConsoleInterface {
 
                 //Exit program
                 if(character == 3){
+                    clearConsole();
                     terminal.restoreTerminalMode();
                     System.exit(0);
                 }
@@ -145,7 +147,7 @@ public class FFMConsoleInterface implements InteractiveConsoleInterface {
 
                 // Handle enter or carriage return
                 if (character == '\n' || character == '\r') {
-                    System.out.println(); // Move to the next line
+                    newLine();
                     break; // Exit the loop on Enter or Carriage Return
                 }
 
@@ -204,7 +206,17 @@ public class FFMConsoleInterface implements InteractiveConsoleInterface {
         }
         code += "m";
 
-        System.out.println(code + s + AnsiColor.ANSI_RESET);
+        System.out.print(code + s + AnsiColor.ANSI_RESET);
+        newLine();
+    }
+
+    private void newLine(){
+        try {
+            int[] cursor = getCursorPosition();
+            moveCursor(cursor[0] + 1, 0);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // Move cursor to a specific position (row, column)
@@ -273,6 +285,7 @@ public class FFMConsoleInterface implements InteractiveConsoleInterface {
 
                 //Exit program
                 if(firstChar == 3){
+                    clearConsole();
                     terminal.restoreTerminalMode();
                     System.exit(0);
                 }
