@@ -9,10 +9,11 @@ import com.group6.hms.app.screens.MainScreen;
 
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class PharmacistScreen extends LogoutScreen {
-    private AppointmentManager appointmentManager = new AppointmentManager();
-    private Scanner scanner = new Scanner(System.in);
+    private final AppointmentManager appointmentManager = new AppointmentManager();
+    private final Scanner scanner = new Scanner(System.in);
 
     /**
      * Constructor to initialize the PharmacistScreen.
@@ -59,7 +60,7 @@ public class PharmacistScreen extends LogoutScreen {
             } else {
                 println("Appointment Outcome Records:");
                 for (AppointmentOutcomeRecord record : records) {
-                    println(record.toString());
+                    println("Record ID: " + record.getRecordId());
                 }
             }
         } catch (IllegalArgumentException e) {
@@ -75,13 +76,15 @@ public class PharmacistScreen extends LogoutScreen {
         String statusInput = scanner.nextLine().toUpperCase();
         try {
             MedicationStatus status = MedicationStatus.valueOf(statusInput);
-            AppointmentOutcomeRecord record = appointmentManager.getAppointmentOutcomeRecordsByStatus(status)
+            // Get all records and find the one matching the given recordId
+            AppointmentOutcomeRecord record = appointmentManager.getAllAppointmentOutcomeRecords() // A method to get all records
                     .stream()
-                    .filter(rec -> rec.getRecordId().equals(recordId))
+                    .filter(rec -> rec.getRecordId().equals(UUID.fromString(recordId)))
                     .findFirst()
                     .orElse(null);
 
             if (record != null) {
+                // Update the medication status
                 appointmentManager.updateAppointmentOutcomeRecordMedicationStatus(record, status);
                 println("Successfully updated the prescription status.");
             } else {
@@ -91,4 +94,5 @@ public class PharmacistScreen extends LogoutScreen {
             println("Invalid medication status. Please enter a valid status.");
         }
     }
+
 }
