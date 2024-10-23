@@ -14,6 +14,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import static com.group6.hms.framework.screens.terminal.OSUtils.isMacOS;
+import static com.group6.hms.framework.screens.terminal.OSUtils.isWindows;
+
 public class FFMConsoleInterface implements InteractiveConsoleInterface {
 
     // Terminal instance that implements the Terminal interface
@@ -29,7 +32,13 @@ public class FFMConsoleInterface implements InteractiveConsoleInterface {
 
     // Constructor to initialize the terminal
     public FFMConsoleInterface() {
-        this.terminal = new MacOsTerminal();
+        if (isWindows()) {
+            terminal = new WindowsTerminal();
+        } else if (isMacOS()) {
+            terminal = new MacOsTerminal();
+        } else {
+            throw new RuntimeException("Running on an unsupported OS.");
+        }
         this.terminal.enableRawMode();  // Enable raw mode using the terminal interface
 
         keyMap.put("\033[A", Operation.UP);
