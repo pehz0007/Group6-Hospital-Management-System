@@ -37,7 +37,7 @@ public class LoginManager {
         loginManager.printUsers();
     }
 
-    protected LoginManager() {}
+    public LoginManager() {}
 
     public void loadUsersFromFile(){
         userStorageProvider.loadFromFile(usersFile);
@@ -65,7 +65,7 @@ public class LoginManager {
 
     }
 
-    private User findUser(String username){
+    public User findUser(String username){
         for(User user : userStorageProvider.getItems()){
             if(user.getUsername().equalsIgnoreCase(username)){
                 return user;

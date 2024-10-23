@@ -1,31 +1,66 @@
 package com.group6.hms.app.managers;
 
 import com.group6.hms.app.MedicationStatus;
-import com.group6.hms.app.models.AppointmentOutcomeRecord;
+import com.group6.hms.app.auth.LoginManager;
+import com.group6.hms.app.auth.LoginManagerHolder;
+import com.group6.hms.app.models.*;
 import com.group6.hms.app.storage.SerializationStorageProvider;
 import com.group6.hms.app.storage.StorageProvider;
-import com.group6.hms.app.models.Appointment;
-import com.group6.hms.app.models.AppointmentStatus;
 import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.app.roles.Patient;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class AppointmentManager {
-    private static final File appointmentsFile = new File("appointments.ser");
-    private static final File appointmentOutcomesFIle = new File("appointment_outcomes.ser");
+    private static final File appointmentsFile = new File("data/appointments.ser");
+    private static final File appointmentOutcomesFile = new File("data/appointment_outcomes.ser");
     private final StorageProvider<Appointment> appointmentStorageProvider = new SerializationStorageProvider<>();
     private final StorageProvider<AppointmentOutcomeRecord> appointmentOutcomeStorageProvider = new SerializationStorageProvider<>();
 
-    public AppointmentManager() {
-        appointmentStorageProvider.loadFromFile(appointmentsFile);
-        appointmentOutcomeStorageProvider.loadFromFile(appointmentOutcomesFIle);
+    public static void main(String[] args) {
+        LoginManager loginManager = LoginManagerHolder.getLoginManager();
+        AppointmentManager appointmentManager = new AppointmentManager();
+        AvailabilityManager availabilityManager = new AvailabilityManager();
+        loginManager.loadUsersFromFile();
+        Doctor doctor = (Doctor) loginManager.findUser("tonkatsu");
+        Patient patient = (Patient) loginManager.findUser("shirokuma");
+        LocalTime timeNow = LocalTime.now();
+        Availability avail = new Availability(doctor, LocalDate.now(), timeNow, timeNow.plusHours(1));
+        availabilityManager.addAvailability(avail);
+        appointmentManager.scheduleAppointment(patient, avail);
+
+        Appointment appt = appointmentManager.getAllAppointments().getFirst();
+        appointmentManager.acceptAppointmentRequest(appt);
+        ArrayList<Medication> medications = new ArrayList<>();
+        medications.add(new Medication(UUID.randomUUID(), "Panadol"));
+        medications.add(new Medication(UUID.randomUUID(), "Cough Syrup"));
+        medications.add(new Medication(UUID.randomUUID(), "Flu Medicine"));
+        AppointmentOutcomeRecord record = new AppointmentOutcomeRecord(doctor.getUserId(), patient.getUserId(), appt.getDate(), AppointmentService.CONSULT, medications, "high fever", MedicationStatus.PENDING);
+        appointmentManager.completeAppointment(appt,record);
+        List<AppointmentOutcomeRecord> records = appointmentManager.getAppointmentOutcomeRecordsByStatus(MedicationStatus.PENDING);
+        for (int i = 0; i < records.getFirst().getPrescribedMedication().size(); i++) {
+            System.out.println(records.getFirst().getPrescribedMedication().get(i).getName());
+        }
+
     }
-    public ArrayList<Appointment> getAllAppointments() {
-        return (ArrayList<Appointment>) appointmentStorageProvider.getItems();
+    public AppointmentManager() {
+        if (!appointmentsFile.exists()) {
+            appointmentStorageProvider.saveToFile(appointmentsFile);
+        }
+        if (!appointmentOutcomesFile.exists()) {
+            appointmentOutcomeStorageProvider.saveToFile(appointmentOutcomesFile);
+        }
+        appointmentStorageProvider.loadFromFile(appointmentsFile);
+        appointmentOutcomeStorageProvider.loadFromFile(appointmentOutcomesFile);
+    }
+    public List<Appointment> getAllAppointments() {
+        return (List<Appointment>) appointmentStorageProvider.getItems();
     }
 
     // for the patient to get their scheduled appointments
@@ -63,16 +98,9 @@ public class AppointmentManager {
     }
 
     // for the patient to schedule an appointment
-    public void scheduleAppointment(Patient patient, Doctor doctor, LocalDateTime dateTime) {
-        boolean isDoctorFree = checkIsDoctorFree(doctor, dateTime);
-        if (!isDoctorFree) {
-            System.out.println("The doctor is already booked for this time slot!");
-            return;
-        }
-
+    public void scheduleAppointment(Patient patient, Availability availability) {
         // schedule the appointment
-        Appointment appt = new Appointment(patient, doctor, AppointmentStatus.REQUESTED, dateTime);
-
+        Appointment appt = new Appointment(patient, availability.getDoctor(), AppointmentStatus.REQUESTED, availability.getAvailableDate(), availability.getAvailableStartTime(), availability.getAvailableEndTime());
         // TODO: UPDATE AVAILABILITY
 
         // update file
@@ -82,16 +110,11 @@ public class AppointmentManager {
     }
 
     // for the patient to change the date/time of their appointment (if possible)
-    public void rescheduleAppointment(Appointment appointment, LocalDateTime newDateTime) {
-        boolean isDoctorFree = checkIsDoctorFree(appointment.getDoctor(), newDateTime);
-        if (!isDoctorFree) {
-            System.out.println("The doctor is already booked for this time slot!");
-            return;
-        }
-
+    public void rescheduleAppointment(Appointment appointment, Availability availability) {
         appointmentStorageProvider.getItems().stream().filter(a -> a.getAppointmentId().equals(appointment.getAppointmentId())).findFirst().ifPresent(a -> {
-            a.setDateTime(newDateTime);
-            a.setStatus(AppointmentStatus.REQUESTED);
+            appointment.setDate(availability.getAvailableDate());
+            appointment.setStartTime(availability.getAvailableStartTime());
+            appointment.setEndTime(availability.getAvailableEndTime());
         });
 
         // TODO: UPDATE AVAILABILITY
@@ -121,7 +144,7 @@ public class AppointmentManager {
         });
         appointment.setAppointmentOutcomeRecordId(appointmentOutcomeRecord.getRecordId());
         appointmentOutcomeStorageProvider.addNewItem(appointmentOutcomeRecord);
-        appointmentOutcomeStorageProvider.saveToFile(appointmentOutcomesFIle);
+        appointmentOutcomeStorageProvider.saveToFile(appointmentOutcomesFile);
     }
 
     // for patient to view their outcomes
@@ -135,11 +158,10 @@ public class AppointmentManager {
         return appointmentOutcomeStorageProvider.getItems().stream().filter(outcome ->outcome.getMedicationStatus().equals(medicationStatus)).toList();
     }
 
-    private boolean checkIsDoctorFree(Doctor doctor, LocalDateTime dateTime) {
-        // check if doctor is free during the timeslot
-        List<Appointment> filteredAppointments = appointmentStorageProvider.getItems().stream()
-                .filter(apt -> apt.getDoctor().getUserId().equals(doctor.getUserId()) && apt.getDateTime().equals(dateTime)).toList();
-        return filteredAppointments.isEmpty();
+    public void updateAppointmentOutcomeRecordMedicationStatus(AppointmentOutcomeRecord record, MedicationStatus status) {
+        appointmentOutcomeStorageProvider.getItems().stream().filter(rec -> rec.getRecordId().equals(record.getRecordId())).findFirst().ifPresent(rec -> rec.setMedicationStatus(status));
+        appointmentOutcomeStorageProvider.saveToFile(appointmentOutcomesFile);
     }
+
 
 }
