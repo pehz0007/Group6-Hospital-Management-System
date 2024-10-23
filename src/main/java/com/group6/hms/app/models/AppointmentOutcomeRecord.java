@@ -6,6 +6,7 @@ import com.group6.hms.app.roles.Patient;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 public class AppointmentOutcomeRecord implements Serializable {
@@ -14,10 +15,10 @@ public class AppointmentOutcomeRecord implements Serializable {
     private UUID patientId;
     private LocalDate dateOfAppointment;
     private AppointmentService serviceType;
-    private Medication[] prescribedMedication;
+    private List<Medication> prescribedMedication;
     private String consultationNotes;
     private MedicationStatus medicationStatus;
-    public AppointmentOutcomeRecord(UUID doctorId, UUID patientId, LocalDate date, AppointmentService serviceType, Medication[] prescribedMedication, String consultationNotes, MedicationStatus medicationStatus) {
+    public AppointmentOutcomeRecord(UUID doctorId, UUID patientId, LocalDate date, AppointmentService serviceType, List<Medication> prescribedMedication, String consultationNotes, MedicationStatus medicationStatus) {
         this.recordId = UUID.randomUUID();
         this.doctorId = doctorId;
         this.patientId = patientId;
@@ -69,11 +70,11 @@ public class AppointmentOutcomeRecord implements Serializable {
         this.serviceType = serviceType;
     }
 
-    public Medication[] getPrescribedMedication() {
+    public List<Medication> getPrescribedMedication() {
         return prescribedMedication;
     }
 
-    public void setPrescribedMedication(Medication[] prescribedMedication) {
+    public void setPrescribedMedication(List<Medication> prescribedMedication) {
         this.prescribedMedication = prescribedMedication;
     }
 
