@@ -16,13 +16,19 @@ import java.util.List;
 
 public class AppointmentManager {
     private static final File appointmentsFile = new File("appointments.ser");
-    private static final File appointmentOutcomesFIle = new File("appointment_outcomes.ser");
+    private static final File appointmentOutcomesFile = new File("appointment_outcomes.ser");
     private final StorageProvider<Appointment> appointmentStorageProvider = new SerializationStorageProvider<>();
     private final StorageProvider<AppointmentOutcomeRecord> appointmentOutcomeStorageProvider = new SerializationStorageProvider<>();
 
     public AppointmentManager() {
+        if (!appointmentsFile.exists()) {
+            appointmentStorageProvider.saveToFile(appointmentsFile);
+        }
+        if (!appointmentOutcomesFile.exists()) {
+            appointmentOutcomeStorageProvider.saveToFile(appointmentOutcomesFile);
+        }
         appointmentStorageProvider.loadFromFile(appointmentsFile);
-        appointmentOutcomeStorageProvider.loadFromFile(appointmentOutcomesFIle);
+        appointmentOutcomeStorageProvider.loadFromFile(appointmentOutcomesFile);
     }
     public ArrayList<Appointment> getAllAppointments() {
         return (ArrayList<Appointment>) appointmentStorageProvider.getItems();
@@ -121,7 +127,7 @@ public class AppointmentManager {
         });
         appointment.setAppointmentOutcomeRecordId(appointmentOutcomeRecord.getRecordId());
         appointmentOutcomeStorageProvider.addNewItem(appointmentOutcomeRecord);
-        appointmentOutcomeStorageProvider.saveToFile(appointmentOutcomesFIle);
+        appointmentOutcomeStorageProvider.saveToFile(appointmentOutcomesFile);
     }
 
     // for patient to view their outcomes
@@ -137,7 +143,7 @@ public class AppointmentManager {
 
     public void updateAppointmentOutcomeRecordMedicationStatus(AppointmentOutcomeRecord record, MedicationStatus status) {
         appointmentOutcomeStorageProvider.getItems().stream().filter(rec -> rec.getRecordId().equals(record.getRecordId())).findFirst().ifPresent(rec -> rec.setMedicationStatus(status));
-        appointmentOutcomeStorageProvider.saveToFile(appointmentOutcomesFIle);
+        appointmentOutcomeStorageProvider.saveToFile(appointmentOutcomesFile);
     }
 
     private boolean checkIsDoctorFree(Doctor doctor, LocalDateTime dateTime) {
