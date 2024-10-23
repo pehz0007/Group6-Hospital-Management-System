@@ -4,7 +4,9 @@ import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.app.roles.Patient;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.UUID;
 
 public class Appointment implements Serializable {
@@ -12,30 +14,24 @@ public class Appointment implements Serializable {
     private final Patient patient;
     private final Doctor doctor;
     private AppointmentStatus status;
-    private LocalDateTime dateTime;
+    private LocalDate date;
+    private LocalTime startTime;
+    private LocalTime endTime;
     private UUID appointmentOutcomeRecordId;
 
-    public Appointment(Patient patient, Doctor doctor, AppointmentStatus status, LocalDateTime dateTime) {
-        this(patient, doctor, status, dateTime, null);
-    }
-
-    public Appointment(Patient patient, Doctor doctor, AppointmentStatus status, LocalDateTime dateTime, UUID appointmentOutcomeRecordId) {
+    public Appointment(Patient patient, Doctor doctor, AppointmentStatus status, LocalDate date, LocalTime startTime, LocalTime endTime) {
         this.appointmentId = UUID.randomUUID();
         this.patient = patient;
         this.doctor = doctor;
         this.status = status;
-        this.dateTime = dateTime;
-        this.appointmentOutcomeRecordId = appointmentOutcomeRecordId;
+        this.date = date;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
+
 
     public UUID getAppointmentId() {
         return appointmentId;
-    }
-
-    public UUID getAppointmentOutcomeRecordId() { return appointmentOutcomeRecordId; }
-
-    public void setAppointmentOutcomeRecordId(UUID id) {
-        this.appointmentOutcomeRecordId = id;
     }
 
     public Patient getPatient() {
@@ -46,20 +42,43 @@ public class Appointment implements Serializable {
         return doctor;
     }
 
-
     public AppointmentStatus getStatus() {
         return status;
     }
 
-    public void setStatus(AppointmentStatus newStatus) {
-        this.status = newStatus;
+    public void setStatus(AppointmentStatus status) {
+        this.status = status;
     }
 
-    public LocalDateTime getDateTime() {
-        return dateTime;
+    public LocalDate getDate() {
+        return date;
     }
 
-    public void setDateTime(LocalDateTime dateTime) {
-        this.dateTime = dateTime;
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public LocalTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalTime getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
+    }
+
+    public UUID getAppointmentOutcomeRecordId() {
+        return appointmentOutcomeRecordId;
+    }
+
+    public void setAppointmentOutcomeRecordId(UUID appointmentOutcomeRecordId) {
+        this.appointmentOutcomeRecordId = appointmentOutcomeRecordId;
     }
 }
