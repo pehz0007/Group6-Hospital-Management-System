@@ -29,7 +29,7 @@ public class LoginManager {
         loginManager.createUser(new Patient("shirokuma", "password".toCharArray()));
         loginManager.createUser(new Doctor("tonkatsu", "password".toCharArray()));
         loginManager.createUser(new Administrator("admin", "password".toCharArray()));
-        loginManager.createUser(new Pharmacist("Pharmacist 1", "Password3".toCharArray()));
+        loginManager.createUser(new Pharmacist("pharmacist", "password".toCharArray()));
 
         loginManager.saveUsersToFile();
         loginManager.loadUsersFromFile();
