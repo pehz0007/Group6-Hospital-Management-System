@@ -1,6 +1,6 @@
 package com.group6.hms.app.screens.doctor;
 
-import com.group6.hms.app.AppointmentManager;
+import com.group6.hms.app.managers.AppointmentManager;
 import com.group6.hms.app.screens.MainScreen;
 import com.group6.hms.app.auth.LogoutScreen;
 

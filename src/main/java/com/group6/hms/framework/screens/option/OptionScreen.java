@@ -1,7 +1,6 @@
 package com.group6.hms.framework.screens.option;
 
 import com.group6.hms.framework.screens.ConsoleColor;
-import com.group6.hms.framework.screens.InteractiveConsoleInterface;
 import com.group6.hms.framework.screens.Screen;
 
 import java.util.*;

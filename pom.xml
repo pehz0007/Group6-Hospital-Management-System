@@ -16,7 +16,7 @@
                 <version>3.4.1</version>
                 <configuration>
                     <mainClass>com.group6.hms.app.HMS</mainClass>
-                    <mainClass>com.group6.hms.framework.screens.terminal.win.Test</mainClass>
+<!--                    <mainClass>com.group6.hms.framework.screens.terminal.win.WindowsTerminal</mainClass>-->
                 </configuration>
             </plugin>
         </plugins>
@@ -41,35 +41,35 @@
             <version>0.0.3</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.jline</groupId>
-            <artifactId>jline</artifactId>
-            <version>${jline.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.jline</groupId>-->
+<!--            <artifactId>jline</artifactId>-->
+<!--            <version>${jline.version}</version>-->
+<!--        </dependency>-->
 
-        <dependency>
-            <groupId>org.jline</groupId>
-            <artifactId>jline-terminal-ffm</artifactId>
-            <version>${jline.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.jline</groupId>-->
+<!--            <artifactId>jline-terminal-ffm</artifactId>-->
+<!--            <version>${jline.version}</version>-->
+<!--        </dependency>-->
 
-        <dependency>
-            <groupId>org.jline</groupId>
-            <artifactId>jline-reader</artifactId>
-            <version>${jline.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.jline</groupId>-->
+<!--            <artifactId>jline-reader</artifactId>-->
+<!--            <version>${jline.version}</version>-->
+<!--        </dependency>-->
 
-        <dependency>
-            <groupId>org.jline</groupId>
-            <artifactId>jline-style</artifactId>
-            <version>${jline.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.jline</groupId>-->
+<!--            <artifactId>jline-style</artifactId>-->
+<!--            <version>${jline.version}</version>-->
+<!--        </dependency>-->
 
-        <dependency>
-            <groupId>org.jline</groupId>
-            <artifactId>jline-terminal-jansi</artifactId>
-            <version>${jline.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.jline</groupId>-->
+<!--            <artifactId>jline-terminal-jansi</artifactId>-->
+<!--            <version>${jline.version}</version>-->
+<!--        </dependency>-->
     </dependencies>
 
 
