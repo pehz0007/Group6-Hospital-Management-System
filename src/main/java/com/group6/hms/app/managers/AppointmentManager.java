@@ -10,7 +10,9 @@ import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.app.roles.Patient;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -24,17 +26,22 @@ public class AppointmentManager {
     public static void main(String[] args) {
         LoginManager loginManager = LoginManagerHolder.getLoginManager();
         AppointmentManager appointmentManager = new AppointmentManager();
+        AvailabilityManager availabilityManager = new AvailabilityManager();
         loginManager.loadUsersFromFile();
         Doctor doctor = (Doctor) loginManager.findUser("tonkatsu");
         Patient patient = (Patient) loginManager.findUser("shirokuma");
-        appointmentManager.scheduleAppointment(patient, doctor, LocalDateTime.now());
+        LocalTime timeNow = LocalTime.now();
+        Availability avail = new Availability(doctor, LocalDate.now(), timeNow, timeNow.plusHours(1));
+        availabilityManager.addAvailability(avail);
+        appointmentManager.scheduleAppointment(patient, avail);
+
         Appointment appt = appointmentManager.getAllAppointments().getFirst();
         appointmentManager.acceptAppointmentRequest(appt);
         ArrayList<Medication> medications = new ArrayList<>();
         medications.add(new Medication(UUID.randomUUID(), "Panadol"));
         medications.add(new Medication(UUID.randomUUID(), "Cough Syrup"));
         medications.add(new Medication(UUID.randomUUID(), "Flu Medicine"));
-        AppointmentOutcomeRecord record = new AppointmentOutcomeRecord(doctor.getUserId(), patient.getUserId(), appt.getDateTime().toLocalDate(), AppointmentService.CONSULT, medications, "high fever", MedicationStatus.PENDING);
+        AppointmentOutcomeRecord record = new AppointmentOutcomeRecord(doctor.getUserId(), patient.getUserId(), appt.getDate(), AppointmentService.CONSULT, medications, "high fever", MedicationStatus.PENDING);
         appointmentManager.completeAppointment(appt,record);
         List<AppointmentOutcomeRecord> records = appointmentManager.getAppointmentOutcomeRecordsByStatus(MedicationStatus.PENDING);
         for (int i = 0; i < records.getFirst().getPrescribedMedication().size(); i++) {
@@ -91,16 +98,9 @@ public class AppointmentManager {
     }
 
     // for the patient to schedule an appointment
-    public void scheduleAppointment(Patient patient, Doctor doctor, LocalDateTime dateTime) {
-        boolean isDoctorFree = checkIsDoctorFree(doctor, dateTime);
-        if (!isDoctorFree) {
-            System.out.println("The doctor is already booked for this time slot!");
-            return;
-        }
-
+    public void scheduleAppointment(Patient patient, Availability availability) {
         // schedule the appointment
-        Appointment appt = new Appointment(patient, doctor, AppointmentStatus.REQUESTED, dateTime);
-
+        Appointment appt = new Appointment(patient, availability.getDoctor(), AppointmentStatus.REQUESTED, availability.getAvailableDate(), availability.getAvailableStartTime(), availability.getAvailableEndTime());
         // TODO: UPDATE AVAILABILITY
 
         // update file
@@ -110,16 +110,11 @@ public class AppointmentManager {
     }
 
     // for the patient to change the date/time of their appointment (if possible)
-    public void rescheduleAppointment(Appointment appointment, LocalDateTime newDateTime) {
-        boolean isDoctorFree = checkIsDoctorFree(appointment.getDoctor(), newDateTime);
-        if (!isDoctorFree) {
-            System.out.println("The doctor is already booked for this time slot!");
-            return;
-        }
-
+    public void rescheduleAppointment(Appointment appointment, Availability availability) {
         appointmentStorageProvider.getItems().stream().filter(a -> a.getAppointmentId().equals(appointment.getAppointmentId())).findFirst().ifPresent(a -> {
-            a.setDateTime(newDateTime);
-            a.setStatus(AppointmentStatus.REQUESTED);
+            appointment.setDate(availability.getAvailableDate());
+            appointment.setStartTime(availability.getAvailableStartTime());
+            appointment.setEndTime(availability.getAvailableEndTime());
         });
 
         // TODO: UPDATE AVAILABILITY
@@ -168,11 +163,5 @@ public class AppointmentManager {
         appointmentOutcomeStorageProvider.saveToFile(appointmentOutcomesFile);
     }
 
-    private boolean checkIsDoctorFree(Doctor doctor, LocalDateTime dateTime) {
-        // check if doctor is free during the timeslot
-        List<Appointment> filteredAppointments = appointmentStorageProvider.getItems().stream()
-                .filter(apt -> apt.getDoctor().getUserId().equals(doctor.getUserId()) && apt.getDateTime().equals(dateTime)).toList();
-        return filteredAppointments.isEmpty();
-    }
 
 }
