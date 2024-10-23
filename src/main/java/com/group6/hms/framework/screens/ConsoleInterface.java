@@ -20,7 +20,16 @@ public interface ConsoleInterface {
      *
      * @param color The {@link ConsoleColor} to set the text to.
      */
-    void setCurrentConsoleColor(ConsoleColor color);
+    void setCurrentTextConsoleColor(ConsoleColor color);
+
+    /**
+     * Sets the current background color in the console. The next print operation
+     * will use the color as background specified by {@code color}.
+     *
+     * @param color The {@link ConsoleColor} to set the text to.
+     */
+    void setCurrentBackgroundConsoleColor(ConsoleColor color);
+
 
     /**
      * Read a {@code char[]} from the current console and the .
@@ -32,6 +41,11 @@ public interface ConsoleInterface {
      * Clear the console
      */
     void clearConsole();
+
+    /**
+     * Wait for a key press from the current console.
+     */
+    void waitForKeyPress();
 
     /**
      * Read a {@code String} from the current console.
