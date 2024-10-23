@@ -63,10 +63,10 @@ public class AdministratorScreen extends LogoutScreen {
             case VIEW_APPOINTMENTS -> {
 
                 //SAMPLE
-                Multimap<LocalDate, AppointmentView> appointmentViews = MultimapBuilder.hashKeys().arrayListValues().build();
-                var a1 = new AppointmentView(UUID.randomUUID(), UUID.randomUUID(), AppointmentStatus.CONFIRMED, LocalDateTime.now());
-                appointmentViews.put(a1.getEventDateTime().toLocalDate(), a1);
-                navigateToScreen(new CalendarScreen<>("Appointments", appointmentViews));
+//                Multimap<LocalDate, AppointmentView> appointmentViews = MultimapBuilder.hashKeys().arrayListValues().build();
+//                var a1 = new AppointmentView(UUID.randomUUID(), UUID.randomUUID(), AppointmentStatus.CONFIRMED, LocalDateTime.now());
+//                appointmentViews.put(a1.getEventDateTime().toLocalDate(), a1);
+//                navigateToScreen(new CalendarScreen<>("Appointments", appointmentViews));
 
                 //Retrieve all Appointments in the database
 

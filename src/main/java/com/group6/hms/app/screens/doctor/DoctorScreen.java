@@ -1,13 +1,8 @@
 package com.group6.hms.app.screens.doctor;
 
 import com.group6.hms.app.AppointmentManager;
-import com.group6.hms.app.auth.LoginManager;
-import com.group6.hms.app.auth.User;
-import com.group6.hms.app.models.Appointment;
 import com.group6.hms.app.screens.MainScreen;
 import com.group6.hms.app.auth.LogoutScreen;
-
-import java.util.List;
 
 public class DoctorScreen extends LogoutScreen {
 

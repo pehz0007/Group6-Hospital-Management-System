@@ -4,11 +4,12 @@ import com.group6.hms.app.roles.Administrator;
 import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.app.roles.Patient;
 import com.group6.hms.app.roles.Pharmacist;
+import com.group6.hms.app.storage.SerializationStorageProvider;
+import com.group6.hms.app.storage.StorageProvider;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.stream.Collectors;
 
 public class LoginManager {
@@ -96,6 +97,13 @@ public class LoginManager {
     }
 
     public Collection<Doctor> getDoctors() {
+        return getAllUsers().parallelStream()
+                .filter(Doctor.class::isInstance)
+                .map(Doctor.class::cast)
+                .collect(Collectors.toList());
+    }
+
+    public Collection<Doctor> get() {
         return getAllUsers().parallelStream()
                 .filter(Doctor.class::isInstance)
                 .map(Doctor.class::cast)

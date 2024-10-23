@@ -16,14 +16,15 @@
                 <version>3.4.1</version>
                 <configuration>
                     <mainClass>com.group6.hms.app.HMS</mainClass>
+                    <mainClass>com.group6.hms.framework.screens.terminal.win.Test</mainClass>
                 </configuration>
             </plugin>
         </plugins>
     </build>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.source>23</maven.compiler.source>
+        <maven.compiler.target>23</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <jline.version>3.27.1</jline.version>
     </properties>

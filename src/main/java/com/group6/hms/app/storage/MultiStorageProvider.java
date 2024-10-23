@@ -1,4 +1,4 @@
-package com.group6.hms.app.auth;
+package com.group6.hms.app.storage;
 
 public interface MultiStorageProvider<K, T> {
 
