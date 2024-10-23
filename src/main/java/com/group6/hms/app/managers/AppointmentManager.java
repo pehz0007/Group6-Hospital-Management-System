@@ -1,11 +1,11 @@
 package com.group6.hms.app.managers;
 
 import com.group6.hms.app.MedicationStatus;
-import com.group6.hms.app.models.AppointmentOutcomeRecord;
+import com.group6.hms.app.auth.LoginManager;
+import com.group6.hms.app.auth.LoginManagerHolder;
+import com.group6.hms.app.models.*;
 import com.group6.hms.app.storage.SerializationStorageProvider;
 import com.group6.hms.app.storage.StorageProvider;
-import com.group6.hms.app.models.Appointment;
-import com.group6.hms.app.models.AppointmentStatus;
 import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.app.roles.Patient;
 
@@ -13,13 +13,35 @@ import java.io.File;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class AppointmentManager {
-    private static final File appointmentsFile = new File("appointments.ser");
-    private static final File appointmentOutcomesFile = new File("appointment_outcomes.ser");
+    private static final File appointmentsFile = new File("data/appointments.ser");
+    private static final File appointmentOutcomesFile = new File("data/appointment_outcomes.ser");
     private final StorageProvider<Appointment> appointmentStorageProvider = new SerializationStorageProvider<>();
     private final StorageProvider<AppointmentOutcomeRecord> appointmentOutcomeStorageProvider = new SerializationStorageProvider<>();
 
+    public static void main(String[] args) {
+        LoginManager loginManager = LoginManagerHolder.getLoginManager();
+        AppointmentManager appointmentManager = new AppointmentManager();
+        loginManager.loadUsersFromFile();
+        Doctor doctor = (Doctor) loginManager.findUser("tonkatsu");
+        Patient patient = (Patient) loginManager.findUser("shirokuma");
+        appointmentManager.scheduleAppointment(patient, doctor, LocalDateTime.now());
+        Appointment appt = appointmentManager.getAllAppointments().getFirst();
+        appointmentManager.acceptAppointmentRequest(appt);
+        ArrayList<Medication> medications = new ArrayList<>();
+        medications.add(new Medication(UUID.randomUUID(), "Panadol"));
+        medications.add(new Medication(UUID.randomUUID(), "Cough Syrup"));
+        medications.add(new Medication(UUID.randomUUID(), "Flu Medicine"));
+        AppointmentOutcomeRecord record = new AppointmentOutcomeRecord(doctor.getUserId(), patient.getUserId(), appt.getDateTime().toLocalDate(), AppointmentService.CONSULT, medications, "high fever", MedicationStatus.PENDING);
+        appointmentManager.completeAppointment(appt,record);
+        List<AppointmentOutcomeRecord> records = appointmentManager.getAppointmentOutcomeRecordsByStatus(MedicationStatus.PENDING);
+        for (int i = 0; i < records.getFirst().getPrescribedMedication().size(); i++) {
+            System.out.println(records.getFirst().getPrescribedMedication().get(i).getName());
+        }
+
+    }
     public AppointmentManager() {
         if (!appointmentsFile.exists()) {
             appointmentStorageProvider.saveToFile(appointmentsFile);
@@ -30,8 +52,8 @@ public class AppointmentManager {
         appointmentStorageProvider.loadFromFile(appointmentsFile);
         appointmentOutcomeStorageProvider.loadFromFile(appointmentOutcomesFile);
     }
-    public ArrayList<Appointment> getAllAppointments() {
-        return (ArrayList<Appointment>) appointmentStorageProvider.getItems();
+    public List<Appointment> getAllAppointments() {
+        return (List<Appointment>) appointmentStorageProvider.getItems();
     }
 
     // for the patient to get their scheduled appointments
