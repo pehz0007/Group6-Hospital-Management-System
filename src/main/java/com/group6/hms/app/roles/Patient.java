@@ -1,6 +1,8 @@
 package com.group6.hms.app.roles;
 
 import com.group6.hms.app.auth.User;
+import com.group6.hms.app.models.MedicalRecord;
+
 import java.time.LocalDate;
 
 public class Patient extends User {
@@ -11,7 +13,7 @@ public class Patient extends User {
     private String phoneNumber;
     private String email;
     private String bloodType;
-    private String pastDiagnoses;
+    private MedicalRecord medicalRecord;
 
 
     public Patient(String username, char[] password, String patientId, String patientName,
@@ -26,7 +28,11 @@ public class Patient extends User {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.bloodType = bloodType;
-        this.pastDiagnoses = pastDiagnoses;
+        this.medicalRecord = new MedicalRecord();
+    }
+
+    public MedicalRecord getMedicalRecord() {
+        return medicalRecord;
     }
 
     public String getPatientId() {return patientId;}
