@@ -4,6 +4,7 @@ import com.group6.hms.app.auth.User;
 import java.time.LocalDate;
 
 public class Patient extends User {
+    private String patientId;
     private String patientName;
     private String dateOfBirth;
     private String gender;
@@ -13,11 +14,12 @@ public class Patient extends User {
     private String pastDiagnoses;
 
 
-    public Patient(String username, char[] password, String patientName,
+    public Patient(String username, char[] password, String patientId, String patientName,
                    String dateOfBirth, String gender, String phoneNumber,
                    String email, String bloodType) {
 
         super(username, password);
+        this.patientId = patientId;
         this.patientName = patientName;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
@@ -27,6 +29,7 @@ public class Patient extends User {
         this.pastDiagnoses = pastDiagnoses;
     }
 
+    public String getPatientId() {return patientId;}
     public String getPatientName() {return patientName;}
     public String getDateOfBirth() {return dateOfBirth;}
     public String getGender() {return gender;}
