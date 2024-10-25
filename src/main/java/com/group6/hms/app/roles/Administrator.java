@@ -1,11 +1,9 @@
 package com.group6.hms.app.roles;
 
-import com.group6.hms.app.auth.User;
+public class Administrator extends Staff{
 
-public class Administrator extends User {
-
-    public Administrator(String username, char[] password) {
-        super(username, password);
+    public Administrator(String username, char[] password, String name, Gender gender, String staffId, int age) {
+        super(username, password, name, gender, staffId , age);
     }
 
     @Override

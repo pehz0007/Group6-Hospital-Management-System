@@ -25,7 +25,6 @@
         <maven.compiler.source>23</maven.compiler.source>
         <maven.compiler.target>23</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jline.version>3.27.1</jline.version>
     </properties>
 
     <dependencies>

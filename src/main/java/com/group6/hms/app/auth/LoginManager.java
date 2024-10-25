@@ -1,9 +1,6 @@
 package com.group6.hms.app.auth;
 
-import com.group6.hms.app.roles.Administrator;
-import com.group6.hms.app.roles.Doctor;
-import com.group6.hms.app.roles.Patient;
-import com.group6.hms.app.roles.Pharmacist;
+import com.group6.hms.app.roles.*;
 import com.group6.hms.app.storage.SerializationStorageProvider;
 import com.group6.hms.app.storage.StorageProvider;
 
@@ -27,10 +24,10 @@ public class LoginManager {
         //Generate sample file
         LoginManager loginManager = LoginManagerHolder.getLoginManager();
 
-        loginManager.createUser(new Patient("shirokuma", "password".toCharArray()));
-        loginManager.createUser(new Doctor("tonkatsu", "password".toCharArray()));
-        loginManager.createUser(new Administrator("admin", "password".toCharArray()));
-        loginManager.createUser(new Pharmacist("pharmacist", "password".toCharArray()));
+        loginManager.createUser(new Patient("shirokuma", "password".toCharArray(), "shirokuma", Gender.Male));
+        loginManager.createUser(new Doctor("tonkatsu", "password".toCharArray(), "", Gender.Male, "D001", 22));
+        loginManager.createUser(new Administrator("admin", "password".toCharArray(), "", Gender.Female, "A001", 34));
+        loginManager.createUser(new Pharmacist("pharmacist", "password".toCharArray(), "", Gender.Female, "A002", 50));
 
         loginManager.saveUsersToFile();
         loginManager.loadUsersFromFile();

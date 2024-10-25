@@ -1,4 +1,35 @@
 package com.group6.hms.app.models;
 
-public class MedicalRecord {
+import java.io.Serializable;
+import java.time.LocalDate;
+
+public class MedicalRecord implements Serializable {
+
+    private LocalDate dateOfBirth;
+    private BloodType bloodType;
+    private String contextInformation; // Email
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
+    }
+
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
+    }
+
+    public BloodType getBloodType() {
+        return bloodType;
+    }
+
+    public void setBloodType(BloodType bloodType) {
+        this.bloodType = bloodType;
+    }
+
+    public String getContextInformation() {
+        return contextInformation;
+    }
+
+    public void setContextInformation(String contextInformation) {
+        this.contextInformation = contextInformation;
+    }
 }
