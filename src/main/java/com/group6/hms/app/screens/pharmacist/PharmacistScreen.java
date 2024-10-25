@@ -63,14 +63,15 @@ public class PharmacistScreen extends LogoutScreen {
                     println("===================================================");
                     println("Appointment Outcome Records:");
 
-                    println("Record ID :" + item.getRecordId());
-                    println("Date of Appointment:" + item.getDateOfAppointment());
-                    println("Consultation Note:" + item.getConsultationNotes());
-                    println("Medication Status:" + item.getMedicationStatus());
-                    println("Patient ID:" + item.getPatientId());
+                    println("Record ID: " + item.getRecordId());
+                    println("Date of Appointment: " + item.getDateOfAppointment());
+                    println("Type of Service: " + item.getServiceType());
+                    println("Consultation Note: " + item.getConsultationNotes());
+                    println("Medication Status: " + item.getMedicationStatus());
+                    println("Patient ID: " + item.getPatientId());
 
                     for (Medication medication : item.getPrescribedMedication()){
-                        println("Medication :" + medication.getName());
+                        println("Medication:" + medication.getName());
                     }
                     println("===================================================");
                 }
