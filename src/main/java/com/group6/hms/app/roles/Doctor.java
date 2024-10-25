@@ -1,19 +1,16 @@
 package com.group6.hms.app.roles;
 
-import com.group6.hms.app.auth.User;
 import com.group6.hms.app.models.Schedule;
 import com.group6.hms.app.models.Appointment;
 
 
-public class Doctor extends User {
-    private String name;
+public class Doctor extends Staff {
 //    private ArrayList<PatientRole> patientRoles;
 //    private Schedule schedules; // binary tree and hash table
 
 
-    public Doctor(String username, char[] password) {
-        super(username, password);
-        this.name = null;
+    public Doctor(String username, char[] password, String name, Gender gender, String staffId , int age) {
+        super(username, password, name, gender, staffId, age);
 //        patientRoles = new ArrayList<>();
 //        schedules = new Schedule();
 

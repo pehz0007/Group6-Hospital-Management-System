@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collection;
 import java.util.UUID;
 
 public class AppointmentManager {
@@ -44,9 +45,6 @@ public class AppointmentManager {
         AppointmentOutcomeRecord record = new AppointmentOutcomeRecord(doctor.getUserId(), patient.getUserId(), appt.getDate(), AppointmentService.CONSULT, medications, "high fever", MedicationStatus.PENDING);
         appointmentManager.completeAppointment(appt,record);
         List<AppointmentOutcomeRecord> records = appointmentManager.getAppointmentOutcomeRecordsByStatus(MedicationStatus.PENDING);
-        for (int i = 0; i < records.getFirst().getPrescribedMedication().size(); i++) {
-            System.out.println(records.getFirst().getPrescribedMedication().get(i).getName());
-        }
 
     }
     public AppointmentManager() {
@@ -61,6 +59,12 @@ public class AppointmentManager {
     }
     public List<Appointment> getAllAppointments() {
         return (List<Appointment>) appointmentStorageProvider.getItems();
+    }
+
+    // New method to get all appointment outcome records
+    public List<AppointmentOutcomeRecord> getAllAppointmentOutcomeRecords() {
+        Collection<AppointmentOutcomeRecord> records = appointmentOutcomeStorageProvider.getItems(); // Get items as a Collection
+        return new ArrayList<>(records); // Convert Collection to List
     }
 
     // for the patient to get their scheduled appointments

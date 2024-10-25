@@ -1,7 +1,7 @@
 
 package com.group6.hms.app.screens;
 
-import com.group6.hms.framework.screens.OptionScreen;
+import com.group6.hms.framework.screens.option.OptionScreen;
 
 public class MainScreen extends OptionScreen {
     public MainScreen() {

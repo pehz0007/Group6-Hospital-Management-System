@@ -40,6 +40,7 @@ public class SerializationStorageProvider<T> implements StorageProvider<T> {
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
             System.err.println("File Load Error");
+            System.err.println("Try resetting the database");
         }
     }
 

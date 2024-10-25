@@ -1,0 +1,3 @@
+module hms {
+    requires jfiglet;
+}

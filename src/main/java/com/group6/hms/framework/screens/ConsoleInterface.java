@@ -15,6 +15,14 @@ public interface ConsoleInterface {
     boolean isColorSupported();
 
     /**
+     * Return if this current console support interactive console
+     * @return true if interactive console is supported, false otherwise.
+     */
+    default boolean isConsoleInteractive(){
+        return this instanceof InteractiveConsoleInterface;
+    }
+
+    /**
      * Sets the current text color in the console. The next print operation
      * will use the color specified by {@code color}.
      *
@@ -30,6 +38,26 @@ public interface ConsoleInterface {
      */
     void setCurrentBackgroundConsoleColor(ConsoleColor color);
 
+    /**
+     * Gets the current text color in the console. The next print operation
+     * will use the color specified by {@code color}.
+     *
+     * @return the color of the current text {@link ConsoleColor}
+     */
+    ConsoleColor getCurrentTextConsoleColor();
+
+    /**
+     * Sets the current background color in the console. The next print operation
+     * will use the color as background specified by {@code color}.
+     *
+     * @return the color of the current background {@link ConsoleColor}
+     */
+    ConsoleColor getCurrentBackgroundConsoleColor();
+
+    /**
+     * Reset the console color back to default
+     */
+    void resetColor();
 
     /**
      * Read a {@code char[]} from the current console and the .
