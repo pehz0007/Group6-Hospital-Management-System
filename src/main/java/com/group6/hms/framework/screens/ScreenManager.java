@@ -62,12 +62,14 @@ public class ScreenManager implements Runnable{
 
         //Clear console
         consoleInterface.clearConsole();
-        //Print the next screen to the console
-        printScreen(nextScreen);
+        //Print the next screen header to the console
+        printHeaderScreen(nextScreen);
 
-        //Lifecycle (OnStart): Call the onStart once the screen is printed to the console
+        //Lifecycle (OnStart): Call the onStart to start the screen
         nextScreen.onStart();
 
+        //Lifecycle (OnDisplay): Call the OnDisplay to display the screen contents to the console
+        nextScreen.onDisplay();
     }
 
     /**
@@ -120,7 +122,7 @@ public class ScreenManager implements Runnable{
      *
      * @param screen The screen whose header and content will be displayed.
      */
-    private void printScreen(Screen screen) {
+    private void printHeaderScreen(Screen screen) {
         screen.displayHeader(50);
     }
 

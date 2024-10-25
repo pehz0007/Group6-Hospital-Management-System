@@ -5,18 +5,17 @@ import com.group6.hms.app.notifications.Notification;
 import com.group6.hms.app.notifications.NotificationManagerHolder;
 import com.group6.hms.app.notifications.NotificationScreen;
 import com.group6.hms.app.screens.MainScreen;
-import com.group6.hms.framework.screens.PaginationTableScreen;
 import com.group6.hms.app.auth.LogoutScreen;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 public class AdministratorScreen extends LogoutScreen {
 
     private final int VIEW_NOTIFICATIONS = 2;
-    private final int CREATE_USER = 3;
-    private final int VIEW_ALL_USERS = 4;
-    private final int VIEW_APPOINTMENTS = 5;
+    private final int VIEW_AND_MANAGE_USERS = 3;
+    private final int VIEW_APPOINTMENTS = 4;
+    private final int VIEW_AND_MANAGE_MEDICATION_INVENTORY = 5;
+    private final int APPROVE_REPLENISHMENT_REQUEST = 6;
 
     /**
      * Constructor to initialize the AdministratorScreen.
@@ -25,9 +24,10 @@ public class AdministratorScreen extends LogoutScreen {
         super("Administrator");
 
         addOption(VIEW_NOTIFICATIONS, "View Notifications");
-        addOption(CREATE_USER, "Create User");
-        addOption(VIEW_ALL_USERS, "View All Users");
+        addOption(VIEW_AND_MANAGE_USERS, "View and Manage Users");
         addOption(VIEW_APPOINTMENTS, "View All Appointments");
+        addOption(VIEW_AND_MANAGE_MEDICATION_INVENTORY, "View and Manage Medication Inventory");
+        addOption(APPROVE_REPLENISHMENT_REQUEST, "Approve Replenishment Request");
     }
 
     @Override
@@ -48,19 +48,20 @@ public class AdministratorScreen extends LogoutScreen {
     @Override
     protected void handleOption(int optionId) {
         switch (optionId) {
-            case CREATE_USER -> {
-                //Create user
-                print("Username:");
-
-            }
             case VIEW_NOTIFICATIONS -> {
                 navigateToScreen(new NotificationScreen());
             }
-            case VIEW_ALL_USERS -> {
-                Collection<User> users = getLoginManager().getAllUsers();
-                navigateToScreen(new PaginationTableScreen<>("Users", users.stream().map(UserView::new).toList()));
+            case VIEW_AND_MANAGE_USERS -> {
+                navigateToScreen(new ViewAndManageUsersScreen());
             }
             case VIEW_APPOINTMENTS -> {
+
+                //SAMPLE
+//                Multimap<LocalDate, AppointmentView> appointmentViews = MultimapBuilder.hashKeys().arrayListValues().build();
+//                var a1 = new AppointmentView(UUID.randomUUID(), UUID.randomUUID(), AppointmentStatus.CONFIRMED, LocalDateTime.now());
+//                appointmentViews.put(a1.getEventDateTime().toLocalDate(), a1);
+//                navigateToScreen(new CalendarScreen<>("Appointments", appointmentViews));
+
                 //Retrieve all Appointments in the database
 
                 //Display all the Appointments

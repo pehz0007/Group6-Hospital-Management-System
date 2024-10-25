@@ -1,15 +1,13 @@
 package com.group6.hms.app.auth;
 
-import com.group6.hms.app.roles.Administrator;
-import com.group6.hms.app.roles.Doctor;
-import com.group6.hms.app.roles.Patient;
-import com.group6.hms.app.roles.Pharmacist;
+import com.group6.hms.app.roles.*;
 import com.group6.hms.app.storage.SerializationStorageProvider;
 import com.group6.hms.app.storage.StorageProvider;
 
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.stream.Collectors;
 
 public class LoginManager {
 
@@ -26,10 +24,10 @@ public class LoginManager {
         //Generate sample file
         LoginManager loginManager = LoginManagerHolder.getLoginManager();
 
-        loginManager.createUser(new Patient("shirokuma", "password".toCharArray()));
-        loginManager.createUser(new Doctor("tonkatsu", "password".toCharArray()));
-        loginManager.createUser(new Administrator("admin", "password".toCharArray()));
-        loginManager.createUser(new Pharmacist("Pharmacist 1", "Password3".toCharArray()));
+        loginManager.createUser(new Patient("shirokuma", "password".toCharArray(), "shirokuma", Gender.Male));
+        loginManager.createUser(new Doctor("tonkatsu", "password".toCharArray(), "", Gender.Male, "D001", 22));
+        loginManager.createUser(new Administrator("admin", "password".toCharArray(), "", Gender.Female, "A001", 34));
+        loginManager.createUser(new Pharmacist("pharmacist", "password".toCharArray(), "", Gender.Female, "A002", 50));
 
         loginManager.saveUsersToFile();
         loginManager.loadUsersFromFile();
@@ -47,6 +45,7 @@ public class LoginManager {
 
 
     public void createUser(User user){
+        if(findUser(user.getUsername()) != null) throw new UserCreationException("User already exists");
         userStorageProvider.addNewItem(user);
     }
 
@@ -93,6 +92,21 @@ public class LoginManager {
     public boolean isLoggedIn(){
         return currentLoginUser != null;
     }
+
+    public Collection<Doctor> getDoctors() {
+        return getAllUsers().parallelStream()
+                .filter(Doctor.class::isInstance)
+                .map(Doctor.class::cast)
+                .collect(Collectors.toList());
+    }
+
+    public Collection<Doctor> get() {
+        return getAllUsers().parallelStream()
+                .filter(Doctor.class::isInstance)
+                .map(Doctor.class::cast)
+                .collect(Collectors.toList());
+    }
+
 
     /**
      * Print the list of users inside the database

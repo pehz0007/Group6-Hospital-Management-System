@@ -101,6 +101,11 @@ public abstract class Screen implements ScreenLifeCycle {
     }
 
     @Override
+    public void onDisplay() {
+
+    }
+
+    @Override
     public void onFinish() {
     }
 

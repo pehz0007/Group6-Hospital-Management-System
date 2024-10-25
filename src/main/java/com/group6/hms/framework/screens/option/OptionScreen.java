@@ -1,7 +1,9 @@
-package com.group6.hms.framework.screens;
+package com.group6.hms.framework.screens.option;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.group6.hms.framework.screens.ConsoleColor;
+import com.group6.hms.framework.screens.Screen;
+
+import java.util.*;
 
 /**
  * Option screen extends {@code Screen} with selectable options.
@@ -30,10 +32,10 @@ import java.util.Map;
  * }</pre>
  *
  */
-public abstract class OptionScreen extends Screen{
+public abstract class OptionScreen extends Screen {
 
     // A map to store the available options, where the key is the option ID and the value is the option description
-    private Map<Integer, Option> options = new HashMap<Integer, Option>();
+    private NavigableMap<Integer, Option> options = new TreeMap<>();
 
     // Flag indicating whether the user is allowed to go back to the previous screen
     private boolean allowBack = true;
@@ -51,22 +53,14 @@ public abstract class OptionScreen extends Screen{
     }
 
     /**
-     * Lifecycle method that is called when the screen is started.
+     * Lifecycle method that is called when the screen is being displayed.
      * This method displays the options and reads user input.
      */
     @Override
-    public void onStart() {
-        super.onStart();
-        displayOptions();
-        boolean readingOption = true;
-        do{
-            try{
-                readUserOption();
-                readingOption = false;
-            }catch (ConsoleInputFormatException ignored){
-                println("Invalid option!");
-            }
-        }while(readingOption);
+    public void onDisplay() {
+        super.onDisplay();
+        int selectedOptionId = OptionsUtils.askOptions(consoleInterface, options);
+        handleOptionOnBack(selectedOptionId);
     }
 
     ///
@@ -113,6 +107,11 @@ public abstract class OptionScreen extends Screen{
         options.put(optionID, new Option(optionID, optionDescription, consoleColor));
     }
 
+    /**
+     * Check if the given {@code Option} exist
+     * @param optionID - the option id of the {@code Option}
+     * @return true if the option exist, false otherwise
+     */
     protected boolean containsOption(int optionID){
         return options.containsKey(optionID);
     }
@@ -130,19 +129,12 @@ public abstract class OptionScreen extends Screen{
         }
     }
 
+
     /**
-     * Reads the user's input and handles the selected option.
+     * Handle the selected option.
      * If the user selects '0' and back navigation is allowed, the screen navigates back.
      * Otherwise, the selected option is passed to handleOption().
      */
-    protected void readUserOption(){
-        setCurrentTextConsoleColor(ConsoleColor.YELLOW);
-        print("\nPlease select an option: ");
-        int selectedOptionId = readInt();
-        handleOptionOnBack(selectedOptionId);
-
-    }
-
     protected void handleOptionOnBack(int optionId){
         if (optionId == BACK_ID && allowBack) {
             // Go back one screen
@@ -158,23 +150,5 @@ public abstract class OptionScreen extends Screen{
      * @param optionId The ID of the option selected by the user.
      */
     protected abstract void handleOption(int optionId);
-
-    ///
-    ///  DISPLAY
-    ///
-
-    /**
-     * Displays the list of available options to the user.
-     * If back navigation is allowed, a '0: <Back>' option is displayed as well.
-     */
-    protected void displayOptions() {
-        setCurrentTextConsoleColor(ConsoleColor.WHITE);
-        println("OPTIONS:\n");
-        for (Map.Entry<Integer, Option> option : options.entrySet()) {
-            setCurrentTextConsoleColor(option.getValue().color());
-            println("\t" + option.getKey() + ": <" + option.getValue().optionDescription() + ">");
-        }
-        setCurrentBackgroundConsoleColor(null);
-    }
 
 }
