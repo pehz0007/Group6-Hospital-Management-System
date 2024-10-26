@@ -39,9 +39,9 @@ public class AppointmentManager {
         Appointment appt = appointmentManager.getAllAppointments().getFirst();
         appointmentManager.acceptAppointmentRequest(appt);
         ArrayList<Medication> medications = new ArrayList<>();
-        medications.add(new Medication(UUID.randomUUID(), "Panadol"));
-        medications.add(new Medication(UUID.randomUUID(), "Cough Syrup"));
-        medications.add(new Medication(UUID.randomUUID(), "Flu Medicine"));
+//        medications.add(new Medication(UUID.randomUUID(), "Panadol"));
+//        medications.add(new Medication(UUID.randomUUID(), "Cough Syrup"));
+//        medications.add(new Medication(UUID.randomUUID(), "Flu Medicine"));
         AppointmentOutcomeRecord record = new AppointmentOutcomeRecord(doctor.getUserId(), patient.getUserId(), appt.getDate(), AppointmentService.CONSULT, medications, "high fever", MedicationStatus.PENDING);
         appointmentManager.completeAppointment(appt,record);
         List<AppointmentOutcomeRecord> records = appointmentManager.getAppointmentOutcomeRecordsByStatus(MedicationStatus.PENDING);

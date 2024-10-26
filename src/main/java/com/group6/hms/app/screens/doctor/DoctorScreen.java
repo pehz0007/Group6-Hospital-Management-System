@@ -214,9 +214,9 @@ public class DoctorScreen extends LogoutScreen {
                     }
 
                     ArrayList<Medication> medications = new ArrayList<>();
-                    medications.add(new Medication(UUID.randomUUID(), "Panadol"));
-                    medications.add(new Medication(UUID.randomUUID(), "Cough Syrup"));
-                    medications.add(new Medication(UUID.randomUUID(), "Flu Medicine"));
+//                    medications.add(new Medication(UUID.randomUUID(), "Panadol"));
+//                    medications.add(new Medication(UUID.randomUUID(), "Cough Syrup"));
+//                    medications.add(new Medication(UUID.randomUUID(), "Flu Medicine"));
                     AppointmentOutcomeRecord appointmentOutcomeRecord = new AppointmentOutcomeRecord(upcoming1.getDoctor().getUserId(), upcoming1.getPatient().getUserId(), upcoming1.getDate(),
                             service1, medications, details, MedicationStatus.PENDING);
                     appointmentManager.completeAppointment(upcoming1, appointmentOutcomeRecord);
