@@ -84,6 +84,7 @@ public class PrintTableUtils {
         for (Field field : fields) {
             HeaderField headerField = field.getAnnotation(HeaderField.class);
             int fieldWidth = (headerField != null) ? headerField.width() : 20; // Use annotation width or default to 20
+            if(headerField != null && !headerField.show())continue;
             consoleInterface.print("+");
             for (int j = 0; j < fieldWidth; j++) {
                 consoleInterface.print("-");

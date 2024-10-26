@@ -16,7 +16,11 @@ public class UserView {
     private byte[] passwordHashed;
     private String role;
 
+    @HeaderField(show = false)
+    private User user;
+
     public UserView(User user){
+        this.user = user;
         this.userId = user.getUserId();
         this.username = user.getUsername();
         this.name = user.getName();
@@ -25,4 +29,7 @@ public class UserView {
         role = user.getRoleName();
     }
 
+    public User getUser() {
+        return user;
+    }
 }

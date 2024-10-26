@@ -28,7 +28,11 @@ public class LoginScreen extends Screen {
     @Override
     public void onStart() {
         super.onStart();
+    }
 
+    @Override
+    public void onDisplay() {
+        super.onDisplay();
         setCurrentTextConsoleColor(ConsoleColor.PURPLE);
         boolean loginSuccessful = false;
         while (!loginSuccessful) {
@@ -56,6 +60,5 @@ public class LoginScreen extends Screen {
                 println("Login Failed");
             }
         }
-
     }
 }
