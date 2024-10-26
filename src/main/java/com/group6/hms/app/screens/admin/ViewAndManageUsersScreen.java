@@ -3,9 +3,11 @@ package com.group6.hms.app.screens.admin;
 import com.group6.hms.app.auth.LoginManager;
 import com.group6.hms.app.auth.LoginManagerHolder;
 import com.group6.hms.app.auth.User;
+import com.group6.hms.app.auth.UserCreationException;
 import com.group6.hms.app.roles.*;
 import com.group6.hms.app.screens.admin.importer.PatientsCSVReader;
 import com.group6.hms.app.screens.admin.importer.StaffsCSVReader;
+import com.group6.hms.app.screens.patient.PatientConfigurationScreen;
 import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.option.Option;
 import com.group6.hms.framework.screens.option.OptionsUtils;
@@ -19,8 +21,10 @@ import java.util.stream.Collectors;
 public class ViewAndManageUsersScreen extends PaginationTableScreen<UserView> {
 
     private final int CREATE_USER = 5;
-    private final int IMPORT_STAFFS = 6;
-    private final int IMPORT_PATIENTS = 7;
+    private final int UPDATE_USER = 6;
+    private final int DELETE_USER = 7;
+    private final int IMPORT_STAFFS = 8;
+    private final int IMPORT_PATIENTS = 9;
     private LoginManager loginManager;
 
     private static final int FILTER_NONE = 1;
@@ -38,6 +42,8 @@ public class ViewAndManageUsersScreen extends PaginationTableScreen<UserView> {
     public ViewAndManageUsersScreen() {
         super("Users", null);
         addOption(CREATE_USER, "Create New User");
+        addOption(UPDATE_USER, "Update Existing User");
+        addOption(DELETE_USER, "Delete Existing User");
         addOption(IMPORT_STAFFS, "Import Staffs");
         addOption(IMPORT_PATIENTS, "Import Patients");
         setFilterFunction(this::filter);
@@ -80,7 +86,41 @@ public class ViewAndManageUsersScreen extends PaginationTableScreen<UserView> {
             setCurrentTextConsoleColor(ConsoleColor.GREEN);
             println("User has been created!");
             waitForKeyPress();
-        }else if(optionId == IMPORT_STAFFS){
+        }else if(optionId == UPDATE_USER){
+            setCurrentTextConsoleColor(ConsoleColor.PURPLE);
+            print("User ID:");
+            String userId = readString();
+            User user = loginManager.findUser(userId);
+
+            if(user != null){
+                if(user instanceof Patient patient){
+                    navigateToScreen(new PatientConfigurationScreen(patient));
+                }
+            }else{
+                setCurrentTextConsoleColor(ConsoleColor.RED);
+                println("User not found!");
+                waitForKeyPress();
+            }
+
+        }else if(optionId == DELETE_USER){
+            setCurrentTextConsoleColor(ConsoleColor.PURPLE);
+            print("User ID:");
+            String userId = readString();
+            User user = loginManager.findUser(userId);
+
+            if(user != null){
+                loginManager.deleteUser(user);
+                setCurrentTextConsoleColor(ConsoleColor.GREEN);
+                println("User has been deleted!");
+                updateUserViewsTable();
+                waitForKeyPress();
+            }else{
+                setCurrentTextConsoleColor(ConsoleColor.RED);
+                println("User not found!");
+                updateUserViewsTable();
+                waitForKeyPress();
+            }
+        } else if(optionId == IMPORT_STAFFS){
             print("Staffs File Location:");
             String filePath = readString();
 
@@ -88,7 +128,12 @@ public class ViewAndManageUsersScreen extends PaginationTableScreen<UserView> {
                 StaffsCSVReader staffsCSVReader = new StaffsCSVReader(new FileReader(filePath));
                 List<Staff> staffs = staffsCSVReader.readAllStaffs();
                 for (Staff staff : staffs) {
-                    loginManager.createUser(staff);
+                    try{
+                        loginManager.createUser(staff);
+                    }catch (UserCreationException e){
+                        setCurrentTextConsoleColor(ConsoleColor.YELLOW);
+                        println("Skipping " + staff.getUserId() + " due to duplicated staff id");
+                    }
                 }
                 loginManager.saveUsersToFile();
 
@@ -109,7 +154,12 @@ public class ViewAndManageUsersScreen extends PaginationTableScreen<UserView> {
                 PatientsCSVReader patientsCSVReader = new PatientsCSVReader(new FileReader(filePath));
                 List<Patient> patients = patientsCSVReader.readAllPatients();
                 for (Patient patient : patients) {
-                    loginManager.createUser(patient);
+                    try{
+                        loginManager.createUser(patient);
+                    }catch (UserCreationException e){
+                        setCurrentTextConsoleColor(ConsoleColor.YELLOW);
+                        println("Skipping " + patient.getUserId() + " due to duplicated patient id");
+                    }
                 }
                 loginManager.saveUsersToFile();
 

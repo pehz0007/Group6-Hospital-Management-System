@@ -20,7 +20,7 @@ public class AvailabilityManager {
 
     // for Doctor to get their own availability
     public List<Availability> getAvailabilityByDoctor(Doctor doctor) {
-        return availabilities.stream().filter(avail -> avail.getDoctor().getUserId().equals(doctor.getUserId())).toList();
+        return availabilities.stream().filter(avail -> avail.getDoctor().getSystemUserId().equals(doctor.getSystemUserId())).toList();
     }
 
     // for Doctor to add new available slot

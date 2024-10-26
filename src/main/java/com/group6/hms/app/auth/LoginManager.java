@@ -24,10 +24,10 @@ public class LoginManager {
         //Generate sample file
         LoginManager loginManager = LoginManagerHolder.getLoginManager();
 
-        loginManager.createUser(new Patient("shirokuma", "password".toCharArray(), "freya", Gender.Male));
-        loginManager.createUser(new Doctor("tonkatsu", "password".toCharArray(), "ethan", Gender.Male, "D001", 22));
-        loginManager.createUser(new Administrator("admin", "password".toCharArray(), "phoebe", Gender.Female, "A001", 34));
-        loginManager.createUser(new Pharmacist("pharmacist", "password".toCharArray(), "sage", Gender.Female, "A002", 50));
+        loginManager.createUser(new Patient("P1011", "password".toCharArray(), "freya", Gender.Male));
+        loginManager.createUser(new Doctor("D0011", "password".toCharArray(), "ethan", Gender.Male, 22));
+        loginManager.createUser(new Administrator("A001", "password".toCharArray(), "phoebe", Gender.Female, 34));
+        loginManager.createUser(new Pharmacist("P0003", "password".toCharArray(), "sage", Gender.Female, 50));
 
         loginManager.saveUsersToFile();
         loginManager.loadUsersFromFile();
@@ -45,12 +45,17 @@ public class LoginManager {
 
 
     public void createUser(User user){
-        if(findUser(user.getUsername()) != null) throw new UserCreationException("User already exists");
+        if(findUser(user.getUserId()) != null) throw new UserCreationException("User already exists");
         userStorageProvider.addNewItem(user);
     }
 
-    public boolean login(String username, char[] password){
-        User user = findUser(username);
+    public void deleteUser(User user) {
+        userStorageProvider.removeItem(user);
+        userStorageProvider.saveToFile(usersFile);
+    }
+
+    public boolean login(String userId, char[] password){
+        User user = findUser(userId);
         if(user == null){
             //User does not exist
             return false;
@@ -62,9 +67,10 @@ public class LoginManager {
 
     }
 
-    public User findUser(String username){
+
+    public User findUser(String userId){
         for(User user : userStorageProvider.getItems()){
-            if(user.getUsername().equalsIgnoreCase(username)){
+            if(user.getUserId().equalsIgnoreCase(userId)){
                 return user;
             }
         }
@@ -113,8 +119,8 @@ public class LoginManager {
      */
     public void printUsers() {
         for (User user : userStorageProvider.getItems()) {
-            System.out.println(user.getUserId());
-            System.out.println(user.getUserId() + "," + user.getUsername() + "," + Arrays.toString(user.getPasswordHashed()) + "," + user);
+            System.out.println(user.getSystemUserId());
+            System.out.println(user.getSystemUserId() + "," + user.getUserId() + "," + Arrays.toString(user.getPasswordHashed()) + "," + user);
         }
     }
 

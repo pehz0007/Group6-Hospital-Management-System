@@ -9,8 +9,8 @@ import java.util.UUID;
 public class UserView {
 
     @HeaderField(width = 40)
-    private final UUID userId;
-    private final String username;
+    private final UUID systemUserId;
+    private final String userId;
     private final String name;
     private final Gender gender;
     private byte[] passwordHashed;
@@ -21,8 +21,8 @@ public class UserView {
 
     public UserView(User user){
         this.user = user;
+        this.systemUserId = user.getSystemUserId();
         this.userId = user.getUserId();
-        this.username = user.getUsername();
         this.name = user.getName();
         this.gender = user.getGender();
         this.passwordHashed = user.getPasswordHashed();

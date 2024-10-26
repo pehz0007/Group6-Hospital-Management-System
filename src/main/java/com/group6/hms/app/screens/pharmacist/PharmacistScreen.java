@@ -28,7 +28,7 @@ public class PharmacistScreen extends LogoutScreen {
 
     @Override
     public void onStart() {
-        println("Welcome, " + getLoginManager().getCurrentlyLoggedInUser().getUsername());
+        println("Welcome, " + getLoginManager().getCurrentlyLoggedInUser().getUserId());
         Pharmacist pharmacist = (Pharmacist) getLoginManager().getCurrentlyLoggedInUser();
         super.onStart();
     }

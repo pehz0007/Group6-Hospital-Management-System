@@ -36,13 +36,13 @@ public class LoginScreen extends Screen {
         setCurrentTextConsoleColor(ConsoleColor.PURPLE);
         boolean loginSuccessful = false;
         while (!loginSuccessful) {
-            print("Username: ");
-            String username = readString();
+            print("User ID: ");
+            String userId = readString();
             print("Password: ");
             char[] password = consoleInterface.readPassword();
 
             //Perform login authentication
-            if (loginManager.login(username, password)) {
+            if (loginManager.login(userId, password)) {
                 loginSuccessful = true;
                 println("Login Successful");
 

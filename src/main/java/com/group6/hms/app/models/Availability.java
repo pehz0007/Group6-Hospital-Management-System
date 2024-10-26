@@ -4,7 +4,6 @@ import com.group6.hms.app.roles.Doctor;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.UUID;
 
 public class Availability {
     private Doctor doctor;
@@ -32,7 +31,7 @@ public class Availability {
     }
 
     public String getAvailabilityString() {
-        return doctor.getUserId().toString() + "," + availableDate.toString();
+        return doctor.getSystemUserId().toString() + "," + availableDate.toString();
     }
 
     public void setAvailableDate(LocalDate availableDate) {
