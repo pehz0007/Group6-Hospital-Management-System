@@ -19,6 +19,7 @@ import com.group6.hms.framework.screens.option.Option;
 import com.group6.hms.framework.screens.option.OptionsUtils;
 import com.group6.hms.framework.screens.pagination.PaginationTableScreen;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
@@ -28,13 +29,8 @@ public class ViewAndManageUsersScreen extends PaginationTableScreen<UserView> {
     private final int CREATE_USER = 4;
     private final int IMPORT_STAFFS = 5;
     private final int IMPORT_PATIENTS = 6;
-   
-
-    private final int CREATE_USER = 5;
     private final int UPDATE_USER = 6;
     private final int DELETE_USER = 7;
-    private final int IMPORT_STAFFS = 8;
-    private final int IMPORT_PATIENTS = 9;
    private final int IMPORT_MEDICATION_STOCK = 7;
 
     private LoginManager loginManager;

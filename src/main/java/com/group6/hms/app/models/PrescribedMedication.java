@@ -12,4 +12,11 @@ public class PrescribedMedication {
         return quantityToPrescribe;
     }
 
+    public Medication getMedication() {
+        return medication;
+    }
+
+    public void setMedication(Medication medication) {
+        this.medication = medication;
+    }
 }

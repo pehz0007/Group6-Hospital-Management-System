@@ -43,10 +43,10 @@ public class AppointmentManager {
 //        medications.add(new Medication(UUID.randomUUID(), "Panadol"));
 //        medications.add(new Medication(UUID.randomUUID(), "Cough Syrup"));
 //        medications.add(new Medication(UUID.randomUUID(), "Flu Medicine"));
-        AppointmentOutcomeRecord record = new AppointmentOutcomeRecord(doctor.getUserId(), patient.getUserId(), appt.getDate(), AppointmentService.CONSULT, medications, "high fever", MedicationStatus.PENDING);
+//        AppointmentOutcomeRecord record = new AppointmentOutcomeRecord(doctor.getUserId(), patient.getUserId(), appt.getDate(), AppointmentService.CONSULT, medications, "high fever", MedicationStatus.PENDING);
 
-        appointmentManager.completeAppointment(appt,record);
-        List<AppointmentOutcomeRecord> records = appointmentManager.getAppointmentOutcomeRecordsByStatus(MedicationStatus.PENDING);
+//        appointmentManager.completeAppointment(appt,record);
+//        List<AppointmentOutcomeRecord> records = appointmentManager.getAppointmentOutcomeRecordsByStatus(MedicationStatus.PENDING);
 
 
         //CARE PROVIDER
