@@ -71,7 +71,7 @@ public class CalendarScreen<Event extends EventInterface, Collection extends jav
                         currentDate = currentDate.minusDays(1);
                         break;
                     case EXIT:
-                        stopDisplayingCalendar = true;
+                        navigateBack();
                         break;
                 }
                 interactiveConsoleInterface.restoreCurrentScreen();
@@ -80,8 +80,13 @@ public class CalendarScreen<Event extends EventInterface, Collection extends jav
                 displayCalendar();
                 super.onDisplay();
             }
-
         }
+    }
+
+    @Override
+    protected void navigateBack() {
+        super.navigateBack();
+        stopDisplayingCalendar = true;
     }
 
     @Override
