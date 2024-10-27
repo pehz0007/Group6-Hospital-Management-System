@@ -213,7 +213,10 @@ public class DoctorScreen extends LogoutScreen {
                          service1 = AppointmentService.BLOOD_TEST;
                     }
 
-                    ArrayList<Medication> medications = new ArrayList<>();
+
+                    // TODO: 1) get all medications 2) doctor select what medications to prescribe + quantity 3) create PrescribedMedication object to pass into AppointmentOutcomeRecord
+                    ArrayList<PrescribedMedication> medications = new ArrayList<>();
+//                    medications.add()
 //                    medications.add(new Medication(UUID.randomUUID(), "Panadol"));
 //                    medications.add(new Medication(UUID.randomUUID(), "Cough Syrup"));
 //                    medications.add(new Medication(UUID.randomUUID(), "Flu Medicine"));

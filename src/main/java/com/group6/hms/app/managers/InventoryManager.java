@@ -1,56 +1,75 @@
 package com.group6.hms.app.managers;
 
 import com.group6.hms.app.models.Medication;
+import com.group6.hms.app.models.MedicationStock;
 import com.group6.hms.app.models.ReplenishmentRequest;
 import com.group6.hms.app.models.ReplenishmentRequestStatus;
+import com.group6.hms.app.storage.SerializationStorageProvider;
+import com.group6.hms.app.storage.StorageProvider;
 
-import java.util.ArrayList;
+import java.io.File;
 import java.util.List;
-import java.util.UUID;
 
 
-// TODO: load medication list
 public class InventoryManager {
-    private List<Medication> medicationList;
-    private List<ReplenishmentRequest> replenishmentRequestList;
+    private static final File medicationStockFile = new File("data/medications.ser");
+    private static final File replenishmentRequestFile = new File("data/replenishments.ser");
+    private final StorageProvider<MedicationStock> medicationStockStorageProvider = new SerializationStorageProvider<>();
+    private final StorageProvider<ReplenishmentRequest> replenishmentStorageProvider = new SerializationStorageProvider<>();
 
     public InventoryManager() {
-        medicationList = new ArrayList<>();
-        replenishmentRequestList = new ArrayList<>();
+       if (!medicationStockFile.exists()) {
+           System.err.println("Administrator must import Medication Stock first!");
+           return;
+       }
+       if (!replenishmentRequestFile.exists()) {
+           replenishmentStorageProvider.saveToFile(replenishmentRequestFile);
+       }
+       medicationStockStorageProvider.loadFromFile(medicationStockFile);
+       replenishmentStorageProvider.loadFromFile(replenishmentRequestFile);
     }
 
-    public List<Medication> getAllMedications() {
-        return medicationList;
+    // to see what Medications are in our system + how much of each left
+    public List<MedicationStock> getAllMedicationStock() {
+        return medicationStockStorageProvider.getItems().stream().toList();
     }
 
-    // translate the Medication names to the actual Medication objects
-    // for Pharmacist to translate the medication names in AppointmentOutcomeRecord to a list of Medication
-    public List<Medication> getMedicationByNames(List<String> medicationNameList) {
-        return medicationList.stream().filter(med -> medicationNameList.contains(med.getName())).toList();
+    // to get Medication without the quantity
+    // for Doctor to select what Medications can be prescribed
+    public List<Medication> getAllMedication() {
+        return medicationStockStorageProvider.getItems().stream().map(MedicationStock::getMedication).toList();
     }
 
     // for Pharmacist to submit request to Administrator
     public void submitReplenishmentRequest(List<ReplenishmentRequest> requests) {
-        replenishmentRequestList.addAll(requests);
+        for (ReplenishmentRequest request : requests) {
+            replenishmentStorageProvider.addNewItem(request);
+        }
+        replenishmentStorageProvider.saveToFile(replenishmentRequestFile);
     }
 
-    // for Pharmacist to call after dispensing medication
-    public void decreaseMedicationStock(UUID medicationId, int amountUsed) {
-        Medication medicationToDecrease = medicationList.stream().filter(med-> med.getMedicationId().equals(medicationId)).findFirst().orElse(null);
+    // for Pharmacist to call when dispensing medication
+    public void decreaseMedicationStock(Medication med, int amountUsed) {
+        MedicationStock medicationToDecrease = medicationStockStorageProvider.getItems().stream().filter(stock-> stock.getMedication().getName().equals(med.getName())).findFirst().orElse(null);
         if (medicationToDecrease == null) {
             System.err.println("Medication does not exist.");
             return;
         }
+
         int previousStockLevel = medicationToDecrease.getCurrentStock();
         medicationToDecrease.minusStock(amountUsed);
         int newStockLevel = medicationToDecrease.getCurrentStock();
-        System.out.printf("Stock for %s decreased from %d to %d\n", medicationToDecrease.getName(), previousStockLevel, newStockLevel);
+
+        medicationStockStorageProvider.saveToFile(medicationStockFile);
+        System.out.printf("Stock for %s decreased from %d to %d\n", medicationToDecrease.getMedication().getName(), previousStockLevel, newStockLevel);
     }
 
     // for Administrator to approve the Pharmacist's requests
     public void approveReplenishmentRequest(ReplenishmentRequest request) {
-        request.setReplenishmentRequestStatus(ReplenishmentRequestStatus.APPROVED);
-        Medication medicationToReplenish = medicationList.stream().filter(med -> med.getMedicationId().equals(request.getMedicationId())).findFirst().orElse(null);
+        replenishmentStorageProvider.getItems().stream().filter(rep -> rep.getRequestId().equals(request.getRequestId())).findFirst().ifPresent(r -> {
+            r.setReplenishmentRequestStatus(ReplenishmentRequestStatus.APPROVED);
+        });
+        MedicationStock medicationToReplenish = medicationStockStorageProvider.getItems().stream().filter(stock -> stock.getMedication().getName().equals(request.getMedication().getName())).findFirst().orElse(null);
         if (medicationToReplenish == null) {
             System.err.println("Medication does not exist.");
             return;
@@ -58,22 +77,25 @@ public class InventoryManager {
         int previousStockLevel = medicationToReplenish.getCurrentStock();
         medicationToReplenish.addStock(request.getAmountToReplenish());
         int newStockLevel = medicationToReplenish.getCurrentStock();
-        System.out.printf("Stock for %s increased from %d to %d\n", medicationToReplenish.getName(), previousStockLevel, newStockLevel);
+
+        replenishmentStorageProvider.saveToFile(replenishmentRequestFile);
+        medicationStockStorageProvider.saveToFile(medicationStockFile);
+        System.out.printf("Stock for %s increased from %d to %d\n", medicationToReplenish.getMedication().getName(), previousStockLevel, newStockLevel);
     }
 
     // for Administrator to get requests
     public List<ReplenishmentRequest> getReplenishmentRequestByStatus(ReplenishmentRequestStatus status) {
-        return replenishmentRequestList.stream().filter(req -> req.getReplenishmentRequestStatus().equals(status)).toList();
+        return replenishmentStorageProvider.getItems().stream().filter(req -> req.getReplenishmentRequestStatus().equals(status)).toList();
     }
 
     // for Administrator to get requests
     public List<ReplenishmentRequest> getAllReplenishmentRequest() {
-        return replenishmentRequestList;
+        return replenishmentStorageProvider.getItems().stream().toList();
     }
 
     // for Administrator to determine whether to refill medication
-    public boolean isStockLow(Medication medication) {
-        return medication.getCurrentStock() < medication.getLowStockLevelLimit();
+    public boolean isStockLow(MedicationStock medicationStock) {
+        return medicationStock.getCurrentStock() < medicationStock.getLowStockLevelLimit();
     }
 
 }

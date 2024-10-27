@@ -3,10 +3,14 @@ package com.group6.hms.app.screens.admin;
 import com.group6.hms.app.auth.LoginManager;
 import com.group6.hms.app.auth.LoginManagerHolder;
 import com.group6.hms.app.auth.User;
+import com.group6.hms.app.models.MedicationStock;
 import com.group6.hms.app.roles.Patient;
 import com.group6.hms.app.roles.Staff;
+import com.group6.hms.app.screens.admin.importer.MedicationStockCSVReader;
 import com.group6.hms.app.screens.admin.importer.PatientsCSVReader;
 import com.group6.hms.app.screens.admin.importer.StaffsCSVReader;
+import com.group6.hms.app.storage.SerializationStorageProvider;
+import com.group6.hms.app.storage.StorageProvider;
 import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.pagination.PaginationTableScreen;
 
@@ -21,6 +25,7 @@ public class ViewAndManageUsersScreen extends PaginationTableScreen<UserView> {
     private final int CREATE_USER = 4;
     private final int IMPORT_STAFFS = 5;
     private final int IMPORT_PATIENTS = 6;
+    private final int IMPORT_MEDICATION_STOCK = 7;
     private LoginManager loginManager;
 
     public ViewAndManageUsersScreen() {
@@ -28,6 +33,7 @@ public class ViewAndManageUsersScreen extends PaginationTableScreen<UserView> {
         addOption(CREATE_USER, "Create New User");
         addOption(IMPORT_STAFFS, "Import Staffs");
         addOption(IMPORT_PATIENTS, "Import Patients");
+        addOption(IMPORT_MEDICATION_STOCK, "Import Medication Stock");
     }
 
     @Override
@@ -87,6 +93,28 @@ public class ViewAndManageUsersScreen extends PaginationTableScreen<UserView> {
                 setCurrentTextConsoleColor(ConsoleColor.GREEN);
                 println("Patients imported successfully!");
                 waitForKeyPress();
+            } catch (FileNotFoundException e) {
+                setCurrentTextConsoleColor(ConsoleColor.RED);
+                println("Unable to find file!");
+                waitForKeyPress();
+            }
+        }
+        else if (optionId == IMPORT_MEDICATION_STOCK) {
+            print("Medication File Location:");
+            String filePath = readString();
+            try {
+                MedicationStockCSVReader medicationStockCSVReader = new MedicationStockCSVReader(new FileReader(filePath));
+                List<MedicationStock> medications = medicationStockCSVReader.readAllMedications();
+                StorageProvider<MedicationStock> medicationStorageProvider = new SerializationStorageProvider<>();
+                File medicationsFile = new File("data/medications.ser");
+
+                for (MedicationStock medicationStock : medications) {
+                    medicationStorageProvider.addNewItem(medicationStock);
+                }
+                medicationStorageProvider.saveToFile(medicationsFile);
+                setCurrentTextConsoleColor(ConsoleColor.GREEN);
+                println("Medication Stock imported successfully!");
+
             } catch (FileNotFoundException e) {
                 setCurrentTextConsoleColor(ConsoleColor.RED);
                 println("Unable to find file!");

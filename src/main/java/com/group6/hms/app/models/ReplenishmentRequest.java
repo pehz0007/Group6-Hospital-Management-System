@@ -3,16 +3,14 @@ package com.group6.hms.app.models;
 import java.util.UUID;
 
 public class ReplenishmentRequest {
-    private UUID requestId;
-    private UUID medicationId;
-    private UUID medicationName;
-    private int amountToReplenish;
+    private final UUID requestId;
+    private Medication medication;
+    private final int amountToReplenish;
     private ReplenishmentRequestStatus replenishmentRequestStatus;
 
-    public ReplenishmentRequest(UUID requestId, UUID medicationId, UUID medicationName, int amountToReplenish, ReplenishmentRequestStatus replenishmentRequestStatus) {
+    public ReplenishmentRequest(UUID requestId, Medication medication, int amountToReplenish, ReplenishmentRequestStatus replenishmentRequestStatus) {
         this.requestId = requestId;
-        this.medicationId = medicationId;
-        this.medicationName = medicationName;
+        this.medication = medication;
         this.amountToReplenish = amountToReplenish;
         this.replenishmentRequestStatus = replenishmentRequestStatus;
     }
@@ -21,32 +19,8 @@ public class ReplenishmentRequest {
         return requestId;
     }
 
-    public void setRequestId(UUID requestId) {
-        this.requestId = requestId;
-    }
-
-    public UUID getMedicationId() {
-        return medicationId;
-    }
-
-    public void setMedicationId(UUID medicationId) {
-        this.medicationId = medicationId;
-    }
-
-    public UUID getMedicationName() {
-        return medicationName;
-    }
-
-    public void setMedicationName(UUID medicationName) {
-        this.medicationName = medicationName;
-    }
-
     public int getAmountToReplenish() {
         return amountToReplenish;
-    }
-
-    public void setAmountToReplenish(int amountToReplenish) {
-        this.amountToReplenish = amountToReplenish;
     }
 
     public ReplenishmentRequestStatus getReplenishmentRequestStatus() {
@@ -55,5 +29,13 @@ public class ReplenishmentRequest {
 
     public void setReplenishmentRequestStatus(ReplenishmentRequestStatus replenishmentRequestStatus) {
         this.replenishmentRequestStatus = replenishmentRequestStatus;
+    }
+
+    public Medication getMedication() {
+        return medication;
+    }
+
+    public void setMedication(Medication medication) {
+        this.medication = medication;
     }
 }
