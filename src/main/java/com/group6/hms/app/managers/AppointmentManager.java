@@ -11,6 +11,7 @@ import com.group6.hms.app.roles.Patient;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +80,7 @@ public class AppointmentManager {
     }
 
     public ArrayList<Appointment> getAppointmentsByDoctorAndStatus(Doctor doctor, AppointmentStatus status) {
-        List<Appointment> aptList = appointmentStorageProvider.getItems().stream().filter(apt -> apt.getDoctor().getSystemUserId().equals(doctor.getSystemUserId()) && apt.getStatus() == AppointmentStatus.CONFIRMED).toList();
+        List<Appointment> aptList = appointmentStorageProvider.getItems().stream().filter(apt -> apt.getDoctor().getUserId().equals(doctor.getUserId()) && apt.getStatus() == status).toList();
         return new ArrayList<>(aptList);
     }
 
