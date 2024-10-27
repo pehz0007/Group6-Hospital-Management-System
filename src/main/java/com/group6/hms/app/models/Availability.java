@@ -1,6 +1,9 @@
 package com.group6.hms.app.models;
 
 import com.group6.hms.app.roles.Doctor;
+import com.group6.hms.framework.screens.ConsoleInterface;
+import com.group6.hms.framework.screens.calendar.EventInterface;
+import com.group6.hms.framework.screens.pagination.PrintTableUtils;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
