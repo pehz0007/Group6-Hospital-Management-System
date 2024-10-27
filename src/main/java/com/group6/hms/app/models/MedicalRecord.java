@@ -8,6 +8,11 @@ public class MedicalRecord implements Serializable {
     private LocalDate dateOfBirth;
     private BloodType bloodType;
 
+    public MedicalRecord(LocalDate dateOfBirth, BloodType bloodType) {
+        this.dateOfBirth = dateOfBirth;
+        this.bloodType = bloodType;
+    }
+
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
@@ -23,6 +28,4 @@ public class MedicalRecord implements Serializable {
     public void setBloodType(BloodType bloodType) {
         this.bloodType = bloodType;
     }
-
-
 }
