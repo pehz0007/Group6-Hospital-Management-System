@@ -57,7 +57,7 @@ public class Patient extends User {
                 ", Patient Name:'" + name + '\'' +
                 ", Date Of Birth:'" + dateOfBirth + '\'' +
                 ", Gender:'" + gender + '\'' +
-                ", Phone Number:'" + phoneNumber + '\'' +
+                ", Phone Number::'" + phoneNumber + '\'' +
                 ", Email:'" + email + '\'' +
                 ", Blood Type:'" + bloodType + '\'' +
                 ", Medical Record:'" + medicalRecord +
