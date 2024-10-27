@@ -5,10 +5,12 @@ import com.group6.hms.app.models.MedicalRecord;
 
 public class Patient extends User {
 
+    private String contactInformation; // Email
     private MedicalRecord medicalRecord;
 
-    public Patient(String username, char[] password, String name, Gender gender) {
-        super(username, password, name, gender);
+    public Patient(String userId, char[] password, String name, Gender gender) {
+        super(userId, password, name, gender);
+        this.medicalRecord = new MedicalRecord();
     }
 
     public MedicalRecord getMedicalRecord() {
@@ -17,6 +19,14 @@ public class Patient extends User {
 
     public void updateMedicalRecord(MedicalRecord medicalRecord) {
         this.medicalRecord = medicalRecord;
+    }
+
+    public String getContactInformation() {
+        return contactInformation;
+    }
+
+    public void setContactInformation(String contactInformation) {
+        this.contactInformation = contactInformation;
     }
 
     @Override

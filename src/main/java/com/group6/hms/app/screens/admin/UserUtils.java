@@ -36,12 +36,10 @@ public class UserUtils {
     ));
 
     public static void askForUserCreation(ConsoleInterface consoleInterface, LoginManager loginManager) {
-
         int selectedOptionId = OptionsUtils.askOptions(consoleInterface, options);
-
         // Create user
-        consoleInterface.print("Username: ");
-        String username = consoleInterface.readString();
+        consoleInterface.print("User ID: ");
+        String userId = consoleInterface.readString();
 
         consoleInterface.print("Password: ");
         char[] password = consoleInterface.readPassword();
@@ -60,21 +58,21 @@ public class UserUtils {
         User user;
         if(selectedOptionId == ADMIN_ID || selectedOptionId == PHARMACIST_ID || selectedOptionId == DOCTOR_ID) {
             //Create Staff
-            consoleInterface.print("Staff ID: ");
-            String staffId = consoleInterface.readString();
+//            consoleInterface.print("Staff ID: ");
+//            String staffId = consoleInterface.readString();
 
             consoleInterface.print("Age: ");
             int age = consoleInterface.readInt();
 
             user = switch (selectedOptionId){
-                case ADMIN_ID -> new Administrator(username, password, name, gender, staffId, age);
-                case DOCTOR_ID -> new Doctor(username, password, name, gender, staffId, age);
-                case PHARMACIST_ID -> new Pharmacist(username, password, name, gender, staffId, age);
+                case ADMIN_ID -> new Administrator(userId, password, name, gender, age);
+                case DOCTOR_ID -> new Doctor(userId, password, name, gender, age);
+                case PHARMACIST_ID -> new Pharmacist(userId, password, name, gender, age);
                 default -> throw new IllegalStateException("Unexpected value: " + selectedOptionId);
             };
         }else if(selectedOptionId == PATIENT_ID) {
             //Create patient
-            user = new Patient(username, password, name, gender);
+            user = new Patient(userId, password, name, gender);
 
         }else throw new InvalidStaffRoleException("Unexpected role value: " + selectedOptionId);
 
@@ -82,6 +80,7 @@ public class UserUtils {
         loginManager.saveUsersToFile();
 
     }
+
 
 
 }

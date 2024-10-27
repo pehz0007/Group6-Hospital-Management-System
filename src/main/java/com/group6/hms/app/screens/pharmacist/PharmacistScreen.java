@@ -7,11 +7,9 @@ import com.group6.hms.app.MedicationStatus;
 import com.group6.hms.app.models.Medication;
 import com.group6.hms.app.roles.Pharmacist;
 import com.group6.hms.app.screens.MainScreen;
-import com.group6.hms.framework.screens.pagination.PaginationTableScreen;
 import com.group6.hms.framework.screens.pagination.SinglePaginationTableScreen;
 
 import java.util.List;
-import java.util.Scanner;
 import java.util.UUID;
 
 public class PharmacistScreen extends LogoutScreen {
@@ -30,7 +28,7 @@ public class PharmacistScreen extends LogoutScreen {
 
     @Override
     public void onStart() {
-        println("Welcome, " + getLoginManager().getCurrentlyLoggedInUser().getUsername());
+        println("Welcome, " + getLoginManager().getCurrentlyLoggedInUser().getUserId());
         Pharmacist pharmacist = (Pharmacist) getLoginManager().getCurrentlyLoggedInUser();
         super.onStart();
     }
