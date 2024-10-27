@@ -11,13 +11,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collection;
 import java.util.Map;
 
-public class CalendarScreen<Event extends EventInterface> extends OptionScreen {
+public class CalendarScreen<Event extends EventInterface, Collection extends java.util.Collection<Event>> extends OptionScreen {
 
     // Store events
-    private final Map<LocalDate, Collection<Event>> events;
+    private final Map<LocalDate, Collection> events;
 
     // Current day navigation state
-    private LocalDate currentDate = LocalDate.now();
+    protected LocalDate currentDate = LocalDate.now();
 
     private static final int UP = 1;
     private static final int DOWN = 2;
@@ -31,7 +31,7 @@ public class CalendarScreen<Event extends EventInterface> extends OptionScreen {
      *
      * @param title The title of the screen to be displayed as a header.
      */
-    public CalendarScreen(String title, Map<LocalDate, Collection<Event>> events) {
+    public CalendarScreen(String title, Map<LocalDate, Collection> events) {
         super(title);
         this.events = events;
         setAllowBack(true);
@@ -142,8 +142,8 @@ public class CalendarScreen<Event extends EventInterface> extends OptionScreen {
         println("");
 
         // Display event if available for the selected day
-        Collection<Event> eventsOnSelectedDay = events.get(currentDate);
-        if (!eventsOnSelectedDay.isEmpty()) {
+        Collection eventsOnSelectedDay = events.get(currentDate);
+        if (eventsOnSelectedDay != null && !eventsOnSelectedDay.isEmpty()) {
             for(Event event : eventsOnSelectedDay) {
                 println("=".repeat(30));
                 event.displayEvent(consoleInterface);

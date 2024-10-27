@@ -7,7 +7,6 @@ public class MedicalRecord implements Serializable {
 
     private LocalDate dateOfBirth;
     private BloodType bloodType;
-    private String contextInformation; // Email
 
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
@@ -25,11 +24,5 @@ public class MedicalRecord implements Serializable {
         this.bloodType = bloodType;
     }
 
-    public String getContextInformation() {
-        return contextInformation;
-    }
 
-    public void setContextInformation(String contextInformation) {
-        this.contextInformation = contextInformation;
-    }
 }

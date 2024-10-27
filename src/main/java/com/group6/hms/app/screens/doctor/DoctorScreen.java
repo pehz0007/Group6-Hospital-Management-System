@@ -16,15 +16,18 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import static java.util.stream.Collectors.groupingBy;
+
 public class DoctorScreen extends LogoutScreen {
+
+
+    private AppointmentManager appointmentManager = new AppointmentManager();
+    private AvailabilityManager availabilityManager = new AvailabilityManager();
+    private Doctor doctor;
 
     /**
      * Constructor to initialize the DoctorScreen.
      */
-    AppointmentManager appointmentManager = new AppointmentManager();
-    AvailabilityManager availabilityManager = new AvailabilityManager();
-    Doctor doc = new Doctor("tonkatsu", "password".toCharArray());
-
     public DoctorScreen() {
         super("Doctor Menu");
         addOption(2, "View Patient Medical Records");
@@ -38,7 +41,8 @@ public class DoctorScreen extends LogoutScreen {
 
     @Override
     public void onStart() {
-        println("Welcome, " + getLoginManager().getCurrentlyLoggedInUser().getUsername());
+        doctor = (Doctor) getLoginManager().getCurrentlyLoggedInUser();
+        println("Welcome, " + doctor.getName());
         super.onStart();
     }
 
@@ -49,13 +53,13 @@ public class DoctorScreen extends LogoutScreen {
 
     @Override
     protected void handleOption(int optionId) {
-        User currentUser  = getLoginManager().getCurrentlyLoggedInUser ();
-        if (currentUser  == null) {
+        User currentUser = getLoginManager().getCurrentlyLoggedInUser();
+        if (currentUser == null) {
             System.out.println("No user is currently logged in.");
             return; // Exit or handle accordingly
         }
 
-        switch(optionId){
+        switch (optionId) {
             case 2, 3: {
                 Scanner sc = new Scanner(System.in);
                 System.out.println("Enter patient name: ");
@@ -64,9 +68,11 @@ public class DoctorScreen extends LogoutScreen {
                 break;
             }
             case 4: {
-                println("Getting personal schedule...");
-                List<Availability> avail_appointments  = availabilityManager.getAvailabilityByDoctor(doc);
-               printAvailability(avail_appointments);
+                Map<LocalDate, List<Availability>> avail_appointments = availabilityManager.getAvailabilityByDoctor(doctor).stream().collect(groupingBy(Availability::getAvailableDate));
+                navigateToScreen(new DoctorAvailabilityScreen(avail_appointments));
+//                println("Getting personal schedule...");
+//                List<Availability> avail_appointments = availabilityManager.getAvailabilityByDoctor(doctor);
+//                printAvailability(avail_appointments);
                 break;
             }
             case 5: {
@@ -80,31 +86,32 @@ public class DoctorScreen extends LogoutScreen {
                 println("Enter availability start time: ");
                 String startTime = sc.nextLine();
                 LocalTime startTime1 = LocalTime.parse(startTime);
-                Availability avail = new Availability(doc,date1, startTime1, startTime1.plusHours(1 ));
+                Availability avail = new Availability(doctor, date1, startTime1, startTime1.plusHours(1));
                 availabilityManager.addAvailability(avail);
                 break;
             }
 
             case 6: {
                 println("Accept or Decline Appointment Requests");
-                ArrayList<Appointment> requests = appointmentManager.getAppointmentsByDoctorAndStatus(doc, AppointmentStatus.REQUESTED);
+                ArrayList<Appointment> requests = appointmentManager.getAppointmentsByDoctorAndStatus(doctor, AppointmentStatus.REQUESTED);
                 acceptorDecline(requests);
                 break;
             }
             case 7: {
                 println("View Upcoming Appointments");
-                ArrayList<Appointment> upcoming = appointmentManager.getAppointmentsByDoctorAndStatus(doc, AppointmentStatus.CONFIRMED);
+                ArrayList<Appointment> upcoming = appointmentManager.getAppointmentsByDoctorAndStatus(doctor, AppointmentStatus.CONFIRMED);
                 upcomingAppointments(upcoming);
                 break;
             }
             case 8: {
                 println("Record Appointment Outcome");
-                ArrayList<Appointment> upcoming = appointmentManager.getAppointmentsByDoctorAndStatus(doc, AppointmentStatus.CONFIRMED);
+                ArrayList<Appointment> upcoming = appointmentManager.getAppointmentsByDoctorAndStatus(doctor, AppointmentStatus.CONFIRMED);
                 RecordAppointmentDetails(upcoming);
                 break;
             }
         }
     }
+
     protected void printAvailability(List<Availability> avail_appointments) {
         // Step 1: Group by date
         Map<LocalDate, List<Availability>> availabilityMap = new TreeMap<>();
@@ -128,25 +135,25 @@ public class DoctorScreen extends LogoutScreen {
         }
     }
 
-    protected void patientMedicialRecords(){
+    protected void patientMedicialRecords() {
 
     }
 
     protected void acceptorDecline(ArrayList<Appointment> appointments) {
         Scanner sc = new Scanner(System.in);
-        if(appointments.isEmpty()){
+        if (appointments.isEmpty()) {
             println("No requests appointment are found.");
-        }else{
-            println("You got "+ appointments.size()+" requests!");
-            for(Appointment appointment : appointments){
-                println("Scheduled Date: "+ appointment.getDate().toString());
-                println("Start Time: "+ appointment.getStartTime().toString());
-                println("End Time: "+ appointment.getEndTime().toString()+"\n");
+        } else {
+            println("You got " + appointments.size() + " requests!");
+            for (Appointment appointment : appointments) {
+                println("Scheduled Date: " + appointment.getDate().toString());
+                println("Start Time: " + appointment.getStartTime().toString());
+                println("End Time: " + appointment.getEndTime().toString() + "\n");
                 println("Accept or decline?");
                 String result = sc.nextLine();
-                if(result.equalsIgnoreCase("accept")){
+                if (result.equalsIgnoreCase("accept")) {
                     appointmentManager.acceptAppointmentRequest(appointment);
-                }else{
+                } else {
                     appointmentManager.declineAppointmentRequest(appointment);
                 }
             }
@@ -158,7 +165,7 @@ public class DoctorScreen extends LogoutScreen {
 
         for (Appointment upcoming : appointments) {
             LocalDate date = upcoming.getDate();
-            if(LocalDate.now().isBefore(date)){
+            if (LocalDate.now().isBefore(date)) {
                 availabilityMap.putIfAbsent(date, new ArrayList<>());
                 availabilityMap.get(date).add(upcoming);
             }
@@ -169,8 +176,8 @@ public class DoctorScreen extends LogoutScreen {
 
             println("Upcoming Appointment Date: " + date.toString());
             for (Appointment upcoming1 : appointments1) {
-                println("Patient Name: "+ upcoming1.getPatient().toString());
-                println("Appointment Timing: "+ upcoming1.getStartTime().toString()+"\n");
+                println("Patient Name: " + upcoming1.getPatient().toString());
+                println("Appointment Timing: " + upcoming1.getStartTime().toString() + "\n");
             }
             println(""); // Print a blank line for better readability
         }
@@ -181,7 +188,7 @@ public class DoctorScreen extends LogoutScreen {
 
         for (Appointment upcoming : appointments) {
             LocalDate date = upcoming.getDate();
-            if(LocalDate.now().isEqual(date)){
+            if (LocalDate.now().isEqual(date)) {
                 availabilityMap.putIfAbsent(date, new ArrayList<>());
                 availabilityMap.get(date).add(upcoming);
             }
@@ -196,23 +203,22 @@ public class DoctorScreen extends LogoutScreen {
             AppointmentService service1;
 
             for (Appointment upcoming1 : appointments1) {
-                println("Patient Name: "+ upcoming1.getPatient().toString());
-                println("Appointment Timing: "+ upcoming1.getStartTime().toString());
+                println("Patient Name: " + upcoming1.getPatient().toString());
+                println("Appointment Timing: " + upcoming1.getStartTime().toString());
                 println("Is this the appointment you want to update? (Y or N)");
                 char result = sc.nextLine().charAt(0);
-                if(result == 'Y'){
+                if (result == 'Y') {
                     println("Appointment Details Update:");
                     String details = sc.nextLine();
                     println("Appointment Service: (Consult or Xray or Blood Test");
                     String service = sc.nextLine();
-                    if(service.equalsIgnoreCase("consult")){
+                    if (service.equalsIgnoreCase("consult")) {
                         service1 = AppointmentService.CONSULT;
-                    }else if(service.equalsIgnoreCase("xray")){
-                         service1 = AppointmentService.XRAY;
-                    }else {
-                         service1 = AppointmentService.BLOOD_TEST;
+                    } else if (service.equalsIgnoreCase("xray")) {
+                        service1 = AppointmentService.XRAY;
+                    } else {
+                        service1 = AppointmentService.BLOOD_TEST;
                     }
-
 
                     // TODO: 1) get all medications 2) doctor select what medications to prescribe + quantity 3) create PrescribedMedication object to pass into AppointmentOutcomeRecord
                     ArrayList<PrescribedMedication> medications = new ArrayList<>();
@@ -221,6 +227,7 @@ public class DoctorScreen extends LogoutScreen {
 //                    medications.add(new Medication(UUID.randomUUID(), "Cough Syrup"));
 //                    medications.add(new Medication(UUID.randomUUID(), "Flu Medicine"));
                     AppointmentOutcomeRecord appointmentOutcomeRecord = new AppointmentOutcomeRecord(upcoming1.getDoctor().getUserId(), upcoming1.getPatient().getUserId(), upcoming1.getDate(),
+
                             service1, medications, details, MedicationStatus.PENDING);
                     appointmentManager.completeAppointment(upcoming1, appointmentOutcomeRecord);
                     break;
