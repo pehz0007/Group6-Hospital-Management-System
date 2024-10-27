@@ -7,6 +7,7 @@ import com.group6.hms.app.storage.StorageProvider;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class LoginManager {
@@ -71,6 +72,15 @@ public class LoginManager {
     public User findUser(String userId){
         for(User user : userStorageProvider.getItems()){
             if(user.getUserId().equalsIgnoreCase(userId)){
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public User findUser(UUID systemUserId){
+        for(User user : userStorageProvider.getItems()){
+            if(user.getSystemUserId().equals(systemUserId)){
                 return user;
             }
         }
