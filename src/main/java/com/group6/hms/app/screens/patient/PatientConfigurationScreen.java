@@ -4,7 +4,7 @@ import com.group6.hms.app.auth.LoginManager;
 import com.group6.hms.app.auth.LoginManagerHolder;
 import com.group6.hms.app.auth.UserInvalidPasswordException;
 import com.group6.hms.framework.screens.ConsoleColor;
-import com.group6.hms.framework.screens.OptionScreen;
+import com.group6.hms.framework.screens.option.OptionScreen;
 
 public class PatientConfigurationScreen extends OptionScreen {
 

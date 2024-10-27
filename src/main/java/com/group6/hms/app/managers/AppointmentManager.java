@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collection;
 import java.util.UUID;
 
 public class AppointmentManager {
@@ -44,9 +45,6 @@ public class AppointmentManager {
         AppointmentOutcomeRecord record = new AppointmentOutcomeRecord(doctor.getUserId(), patient.getUserId(), appt.getDate(), AppointmentService.CONSULT, medications, "high fever", MedicationStatus.PENDING);
         appointmentManager.completeAppointment(appt,record);
         List<AppointmentOutcomeRecord> records = appointmentManager.getAppointmentOutcomeRecordsByStatus(MedicationStatus.PENDING);
-        for (int i = 0; i < records.getFirst().getPrescribedMedication().size(); i++) {
-            System.out.println(records.getFirst().getPrescribedMedication().get(i).getName());
-        }
 
     }
     public AppointmentManager() {
@@ -63,6 +61,12 @@ public class AppointmentManager {
         return (List<Appointment>) appointmentStorageProvider.getItems();
     }
 
+    // New method to get all appointment outcome records
+    public List<AppointmentOutcomeRecord> getAllAppointmentOutcomeRecords() {
+        Collection<AppointmentOutcomeRecord> records = appointmentOutcomeStorageProvider.getItems(); // Get items as a Collection
+        return new ArrayList<>(records); // Convert Collection to List
+    }
+
     // for the patient to get their scheduled appointments
     public ArrayList<Appointment> getAppointmentsByPatient(Patient patient) {
         List<Appointment> aptList = appointmentStorageProvider.getItems().stream().filter(apt -> apt.getPatient().getUserId().equals(patient.getUserId())).toList();
@@ -70,7 +74,7 @@ public class AppointmentManager {
     }
 
     public ArrayList<Appointment> getAppointmentsByDoctorAndStatus(Doctor doctor, AppointmentStatus status) {
-        List<Appointment> aptList = appointmentStorageProvider.getItems().stream().filter(apt -> apt.getDoctor().getUserId().equals(doctor.getUserId()) && apt.getStatus() == AppointmentStatus.CONFIRMED).toList();
+        List<Appointment> aptList = appointmentStorageProvider.getItems().stream().filter(apt -> apt.getDoctor().getUserId().equals(doctor.getUserId()) && apt.getStatus() == status).toList();
         return new ArrayList<>(aptList);
     }
 

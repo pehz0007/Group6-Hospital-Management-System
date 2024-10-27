@@ -3,50 +3,21 @@ package com.group6.hms.app.roles;
 import com.group6.hms.app.auth.User;
 import com.group6.hms.app.models.MedicalRecord;
 
-import java.time.LocalDate;
-
 public class Patient extends User {
-    private String patientId;
-    private String patientName;
-    private String dateOfBirth;
-    private String gender;
-    private String phoneNumber;
-    private String email;
-    private String bloodType;
+
     private MedicalRecord medicalRecord;
 
-
-    public Patient(String username, char[] password, String patientId, String patientName,
-                   String dateOfBirth, String gender, String phoneNumber,
-                   String email, String bloodType) {
-
-        super(username, password);
-        this.patientId = patientId;
-        this.patientName = patientName;
-        this.dateOfBirth = dateOfBirth;
-        this.gender = gender;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.bloodType = bloodType;
-        this.medicalRecord = new MedicalRecord();
+    public Patient(String username, char[] password, String name, Gender gender) {
+        super(username, password, name, gender);
     }
 
     public MedicalRecord getMedicalRecord() {
         return medicalRecord;
     }
 
-    public String getPatientId() {return patientId;}
-    public String getPatientName() {return patientName;}
-    public String getDateOfBirth() {return dateOfBirth;}
-    public String getGender() {return gender;}
-    public String getPhoneNumber() {return phoneNumber;}
-    public String getEmail() {return email;}
-    public String getBloodType() {return bloodType;}
-    public String getPastDiagnoses() {return pastDiagnoses;}
-
-    //updatable info
-    public void setPhoneNumber(String phoneNumber) {this.phoneNumber = phoneNumber;}
-    public void setEmail(String email) {this.email = email;}
+    public void updateMedicalRecord(MedicalRecord medicalRecord) {
+        this.medicalRecord = medicalRecord;
+    }
 
     @Override
     public String getRoleName() {

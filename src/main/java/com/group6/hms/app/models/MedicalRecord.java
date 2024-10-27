@@ -1,27 +1,35 @@
 package com.group6.hms.app.models;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
+import java.time.LocalDate;
 
-public class MedicalRecord {
-    private List<String> pastDiagnoses;
+public class MedicalRecord implements Serializable {
 
-    public MedicalRecord() {
-        this.pastDiagnoses = new ArrayList<>();
+    private LocalDate dateOfBirth;
+    private BloodType bloodType;
+    private String contextInformation; // Email
+
+    public LocalDate getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    public void addDiagnose(String diagnoses) {
-        pastDiagnoses.add(diagnoses);
+    public void setDateOfBirth(LocalDate dateOfBirth) {
+        this.dateOfBirth = dateOfBirth;
     }
 
-    public void display(){
-        if(pastDiagnoses.isEmpty()){
-            System.out.println("No diagnoses recorded");
-        }else{
-            System.out.println("Your past diagnoses recorded: ");
-            for (String diagnoses : pastDiagnoses) {
-                System.out.println(diagnoses);
-            }
-        }
+    public BloodType getBloodType() {
+        return bloodType;
+    }
+
+    public void setBloodType(BloodType bloodType) {
+        this.bloodType = bloodType;
+    }
+
+    public String getContextInformation() {
+        return contextInformation;
+    }
+
+    public void setContextInformation(String contextInformation) {
+        this.contextInformation = contextInformation;
     }
 }
