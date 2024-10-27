@@ -14,6 +14,8 @@ public class ScreenManager implements Runnable{
     //Console interface for displaying screen;
     private final ConsoleInterface consoleInterface;
     private final Stack<Screen> navigationStack;
+    //Whether a new screen is shown
+    private boolean isNewScreen = true;
 
     /**
      * Constructor to initialize the ScreenManager with a main (initial) screen and the console interface.
@@ -37,6 +39,7 @@ public class ScreenManager implements Runnable{
      * @param newScreen the initial screen to display
      */
     protected void newScreen(Screen newScreen) {
+        isNewScreen = true;
         applicationHandle.requireSwitchingScreen();
         this.currentScreen = newScreen;
         this.navigationStack.clear();
@@ -66,7 +69,11 @@ public class ScreenManager implements Runnable{
         printHeaderScreen(nextScreen);
 
         //Lifecycle (OnStart): Call the onStart to start the screen
-        nextScreen.onStart();
+        if(isNewScreen){
+            nextScreen.onStart();
+            isNewScreen = false;
+        }
+        else nextScreen.onRefresh(); //Lifecycle (onRefresh): Call the onRefresh to refresh the screen
 
         //Lifecycle (OnDisplay): Call the OnDisplay to display the screen contents to the console
         nextScreen.onDisplay();
@@ -79,6 +86,7 @@ public class ScreenManager implements Runnable{
      * @param nextScreen The screen to navigate to.
      */
     public void navigateToScreen(Screen nextScreen) {
+        isNewScreen = true;
         Screen previousScreen = currentScreen;
         //Set current screen to the next screen
         currentScreen = nextScreen;

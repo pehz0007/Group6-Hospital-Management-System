@@ -9,8 +9,8 @@ public class Doctor extends Staff {
 //    private Schedule schedules; // binary tree and hash table
 
 
-    public Doctor(String username, char[] password, String name, Gender gender, String staffId , int age) {
-        super(username, password, name, gender, staffId, age);
+    public Doctor(String userId, char[] password, String name, Gender gender , int age) {
+        super(userId, password, name, gender, age);
 //        patientRoles = new ArrayList<>();
 //        schedules = new Schedule();
 
