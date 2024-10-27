@@ -60,7 +60,7 @@ public class PatientConfigurationScreen extends OptionScreen {
                 //TODO: Add old password checking
                 print("New Email:");
                 String email = readString();
-                patient.setContextInformation(email);
+                patient.setContactInformation(email);
                 //Update data to file
                 loginManager.saveUsersToFile();
                 setCurrentTextConsoleColor(ConsoleColor.GREEN);

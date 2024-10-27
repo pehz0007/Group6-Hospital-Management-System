@@ -1,13 +1,20 @@
 package com.group6.hms.app.screens.admin;
 
 import com.group6.hms.app.auth.User;
+import com.group6.hms.app.managers.AppointmentManager;
+import com.group6.hms.app.models.Appointment;
+import com.group6.hms.app.models.AppointmentStatus;
 import com.group6.hms.app.notifications.Notification;
 import com.group6.hms.app.notifications.NotificationManagerHolder;
 import com.group6.hms.app.notifications.NotificationScreen;
 import com.group6.hms.app.screens.MainScreen;
 import com.group6.hms.app.auth.LogoutScreen;
+import com.group6.hms.framework.screens.calendar.CalendarScreen;
 
+import java.time.LocalDate;
 import java.util.*;
+
+import static java.util.stream.Collectors.groupingBy;
 
 public class AdministratorScreen extends LogoutScreen {
 
@@ -57,6 +64,9 @@ public class AdministratorScreen extends LogoutScreen {
             case VIEW_APPOINTMENTS -> {
 
                 //SAMPLE
+                AppointmentManager appointmentManager = new AppointmentManager();
+                Map<LocalDate, List<Appointment>> appointments = appointmentManager.getAllAppointments().stream().collect(groupingBy(Appointment::getDate));
+                navigateToScreen(new CalendarScreen<>("Appointments", appointments));
 //                Multimap<LocalDate, AppointmentView> appointmentViews = MultimapBuilder.hashKeys().arrayListValues().build();
 //                var a1 = new AppointmentView(UUID.randomUUID(), UUID.randomUUID(), AppointmentStatus.CONFIRMED, LocalDateTime.now());
 //                appointmentViews.put(a1.getEventDateTime().toLocalDate(), a1);

@@ -16,6 +16,8 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import static java.util.stream.Collectors.groupingBy;
+
 public class DoctorScreen extends LogoutScreen {
 
 
@@ -66,9 +68,11 @@ public class DoctorScreen extends LogoutScreen {
                 break;
             }
             case 4: {
-                println("Getting personal schedule...");
-                List<Availability> avail_appointments = availabilityManager.getAvailabilityByDoctor(doctor);
-                printAvailability(avail_appointments);
+                Map<LocalDate, List<Availability>> avail_appointments = availabilityManager.getAvailabilityByDoctor(doctor).stream().collect(groupingBy(Availability::getAvailableDate));
+                navigateToScreen(new DoctorAvailabilityScreen(avail_appointments));
+//                println("Getting personal schedule...");
+//                List<Availability> avail_appointments = availabilityManager.getAvailabilityByDoctor(doctor);
+//                printAvailability(avail_appointments);
                 break;
             }
             case 5: {
