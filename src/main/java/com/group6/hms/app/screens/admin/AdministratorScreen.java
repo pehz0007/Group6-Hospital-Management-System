@@ -33,9 +33,9 @@ public class AdministratorScreen extends LogoutScreen {
     @Override
     public void onStart() {
         User user = getLoginManager().getCurrentlyLoggedInUser();
-        List<Notification> notifications = NotificationManagerHolder.getNotificationManager().getNotifications(user.getUserId());
-        NotificationManagerHolder.getNotificationManager().createNotification(new Notification("Appointment with patient", "You have an appointment with patient 1!", user.getUserId()));
-        println("Welcome, " + user.getUsername() + ", you have " + notifications.size() + " notifications");
+        List<Notification> notifications = NotificationManagerHolder.getNotificationManager().getNotifications(user.getSystemUserId());
+        NotificationManagerHolder.getNotificationManager().createNotification(new Notification("Appointment with patient", "You have an appointment with patient 1!", user.getSystemUserId()));
+        println("Welcome, " + user.getName() + ", you have " + notifications.size() + " notifications");
         super.onStart();
 
     }

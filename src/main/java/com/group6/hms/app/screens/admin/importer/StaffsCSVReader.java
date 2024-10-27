@@ -33,9 +33,9 @@ public class StaffsCSVReader extends CSVReader {
             int staffAge = NumberUtils.tryParseInt(values[4]);
 
             Staff staff = switch (staffRole){
-                case "doctor" -> new Doctor(staffId, defaultPassword, staffName, staffGender, staffId, staffAge);
-                case "pharmacist" -> new Pharmacist(staffId, defaultPassword, staffName, staffGender, staffId, staffAge);
-                case "administrator" -> new Administrator(staffId, defaultPassword, staffName, staffGender, staffId, staffAge);
+                case "doctor" -> new Doctor(staffId, defaultPassword, staffName, staffGender, staffAge);
+                case "pharmacist" -> new Pharmacist(staffId, defaultPassword, staffName, staffGender, staffAge);
+                case "administrator" -> new Administrator(staffId, defaultPassword, staffName, staffGender, staffAge);
                 default -> throw new InvalidStaffRoleException("Invalid staff role, " + staffRole);
             };
             staffs.add(staff);

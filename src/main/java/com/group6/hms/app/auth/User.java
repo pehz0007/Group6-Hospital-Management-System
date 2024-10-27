@@ -7,26 +7,26 @@ import java.util.UUID;
 
 public abstract class User implements Serializable {
 
-    private final UUID userId;
-    private final String username;
+    private final UUID systemUserId;
+    private final String userId;
     private final String name;
     private final Gender gender;
     private byte[] passwordHashed;
 
     /**
-     * Create a new user object with the username and password.
+     * Create a new user object with the user id and password.
      *
      * This constructor is only called when a new user is created.
      * The password will be hash after creating the user object.
      *
-     * @param username - the username of the user
+     * @param userId - the user id of the user
      * @param name - name of the user
      * @param password - the password of the user
      * @param gender - gender of the user
      */
-    protected User(String username, char[] password, String name, Gender gender) {
-        this.userId = UUID.randomUUID();
-        this.username = username;
+    protected User(String userId, char[] password, String name, Gender gender) {
+        this.systemUserId = UUID.randomUUID();
+        this.userId = userId;
         this.name = name;
         this.gender = gender;
         //Skip verify password checking
@@ -34,12 +34,12 @@ public abstract class User implements Serializable {
         this.passwordHashed = PasswordUtils.hashPassword(password);
     }
 
-    public UUID getUserId() {
-        return userId;
+    public UUID getSystemUserId() {
+        return systemUserId;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserId() {
+        return userId;
     }
 
     public String getName() {

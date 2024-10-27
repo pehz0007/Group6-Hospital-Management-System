@@ -25,14 +25,14 @@ public class NotificationScreen extends SinglePaginationTableScreen<Notification
     private void updateNotifications() {
         User user = LoginManagerHolder.getLoginManager().getCurrentlyLoggedInUser();
         notificationManager = NotificationManagerHolder.getNotificationManager();
-        setItems(notificationManager.getNotifications(user.getUserId()));
+        setList(notificationManager.getNotifications(user.getSystemUserId()));
     }
 
     @Override
     protected void handleOption(int optionId) {
         if(optionId == DISMISS_ALL_NOTIFICATION) {
             User user = LoginManagerHolder.getLoginManager().getCurrentlyLoggedInUser();
-            notificationManager.dismissAllNotificationFromUser(user.getUserId());
+            notificationManager.dismissAllNotificationFromUser(user.getSystemUserId());
             updateNotifications();
         }
     }

@@ -29,8 +29,8 @@ public class AppointmentManager {
         AppointmentManager appointmentManager = new AppointmentManager();
         AvailabilityManager availabilityManager = new AvailabilityManager();
         loginManager.loadUsersFromFile();
-        Doctor doctor = (Doctor) loginManager.findUser("tonkatsu");
-        Patient patient = (Patient) loginManager.findUser("shirokuma");
+        Doctor doctor = (Doctor) loginManager.findUser("D0011");
+        Patient patient = (Patient) loginManager.findUser("P1011");
         LocalTime timeNow = LocalTime.now();
         Availability avail = new Availability(doctor, LocalDate.now(), timeNow, timeNow.plusHours(1));
         availabilityManager.addAvailability(avail);
@@ -42,9 +42,15 @@ public class AppointmentManager {
         medications.add(new Medication(UUID.randomUUID(), "Panadol"));
         medications.add(new Medication(UUID.randomUUID(), "Cough Syrup"));
         medications.add(new Medication(UUID.randomUUID(), "Flu Medicine"));
-        AppointmentOutcomeRecord record = new AppointmentOutcomeRecord(doctor.getUserId(), patient.getUserId(), appt.getDate(), AppointmentService.CONSULT, medications, "high fever", MedicationStatus.PENDING);
+        AppointmentOutcomeRecord record = new AppointmentOutcomeRecord(doctor.getSystemUserId(), patient.getSystemUserId(), appt.getDate(), AppointmentService.CONSULT, medications, "high fever", MedicationStatus.PENDING);
         appointmentManager.completeAppointment(appt,record);
         List<AppointmentOutcomeRecord> records = appointmentManager.getAppointmentOutcomeRecordsByStatus(MedicationStatus.PENDING);
+
+
+        //CARE PROVIDER
+        CareProvider careProvider = new CareProvider();
+        var p = careProvider.getPatientIDsUnderDoctorCare(doctor);
+        careProvider.addPatientToDoctorCare(patient, doctor);
 
     }
     public AppointmentManager() {
@@ -69,12 +75,12 @@ public class AppointmentManager {
 
     // for the patient to get their scheduled appointments
     public ArrayList<Appointment> getAppointmentsByPatient(Patient patient) {
-        List<Appointment> aptList = appointmentStorageProvider.getItems().stream().filter(apt -> apt.getPatient().getUserId().equals(patient.getUserId())).toList();
+        List<Appointment> aptList = appointmentStorageProvider.getItems().stream().filter(apt -> apt.getPatient().getSystemUserId().equals(patient.getSystemUserId())).toList();
         return new ArrayList<>(aptList);
     }
 
     public ArrayList<Appointment> getAppointmentsByDoctorAndStatus(Doctor doctor, AppointmentStatus status) {
-        List<Appointment> aptList = appointmentStorageProvider.getItems().stream().filter(apt -> apt.getDoctor().getUserId().equals(doctor.getUserId()) && apt.getStatus() == status).toList();
+        List<Appointment> aptList = appointmentStorageProvider.getItems().stream().filter(apt -> apt.getDoctor().getSystemUserId().equals(doctor.getSystemUserId()) && apt.getStatus() == status).toList();
         return new ArrayList<>(aptList);
     }
 
@@ -153,7 +159,7 @@ public class AppointmentManager {
 
     // for patient to view their outcomes
     public List<AppointmentOutcomeRecord> getAppointmentOutcomeRecordsByPatient(Patient patient) {
-        return appointmentOutcomeStorageProvider.getItems().stream().filter(outcome ->outcome.getPatientId().equals(patient.getUserId())).toList();
+        return appointmentOutcomeStorageProvider.getItems().stream().filter(outcome ->outcome.getPatientId().equals(patient.getSystemUserId())).toList();
 
     }
 
