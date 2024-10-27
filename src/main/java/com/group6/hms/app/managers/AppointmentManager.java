@@ -28,8 +28,8 @@ public class AppointmentManager {
         AppointmentManager appointmentManager = new AppointmentManager();
         AvailabilityManager availabilityManager = new AvailabilityManager();
         loginManager.loadUsersFromFile();
-        Doctor doctor = (Doctor) loginManager.findUser("tonkatsu");
-        Patient patient = (Patient) loginManager.findUser("shirokuma");
+        Doctor doctor = (Doctor) loginManager.findUser("D0011");
+        Patient patient = (Patient) loginManager.findUser("P1011");
         LocalTime timeNow = LocalTime.now();
         Availability avail = new Availability(doctor, LocalDate.now(), timeNow, timeNow.plusHours(1));
         availabilityManager.addAvailability(avail);
@@ -44,6 +44,12 @@ public class AppointmentManager {
         AppointmentOutcomeRecord record = new AppointmentOutcomeRecord(doctor.getSystemUserId(), patient.getSystemUserId(), appt.getDate(), AppointmentService.CONSULT, medications, "high fever", MedicationStatus.PENDING);
         appointmentManager.completeAppointment(appt,record);
         List<AppointmentOutcomeRecord> records = appointmentManager.getAppointmentOutcomeRecordsByStatus(MedicationStatus.PENDING);
+
+
+        //CARE PROVIDER
+        CareProvider careProvider = new CareProvider();
+        var p = careProvider.getPatientIDsUnderDoctorCare(doctor);
+        careProvider.addPatientToDoctorCare(patient, doctor);
 
     }
     public AppointmentManager() {
