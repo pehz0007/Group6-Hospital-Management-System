@@ -52,7 +52,6 @@ public class DoctorScreen extends LogoutScreen {
     public void onStart() {
         println("Welcome, " + getLoginManager().getCurrentlyLoggedInUser().getName() + "!");
         super.onStart();
-
     }
 
     @Override
@@ -106,6 +105,7 @@ public class DoctorScreen extends LogoutScreen {
             }
         }
     }
+
     protected void printAvailability(List<Availability> avail_appointments) {
         // Step 1: Group by date
         Map<LocalDate, List<Availability>> availabilityMap = new TreeMap<>();
@@ -258,14 +258,27 @@ public class DoctorScreen extends LogoutScreen {
                          service1 = AppointmentService.BLOOD_TEST;
                     }
 
-                    ArrayList<Medication> medications = new ArrayList<>();
-                    medications.add(new Medication(UUID.randomUUID(), "Panadol"));
-                    medications.add(new Medication(UUID.randomUUID(), "Cough Syrup"));
-                    medications.add(new Medication(UUID.randomUUID(), "Flu Medicine"));
-                    AppointmentOutcomeRecord appointmentOutcomeRecord = new AppointmentOutcomeRecord(upcoming1.getDoctor().getSystemUserId(), upcoming1.getPatient().getSystemUserId(), upcoming1.getDate(),
-                            service1, medications, details, MedicationStatus.PENDING);
-                    appointmentManager.completeAppointment(upcoming1, appointmentOutcomeRecord);
-                    println("Updated Successfully!!");
+//                    ArrayList<Medication> medications = new ArrayList<>();
+//                    medications.add(new Medication(UUID.randomUUID(), "Panadol"));
+//                    medications.add(new Medication(UUID.randomUUID(), "Cough Syrup"));
+//                    medications.add(new Medication(UUID.randomUUID(), "Flu Medicine"));
+//                    AppointmentOutcomeRecord appointmentOutcomeRecord = new AppointmentOutcomeRecord(upcoming1.getDoctor().getSystemUserId(), upcoming1.getPatient().getSystemUserId(), upcoming1.getDate(),
+//                            service1, medications, details, MedicationStatus.PENDING);
+//                    appointmentManager.completeAppointment(upcoming1, appointmentOutcomeRecord);
+//                    println("Updated Successfully!!");
+                    // TODO:
+                    //  1) get all medications
+                    //  2) doctor select what medications to prescribe + quantity
+                    //  3) create PrescribedMedication object to pass into AppointmentOutcomeRecord
+                    ArrayList<PrescribedMedication> medications = new ArrayList<>();
+//                    medications.add()
+//                    medications.add(new Medication(UUID.randomUUID(), "Panadol"));
+//                    medications.add(new Medication(UUID.randomUUID(), "Cough Syrup"));
+//                    medications.add(new Medication(UUID.randomUUID(), "Flu Medicine"));
+//                    AppointmentOutcomeRecord appointmentOutcomeRecord = new AppointmentOutcomeRecord(upcoming1.getDoctor().getUserId(), upcoming1.getPatient().getUserId(), upcoming1.getDate(),
+
+//                            service1, medications, details, MedicationStatus.PENDING);
+//                    appointmentManager.completeAppointment(upcoming1, appointmentOutcomeRecord);
                     break;
                 }
             }

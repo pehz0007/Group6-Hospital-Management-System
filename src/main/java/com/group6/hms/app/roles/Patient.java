@@ -5,7 +5,7 @@ import com.group6.hms.app.models.MedicalRecord;
 
 public class Patient extends User {
 
-    private String contextInformation; // Email
+    private String contactInformation; // Email
     private MedicalRecord medicalRecord;
 
     public Patient(String userId, char[] password, String name, Gender gender) {
@@ -21,12 +21,12 @@ public class Patient extends User {
         this.medicalRecord = medicalRecord;
     }
 
-    public String getContextInformation() {
-        return contextInformation;
+    public String getContactInformation() {
+        return contactInformation;
     }
 
-    public void setContextInformation(String contextInformation) {
-        this.contextInformation = contextInformation;
+    public void setContactInformation(String contactInformation) {
+        this.contactInformation = contactInformation;
     }
 
     @Override
