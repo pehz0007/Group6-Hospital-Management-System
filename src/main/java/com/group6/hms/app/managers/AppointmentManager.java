@@ -33,8 +33,14 @@ public class AppointmentManager {
         Patient patient = (Patient) loginManager.findUser("P1011");
         LocalTime timeNow = LocalTime.now();
         Availability avail = new Availability(doctor, LocalDate.now(), timeNow, timeNow.plusHours(1));
+        Availability avail1 = new Availability(doctor, LocalDate.now(), timeNow.plusHours(1), timeNow.plusHours(2));
+
         availabilityManager.addAvailability(avail);
+        availabilityManager.addAvailability(avail1);
+
         appointmentManager.scheduleAppointment(patient, avail);
+        appointmentManager.scheduleAppointment(patient, avail1);
+
 
         Appointment appt = appointmentManager.getAllAppointments().getFirst();
         appointmentManager.acceptAppointmentRequest(appt);
@@ -78,6 +84,11 @@ public class AppointmentManager {
     // for the patient to get their scheduled appointments
     public ArrayList<Appointment> getAppointmentsByPatient(Patient patient) {
         List<Appointment> aptList = appointmentStorageProvider.getItems().stream().filter(apt -> apt.getPatient().getSystemUserId().equals(patient.getSystemUserId())).toList();
+        return new ArrayList<>(aptList);
+    }
+
+    public ArrayList<Appointment> getAppointmentsByDoctor(Doctor doctor) {
+        List<Appointment> aptList = appointmentStorageProvider.getItems().stream().filter(apt -> apt.getDoctor().getSystemUserId().equals(doctor.getSystemUserId())).toList();
         return new ArrayList<>(aptList);
     }
 

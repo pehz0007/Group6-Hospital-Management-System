@@ -24,6 +24,7 @@ public class Appointment implements Serializable, EventInterface {
     private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;
+    @HeaderField(width = 40)
     private UUID appointmentOutcomeRecordId;
 
     public Appointment(Patient patient, Doctor doctor, AppointmentStatus status, LocalDate date, LocalTime startTime, LocalTime endTime) {
