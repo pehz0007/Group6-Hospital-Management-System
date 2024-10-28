@@ -43,9 +43,8 @@ public class DoctorScreen extends LogoutScreen {
         //addOption(3, "Update Patient Medical Records");
         addOption(3, "View Personal Schedule");
         //addOption(5, "Set Availability for Appointments");
-        addOption(4, "Accept or Decline Appointment Requests");
-        addOption(5, "View Upcoming Appointments");
-        addOption(6, "Record Appointment Outcome");
+        addOption(4, "View Appointments");
+
     }
 
     @Override
@@ -86,23 +85,12 @@ public class DoctorScreen extends LogoutScreen {
             }
 
             case 4: {
-                println("Accept or Decline Appointment Requests");
-                ArrayList<Appointment> requests = appointmentManager.getAppointmentsByDoctorAndStatus(doc, AppointmentStatus.REQUESTED);
-                acceptorDecline(requests);
+
+                Map<LocalDate, List<Appointment>> requests = appointmentManager.getAppointmentsByDoctorAndStatus(doc, AppointmentStatus.REQUESTED).stream().collect(groupingBy(Appointment:: getDate));
+                navigateToScreen(new AppointmentScreen(requests));
                 break;
             }
-            case 5: {
-                println("View Upcoming Appointments");
-                ArrayList<Appointment> upcoming = appointmentManager.getAppointmentsByDoctorAndStatus(doc, AppointmentStatus.CONFIRMED);
-                upcomingAppointments(upcoming);
-                break;
-            }
-            case 6: {
-                println("Record Appointment Outcome");
-                ArrayList<Appointment> upcoming = appointmentManager.getAppointmentsByDoctorAndStatus(doc, AppointmentStatus.CONFIRMED);
-                RecordAppointmentDetails(upcoming);
-                break;
-            }
+
         }
     }
 
@@ -139,39 +127,6 @@ public class DoctorScreen extends LogoutScreen {
         CareProvider retrievePatients = new CareProvider();
         Collection<UUID> medicalRecords = retrievePatients.getPatientIDsUnderDoctorCare(doc);
         navigateToScreen(new PatientMedicalRecordsScreen("Patient Medical Records", medicalRecords.stream().toList()));
-//        navigateToScreen(new SinglePaginationTableScreen<UUID>("Patient Medical Records",medicalRecords.stream().toList()) {
-//
-//
-//            @Override
-//            protected void handleOption(int optionId) {
-//                super.handleOption(optionId);
-//            }
-//
-//
-//
-//            @Override
-//            public void displaySingleItem(UUID item) {
-//                Patient user = (Patient) getLoginManager().findUser(item);
-//                PatientView patient = new PatientView(user);
-//
-//                PrintTableUtils.printItemAsVerticalTable(consoleInterface, patient);
-//            }
-//
-//        });
-
-//        for (UUID userID : medicalRecords) {
-//            for(User user: userStorageProvider.getItems()){
-//                if(user instanceof Patient && user.getSystemUserId().equals(userID)){
-//
-//                    println("Patient Name: "+ user.getName());
-//                    println("Patient Gender: "+ user.getGender());
-//                    println("Medical Records");
-//                    println("Patient Date of Birth: "+((Patient) user).getMedicalRecord().getDateOfBirth());
-//                    println("Patient Blood Type: "+ ((Patient) user).getMedicalRecord().getBloodType()+"\n");
-//                    break;
-//                }
-//            }
-//        }
     }
 
 
