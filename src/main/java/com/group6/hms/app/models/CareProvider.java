@@ -31,8 +31,8 @@ public class CareProvider {
     public void addPatientToDoctorCare(Patient patient, Doctor doctor){
         StorageProvider<UUID> patientUUIDs = storageFromDoctorToPatientID.getStorageProvider(doctor.getSystemUserId());
         StorageProvider<UUID> doctorUUIDs = storageFromPatientToDoctorID.getStorageProvider(patient.getSystemUserId());
-        patientUUIDs.addNewItem(doctor.getSystemUserId());
-        doctorUUIDs.addNewItem(patient.getSystemUserId());
+        patientUUIDs.addNewItem(patient.getSystemUserId());
+        doctorUUIDs.addNewItem(doctor.getSystemUserId());
         saveStorageProviders(patient, doctor);
     }
 
