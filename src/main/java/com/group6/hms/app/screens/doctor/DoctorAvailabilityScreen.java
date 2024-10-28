@@ -36,6 +36,7 @@ public class DoctorAvailabilityScreen extends CalendarScreen<Availability, List<
 
     @Override
     protected void handleOption(int optionId) {
+        super.handleOption(optionId);
         if(optionId == 6) {
             Doctor doc = (Doctor) loginManager.getCurrentlyLoggedInUser();
             println("Set Availability");
@@ -57,6 +58,5 @@ public class DoctorAvailabilityScreen extends CalendarScreen<Availability, List<
             println("\033[35m"+"Availability added for " + date1 + " from " + startTime1 + " to " + startTime1.plusHours(1));
 
         }
-
     }
 }

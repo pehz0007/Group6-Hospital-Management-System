@@ -29,9 +29,9 @@ public class ViewAndManageUsersScreen extends PaginationTableScreen<UserView> {
     private final int CREATE_USER = 4;
     private final int IMPORT_STAFFS = 5;
     private final int IMPORT_PATIENTS = 6;
-    private final int UPDATE_USER = 6;
-    private final int DELETE_USER = 7;
-   private final int IMPORT_MEDICATION_STOCK = 7;
+    private final int UPDATE_USER = 7;
+    private final int DELETE_USER = 8;
+   private final int IMPORT_MEDICATION_STOCK = 9;
 
     private LoginManager loginManager;
 

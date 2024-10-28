@@ -4,14 +4,16 @@ import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.ConsoleInterface;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.stream.Stream;
 
 public class PrintTableUtils {
 
     public static void printItemAsVerticalTable(ConsoleInterface consoleInterface, Object obj) {
         ConsoleColor borderColor = ConsoleColor.PURPLE;
         ConsoleColor headerFieldColor = ConsoleColor.WHITE;
-        ConsoleColor valueFieldColor = ConsoleColor.GREEN;
         Class<?> objClass = obj.getClass();
         Field[] fields = objClass.getDeclaredFields();
         int width = 50;
@@ -19,6 +21,7 @@ public class PrintTableUtils {
         printSeparator(consoleInterface, width);
         for (Field field : fields) {
             HeaderField headerField = field.getAnnotation(HeaderField.class);
+            FieldRenderer renderer = getRenderer(headerField);
             boolean show = (headerField == null || headerField.show()); // Default to true if annotation is missing
             int fieldWidth = (headerField != null) ? headerField.width() : 20; // Default width if no annotation
             String fieldName = (headerField != null && !headerField.name().isEmpty())
@@ -35,13 +38,23 @@ public class PrintTableUtils {
                     consoleInterface.print(": ");
 
                     // Print value next to the header
-                    String valueToPrint = value != null ? value.toString() : "null";
-                    String[] valuesToPrint = wrapText(valueToPrint, (width - fieldWidth));
-                    consoleInterface.setCurrentTextConsoleColor(valueFieldColor);
-                    consoleInterface.println(valuesToPrint[0]);
-                    for (int i = 1; i < valuesToPrint.length; i++) {
-                        consoleInterface.println(" ".repeat(fieldWidth + 2) + valuesToPrint[i]);
+                    int remainingFieldWidth = width - fieldWidth;
+                    renderer.initRenderObject(value, remainingFieldWidth);
+                    int length = renderer.getLines();
+                    renderer.render(consoleInterface, 0,remainingFieldWidth);
+                    consoleInterface.println("");
+                    for (int i = 1; i < length; i++) {
+                        consoleInterface.print(" ".repeat(fieldWidth + 2));
+                        renderer.render(consoleInterface, i, remainingFieldWidth);
+                        consoleInterface.println("");
                     }
+//                    String valueToPrint = value != null ? value.toString() : "null";
+//                    String[] valuesToPrint = wrapText(valueToPrint, (width - fieldWidth));
+//                    consoleInterface.setCurrentTextConsoleColor(valueFieldColor);
+//                    consoleInterface.println(valuesToPrint[0]);
+//                    for (int i = 1; i < valuesToPrint.length; i++) {
+//                        consoleInterface.println(" ".repeat(fieldWidth + 2) + valuesToPrint[i]);
+//                    }
 
 
                 } catch (IllegalAccessException e) {
@@ -51,24 +64,6 @@ public class PrintTableUtils {
         }
         consoleInterface.setCurrentTextConsoleColor(borderColor);
         printSeparator(consoleInterface, width);
-    }
-
-    // Method to wrap long text into multiple lines based on a width limit
-    private static String[] wrapText(String text, int width) {
-        String[] words = text.split(" ");
-        StringBuilder line = new StringBuilder();
-        StringBuilder result = new StringBuilder();
-
-        for (String word : words) {
-            if (line.length() + word.length() + 1 > width) { // Wrap the text
-                result.append(line.toString().trim()).append("\n");
-                line = new StringBuilder();
-            }
-            line.append(word).append(" ");
-        }
-        result.append(line.toString().trim()); // Add the remaining line
-
-        return result.toString().split("\n"); // Return the wrapped lines
     }
 
 
@@ -188,26 +183,67 @@ public class PrintTableUtils {
     }
 
     private static void printItemEntry(ConsoleInterface consoleInterface, Field[] fields, ConsoleColor borderColor, ConsoleColor valueFieldColor, Object item) {
-        for (Field field : fields) {
+        FieldRenderer[] renderers = new FieldRenderer[fields.length];
+        Field[] filteredFields = Arrays.stream(fields)
+                .filter(field -> {
+                    HeaderField headerField = field.getAnnotation(HeaderField.class);
+                    // Default to true if annotation is missing
+                    return (headerField == null || headerField.show());
+                }).toArray(Field[]::new);
+
+        int maxLine = 1;
+
+        for (int i = 0; i < filteredFields.length; i++) {
+            Field field = filteredFields[i];
             HeaderField headerField = field.getAnnotation(HeaderField.class);
-            boolean show = (headerField == null || headerField.show()); // Default to true if annotation is missing
+            FieldRenderer renderer = getRenderer(headerField);
+            renderers[i] = renderer;
             int fieldWidth = (headerField != null) ? headerField.width() : 20; // Default width if no annotation
 
-            if (show) { // Only print if show is true
-                field.setAccessible(true); // Allow access to private fields
-                try {
-                    Object value = field.get(item); // Get the value of the field for the given object
+            field.setAccessible(true); // Allow access to private fields
+            try {
+                Object value = field.get(item); // Get the value of the field for the given object
+                renderer.initRenderObject(value, fieldWidth);
+                int length = renderer.getLines();
 
-                    consoleInterface.setCurrentTextConsoleColor(borderColor);
-                    consoleInterface.print("|");
-                    consoleInterface.setCurrentTextConsoleColor(valueFieldColor);
-                    consoleInterface.print(String.format("%-" + fieldWidth + "s", value != null ? value.toString() : "null")); // Print value
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
+                if(length >= maxLine)maxLine = length;
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
             }
+
         }
-        consoleInterface.setCurrentTextConsoleColor(borderColor);
-        consoleInterface.println("|"); // End the row with a border
+
+        for (int line = 0; line < maxLine; line++) {
+            consoleInterface.setCurrentTextConsoleColor(borderColor);
+            consoleInterface.print("|"); // End the row with a border
+
+            for (int i = 0; i < filteredFields.length; i++){
+                Field field = filteredFields[i];
+                FieldRenderer renderer = renderers[i];
+                HeaderField headerField = field.getAnnotation(HeaderField.class);
+                int fieldWidth = (headerField != null) ? headerField.width() : 20; // Default width if no annotation
+                if(line < renderer.getLines()){
+                    renderer.render(consoleInterface, line, fieldWidth);
+                }else{
+                    consoleInterface.print(" ".repeat(fieldWidth));
+                }
+                consoleInterface.setCurrentTextConsoleColor(borderColor);
+                consoleInterface.print("|");
+            }
+
+            consoleInterface.println("");
+        }
+
+
     }
+
+    private static FieldRenderer getRenderer(HeaderField field) {
+        if(field == null) return new StringRenderer();
+        try {
+            return field.renderer().getDeclaredConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
