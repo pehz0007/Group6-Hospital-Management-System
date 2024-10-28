@@ -40,12 +40,12 @@ public class DoctorScreen extends LogoutScreen {
     public DoctorScreen() {
         super("Doctor Menu");
         addOption(2, "View Patient Medical Records");
-        addOption(3, "Update Patient Medical Records");
-        addOption(4, "View Personal Schedule");
-        addOption(5, "Set Availability for Appointments");
-        addOption(6, "Accept or Decline Appointment Requests");
-        addOption(7, "View Upcoming Appointments");
-        addOption(8, "Record Appointment Outcome");
+        //addOption(3, "Update Patient Medical Records");
+        addOption(3, "View Personal Schedule");
+        //addOption(5, "Set Availability for Appointments");
+        addOption(4, "Accept or Decline Appointment Requests");
+        addOption(5, "View Upcoming Appointments");
+        addOption(6, "Record Appointment Outcome");
     }
 
     @Override
@@ -76,12 +76,8 @@ public class DoctorScreen extends LogoutScreen {
                 patientMedicalRecords();
                 break;
             }
+
             case 3: {
-                //updatePatientMedicalRecords();
-                navigateToScreen(new UpdatePatientMedicalScreen(doc));
-                break;
-            }
-            case 4: {
                 Map<LocalDate, List<Availability>> avail_appointments = availabilityManager.getAvailabilityByDoctor(doc).stream().collect(groupingBy(Availability::getAvailableDate));
                 navigateToScreen(new DoctorAvailabilityScreen(avail_appointments));
 //                println("Getting personal schedule...");
@@ -89,35 +85,20 @@ public class DoctorScreen extends LogoutScreen {
 //                printAvailability(avail_appointments);
                 break;
             }
-            case 5: {
-//                println("Set Availability");
-//                Scanner sc = new Scanner(System.in);
-//                println("Enter availability date (yyyy-mm-dd): ");
-//                String date = sc.nextLine();
-//
-//
-//                LocalDate date1 = LocalDate.parse(date);
-//                println("Enter availability start time: ");
-//                String startTime = sc.nextLine();
-//                LocalTime startTime1 = LocalTime.parse(startTime);
-//                Availability avail = new Availability(doc,date1, startTime1, startTime1.plusHours(1 ));
-//                availabilityManager.addAvailability(avail);
-                break;
-            }
 
-            case 6: {
+            case 4: {
                 println("Accept or Decline Appointment Requests");
                 ArrayList<Appointment> requests = appointmentManager.getAppointmentsByDoctorAndStatus(doc, AppointmentStatus.REQUESTED);
                 acceptorDecline(requests);
                 break;
             }
-            case 7: {
+            case 5: {
                 println("View Upcoming Appointments");
                 ArrayList<Appointment> upcoming = appointmentManager.getAppointmentsByDoctorAndStatus(doc, AppointmentStatus.CONFIRMED);
                 upcomingAppointments(upcoming);
                 break;
             }
-            case 8: {
+            case 6: {
                 println("Record Appointment Outcome");
                 ArrayList<Appointment> upcoming = appointmentManager.getAppointmentsByDoctorAndStatus(doc, AppointmentStatus.CONFIRMED);
                 RecordAppointmentDetails(upcoming);
@@ -157,15 +138,26 @@ public class DoctorScreen extends LogoutScreen {
 
         CareProvider retrievePatients = new CareProvider();
         Collection<UUID> medicalRecords = retrievePatients.getPatientIDsUnderDoctorCare(doc);
-        navigateToScreen(new SinglePaginationTableScreen<UUID>("Patient Medical Records",medicalRecords.stream().toList()) {
-            @Override
-            public void displaySingleItem(UUID item) {
-                Patient user = (Patient) getLoginManager().findUser(item);
-                PatientView patient = new PatientView(user);
-
-                PrintTableUtils.printItemAsVerticalTable(consoleInterface, patient);
-            }
-        });
+        navigateToScreen(new PatientMedicalRecordsScreen("Patient Medical Records", medicalRecords.stream().toList()));
+//        navigateToScreen(new SinglePaginationTableScreen<UUID>("Patient Medical Records",medicalRecords.stream().toList()) {
+//
+//
+//            @Override
+//            protected void handleOption(int optionId) {
+//                super.handleOption(optionId);
+//            }
+//
+//
+//
+//            @Override
+//            public void displaySingleItem(UUID item) {
+//                Patient user = (Patient) getLoginManager().findUser(item);
+//                PatientView patient = new PatientView(user);
+//
+//                PrintTableUtils.printItemAsVerticalTable(consoleInterface, patient);
+//            }
+//
+//        });
 
 //        for (UUID userID : medicalRecords) {
 //            for(User user: userStorageProvider.getItems()){
@@ -182,44 +174,7 @@ public class DoctorScreen extends LogoutScreen {
 //        }
     }
 
-//    protected void updatePatientMedicalRecords(){
-//        CareProvider retrievePatients = new CareProvider();
-//        Collection<UUID> medicalRecords = retrievePatients.getPatientIDsUnderDoctorCare(doc);
-//        for (UUID userID : medicalRecords) {
-//            for(User user: userStorageProvider.getItems()){
-//                if(user.getSystemUserId().equals(userID)){
-//                    Scanner sc = new Scanner(System.in);
-//                    Patient patient = (Patient) user;
-//                    println("Patient Name: "+ patient.getName());
-//                    println("Is this the patient you want to update? (Y/N)");
-//                    char result = sc.nextLine().charAt(0);
-//                    if(result == 'Y' || result == 'y'){
-////                        loginManager.deleteUser(user);
-////                        loginManager.saveUsersToFile();
-//
-//                        println("Blood Type: "+ patient.getMedicalRecord().getBloodType());
-//                        println("New Blood Type: ");
-//                        String newBloodType = sc.nextLine();
-//                        BloodType bloodtype = BloodType.fromString(newBloodType);
-//
-//                        println("Date of Birth: "+ patient.getMedicalRecord().getDateOfBirth());
-//                        println("New Date of Birth: (yyyy-mm-dd)");
-//                        LocalDate newDate = LocalDate.parse(sc.nextLine());
-//                        MedicalRecord medicalRecord = new MedicalRecord();
-//                        medicalRecord.setDateOfBirth(newDate);
-//                        medicalRecord.setBloodType(bloodtype);
-//
-//                        patient.updateMedicalRecord(medicalRecord);
-//                        //loginManager.createUser(patient);
-//
-//                        loginManager.saveUsersToFile();
-//
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-//    }
+
 
     protected void acceptorDecline(ArrayList<Appointment> appointments) {
         Scanner sc = new Scanner(System.in);

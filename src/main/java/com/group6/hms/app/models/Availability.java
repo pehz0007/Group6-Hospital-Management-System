@@ -8,7 +8,7 @@ import com.group6.hms.framework.screens.pagination.PrintTableUtils;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Availability {
+public class Availability implements EventInterface {
     private Doctor doctor;
     private LocalDate availableDate;
     private LocalTime availableStartTime;
@@ -56,4 +56,19 @@ public class Availability {
     public void setAvailableEndTime(LocalTime availableEndTime) {
         this.availableEndTime = availableEndTime;
     }
+
+    public LocalDate getEventDate(){
+        return getAvailableDate();
+    }
+
+    public LocalTime getEventStartTime(){
+        return getAvailableStartTime();
+    }
+    public LocalTime getEventEndTime(){
+        return getAvailableEndTime();
+    }
+    public void displayEvent(ConsoleInterface consoleInterface){
+        PrintTableUtils.printItemAsVerticalTable(consoleInterface, this);
+    }
+
 }
