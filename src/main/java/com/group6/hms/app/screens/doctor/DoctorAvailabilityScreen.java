@@ -36,6 +36,7 @@ public class DoctorAvailabilityScreen extends CalendarScreen<Availability, List<
 
     @Override
     protected void handleOption(int optionId) {
+        super.handleOption(optionId);
         if(optionId == 6) {
             Doctor doc = (Doctor) loginManager.getCurrentlyLoggedInUser();
             println("Set Availability");

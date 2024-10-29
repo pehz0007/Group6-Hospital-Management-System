@@ -12,4 +12,5 @@ public @interface HeaderField {
     boolean show() default true;
     String name() default "";
     int width() default 20;
+    Class<? extends FieldRenderer> renderer() default StringRenderer.class;
 }
