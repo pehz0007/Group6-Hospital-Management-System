@@ -34,6 +34,14 @@ public class InventoryManager {
         return medicationStockStorageProvider.getItems().stream().toList();
     }
 
+    // retrieve the MedicationStock object for a specific medication
+    public MedicationStock getMedicationStock(Medication medication) {
+        return medicationStockStorageProvider.getItems().stream()
+                .filter(stock -> stock.getMedication().getName().equals(medication.getName()))
+                .findFirst()
+                .orElse(null);
+    }
+
     // to get Medication without the quantity
     // for Doctor to select what Medications can be prescribed
     public List<Medication> getAllMedication() {
