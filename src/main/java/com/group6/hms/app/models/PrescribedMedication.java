@@ -1,8 +1,10 @@
 package com.group6.hms.app.models;
 
-public class PrescribedMedication {
-    Medication medication;
-    private int quantityToPrescribe;
+import java.io.Serializable;
+
+public class PrescribedMedication implements Serializable {
+    private Medication medication;
+    private final int quantityToPrescribe;
 
     public PrescribedMedication(Medication medication, int quantityToPrescribe) {
         this.medication = medication;
@@ -18,5 +20,10 @@ public class PrescribedMedication {
 
     public void setMedication(Medication medication) {
         this.medication = medication;
+    }
+
+    @Override
+    public String toString() {
+        return "Medication: " + medication + ", Quantity: " + quantityToPrescribe; // medication toString()
     }
 }
