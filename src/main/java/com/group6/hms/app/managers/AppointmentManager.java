@@ -17,6 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Collection;
 import java.util.UUID;
+import java.util.Random;
+
+
 
 public class AppointmentManager {
     private static final File appointmentsFile = new File("data/appointments.ser");
@@ -38,15 +41,44 @@ public class AppointmentManager {
 
         Appointment appt = appointmentManager.getAllAppointments().getFirst();
         appointmentManager.acceptAppointmentRequest(appt);
-        ArrayList<Medication> medications = new ArrayList<>();
+//        ArrayList<Medication> medications = new ArrayList<>();
 
-//        medications.add(new Medication(UUID.randomUUID(), "Panadol"));
-//        medications.add(new Medication(UUID.randomUUID(), "Cough Syrup"));
-//        medications.add(new Medication(UUID.randomUUID(), "Flu Medicine"));
+//        PrescribedMedication.add(new Medication(UUID.randomUUID(), "Paracetamol"));
+//        PrescribedMedication.add(new Medication(UUID.randomUUID(), "Ibuprofen"));
+//        PrescribedMedication.add(new Medication(UUID.randomUUID(), "Amoxicillin"));
 //        AppointmentOutcomeRecord record = new AppointmentOutcomeRecord(doctor.getUserId(), patient.getUserId(), appt.getDate(), AppointmentService.CONSULT, medications, "high fever", MedicationStatus.PENDING);
-
+//
 //        appointmentManager.completeAppointment(appt,record);
 //        List<AppointmentOutcomeRecord> records = appointmentManager.getAppointmentOutcomeRecordsByStatus(MedicationStatus.PENDING);
+
+
+        // create a list for prescribed medications
+        List<PrescribedMedication> prescribedMedications = new ArrayList<>();
+        Random random = new Random();
+
+        // add medications with random quantities (between 1-5)
+        prescribedMedications.add(new PrescribedMedication(new Medication("Paracetamol"), random.nextInt(5) + 1));
+        prescribedMedications.add(new PrescribedMedication(new Medication("Ibuprofen"), random.nextInt(5) + 1));
+        prescribedMedications.add(new PrescribedMedication(new Medication("Amoxicillin"), random.nextInt(5) + 1));
+
+        // generate UUIDs for doctor and patient
+        UUID doctorId = UUID.randomUUID();
+        UUID patientId = UUID.randomUUID();
+
+        // create an AppointmentOutcomeRecord
+        AppointmentOutcomeRecord record = new AppointmentOutcomeRecord(
+                doctorId,
+                patientId,
+                LocalDate.now(),
+                AppointmentService.CONSULT,
+                prescribedMedications,
+                "high fever",
+                MedicationStatus.PENDING
+        );
+
+        // Complete the appointment and retrieve records
+        appointmentManager.completeAppointment(appt, record);
+        List<AppointmentOutcomeRecord> records = appointmentManager.getAppointmentOutcomeRecordsByStatus(MedicationStatus.PENDING);
 
 
         //CARE PROVIDER
@@ -69,7 +101,7 @@ public class AppointmentManager {
         return (List<Appointment>) appointmentStorageProvider.getItems();
     }
 
-    // New method to get all appointment outcome records
+    // to get all appointment outcome records
     public List<AppointmentOutcomeRecord> getAllAppointmentOutcomeRecords() {
         Collection<AppointmentOutcomeRecord> records = appointmentOutcomeStorageProvider.getItems(); // Get items as a Collection
         return new ArrayList<>(records); // Convert Collection to List
