@@ -8,11 +8,6 @@ public class MedicalRecord implements Serializable {
     private LocalDate dateOfBirth;
     private BloodType bloodType;
 
-    public MedicalRecord(LocalDate dateOfBirth, BloodType bloodType) {
-        this.dateOfBirth = dateOfBirth;
-        this.bloodType = bloodType;
-    }
-
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
