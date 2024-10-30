@@ -258,13 +258,13 @@ public class DoctorScreen extends LogoutScreen {
                          service1 = AppointmentService.BLOOD_TEST;
                     }
 
-//                    ArrayList<Medication> medications = new ArrayList<>();
-//                    medications.add(new Medication(UUID.randomUUID(), "Panadol"));
-//                    medications.add(new Medication(UUID.randomUUID(), "Cough Syrup"));
-//                    medications.add(new Medication(UUID.randomUUID(), "Flu Medicine"));
-//                    AppointmentOutcomeRecord appointmentOutcomeRecord = new AppointmentOutcomeRecord(upcoming1.getDoctor().getSystemUserId(), upcoming1.getPatient().getSystemUserId(), upcoming1.getDate(),
-//                            service1, medications, details, MedicationStatus.PENDING);
-//                    appointmentManager.completeAppointment(upcoming1, appointmentOutcomeRecord);
+                    ArrayList<Medication> medications = new ArrayList<>();
+                    medications.add(new Medication(UUID.randomUUID(), "Panadol"));
+                    medications.add(new Medication(UUID.randomUUID(), "Cough Syrup"));
+                    medications.add(new Medication(UUID.randomUUID(), "Flu Medicine"));
+                    AppointmentOutcomeRecord appointmentOutcomeRecord = new AppointmentOutcomeRecord(upcoming1.getDoctor().getSystemUserId(), upcoming1.getPatient().getSystemUserId(), upcoming1.getDate(),
+                            service1, medications, details, MedicationStatus.PENDING);
+                    appointmentManager.completeAppointment(upcoming1, appointmentOutcomeRecord);
                     println("Updated Successfully!!");
                     break;
                 }

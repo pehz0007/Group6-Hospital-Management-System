@@ -58,5 +58,6 @@ public class DoctorAvailabilityScreen extends CalendarScreen<Availability, List<
             println("\033[35m"+"Availability added for " + date1 + " from " + startTime1 + " to " + startTime1.plusHours(1));
 
         }
+
     }
 }
