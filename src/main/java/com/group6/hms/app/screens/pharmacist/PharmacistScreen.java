@@ -48,7 +48,7 @@ public class PharmacistScreen extends LogoutScreen {
             case 2 -> viewAppointmentOutcomeRecords();
             case 3 -> updatePrescriptionStatus();
             case 4 -> viewMedicationInventory();
-            //case 5 -> submitReplenishmentRequest();
+            case 5 -> submitReplenishmentRequest();
             default -> println("Invalid option. Please choose a valid option.");
         }
     }
@@ -157,8 +157,49 @@ public class PharmacistScreen extends LogoutScreen {
         ViewAndManageMedicationScreen screen = new ViewAndManageMedicationScreen("Medication Inventory", medications);
         navigateToScreen(screen);
     }
-}
 
+    // case 5: submit replenishment request
+    private void submitReplenishmentRequest() {
+        List<MedicationStock> lowStockMedications = inventoryManager.getAllMedicationStock().stream()
+                .filter(inventoryManager::isStockLow)
+                .toList();
+
+        if (lowStockMedications.isEmpty()) {
+            println("All medications have sufficient stock levels.");
+            return;
+        }
+
+        println("Medications with low stock:");
+        for (MedicationStock medicationStock : lowStockMedications) {
+            println("Medication: " + medicationStock.getMedication().getName());
+            println("Current Stock: " + medicationStock.getCurrentStock());
+            println("Low Stock Level Limit: " + medicationStock.getLowStockLevelLimit());
+        }
+
+        println("Would you like to submit a replenishment request for all low stock medications? (yes/no)");
+        String confirmation = readString().toLowerCase();
+
+        if (confirmation.equals("yes")) {
+            List<ReplenishmentRequest> requests = new ArrayList<>(); // i create a list to hold requests
+            for (MedicationStock medicationStock : lowStockMedications) {
+                // create a new replenishment request for each low stock medication
+                ReplenishmentRequest request = new ReplenishmentRequest(
+                        UUID.randomUUID(),
+                        medicationStock.getMedication(),
+                        0, // set a default amount to replenish?? (0 or any other constant)
+                        ReplenishmentRequestStatus.PENDING
+                );
+                requests.add(request); // add the request to the list
+            }
+
+            // submit request
+            inventoryManager.submitReplenishmentRequest(requests);
+            println("Replenishment requests submitted for low stock medications.");
+        } else {
+            println("Replenishment request canceled.");
+        }
+    }
+}
 
 //    // case 5: submit replenishment request
 //    private void submitReplenishmentRequest() {

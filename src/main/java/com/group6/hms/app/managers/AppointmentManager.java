@@ -58,7 +58,7 @@ public class AppointmentManager {
 
         // add medications with random quantities (between 1-5)
         prescribedMedications.add(new PrescribedMedication(new Medication("Paracetamol"), random.nextInt(5) + 1));
-        prescribedMedications.add(new PrescribedMedication(new Medication("Ibuprofen"), random.nextInt(5) + 1));
+        prescribedMedications.add(new PrescribedMedication(new Medication("Ibuprofen"), random.nextInt(30) + 1));
         prescribedMedications.add(new PrescribedMedication(new Medication("Amoxicillin"), random.nextInt(5) + 1));
 
         // generate UUIDs for doctor and patient
