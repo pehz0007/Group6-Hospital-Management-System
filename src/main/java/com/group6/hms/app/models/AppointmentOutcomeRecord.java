@@ -1,8 +1,6 @@
 package com.group6.hms.app.models;
 
 import com.group6.hms.app.MedicationStatus;
-import com.group6.hms.app.roles.Doctor;
-import com.group6.hms.app.roles.Patient;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -15,16 +13,16 @@ public class AppointmentOutcomeRecord implements Serializable {
     private UUID patientId;
     private LocalDate dateOfAppointment;
     private AppointmentService serviceType;
-    private List<Medication> prescribedMedication;
+    private List<PrescribedMedication> prescribedMedications;
     private String consultationNotes;
     private MedicationStatus medicationStatus;
-    public AppointmentOutcomeRecord(UUID doctorId, UUID patientId, LocalDate date, AppointmentService serviceType, List<Medication> prescribedMedication, String consultationNotes, MedicationStatus medicationStatus) {
+    public AppointmentOutcomeRecord(UUID doctorId, UUID patientId, LocalDate date, AppointmentService serviceType, List<PrescribedMedication> prescribedMedications, String consultationNotes, MedicationStatus medicationStatus) {
         this.recordId = UUID.randomUUID();
         this.doctorId = doctorId;
         this.patientId = patientId;
         this.dateOfAppointment = date;
         this.serviceType = serviceType;
-        this.prescribedMedication = prescribedMedication;
+        this.prescribedMedications = prescribedMedications;
         this.consultationNotes = consultationNotes;
         this.medicationStatus = medicationStatus;
     }
@@ -70,12 +68,12 @@ public class AppointmentOutcomeRecord implements Serializable {
         this.serviceType = serviceType;
     }
 
-    public List<Medication> getPrescribedMedication() {
-        return prescribedMedication;
+    public List<PrescribedMedication> getPrescribedMedications() {
+        return prescribedMedications;
     }
 
-    public void setPrescribedMedication(List<Medication> prescribedMedication) {
-        this.prescribedMedication = prescribedMedication;
+    public void setPrescribedMedication(List<PrescribedMedication> prescribedMedications) {
+        this.prescribedMedications = prescribedMedications;
     }
 
     public String getConsultationNotes() {

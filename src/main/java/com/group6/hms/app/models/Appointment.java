@@ -2,6 +2,10 @@ package com.group6.hms.app.models;
 
 import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.app.roles.Patient;
+import com.group6.hms.framework.screens.ConsoleInterface;
+import com.group6.hms.framework.screens.calendar.EventInterface;
+import com.group6.hms.framework.screens.pagination.HeaderField;
+import com.group6.hms.framework.screens.pagination.PrintTableUtils;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -9,8 +13,10 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.UUID;
 
-public class Appointment implements Serializable {
+public class Appointment implements Serializable, EventInterface {
+    @HeaderField(show = false)
     private final UUID appointmentId;
+    @HeaderField(show = false)
     private final Patient patient;
     private final Doctor doctor;
     private AppointmentStatus status;
@@ -80,5 +86,25 @@ public class Appointment implements Serializable {
 
     public void setAppointmentOutcomeRecordId(UUID appointmentOutcomeRecordId) {
         this.appointmentOutcomeRecordId = appointmentOutcomeRecordId;
+    }
+
+    @Override
+    public LocalDate getEventDate() {
+        return getDate();
+    }
+
+    @Override
+    public LocalTime getEventStartTime() {
+        return getStartTime();
+    }
+
+    @Override
+    public LocalTime getEventEndTime() {
+        return getEndTime();
+    }
+
+    @Override
+    public void displayEvent(ConsoleInterface consoleInterface) {
+        PrintTableUtils.printItemAsVerticalTable(consoleInterface, this);
     }
 }

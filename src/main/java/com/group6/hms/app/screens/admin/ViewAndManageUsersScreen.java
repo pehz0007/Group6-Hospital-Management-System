@@ -3,6 +3,12 @@ package com.group6.hms.app.screens.admin;
 import com.group6.hms.app.auth.LoginManager;
 import com.group6.hms.app.auth.LoginManagerHolder;
 import com.group6.hms.app.auth.User;
+import com.group6.hms.app.models.MedicationStock;
+import com.group6.hms.app.roles.Patient;
+import com.group6.hms.app.roles.Staff;
+import com.group6.hms.app.screens.admin.importer.MedicationStockCSVReader;
+import com.group6.hms.app.storage.SerializationStorageProvider;
+import com.group6.hms.app.storage.StorageProvider;
 import com.group6.hms.app.auth.UserCreationException;
 import com.group6.hms.app.roles.*;
 import com.group6.hms.app.screens.admin.importer.PatientsCSVReader;
@@ -13,18 +19,19 @@ import com.group6.hms.framework.screens.option.Option;
 import com.group6.hms.framework.screens.option.OptionsUtils;
 import com.group6.hms.framework.screens.pagination.PaginationTableScreen;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
 import java.util.stream.Collectors;
 
 public class ViewAndManageUsersScreen extends PaginationTableScreen<UserView> {
-
-    private final int CREATE_USER = 5;
+    private final int CREATE_USER = 4;
+    private final int IMPORT_STAFFS = 5;
+    private final int IMPORT_PATIENTS = 6;
     private final int UPDATE_USER = 6;
     private final int DELETE_USER = 7;
-    private final int IMPORT_STAFFS = 8;
-    private final int IMPORT_PATIENTS = 9;
+
     private LoginManager loginManager;
 
     private static final int FILTER_NONE = 1;
@@ -46,6 +53,7 @@ public class ViewAndManageUsersScreen extends PaginationTableScreen<UserView> {
         addOption(DELETE_USER, "Delete Existing User");
         addOption(IMPORT_STAFFS, "Import Staffs");
         addOption(IMPORT_PATIENTS, "Import Patients");
+
         setFilterFunction(this::filter);
     }
 
@@ -173,5 +181,6 @@ public class ViewAndManageUsersScreen extends PaginationTableScreen<UserView> {
                 waitForKeyPress();
             }
         }
+
     }
 }

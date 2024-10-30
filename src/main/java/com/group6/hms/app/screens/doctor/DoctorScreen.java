@@ -16,6 +16,8 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import static java.util.stream.Collectors.groupingBy;
+
 public class DoctorScreen extends LogoutScreen {
 
 
@@ -66,9 +68,11 @@ public class DoctorScreen extends LogoutScreen {
                 break;
             }
             case 4: {
-                println("Getting personal schedule...");
-                List<Availability> avail_appointments = availabilityManager.getAvailabilityByDoctor(doctor);
-                printAvailability(avail_appointments);
+                Map<LocalDate, List<Availability>> avail_appointments = availabilityManager.getAvailabilityByDoctor(doctor).stream().collect(groupingBy(Availability::getAvailableDate));
+                navigateToScreen(new DoctorAvailabilityScreen(avail_appointments));
+//                println("Getting personal schedule...");
+//                List<Availability> avail_appointments = availabilityManager.getAvailabilityByDoctor(doctor);
+//                printAvailability(avail_appointments);
                 break;
             }
             case 5: {
@@ -216,13 +220,19 @@ public class DoctorScreen extends LogoutScreen {
                         service1 = AppointmentService.BLOOD_TEST;
                     }
 
-                    ArrayList<Medication> medications = new ArrayList<>();
-                    medications.add(new Medication(UUID.randomUUID(), "Panadol"));
-                    medications.add(new Medication(UUID.randomUUID(), "Cough Syrup"));
-                    medications.add(new Medication(UUID.randomUUID(), "Flu Medicine"));
-                    AppointmentOutcomeRecord appointmentOutcomeRecord = new AppointmentOutcomeRecord(upcoming1.getDoctor().getSystemUserId(), upcoming1.getPatient().getSystemUserId(), upcoming1.getDate(),
-                            service1, medications, details, MedicationStatus.PENDING);
-                    appointmentManager.completeAppointment(upcoming1, appointmentOutcomeRecord);
+                    // TODO:
+                    //  1) get all medications
+                    //  2) doctor select what medications to prescribe + quantity
+                    //  3) create PrescribedMedication object to pass into AppointmentOutcomeRecord
+                    ArrayList<PrescribedMedication> medications = new ArrayList<>();
+//                    medications.add()
+//                    medications.add(new Medication(UUID.randomUUID(), "Panadol"));
+//                    medications.add(new Medication(UUID.randomUUID(), "Cough Syrup"));
+//                    medications.add(new Medication(UUID.randomUUID(), "Flu Medicine"));
+//                    AppointmentOutcomeRecord appointmentOutcomeRecord = new AppointmentOutcomeRecord(upcoming1.getDoctor().getUserId(), upcoming1.getPatient().getUserId(), upcoming1.getDate(),
+
+//                            service1, medications, details, MedicationStatus.PENDING);
+//                    appointmentManager.completeAppointment(upcoming1, appointmentOutcomeRecord);
                     break;
                 }
             }

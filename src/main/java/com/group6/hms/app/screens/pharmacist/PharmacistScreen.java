@@ -5,6 +5,7 @@ import com.group6.hms.app.managers.AppointmentManager;
 import com.group6.hms.app.models.AppointmentOutcomeRecord;
 import com.group6.hms.app.MedicationStatus;
 import com.group6.hms.app.models.Medication;
+import com.group6.hms.app.models.PrescribedMedication;
 import com.group6.hms.app.roles.Pharmacist;
 import com.group6.hms.app.screens.MainScreen;
 import com.group6.hms.framework.screens.pagination.SinglePaginationTableScreen;
@@ -67,8 +68,8 @@ public class PharmacistScreen extends LogoutScreen {
                     println("Medication Status:" + item.getMedicationStatus());
                     println("Patient ID:" + item.getPatientId());
 
-                    for (Medication medication : item.getPrescribedMedication()){
-                        println("Medication :" + medication.getName());
+                    for (PrescribedMedication prescribedMedication : item.getPrescribedMedications()){
+                        println("Medication :" + prescribedMedication.getMedication().getName());
                     }
                     println("===================================================");
                 }
