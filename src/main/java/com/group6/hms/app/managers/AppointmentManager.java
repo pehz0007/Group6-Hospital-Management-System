@@ -87,6 +87,11 @@ public class AppointmentManager {
         return new ArrayList<>(aptList);
     }
 
+    public ArrayList<Appointment> getAppointmentsByUUID(UUID uuid) {
+        List<Appointment> aptList = appointmentStorageProvider.getItems().stream().filter(apt -> apt.getAppointmentId().equals(uuid)).toList();
+        return new ArrayList<>(aptList);
+    }
+
     public ArrayList<Appointment> getAppointmentsByDoctor(Doctor doctor) {
         List<Appointment> aptList = appointmentStorageProvider.getItems().stream().filter(apt -> apt.getDoctor().getSystemUserId().equals(doctor.getSystemUserId())).toList();
         return new ArrayList<>(aptList);

@@ -94,18 +94,7 @@ public class DoctorScreen extends LogoutScreen {
                 navigateToScreen(new AppointmentScreen(requests));
                 break;
             }
-            case 5: {
-                println("View Upcoming Appointments");
-                ArrayList<Appointment> upcoming = appointmentManager.getAppointmentsByDoctorAndStatus(doc, AppointmentStatus.CONFIRMED);
-                upcomingAppointments(upcoming);
-                break;
-            }
-            case 6: {
-                println("Record Appointment Outcome");
-                ArrayList<Appointment> upcoming = appointmentManager.getAppointmentsByDoctorAndStatus(doc, AppointmentStatus.CONFIRMED);
-                RecordAppointmentDetails(upcoming);
-                break;
-            }
+
         }
     }
 

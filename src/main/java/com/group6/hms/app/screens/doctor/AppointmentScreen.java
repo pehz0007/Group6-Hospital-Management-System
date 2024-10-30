@@ -30,8 +30,15 @@ public class AppointmentScreen extends CalendarScreen<Appointment, List<Appointm
     @Override
     public void onDisplay() {
         super.onDisplay();
+        doc = (Doctor) loginManager.getCurrentlyLoggedInUser ();
+        List<Appointment> latestAppointments = appointmentManager.getAppointmentsByDoctor(doc);
 
-
+        // Filter the appointments based on their status
+        this.events = latestAppointments.stream()
+                .filter(appointment ->
+                        appointment.getStatus() == AppointmentStatus.REQUESTED ||
+                                appointment.getStatus() == AppointmentStatus.CONFIRMED)
+                .collect(groupingBy(Appointment::getDate));
     }
 
     @Override
@@ -44,8 +51,31 @@ public class AppointmentScreen extends CalendarScreen<Appointment, List<Appointm
             navigateToScreen(new AcceptOrDeclineScreen(requests));
 
         }else if(optionId == 6){
+            ArrayList<Appointment> appointments = appointmentManager.getAppointmentsByDoctorAndStatus(doc, AppointmentStatus.CONFIRMED);
+            Map<LocalDate, List<UUID>> availabilityMap = new HashMap<>();
+
+            for (Appointment upcoming : appointments) {
+                LocalDate date = upcoming.getDate();
+                if(LocalDate.now().isEqual(date)){
+                    availabilityMap.putIfAbsent(date, new ArrayList<>());
+                    availabilityMap.get(date).add(upcoming.getAppointmentId());
+                }
+            }
+            if(availabilityMap.size() == 0){
+                println("\u001B[31m"+ "There isn't any appointments today.");
+            }else{
+                for (Map.Entry<LocalDate, List<UUID>> entry : availabilityMap.entrySet()) {
+                    LocalDate date = entry.getKey();
+                    List<UUID> appointments1 = entry.getValue();
+                    AppointmentService service1;
+                    navigateToScreen(new UpdateConsultationNotesScreen(appointments1));
+
+                }
+            }
+
 
         }
+
     }
 
     /**
