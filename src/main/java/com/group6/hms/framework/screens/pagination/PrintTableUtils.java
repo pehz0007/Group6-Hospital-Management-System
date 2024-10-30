@@ -48,13 +48,6 @@ public class PrintTableUtils {
                         renderer.render(consoleInterface, i, remainingFieldWidth);
                         consoleInterface.println("");
                     }
-//                    String valueToPrint = value != null ? value.toString() : "null";
-//                    String[] valuesToPrint = wrapText(valueToPrint, (width - fieldWidth));
-//                    consoleInterface.setCurrentTextConsoleColor(valueFieldColor);
-//                    consoleInterface.println(valuesToPrint[0]);
-//                    for (int i = 1; i < valuesToPrint.length; i++) {
-//                        consoleInterface.println(" ".repeat(fieldWidth + 2) + valuesToPrint[i]);
-//                    }
 
 
                 } catch (IllegalAccessException e) {
