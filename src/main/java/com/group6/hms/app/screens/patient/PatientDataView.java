@@ -19,6 +19,7 @@ public class PatientDataView {
         this.patientId = patient.getUserId();
         this.name = patient.getName();
         this.email = patient.getContactInformation();
+        this.gender = patient.getGender();
         this.bloodType = patient.getMedicalRecord().getBloodType();
         this.dateOfBirth = patient.getMedicalRecord().getDateOfBirth();
     }
