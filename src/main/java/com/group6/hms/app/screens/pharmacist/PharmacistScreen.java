@@ -78,7 +78,7 @@ public class PharmacistScreen extends LogoutScreen {
                     println("Medication Status: " + item.getMedicationStatus());
                     println("Patient ID: " + item.getPatientId());
 
-                    // Display all prescribed medications with their quantities
+                    // display all prescribed medications with their quantities
                     for (PrescribedMedication prescribedMedication : item.getPrescribedMedications()) {
                         println("Medication: " + prescribedMedication.getMedication().getName());
                         println("Quantity Needed: " + prescribedMedication.getQuantityToPrescribe());
@@ -91,16 +91,7 @@ public class PharmacistScreen extends LogoutScreen {
         }
     }
 
-    //            if (records.isEmpty()) {
-//                println("No records found with the specified medication status.");
-//            } else {
-//                println("Appointment Outcome Records:");
-//                for (AppointmentOutcomeRecord record : records) {
-//                    println("Record ID: " + record.getRecordId());
-//                }
-//            }
-
-    //case 3: update prescription status and dispense medication??
+    //case 3: update prescription status and dispense medication
     private void updatePrescriptionStatus() {
         println("Enter the ID of the appointment outcome record you want to update: ");
         String recordId = readString();
@@ -124,7 +115,6 @@ public class PharmacistScreen extends LogoutScreen {
                         int quantity = prescribedMedication.getQuantityToPrescribe();
                         Medication med = prescribedMedication.getMedication();
 
-                        // Use the correct method to get the stock
                         MedicationStock stock = inventoryManager.getMedicationStock(med);
 
                         if (stock != null && stock.getCurrentStock() >= quantity) {
@@ -145,7 +135,7 @@ public class PharmacistScreen extends LogoutScreen {
 
     // case 4: view Medication Inventory
     private void viewMedicationInventory() {
-        List<MedicationStock> medications = inventoryManager.getAllMedicationStock(); // Make sure this method exists and returns the correct list
+        List<MedicationStock> medications = inventoryManager.getAllMedicationStock();
 
         // check if medications are retrieved successfully
         if (medications.isEmpty()) {
@@ -200,22 +190,3 @@ public class PharmacistScreen extends LogoutScreen {
         }
     }
 }
-
-//    // case 5: submit replenishment request
-//    private void submitReplenishmentRequest() {
-//        List<MedicationStock> lowStockMedications = inventoryManager.getAllMedicationStock().stream()
-//                .filter(inventoryManager::isStockLow)
-//                .toList();
-//
-//        if (lowStockMedications.isEmpty()) {
-//            println("All medications have sufficient stock levels.");
-//            return;
-//        }
-//
-//        List<ReplenishmentRequest> requests = new ArrayList<>();
-//
-//        println("Medications with low stock:");
-//        for (MedicationStock medicationStock : lowStockMedications) {
-//            println("Medication: " + medicationStock.getMedication().getName());
-//            println("Current Stock: " + medicationStock.getCurrentStock());
-//            println("Low Stock Level Limit: " + medicationStock.getLowStockLevelLimit());

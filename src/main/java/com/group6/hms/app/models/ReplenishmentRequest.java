@@ -1,8 +1,9 @@
 package com.group6.hms.app.models;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class ReplenishmentRequest {
+public class ReplenishmentRequest implements Serializable {
     private final UUID requestId;
     private Medication medication;
     private final int amountToReplenish;
