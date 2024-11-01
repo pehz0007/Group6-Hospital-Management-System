@@ -4,27 +4,44 @@ import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.InteractiveConsoleInterface;
 import com.group6.hms.framework.screens.Operation;
 import com.group6.hms.framework.screens.Screen;
+import com.group6.hms.framework.screens.option.Option;
 import com.group6.hms.framework.screens.option.OptionScreen;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Collection;
 import java.util.Map;
+import java.util.NavigableMap;
+import java.util.TreeMap;
 
 public class CalendarScreen<Event extends EventInterface, Collection extends java.util.Collection<Event>> extends OptionScreen {
 
     // Store events
-    private final Map<LocalDate, Collection> events;
+    private Map<LocalDate, Collection> events;
 
     // Current day navigation state
     protected LocalDate currentDate = LocalDate.now();
 
+    private static final int BACK = 0;
     private static final int UP = 1;
     private static final int DOWN = 2;
     private static final int LEFT = 3;
     private static final int RIGHT = 4;
 
     private boolean stopDisplayingCalendar;
+    private boolean selectDate = false;
+
+    private static final int NAVIGATE_CALENDAR = 1;
+
+    private static final NavigableMap<Integer, Option> navigationOptions = new TreeMap<>(Map.of(
+            BACK, new Option(BACK, "Exit Navigation", ConsoleColor.PURPLE),
+            UP, new Option(UP, "Up", ConsoleColor.PURPLE),
+            DOWN, new Option(DOWN, "Down", ConsoleColor.PURPLE),
+            LEFT, new Option(LEFT, "Left", ConsoleColor.PURPLE),
+            RIGHT, new Option(RIGHT, "Right", ConsoleColor.PURPLE)
+    ));
+
+    private int[] cursor;
+
 
     /**
      * Constructor to initialize the screen with a title.
@@ -35,52 +52,23 @@ public class CalendarScreen<Event extends EventInterface, Collection extends jav
         super(title);
         this.events = events;
         setAllowBack(true);
-        addOption(UP, "UP");
-        addOption(DOWN, "DOWN");
-        addOption(LEFT, "LEFT");
-        addOption(RIGHT, "RIGHT");
+        addOption(NAVIGATE_CALENDAR, "Navigate Calendar", ConsoleColor.PURPLE);
     }
 
     @Override
     public void onDisplay() {
-        // Event loop to read key presses and navigate calendar
-        stopDisplayingCalendar = false;
-        while (!stopDisplayingCalendar) {
-            // Wait for a key press and retrieve the binding
-            if (consoleInterface.isConsoleInteractive()) {
-                InteractiveConsoleInterface interactiveConsoleInterface = (InteractiveConsoleInterface) consoleInterface;
-                interactiveConsoleInterface.saveCurrentScreen();
-
-                // Display the current calendar state
-                displayCalendar();
-
-                Operation key = interactiveConsoleInterface.readUserKey();
-
-                // Handle key press
-                switch (key) {
-                    case UP: // Up Arrow (previous week)
-                        currentDate = currentDate.minusWeeks(1);
-                        break;
-                    case DOWN: // Down Arrow (next week)
-                        currentDate = currentDate.plusWeeks(1);
-                        break;
-                    case RIGHT: // Right Arrow (next day)
-                        currentDate = currentDate.plusDays(1);
-                        break;
-                    case LEFT: // Left Arrow (previous day)
-                        currentDate = currentDate.minusDays(1);
-                        break;
-                    case EXIT:
-                        navigateBack();
-                        break;
-                }
-                interactiveConsoleInterface.restoreCurrentScreen();
-            }else{
-                // Display the current calendar state
-                displayCalendar();
-                super.onDisplay();
-            }
+        if(consoleInterface instanceof InteractiveConsoleInterface interactiveConsoleInterface){
+            cursor = interactiveConsoleInterface.getCursorPosition();
         }
+
+        // Display the current calendar state
+        displayCalendar();
+        // Fall back to option key
+        super.onDisplay();
+    }
+
+    protected void setEvents(Map<LocalDate, Collection> events) {
+        this.events = events;
     }
 
     @Override
@@ -97,11 +85,70 @@ public class CalendarScreen<Event extends EventInterface, Collection extends jav
 
     @Override
     protected void handleOption(int optionId) {
-        switch (optionId){
-            case UP -> currentDate = currentDate.minusWeeks(1);
-            case DOWN -> currentDate = currentDate.plusWeeks(1);
-            case RIGHT -> currentDate = currentDate.plusDays(1);
-            case LEFT -> currentDate = currentDate.minusDays(1);
+        if (optionId == NAVIGATE_CALENDAR) {
+            if (consoleInterface instanceof InteractiveConsoleInterface interactiveConsoleInterface) {
+                navigateCalendarByInteraction(interactiveConsoleInterface);
+            } else {
+                navigateCalendarByNonInteraction();
+            }
+        }
+    }
+
+    protected LocalDate selectedDate(){
+        selectDate = true;
+        if (consoleInterface instanceof InteractiveConsoleInterface interactiveConsoleInterface) {
+            navigateCalendarByInteraction(interactiveConsoleInterface);
+        } else {
+            navigateCalendarByNonInteraction();
+        }
+        return currentDate;
+    }
+
+    private void navigateCalendarByNonInteraction() {
+        LocalDate calendarDate = DateUtils.readDate(consoleInterface);
+        currentDate = calendarDate;
+    }
+
+    private void navigateCalendarByInteraction(InteractiveConsoleInterface interactiveConsoleInterface) {
+        //Event loop to read key presses and navigate calendar
+        stopDisplayingCalendar = false;
+        while (!stopDisplayingCalendar) {
+            // Reset the screen
+            interactiveConsoleInterface.moveCursor(cursor[0], cursor[1]);
+            interactiveConsoleInterface.clearPartialScreen();
+
+            // Display the current calendar state
+            displayCalendar();
+
+            setCurrentTextConsoleColor(ConsoleColor.YELLOW);
+            println("\nUse the arrow key to navigate and <Q> button to exit the navigation.");
+
+            // Wait for a key press and retrieve the binding
+            Operation key = interactiveConsoleInterface.readUserKey();
+
+            // Handle key press
+            switch (key) {
+                case UP: // Up Arrow (previous week)
+                    currentDate = currentDate.minusWeeks(1);
+                    break;
+                case DOWN: // Down Arrow (next week)
+                    currentDate = currentDate.plusWeeks(1);
+                    break;
+                case RIGHT: // Right Arrow (next day)
+                    currentDate = currentDate.plusDays(1);
+                    break;
+                case LEFT: // Left Arrow (previous day)
+                    currentDate = currentDate.minusDays(1);
+                    break;
+                case ENTER:
+                    if(selectDate){
+                        stopDisplayingCalendar = true;
+                        break;
+                    }
+                case EXIT:
+                    stopDisplayingCalendar = true;
+                    break;
+            }
         }
     }
 
@@ -129,7 +176,8 @@ public class CalendarScreen<Event extends EventInterface, Collection extends jav
         while (day.getMonth() == currentDate.getMonth()) {
             String dayStr = day.format(dayFormatter);
 
-            if(events.get(day) != null && !events.get(day).isEmpty())setCurrentTextConsoleColor(ConsoleColor.YELLOW);
+            if (events.get(day) != null && !events.get(day).isEmpty())
+                setCurrentTextConsoleColor(ConsoleColor.YELLOW);
             else setCurrentTextConsoleColor(ConsoleColor.WHITE);
 
             // Highlight the current day
@@ -152,8 +200,8 @@ public class CalendarScreen<Event extends EventInterface, Collection extends jav
         // Display event if available for the selected day
         Collection eventsOnSelectedDay = events.get(currentDate);
         if (eventsOnSelectedDay != null && !eventsOnSelectedDay.isEmpty()) {
-            for(Event event : eventsOnSelectedDay) {
-                println("=".repeat(30));
+            for (Event event : eventsOnSelectedDay) {
+//                println("=".repeat(30));
                 event.displayEvent(consoleInterface);
             }
         } else {

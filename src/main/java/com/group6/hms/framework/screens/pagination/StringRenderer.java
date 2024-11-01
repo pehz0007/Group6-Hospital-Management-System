@@ -13,8 +13,8 @@ public class StringRenderer implements FieldRenderer {
     private String[] valuesToPrint;
 
     @Override
-    public void initRenderObject(Object value, int fieldWidth) {
-        valueToPrint = value != null ? value.toString() : "null";
+    public void initRenderObject(Object rowValue, Object fieldValue, int fieldWidth) {
+        valueToPrint = fieldValue != null ? fieldValue.toString() : "null";
         valuesToPrint = wrapTextWithoutBreakingAtSpaces(valueToPrint, fieldWidth);
     }
 

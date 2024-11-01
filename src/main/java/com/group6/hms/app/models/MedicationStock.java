@@ -1,10 +1,18 @@
 package com.group6.hms.app.models;
 
+import com.group6.hms.app.screens.admin.LowStockIndicatorRenderer;
+import com.group6.hms.app.screens.admin.MedicationRenderer;
+import com.group6.hms.framework.screens.pagination.HeaderField;
+
 import java.io.Serializable;
 
 public class MedicationStock implements Serializable {
+
+    @HeaderField(renderer = MedicationRenderer.class)
     private Medication medication;
+    @HeaderField(renderer = LowStockIndicatorRenderer.class)
     private int currentStock;
+    @HeaderField(width = 25)
     private int lowStockLevelLimit;
 
     public MedicationStock(Medication medication, int currentStock, int lowStockLevelLimit) {

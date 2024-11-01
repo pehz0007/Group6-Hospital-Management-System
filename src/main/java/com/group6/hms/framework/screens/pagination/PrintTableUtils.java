@@ -39,7 +39,7 @@ public class PrintTableUtils {
 
                     // Print value next to the header
                     int remainingFieldWidth = width - fieldWidth;
-                    renderer.initRenderObject(value, remainingFieldWidth);
+                    renderer.initRenderObject(obj, value, remainingFieldWidth);
                     int length = renderer.getLines();
                     renderer.render(consoleInterface, 0,remainingFieldWidth);
                     consoleInterface.println("");
@@ -195,8 +195,8 @@ public class PrintTableUtils {
 
             field.setAccessible(true); // Allow access to private fields
             try {
-                Object value = field.get(item); // Get the value of the field for the given object
-                renderer.initRenderObject(value, fieldWidth);
+                Object fieldValue = field.get(item); // Get the fieldValue of the field for the given object
+                renderer.initRenderObject(item, fieldValue, fieldWidth);
                 int length = renderer.getLines();
 
                 if(length >= maxLine)maxLine = length;

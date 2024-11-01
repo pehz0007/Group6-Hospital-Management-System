@@ -9,11 +9,12 @@ public class AppointmentStatusRenderer extends StringRenderer {
     private AppointmentStatus appointmentStatus;
 
     @Override
-    public void initRenderObject(Object value, int fieldWidth) {
-        super.initRenderObject(value, fieldWidth);
-        appointmentStatus = (AppointmentStatus) value;
+    public void initRenderObject(Object rowValue, Object fieldValue, int fieldWidth) {
+        super.initRenderObject(rowValue, fieldValue, fieldWidth);
+        appointmentStatus = (AppointmentStatus) fieldValue;
         switch (appointmentStatus){
-            case CONFIRMED -> setValueFieldColor(ConsoleColor.GREEN);
+            case CONFIRMED, COMPLETED -> setValueFieldColor(ConsoleColor.GREEN);
+            case REQUESTED -> setValueFieldColor(ConsoleColor.YELLOW);
             case CANCELLED -> setValueFieldColor(ConsoleColor.RED);
         }
     }
