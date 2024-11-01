@@ -1,24 +1,11 @@
 package com.group6.hms.app.screens.patient;
 
-import com.group6.hms.app.managers.AppointmentManager;
-import com.group6.hms.app.managers.AvailabilityManager;
-import com.group6.hms.app.models.Appointment;
-import com.group6.hms.app.models.AppointmentOutcomeRecord;
-import com.group6.hms.app.models.Availability;
-import com.group6.hms.app.models.MedicalRecord;
 import com.group6.hms.app.roles.Patient;
 import com.group6.hms.app.screens.MainScreen;
 import com.group6.hms.app.auth.LogoutScreen;
 
-
-import java.util.List;
-import java.util.Scanner;
-
 public class PatientScreen extends LogoutScreen {
-    private Patient patient;
-    private AppointmentManager appointmentManager = new AppointmentManager();
-    private AvailabilityManager availabilityManager = new AvailabilityManager();
-    private Scanner scanner = new Scanner(System.in);
+
 
     private static final int MEDICAL_RECORD = 2;
     private static final int USER_CONFIGURATION = 3;
@@ -28,6 +15,9 @@ public class PatientScreen extends LogoutScreen {
     private static final int CANCEL_APPOINTMENTS = 7;
     private static final int APPOINTMENTS_STATUS = 8;
     private static final int VIEW_PAST_OUTCOMES = 9;
+    private static final int PATIENT_BOOK_AVAILABLE_DOCTORS = 4;
+
+    private Patient patient;
 
     /**
      * Constructor to initialize the PatientScreen.
@@ -42,20 +32,13 @@ public class PatientScreen extends LogoutScreen {
         addOption(CANCEL_APPOINTMENTS, "Cancel Appointments");
         addOption(APPOINTMENTS_STATUS, "View Scheduled Appointments Status");
         addOption(VIEW_PAST_OUTCOMES, "View Past Appointment Outcome Records");
+        addOption(PATIENT_BOOK_AVAILABLE_DOCTORS, "Book Available Doctors");
     }
 
     @Override
     public void onStart() {
-        println("Welcome, " + getLoginManager().getCurrentlyLoggedInUser().getUserId());
         patient = (Patient) getLoginManager().getCurrentlyLoggedInUser();
-
-        //if no patient, print error
-        if (patient == null){
-            println("No patient logged in");
-            onLogout();
-            return;
-        }
-
+        println("Welcome, " + patient.getName());
         super.onStart();
     }
 
@@ -75,6 +58,7 @@ public class PatientScreen extends LogoutScreen {
             case CANCEL_APPOINTMENTS -> cancelAppointments();
             case APPOINTMENTS_STATUS -> viewAppointmentsStatus();
             case VIEW_PAST_OUTCOMES -> viewPastOutcomes();
+            case  PATIENT_BOOK_AVAILABLE_DOCTORS -> navigateToScreen(new ViewAvailableDoctorScreen());
             default -> println("Invalid option");
         }
     }
@@ -248,6 +232,7 @@ public class PatientScreen extends LogoutScreen {
         for(AppointmentOutcomeRecord record : pastAppointments){
             println("Date: " + record.getRecordId() +
                     " |Doctor: " + record.getDoctorId());
+            case  PATIENT_BOOK_AVAILABLE_DOCTORS -> navigateToScreen(new ViewAvailableDoctorScreen());
         }
     }
 }

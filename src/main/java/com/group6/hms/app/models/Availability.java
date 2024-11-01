@@ -2,15 +2,25 @@ package com.group6.hms.app.models;
 
 import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.framework.screens.ConsoleInterface;
+import com.group6.hms.framework.screens.calendar.DateRenderer;
+import com.group6.hms.framework.screens.calendar.EventInterface;
+import com.group6.hms.framework.screens.calendar.TimeRenderer;
+import com.group6.hms.framework.screens.pagination.HeaderField;
+import com.group6.hms.framework.screens.pagination.PrintTableUtils;
+import com.group6.hms.framework.screens.ConsoleInterface;
 import com.group6.hms.framework.screens.calendar.EventInterface;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Availability implements EventInterface {
+public class Availability implements EventInterface, Serializable {
     private Doctor doctor;
+    @HeaderField(renderer = DateRenderer.class)
     private LocalDate availableDate;
+    @HeaderField(renderer = TimeRenderer.class)
     private LocalTime availableStartTime;
+    @HeaderField(renderer = TimeRenderer.class)
     private LocalTime availableEndTime;
 
     public Availability(Doctor doctor, LocalDate availableDate, LocalTime startTime, LocalTime endTime) {
@@ -56,23 +66,18 @@ public class Availability implements EventInterface {
         this.availableEndTime = availableEndTime;
     }
 
-    @Override
-    public LocalDate getEventDate() {
-        return null;
+    public LocalDate getEventDate(){
+        return getAvailableDate();
     }
 
-    @Override
-    public LocalTime getEventStartTime() {
-        return null;
+    public LocalTime getEventStartTime(){
+        return getAvailableStartTime();
+    }
+    public LocalTime getEventEndTime(){
+        return getAvailableEndTime();
+    }
+    public void displayEvent(ConsoleInterface consoleInterface){
+        PrintTableUtils.printItemAsVerticalTable(consoleInterface, this);
     }
 
-    @Override
-    public LocalTime getEventEndTime() {
-        return null;
-    }
-
-    @Override
-    public void displayEvent(ConsoleInterface consoleInterface) {
-
-    }
 }
