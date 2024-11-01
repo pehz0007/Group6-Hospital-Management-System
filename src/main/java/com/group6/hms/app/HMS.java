@@ -9,7 +9,7 @@ public class HMS {
     public static void main(String[] args) {
         ApplicationHandle appHandle = new ApplicationHandle();
         if (System.console() != null) {
-            ScreenManager sm = new ScreenManager(new MainScreen(), new SimpleConsoleInterface());
+            ScreenManager sm = new ScreenManager(new MainScreen(), new FFMConsoleInterface());
             appHandle.start(sm);
         } else {
             ScreenManager sm = new ScreenManager(new MainScreen(), new SimpleConsoleInterface());

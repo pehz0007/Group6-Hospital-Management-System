@@ -25,7 +25,7 @@ public class ViewAndManageMedicationScreen extends PaginationTableScreen<Medicat
         this.inventoryManager = new InventoryManager();
         updateMedicationStocks();
 
-        addOption(APPROVE_REPLENISHMENT_REQUEST, "Approve/Reject Replenishment Request");
+        addOption(APPROVE_REPLENISHMENT_REQUEST, "Approve Replenishment Request");
         addOption(IMPORT_MEDICATIONS_STOCK, "Import Medications");
     }
 
@@ -56,6 +56,7 @@ public class ViewAndManageMedicationScreen extends PaginationTableScreen<Medicat
                     setCurrentTextConsoleColor(ConsoleColor.GREEN);
                     println("Medication Stock imported successfully!");
                     waitForKeyPress();
+                    updateMedicationStocks();
                 } catch (FileNotFoundException e) {
                     setCurrentTextConsoleColor(ConsoleColor.RED);
                     println("Unable to find file!");
