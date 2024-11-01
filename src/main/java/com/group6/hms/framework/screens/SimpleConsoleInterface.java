@@ -9,6 +9,7 @@ import java.util.Objects;
 import java.util.Scanner;
 
 import static com.group6.hms.framework.screens.ConsoleColor.*;
+import static com.group6.hms.framework.screens.pagination.TextUtils.skipNewLines;
 
 /**
  * This class implements {@link ConsoleInterface} for the local terminal and support text color and basic I/O
@@ -132,4 +133,5 @@ public class SimpleConsoleInterface implements ConsoleInterface {
 
         System.out.println(code + s + AnsiColor.ANSI_RESET);
     }
+
 }

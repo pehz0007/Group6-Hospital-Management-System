@@ -14,6 +14,7 @@ public class AppointmentStatusRenderer extends StringRenderer {
         appointmentStatus = (AppointmentStatus) value;
         switch (appointmentStatus){
             case CONFIRMED -> setValueFieldColor(ConsoleColor.GREEN);
+            case REQUESTED -> setValueFieldColor(ConsoleColor.YELLOW);
             case CANCELLED -> setValueFieldColor(ConsoleColor.RED);
         }
     }

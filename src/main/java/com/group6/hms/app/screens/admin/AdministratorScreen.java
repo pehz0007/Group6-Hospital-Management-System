@@ -76,14 +76,6 @@ public class AdministratorScreen extends LogoutScreen {
                 AppointmentManager appointmentManager = new AppointmentManager();
                 Map<LocalDate, List<Appointment>> appointments = appointmentManager.getAllAppointments().stream().collect(groupingBy(Appointment::getDate));
                 navigateToScreen(new CalendarScreen<>("Appointments", appointments));
-//                Multimap<LocalDate, AppointmentView> appointmentViews = MultimapBuilder.hashKeys().arrayListValues().build();
-//                var a1 = new AppointmentView(UUID.randomUUID(), UUID.randomUUID(), AppointmentStatus.CONFIRMED, LocalDateTime.now());
-//                appointmentViews.put(a1.getEventDateTime().toLocalDate(), a1);
-//                navigateToScreen(new CalendarScreen<>("Appointments", appointmentViews));
-
-                //Retrieve all Appointments in the database
-
-                //Display all the Appointments
 
             }
             case IMPORT_MEDICATIONS_STOCK -> {

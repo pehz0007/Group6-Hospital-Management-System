@@ -35,4 +35,20 @@ public class TextUtils {
         return result.toString().split("\n"); // Return the wrapped lines
     }
 
+    public static String skipNewLines(String prefix) {
+        // Use a StringBuilder to construct the result
+        StringBuilder result = new StringBuilder();
+
+        // Iterate over each character in the prefix
+        for (char ch : prefix.toCharArray()) {
+            // If the character is neither '\r' nor '\n', append it to the result
+            if (ch != '\r' && ch != '\n') {
+                result.append(ch);
+            }
+        }
+
+        // Return the result as a string
+        return result.toString();
+    }
+
 }

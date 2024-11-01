@@ -25,7 +25,10 @@ public class LoginManager {
         //Generate sample file
         LoginManager loginManager = LoginManagerHolder.getLoginManager();
 
-        loginManager.createUser(new Patient("P1011", "password".toCharArray(), "freya", Gender.Male));
+        Patient patient = new Patient("P1011", "password".toCharArray(), "freya", Gender.Male);
+//        patient.updateMedicalRecord(medicalRecord);
+
+        loginManager.createUser(patient);
         loginManager.createUser(new Doctor("D0011", "password".toCharArray(), "ethan", Gender.Male, 22));
         loginManager.createUser(new Administrator("A001", "password".toCharArray(), "phoebe", Gender.Female, 34));
         loginManager.createUser(new Pharmacist("P0003", "password".toCharArray(), "sage", Gender.Female, 50));
