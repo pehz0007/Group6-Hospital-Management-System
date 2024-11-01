@@ -1,26 +1,17 @@
 package com.group6.hms.app.screens.doctor;
 
-import com.group6.hms.app.MedicationStatus;
 import com.group6.hms.app.auth.*;
 import com.group6.hms.app.models.*;
 import com.group6.hms.app.roles.Doctor;
-import com.group6.hms.app.roles.Gender;
 import com.group6.hms.app.auth.User;
-import com.group6.hms.app.roles.Patient;
 import com.group6.hms.app.screens.MainScreen;
-import com.group6.hms.app.screens.doctor.PatientMedicalRecordsScreen;
 import com.group6.hms.app.managers.AppointmentManager;
 import com.group6.hms.app.managers.AvailabilityManager;
 import com.group6.hms.app.storage.SerializationStorageProvider;
 import com.group6.hms.app.auth.LoginManagerHolder;
-import com.group6.hms.framework.screens.pagination.PaginationTableScreen;
-import com.group6.hms.framework.screens.pagination.PrintTableUtils;
-import com.group6.hms.framework.screens.pagination.SinglePaginationTableScreen;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import static java.util.stream.Collectors.groupingBy;

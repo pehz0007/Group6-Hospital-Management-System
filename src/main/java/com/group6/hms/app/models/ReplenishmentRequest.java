@@ -1,9 +1,13 @@
 package com.group6.hms.app.models;
 
+import com.group6.hms.app.screens.admin.MedicationRenderer;
+import com.group6.hms.framework.screens.pagination.HeaderField;
+
 import java.util.UUID;
 
 public class ReplenishmentRequest {
     private final UUID requestId;
+    @HeaderField(renderer = MedicationRenderer.class)
     private Medication medication;
     private final int amountToReplenish;
     private ReplenishmentRequestStatus replenishmentRequestStatus;
