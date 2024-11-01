@@ -3,6 +3,7 @@ package com.group6.hms.app.models;
 import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.app.roles.Patient;
 import com.group6.hms.app.screens.doctor.AppointmentStatusRenderer;
+import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.ConsoleInterface;
 import com.group6.hms.framework.screens.calendar.EventInterface;
 import com.group6.hms.framework.screens.pagination.HeaderField;
@@ -25,6 +26,7 @@ public class Appointment implements Serializable, EventInterface {
     private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;
+    @HeaderField(width = 40)
     private UUID appointmentOutcomeRecordId;
 
     public Appointment(Patient patient, Doctor doctor, AppointmentStatus status, LocalDate date, LocalTime startTime, LocalTime endTime) {
