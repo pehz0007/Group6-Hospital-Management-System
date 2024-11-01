@@ -29,8 +29,9 @@ public class ViewAndManageUsersScreen extends PaginationTableScreen<UserView> {
     private final int CREATE_USER = 4;
     private final int IMPORT_STAFFS = 5;
     private final int IMPORT_PATIENTS = 6;
-    private final int UPDATE_USER = 6;
-    private final int DELETE_USER = 7;
+    private final int UPDATE_USER = 7;
+    private final int DELETE_USER = 8;
+   private final int IMPORT_MEDICATION_STOCK = 9;
 
     private LoginManager loginManager;
 
@@ -53,6 +54,7 @@ public class ViewAndManageUsersScreen extends PaginationTableScreen<UserView> {
         addOption(DELETE_USER, "Delete Existing User");
         addOption(IMPORT_STAFFS, "Import Staffs");
         addOption(IMPORT_PATIENTS, "Import Patients");
+        addOption(IMPORT_MEDICATION_STOCK, "Import Medication Stock");
 
         setFilterFunction(this::filter);
     }
@@ -181,6 +183,27 @@ public class ViewAndManageUsersScreen extends PaginationTableScreen<UserView> {
                 waitForKeyPress();
             }
         }
+        else if (optionId == IMPORT_MEDICATION_STOCK) {
+            print("Medication File Location:");
+            String filePath = readString();
+            try {
+                MedicationStockCSVReader medicationStockCSVReader = new MedicationStockCSVReader(new FileReader(filePath));
+                List<MedicationStock> medications = medicationStockCSVReader.readAllMedications();
+                StorageProvider<MedicationStock> medicationStorageProvider = new SerializationStorageProvider<>();
+                File medicationsFile = new File("data/medications.ser");
 
+                for (MedicationStock medicationStock : medications) {
+                    medicationStorageProvider.addNewItem(medicationStock);
+                }
+                medicationStorageProvider.saveToFile(medicationsFile);
+                setCurrentTextConsoleColor(ConsoleColor.GREEN);
+                println("Medication Stock imported successfully!");
+
+            } catch (FileNotFoundException e) {
+                setCurrentTextConsoleColor(ConsoleColor.RED);
+                println("Unable to find file!");
+                waitForKeyPress();
+            }
+        }
     }
 }

@@ -129,6 +129,9 @@ public class CalendarScreen<Event extends EventInterface, Collection extends jav
         while (day.getMonth() == currentDate.getMonth()) {
             String dayStr = day.format(dayFormatter);
 
+            if(events.get(day) != null && !events.get(day).isEmpty())setCurrentTextConsoleColor(ConsoleColor.YELLOW);
+            else setCurrentTextConsoleColor(ConsoleColor.WHITE);
+
             // Highlight the current day
             if (day.equals(currentDate)) {
                 print("[");

@@ -54,6 +54,14 @@ public class LoginManager {
         userStorageProvider.saveToFile(usersFile);
     }
 
+    public User findUser(UUID systemUserId){
+        for(User user : userStorageProvider.getItems()){
+            if(user.getSystemUserId().equals(systemUserId)){
+                return user;
+            }
+        }
+        return null;
+    }
 
     public void createUser(User user){
         if(findUser(user.getUserId()) != null) throw new UserCreationException("User already exists");
@@ -82,15 +90,6 @@ public class LoginManager {
     public User findUser(String userId){
         for(User user : userStorageProvider.getItems()){
             if(user.getUserId().equalsIgnoreCase(userId)){
-                return user;
-            }
-        }
-        return null;
-    }
-
-    public User findUser(UUID systemUserId){
-        for(User user : userStorageProvider.getItems()){
-            if(user.getSystemUserId().equals(systemUserId)){
                 return user;
             }
         }

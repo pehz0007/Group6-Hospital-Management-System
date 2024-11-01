@@ -34,11 +34,11 @@ public class AppointmentManager {
         LocalTime timeNow = LocalTime.now();
         Availability avail = new Availability(doctor, LocalDate.now(), timeNow, timeNow.plusHours(1));
         availabilityManager.addAvailability(avail);
-        appointmentManager.scheduleAppointment(patient, avail);
-
-        Appointment appt = appointmentManager.getAllAppointments().getFirst();
-        appointmentManager.acceptAppointmentRequest(appt);
-        ArrayList<Medication> medications = new ArrayList<>();
+//        appointmentManager.scheduleAppointment(patient, avail);
+//
+//        Appointment appt = appointmentManager.getAllAppointments().getFirst();
+//        appointmentManager.acceptAppointmentRequest(appt);
+//        ArrayList<Medication> medications = new ArrayList<>();
 
 //        medications.add(new Medication(UUID.randomUUID(), "Panadol"));
 //        medications.add(new Medication(UUID.randomUUID(), "Cough Syrup"));

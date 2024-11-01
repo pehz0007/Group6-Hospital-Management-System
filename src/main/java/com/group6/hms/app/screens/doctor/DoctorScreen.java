@@ -1,16 +1,23 @@
 package com.group6.hms.app.screens.doctor;
 
 import com.group6.hms.app.MedicationStatus;
-import com.group6.hms.app.auth.LoginManager;
-import com.group6.hms.app.auth.User;
+import com.group6.hms.app.auth.*;
 import com.group6.hms.app.models.*;
 import com.group6.hms.app.roles.Doctor;
+import com.group6.hms.app.roles.Gender;
+import com.group6.hms.app.auth.User;
+import com.group6.hms.app.roles.Patient;
 import com.group6.hms.app.screens.MainScreen;
-import com.group6.hms.app.auth.LogoutScreen;
 import com.group6.hms.app.screens.doctor.PatientMedicalRecordsScreen;
 import com.group6.hms.app.managers.AppointmentManager;
 import com.group6.hms.app.managers.AvailabilityManager;
+import com.group6.hms.app.storage.SerializationStorageProvider;
+import com.group6.hms.app.auth.LoginManagerHolder;
+import com.group6.hms.framework.screens.pagination.PaginationTableScreen;
+import com.group6.hms.framework.screens.pagination.PrintTableUtils;
+import com.group6.hms.framework.screens.pagination.SinglePaginationTableScreen;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -20,30 +27,32 @@ import static java.util.stream.Collectors.groupingBy;
 
 public class DoctorScreen extends LogoutScreen {
 
-
-    private AppointmentManager appointmentManager = new AppointmentManager();
-    private AvailabilityManager availabilityManager = new AvailabilityManager();
-    private Doctor doctor;
-
     /**
      * Constructor to initialize the DoctorScreen.
      */
+    AppointmentManager appointmentManager = new AppointmentManager();
+    LoginManager loginManager = LoginManagerHolder.getLoginManager();
+    AvailabilityManager availabilityManager = new AvailabilityManager();
+    private SerializationStorageProvider<User> userStorageProvider = new SerializationStorageProvider<>();
+    File userFile = new File("data/users.ser");
+
+    private Doctor doc;
     public DoctorScreen() {
         super("Doctor Menu");
         addOption(2, "View Patient Medical Records");
-        addOption(3, "Update Patient Medical Records");
-        addOption(4, "View Personal Schedule");
-        addOption(5, "Set Availability for Appointments");
-        addOption(6, "Accept or Decline Appointment Requests");
-        addOption(7, "View Upcoming Appointments");
-        addOption(8, "Record Appointment Outcome");
+        //addOption(3, "Update Patient Medical Records");
+        addOption(3, "View Personal Schedule");
+        //addOption(5, "Set Availability for Appointments");
+        addOption(4, "Accept or Decline Appointment Requests");
+        addOption(5, "View Upcoming Appointments");
+        addOption(6, "Record Appointment Outcome");
     }
 
     @Override
     public void onStart() {
-        doctor = (Doctor) getLoginManager().getCurrentlyLoggedInUser();
-        println("Welcome, " + doctor.getName());
+        println("Welcome, " + getLoginManager().getCurrentlyLoggedInUser().getName() + "!");
         super.onStart();
+
     }
 
     @Override
@@ -53,6 +62,9 @@ public class DoctorScreen extends LogoutScreen {
 
     @Override
     protected void handleOption(int optionId) {
+//        loginManager.loadUsersFromFile();
+        userStorageProvider.loadFromFile(userFile);
+        doc = (Doctor) loginManager.getCurrentlyLoggedInUser();
         User currentUser = getLoginManager().getCurrentlyLoggedInUser();
         if (currentUser == null) {
             System.out.println("No user is currently logged in.");
@@ -60,58 +72,40 @@ public class DoctorScreen extends LogoutScreen {
         }
 
         switch (optionId) {
-            case 2, 3: {
-                Scanner sc = new Scanner(System.in);
-                System.out.println("Enter patient name: ");
-                String name = sc.nextLine();
-                patientMedicialRecords();
+            case 2: {
+                patientMedicalRecords();
                 break;
             }
-            case 4: {
-                Map<LocalDate, List<Availability>> avail_appointments = availabilityManager.getAvailabilityByDoctor(doctor).stream().collect(groupingBy(Availability::getAvailableDate));
+
+            case 3: {
+                Map<LocalDate, List<Availability>> avail_appointments = availabilityManager.getAvailabilityByDoctor(doc).stream().collect(groupingBy(Availability::getAvailableDate));
                 navigateToScreen(new DoctorAvailabilityScreen(avail_appointments));
 //                println("Getting personal schedule...");
 //                List<Availability> avail_appointments = availabilityManager.getAvailabilityByDoctor(doctor);
 //                printAvailability(avail_appointments);
                 break;
             }
-            case 5: {
-                println("Set Availability");
-                Scanner sc = new Scanner(System.in);
-                println("Enter availability date (yyyy-mm-dd): ");
-                String date = sc.nextLine();
 
-
-                LocalDate date1 = LocalDate.parse(date);
-                println("Enter availability start time: ");
-                String startTime = sc.nextLine();
-                LocalTime startTime1 = LocalTime.parse(startTime);
-                Availability avail = new Availability(doctor, date1, startTime1, startTime1.plusHours(1));
-                availabilityManager.addAvailability(avail);
-                break;
-            }
-
-            case 6: {
+            case 4: {
                 println("Accept or Decline Appointment Requests");
-                ArrayList<Appointment> requests = appointmentManager.getAppointmentsByDoctorAndStatus(doctor, AppointmentStatus.REQUESTED);
+                ArrayList<Appointment> requests = appointmentManager.getAppointmentsByDoctorAndStatus(doc, AppointmentStatus.REQUESTED);
                 acceptorDecline(requests);
                 break;
             }
-            case 7: {
+            case 5: {
                 println("View Upcoming Appointments");
-                ArrayList<Appointment> upcoming = appointmentManager.getAppointmentsByDoctorAndStatus(doctor, AppointmentStatus.CONFIRMED);
+                ArrayList<Appointment> upcoming = appointmentManager.getAppointmentsByDoctorAndStatus(doc, AppointmentStatus.CONFIRMED);
                 upcomingAppointments(upcoming);
                 break;
             }
-            case 8: {
+            case 6: {
                 println("Record Appointment Outcome");
-                ArrayList<Appointment> upcoming = appointmentManager.getAppointmentsByDoctorAndStatus(doctor, AppointmentStatus.CONFIRMED);
+                ArrayList<Appointment> upcoming = appointmentManager.getAppointmentsByDoctorAndStatus(doc, AppointmentStatus.CONFIRMED);
                 RecordAppointmentDetails(upcoming);
                 break;
             }
         }
     }
-
     protected void printAvailability(List<Availability> avail_appointments) {
         // Step 1: Group by date
         Map<LocalDate, List<Availability>> availabilityMap = new TreeMap<>();
@@ -122,38 +116,81 @@ public class DoctorScreen extends LogoutScreen {
             availabilityMap.get(date).add(avail);
         }
 
-        // Step 2: Print grouped availability
-        for (Map.Entry<LocalDate, List<Availability>> entry : availabilityMap.entrySet()) {
-            LocalDate date = entry.getKey();
-            List<Availability> availabilities = entry.getValue();
+        if (availabilityMap.isEmpty()) {
+            println("No availability found.");
+        }
+        else {
+            // Step 2: Print grouped availability
+            for (Map.Entry<LocalDate, List<Availability>> entry : availabilityMap.entrySet()) {
+                LocalDate date = entry.getKey();
+                List<Availability> availabilities = entry.getValue();
 
-            println("Availability Date: " + date.toString());
-            for (Availability avail : availabilities) {
-                println("Availability time: " + avail.getAvailableStartTime().toString() + " - " + avail.getAvailableEndTime().toString());
+                println("Availability Date: " + date.toString());
+                for (Availability avail : availabilities) {
+                    println("Availability time: " + avail.getAvailableStartTime().toString() + " - " + avail.getAvailableEndTime().toString());
+                }
+                println(""); // Print a blank line for better readability
             }
-            println(""); // Print a blank line for better readability
         }
     }
 
-    protected void patientMedicialRecords() {
+    protected void patientMedicalRecords(){
 
+        CareProvider retrievePatients = new CareProvider();
+        Collection<UUID> medicalRecords = retrievePatients.getPatientIDsUnderDoctorCare(doc);
+        navigateToScreen(new PatientMedicalRecordsScreen("Patient Medical Records", medicalRecords.stream().toList()));
+//        navigateToScreen(new SinglePaginationTableScreen<UUID>("Patient Medical Records",medicalRecords.stream().toList()) {
+//
+//
+//            @Override
+//            protected void handleOption(int optionId) {
+//                super.handleOption(optionId);
+//            }
+//
+//
+//
+//            @Override
+//            public void displaySingleItem(UUID item) {
+//                Patient user = (Patient) getLoginManager().findUser(item);
+//                PatientView patient = new PatientView(user);
+//
+//                PrintTableUtils.printItemAsVerticalTable(consoleInterface, patient);
+//            }
+//
+//        });
+
+//        for (UUID userID : medicalRecords) {
+//            for(User user: userStorageProvider.getItems()){
+//                if(user instanceof Patient && user.getSystemUserId().equals(userID)){
+//
+//                    println("Patient Name: "+ user.getName());
+//                    println("Patient Gender: "+ user.getGender());
+//                    println("Medical Records");
+//                    println("Patient Date of Birth: "+((Patient) user).getMedicalRecord().getDateOfBirth());
+//                    println("Patient Blood Type: "+ ((Patient) user).getMedicalRecord().getBloodType()+"\n");
+//                    break;
+//                }
+//            }
+//        }
     }
+
+
 
     protected void acceptorDecline(ArrayList<Appointment> appointments) {
         Scanner sc = new Scanner(System.in);
-        if (appointments.isEmpty()) {
-            println("No requests appointment are found.");
-        } else {
-            println("You got " + appointments.size() + " requests!");
-            for (Appointment appointment : appointments) {
-                println("Scheduled Date: " + appointment.getDate().toString());
-                println("Start Time: " + appointment.getStartTime().toString());
-                println("End Time: " + appointment.getEndTime().toString() + "\n");
+        if(appointments.isEmpty()){
+            println("No requests appointment are found.\n");
+        }else{
+            println("You got "+ appointments.size()+" requests!");
+            for(Appointment appointment : appointments){
+                println("Scheduled Date: "+ appointment.getDate().toString());
+                println("Start Time: "+ appointment.getStartTime().toString());
+                println("End Time: "+ appointment.getEndTime().toString()+"\n");
                 println("Accept or decline?");
                 String result = sc.nextLine();
-                if (result.equalsIgnoreCase("accept")) {
+                if(result.equalsIgnoreCase("accept")){
                     appointmentManager.acceptAppointmentRequest(appointment);
-                } else {
+                }else{
                     appointmentManager.declineAppointmentRequest(appointment);
                 }
             }
@@ -165,19 +202,20 @@ public class DoctorScreen extends LogoutScreen {
 
         for (Appointment upcoming : appointments) {
             LocalDate date = upcoming.getDate();
-            if (LocalDate.now().isBefore(date)) {
+
                 availabilityMap.putIfAbsent(date, new ArrayList<>());
                 availabilityMap.get(date).add(upcoming);
-            }
+
         }
         for (Map.Entry<LocalDate, List<Appointment>> entry : availabilityMap.entrySet()) {
             LocalDate date = entry.getKey();
             List<Appointment> appointments1 = entry.getValue();
 
-            println("Upcoming Appointment Date: " + date.toString());
+
             for (Appointment upcoming1 : appointments1) {
-                println("Patient Name: " + upcoming1.getPatient().toString());
-                println("Appointment Timing: " + upcoming1.getStartTime().toString() + "\n");
+                println("Upcoming Appointment Date: " + upcoming1.getDate().toString());
+                println("Patient Name: "+ upcoming1.getPatient().getName());
+                println("Appointment Timing: "+ upcoming1.getStartTime().toString()+"\n");
             }
             println(""); // Print a blank line for better readability
         }
@@ -188,7 +226,7 @@ public class DoctorScreen extends LogoutScreen {
 
         for (Appointment upcoming : appointments) {
             LocalDate date = upcoming.getDate();
-            if (LocalDate.now().isEqual(date)) {
+            if(LocalDate.now().isEqual(date)){
                 availabilityMap.putIfAbsent(date, new ArrayList<>());
                 availabilityMap.get(date).add(upcoming);
             }
@@ -203,36 +241,31 @@ public class DoctorScreen extends LogoutScreen {
             AppointmentService service1;
 
             for (Appointment upcoming1 : appointments1) {
-                println("Patient Name: " + upcoming1.getPatient().toString());
-                println("Appointment Timing: " + upcoming1.getStartTime().toString());
+                println("Patient Name: "+ upcoming1.getPatient().toString());
+                println("Appointment Timing: "+ upcoming1.getStartTime().toString());
                 println("Is this the appointment you want to update? (Y or N)");
                 char result = sc.nextLine().charAt(0);
-                if (result == 'Y') {
+                if(result == 'Y'){
                     println("Appointment Details Update:");
                     String details = sc.nextLine();
                     println("Appointment Service: (Consult or Xray or Blood Test");
                     String service = sc.nextLine();
-                    if (service.equalsIgnoreCase("consult")) {
+                    if(service.equalsIgnoreCase("consult")){
                         service1 = AppointmentService.CONSULT;
-                    } else if (service.equalsIgnoreCase("xray")) {
-                        service1 = AppointmentService.XRAY;
-                    } else {
-                        service1 = AppointmentService.BLOOD_TEST;
+                    }else if(service.equalsIgnoreCase("xray")){
+                         service1 = AppointmentService.XRAY;
+                    }else {
+                         service1 = AppointmentService.BLOOD_TEST;
                     }
 
-                    // TODO:
-                    //  1) get all medications
-                    //  2) doctor select what medications to prescribe + quantity
-                    //  3) create PrescribedMedication object to pass into AppointmentOutcomeRecord
-                    ArrayList<PrescribedMedication> medications = new ArrayList<>();
-//                    medications.add()
-//                    medications.add(new Medication(UUID.randomUUID(), "Panadol"));
-//                    medications.add(new Medication(UUID.randomUUID(), "Cough Syrup"));
-//                    medications.add(new Medication(UUID.randomUUID(), "Flu Medicine"));
-//                    AppointmentOutcomeRecord appointmentOutcomeRecord = new AppointmentOutcomeRecord(upcoming1.getDoctor().getUserId(), upcoming1.getPatient().getUserId(), upcoming1.getDate(),
-
-//                            service1, medications, details, MedicationStatus.PENDING);
-//                    appointmentManager.completeAppointment(upcoming1, appointmentOutcomeRecord);
+                    ArrayList<Medication> medications = new ArrayList<>();
+                    medications.add(new Medication(UUID.randomUUID(), "Panadol"));
+                    medications.add(new Medication(UUID.randomUUID(), "Cough Syrup"));
+                    medications.add(new Medication(UUID.randomUUID(), "Flu Medicine"));
+                    AppointmentOutcomeRecord appointmentOutcomeRecord = new AppointmentOutcomeRecord(upcoming1.getDoctor().getSystemUserId(), upcoming1.getPatient().getSystemUserId(), upcoming1.getDate(),
+                            service1, medications, details, MedicationStatus.PENDING);
+                    appointmentManager.completeAppointment(upcoming1, appointmentOutcomeRecord);
+                    println("Updated Successfully!!");
                     break;
                 }
             }
