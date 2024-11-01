@@ -3,6 +3,7 @@ package com.group6.hms.app.screens.doctor;
 import com.group6.hms.app.auth.LoginManager;
 import com.group6.hms.app.auth.LoginManagerHolder;
 import com.group6.hms.app.managers.AppointmentManager;
+import com.group6.hms.app.managers.AvailabilityManager;
 import com.group6.hms.app.models.Appointment;
 import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.app.storage.SerializationStorageProvider;
@@ -20,6 +21,7 @@ public class AcceptOrDeclineScreen extends PaginationTableScreen<Appointment> {
     List<Appointment> appointments;
 
     AppointmentManager appointmentManager = new AppointmentManager();
+    AvailabilityManager availabilityManager = new AvailabilityManager();
 
 
     @Override

@@ -36,10 +36,16 @@ public class UpdateConsultationNotesScreen extends SinglePaginationTableScreen<U
 
     @Override
     public void displaySingleItem(UUID item) {
-        Appointment user = (Appointment) appointmentManager.getAppointmentsByUUID(item).getFirst();
-        AppointmentViewLM appointment = new AppointmentViewLM(user);
+        if(item==null){
+            println("No appointments to update.");
+        }
+        else{
+            Appointment user = (Appointment) appointmentManager.getAppointmentsByUUID(item).getFirst();
+            AppointmentViewLM appointment = new AppointmentViewLM(user);
 
-        PrintTableUtils.printItemAsVerticalTable(consoleInterface, appointment);
+            PrintTableUtils.printItemAsVerticalTable(consoleInterface, appointment);
+        }
+
     }
 
     public void updateNotes(){

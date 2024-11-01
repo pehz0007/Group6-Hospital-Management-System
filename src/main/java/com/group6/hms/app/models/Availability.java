@@ -7,10 +7,11 @@ import com.group6.hms.framework.screens.pagination.PrintTableUtils;
 import com.group6.hms.framework.screens.ConsoleInterface;
 import com.group6.hms.framework.screens.calendar.EventInterface;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-public class Availability implements EventInterface {
+public class Availability implements EventInterface, Serializable {
     private Doctor doctor;
     private LocalDate availableDate;
     private LocalTime availableStartTime;

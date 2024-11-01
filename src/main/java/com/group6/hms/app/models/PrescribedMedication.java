@@ -1,11 +1,12 @@
 package com.group6.hms.app.models;
 
-public class PrescribedMedication {
+public class PrescribedMedication extends Medication {
     Medication medication;
     private int quantityToPrescribe;
 
     public PrescribedMedication(Medication medication, int quantityToPrescribe) {
-        this.medication = medication;
+        super(medication.getName());
+        //this.medication = medication;
         this.quantityToPrescribe = quantityToPrescribe;
     }
     public int getQuantityToPrescribe() {

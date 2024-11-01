@@ -30,15 +30,15 @@ public class AppointmentScreen extends CalendarScreen<Appointment, List<Appointm
     @Override
     public void onDisplay() {
         super.onDisplay();
-        doc = (Doctor) loginManager.getCurrentlyLoggedInUser ();
-        List<Appointment> latestAppointments = appointmentManager.getAppointmentsByDoctor(doc);
-
-        // Filter the appointments based on their status
-        this.events = latestAppointments.stream()
-                .filter(appointment ->
-                        appointment.getStatus() == AppointmentStatus.REQUESTED ||
-                                appointment.getStatus() == AppointmentStatus.CONFIRMED)
-                .collect(groupingBy(Appointment::getDate));
+//        doc = (Doctor) loginManager.getCurrentlyLoggedInUser ();
+//        List<Appointment> latestAppointments = appointmentManager.getAppointmentsByDoctor(doc);
+//
+//        // Filter the appointments based on their status
+//        this.events = latestAppointments.stream()
+//                .filter(appointment ->
+//                        appointment.getStatus() == AppointmentStatus.REQUESTED ||
+//                                appointment.getStatus() == AppointmentStatus.CONFIRMED)
+//                .collect(groupingBy(Appointment::getDate));
     }
 
     @Override
@@ -74,6 +74,35 @@ public class AppointmentScreen extends CalendarScreen<Appointment, List<Appointm
             }
 
 
+        }else if(optionId == 7){
+            ArrayList<Appointment> appointments = appointmentManager.getAppointmentsByDoctorAndStatus(doc, AppointmentStatus.CONFIRMED);
+            Map<LocalDate, List<UUID>> availabilityMap = new HashMap<>();
+            LocalDate eventsCurrentDate = events.keySet().stream()
+                    .filter(date -> date.isEqual(currentDate))
+                    .findFirst()
+                    .orElse(null);
+
+            for (Appointment upcoming : appointments) {
+                LocalDate date = upcoming.getDate();
+                assert eventsCurrentDate != null;
+                if(eventsCurrentDate.isEqual(date)){
+                    availabilityMap.putIfAbsent(date, new ArrayList<>());
+                    availabilityMap.get(date).add(upcoming.getAppointmentOutcomeRecordId());
+                }
+            }
+            if(availabilityMap.size() == 0){
+                println("\u001B[31m"+ "There isn't any appointments today.");
+            }else{
+                for (Map.Entry<LocalDate, List<UUID>> entry : availabilityMap.entrySet()) {
+                    LocalDate date = entry.getKey();
+                    List<UUID> appointments1 = entry.getValue();
+                    AppointmentService service1;
+                    navigateToScreen(new ViewMoreDetailsAppointmentScreen(appointments1));
+
+                }
+            }
+
+
         }
 
     }
@@ -91,6 +120,7 @@ public class AppointmentScreen extends CalendarScreen<Appointment, List<Appointm
 
         addOption(5,"Accept or Decline Upcoming Appointments", ConsoleColor.YELLOW);
         addOption(6, "Record Consultation Notes", ConsoleColor.YELLOW);
+        addOption(7, "View More Information", ConsoleColor.YELLOW);
     }
 
 

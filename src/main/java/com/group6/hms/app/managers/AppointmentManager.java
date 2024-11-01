@@ -13,10 +13,7 @@ import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Collection;
-import java.util.UUID;
+import java.util.*;
 
 public class AppointmentManager {
     private static final File appointmentsFile = new File("data/appointments.ser");
@@ -37,6 +34,8 @@ public class AppointmentManager {
 
         availabilityManager.addAvailability(avail);
         availabilityManager.addAvailability(avail1);
+
+
 
         appointmentManager.scheduleAppointment(patient, avail);
         appointmentManager.scheduleAppointment(patient, avail1);
@@ -179,6 +178,14 @@ public class AppointmentManager {
     public List<AppointmentOutcomeRecord> getAppointmentOutcomeRecordsByPatient(Patient patient) {
         return appointmentOutcomeStorageProvider.getItems().stream().filter(outcome ->outcome.getPatientId().equals(patient.getSystemUserId())).toList();
 
+    }
+
+    //for doctor to get appointment outcome by uuid
+    public AppointmentOutcomeRecord getAppointmentOutcomeRecordsByUUID(UUID appointmentId) {
+        return appointmentOutcomeStorageProvider.getItems().stream()
+                .filter(outcome -> outcome.getRecordId().equals(appointmentId))
+                .findFirst() // This returns an Optional<AppointmentOutcomeRecord>
+                .orElse(null); // This returns the record or null if not found
     }
 
     // for Pharmacist to fulfil medication order
