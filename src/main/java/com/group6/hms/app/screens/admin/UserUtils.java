@@ -72,7 +72,9 @@ public class UserUtils {
             };
         }else if(selectedOptionId == PATIENT_ID) {
             //Create patient
-            user = new Patient(userId, password, name, gender);
+            consoleInterface.print("Email: ");
+            String contactInformation = String.valueOf(consoleInterface.readInt());
+            user = new Patient(userId, password, name, gender, contactInformation);
 
         }else throw new InvalidStaffRoleException("Unexpected role value: " + selectedOptionId);
 
