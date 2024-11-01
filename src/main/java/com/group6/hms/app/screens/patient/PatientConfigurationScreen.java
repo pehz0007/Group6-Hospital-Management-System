@@ -2,18 +2,21 @@ package com.group6.hms.app.screens.patient;
 
 import com.group6.hms.app.auth.LoginManager;
 import com.group6.hms.app.auth.LoginManagerHolder;
+import com.group6.hms.app.auth.PasswordUtils;
 import com.group6.hms.app.auth.UserInvalidPasswordException;
 import com.group6.hms.app.roles.Patient;
 import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.option.OptionScreen;
 import com.group6.hms.framework.screens.pagination.PrintTableUtils;
 
+import java.util.Arrays;
+
 public class PatientConfigurationScreen extends OptionScreen {
 
     private static final int CHANGE_PASSWORD = 1;
     private static final int CHANGE_EMAIL = 2;
 
-    private LoginManager loginManager;
+    private final LoginManager loginManager;
     Patient patient;
     /**
      * Constructor to initialize the PatientConfigurationScreen.
@@ -43,6 +46,15 @@ public class PatientConfigurationScreen extends OptionScreen {
         switch (optionId){
             case CHANGE_PASSWORD -> {
                 //TODO: Add old password checking
+                if (loginManager.getCurrentlyLoggedInUser() instanceof Patient) {
+                    print("Old Password:");
+                    char[] newPassword = consoleInterface.readPassword();
+                    if (!Arrays.equals(PasswordUtils.hashPassword(newPassword),
+                            loginManager.findUser(patient.getSystemUserId()).getPasswordHashed())) {
+                        setCurrentTextConsoleColor(ConsoleColor.RED);
+                        println("Wrong password!");
+                    }
+                }
                 print("New Password:");
                 char[] newPassword = consoleInterface.readPassword();
                 try{
