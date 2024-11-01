@@ -71,7 +71,7 @@ public class AppointmentManager {
         appointmentOutcomeStorageProvider.loadFromFile(appointmentOutcomesFile);
     }
     public List<Appointment> getAllAppointments() {
-        return (List<Appointment>) appointmentStorageProvider.getItems();
+        return appointmentStorageProvider.getItems().stream().toList();
     }
 
     // New method to get all appointment outcome records
@@ -168,8 +168,9 @@ public class AppointmentManager {
     public void completeAppointment(Appointment appointment, AppointmentOutcomeRecord appointmentOutcomeRecord) {
         appointmentStorageProvider.getItems().stream().filter(a -> a.getAppointmentId().equals(appointment.getAppointmentId())).findFirst().ifPresent(a -> {
             a.setStatus(AppointmentStatus.COMPLETED);
+            a.setAppointmentOutcomeRecordId(appointmentOutcomeRecord.getRecordId());
         });
-        appointment.setAppointmentOutcomeRecordId(appointmentOutcomeRecord.getRecordId());
+        appointmentStorageProvider.saveToFile(appointmentsFile);
         appointmentOutcomeStorageProvider.addNewItem(appointmentOutcomeRecord);
         appointmentOutcomeStorageProvider.saveToFile(appointmentOutcomesFile);
     }
@@ -182,11 +183,12 @@ public class AppointmentManager {
 
     //for doctor to get appointment outcome by uuid
     public AppointmentOutcomeRecord getAppointmentOutcomeRecordsByUUID(UUID appointmentId) {
-        return appointmentOutcomeStorageProvider.getItems().stream()
-                .filter(outcome -> outcome.getRecordId().equals(appointmentId))
-                .findFirst() // This returns an Optional<AppointmentOutcomeRecord>
-                .orElse(null); // This returns the record or null if not found
-    }
+        for (AppointmentOutcomeRecord outcome : appointmentOutcomeStorageProvider.getItems()) {
+            if (outcome.getRecordId().equals(appointmentId)) {
+                return outcome; // Return the found record
+            }
+        }
+        return null;    }
 
     // for Pharmacist to fulfil medication order
     public List<AppointmentOutcomeRecord> getAppointmentOutcomeRecordsByStatus(MedicationStatus medicationStatus) {

@@ -75,7 +75,7 @@ public class AppointmentScreen extends CalendarScreen<Appointment, List<Appointm
 
 
         }else if(optionId == 7){
-            ArrayList<Appointment> appointments = appointmentManager.getAppointmentsByDoctorAndStatus(doc, AppointmentStatus.CONFIRMED);
+            ArrayList<Appointment> appointments = appointmentManager.getAppointmentsByDoctorAndStatus(doc, AppointmentStatus.COMPLETED);
             Map<LocalDate, List<UUID>> availabilityMap = new HashMap<>();
             LocalDate eventsCurrentDate = events.keySet().stream()
                     .filter(date -> date.isEqual(currentDate))

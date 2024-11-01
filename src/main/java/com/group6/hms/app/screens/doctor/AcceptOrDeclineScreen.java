@@ -65,7 +65,7 @@ public class AcceptOrDeclineScreen extends PaginationTableScreen<Appointment> {
             if(result.equalsIgnoreCase("y")){
                 appointmentManager.acceptAppointmentRequest(appointment);
                 items.remove(appointment);
-                appointmentStorageProvider.saveToFile(appointmentsFile);
+                //appointmentStorageProvider.saveToFile(appointmentsFile);
                 break;
             }
         }
@@ -81,7 +81,7 @@ public class AcceptOrDeclineScreen extends PaginationTableScreen<Appointment> {
             if(result.equalsIgnoreCase("n")){
                 appointmentManager.declineAppointmentRequest(appointments);
                 appointment.remove(appointments);
-                appointmentStorageProvider.saveToFile(appointmentsFile);
+                //appointmentStorageProvider.saveToFile(appointmentsFile);
 
                 break;
             }

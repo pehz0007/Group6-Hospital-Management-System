@@ -16,7 +16,7 @@ public class AppointmentView {
     private String doctorName;
     private String PatientName;
     private AppointmentService serviceType;
-    private List<PrescribedMedication> prescribedMedicationList;
+    //private List<PrescribedMedication> prescribedMedicationList;
     private String consultationNotes;
     private MedicationStatus medicationStatus;
 
@@ -31,7 +31,7 @@ public class AppointmentView {
         this.doctorName = doc.getName();;
         this.PatientName = patient.getName();
         this.serviceType = appointment.getServiceType();
-        this.prescribedMedicationList = appointment.getPrescribedMedications();
+        //this.prescribedMedicationList = appointment.getPrescribedMedications();
         this.consultationNotes = appointment.getConsultationNotes();
         this.medicationStatus = appointment.getMedicationStatus();
     }

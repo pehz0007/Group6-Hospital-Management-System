@@ -52,6 +52,7 @@ public class DoctorAvailabilityScreen extends CalendarScreen<Availability, List<
 
     @Override
     protected void handleOption(int optionId) {
+        super.handleOption(optionId);
         if(optionId == 5) {
 //            navigateToScreen(new PaginationTableScreen<>("Availability", events.get(currentDate)));
             println("=".repeat(30));

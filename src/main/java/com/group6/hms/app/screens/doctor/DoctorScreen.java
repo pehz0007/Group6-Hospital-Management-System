@@ -86,7 +86,8 @@ public class DoctorScreen extends LogoutScreen {
             }
 
             case 4: {
-
+                List<Appointment> getall = appointmentManager.getAllAppointments();
+                List<Appointment> appt = appointmentManager.getAppointmentsByDoctor(doc);
                 Map<LocalDate, List<Appointment>> requests = appointmentManager.getAppointmentsByDoctor(doc).stream()
                         .filter(appointment ->
                                 appointment.getStatus() == AppointmentStatus.REQUESTED ||
