@@ -1,8 +1,16 @@
 package com.group6.hms.app.screens.patient;
 
+import com.group6.hms.app.managers.AppointmentManager;
+import com.group6.hms.app.managers.AvailabilityManager;
+import com.group6.hms.app.models.Appointment;
+import com.group6.hms.app.models.AppointmentOutcomeRecord;
+import com.group6.hms.app.models.Availability;
+import com.group6.hms.app.models.MedicalRecord;
 import com.group6.hms.app.roles.Patient;
 import com.group6.hms.app.screens.MainScreen;
 import com.group6.hms.app.auth.LogoutScreen;
+
+import java.util.List;
 
 public class PatientScreen extends LogoutScreen {
 
@@ -15,9 +23,11 @@ public class PatientScreen extends LogoutScreen {
     private static final int CANCEL_APPOINTMENTS = 7;
     private static final int APPOINTMENTS_STATUS = 8;
     private static final int VIEW_PAST_OUTCOMES = 9;
-    private static final int PATIENT_BOOK_AVAILABLE_DOCTORS = 4;
+    private static final int PATIENT_BOOK_AVAILABLE_DOCTORS = 10;
 
     private Patient patient;
+    private AvailabilityManager availabilityManager;
+    private AppointmentManager appointmentManager;
 
     /**
      * Constructor to initialize the PatientScreen.
@@ -33,6 +43,9 @@ public class PatientScreen extends LogoutScreen {
         addOption(APPOINTMENTS_STATUS, "View Scheduled Appointments Status");
         addOption(VIEW_PAST_OUTCOMES, "View Past Appointment Outcome Records");
         addOption(PATIENT_BOOK_AVAILABLE_DOCTORS, "Book Available Doctors");
+
+        availabilityManager = new AvailabilityManager();
+        appointmentManager = new AppointmentManager();
     }
 
     @Override
@@ -232,7 +245,6 @@ public class PatientScreen extends LogoutScreen {
         for(AppointmentOutcomeRecord record : pastAppointments){
             println("Date: " + record.getRecordId() +
                     " |Doctor: " + record.getDoctorId());
-            case  PATIENT_BOOK_AVAILABLE_DOCTORS -> navigateToScreen(new ViewAvailableDoctorScreen());
         }
     }
 }
