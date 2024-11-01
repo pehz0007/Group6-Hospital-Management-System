@@ -25,7 +25,7 @@ public class ViewAndManageMedicationScreen extends PaginationTableScreen<Medicat
         this.inventoryManager = new InventoryManager();
         updateMedicationStocks();
 
-        addOption(APPROVE_REPLENISHMENT_REQUEST, "Approve Replenishment Request");
+        addOption(APPROVE_REPLENISHMENT_REQUEST, "Approve/Reject Replenishment Request");
         addOption(IMPORT_MEDICATIONS_STOCK, "Import Medications");
     }
 
@@ -37,6 +37,9 @@ public class ViewAndManageMedicationScreen extends PaginationTableScreen<Medicat
     @Override
     protected void handleOption(int optionId) {
         switch (optionId){
+            case APPROVE_REPLENISHMENT_REQUEST -> {
+                navigateToScreen(new ReplenishmentRequestScreen());
+            }
             case IMPORT_MEDICATIONS_STOCK -> {
                 print("Medication File Location:");
                 String filePath = readString();
