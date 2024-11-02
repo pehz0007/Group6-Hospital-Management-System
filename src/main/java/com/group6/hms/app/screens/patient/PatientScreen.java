@@ -17,7 +17,10 @@ import java.util.Scanner;
 import static java.util.Locale.filter;
 import static java.util.stream.Collectors.groupingBy;
 
-
+/**
+ * The {@code PatientScreen} class provides a menu interface for patients
+ * to manage their appointments and medical records.
+ */
 public class PatientScreen extends LogoutScreen {
     private Patient patient;
     private AppointmentManager appointmentManager = new AppointmentManager();
@@ -84,6 +87,9 @@ public class PatientScreen extends LogoutScreen {
         }
     }
 
+    /**
+     * Displays the patient's medical record if available.
+     */
     private void viewMedicalRecord() {
         MedicalRecord medicalRecord = patient.getMedicalRecord();
         if (medicalRecord != null){
@@ -100,6 +106,9 @@ public class PatientScreen extends LogoutScreen {
         }
     }
 
+    /**
+     * Displays available appointment slots and allows the patient to schedule an appointment.
+     */
     private void viewAvailableAppointments() {
         List<Availability> availabilities = availabilityManager.getAllAvailability();
         if(availabilities.isEmpty()){
@@ -135,6 +144,12 @@ public class PatientScreen extends LogoutScreen {
 
     }
 
+    /**
+     * Schedules an appointment based on the selected availability slot.
+     *
+     * @param selectedSlot the availability slot chosen by the patient
+     * @return true if the appointment was successfully scheduled, false otherwise
+     */
     private boolean scheduleAppointments(Availability selectedSlot) {
         try {
             appointmentManager.scheduleAppointment(patient, selectedSlot);
@@ -149,6 +164,9 @@ public class PatientScreen extends LogoutScreen {
         }
     }
 
+    /**
+     * Allows the patient to reschedule an existing appointment.
+     */
     private void rescheduleAppointments() {
         List<Appointment> appointments = appointmentManager.getAppointmentsByPatient(patient);
         if (appointments.isEmpty()){
@@ -192,6 +210,9 @@ public class PatientScreen extends LogoutScreen {
         //}
     }
 
+    /**
+     * Allows the patient to cancel an existing appointment.
+     */
     private void cancelAppointments() {
         List<Appointment> appointments = appointmentManager.getAppointmentsByPatient(patient);
 
@@ -224,6 +245,9 @@ public class PatientScreen extends LogoutScreen {
         //}
     }
 
+    /**
+     * Displays the status of all scheduled appointments for the patient.
+     */
     private void viewAppointmentsStatus() {
         List<Appointment> appointments = appointmentManager.getAppointmentsByPatient(patient);
 
@@ -241,6 +265,9 @@ public class PatientScreen extends LogoutScreen {
         }
     }
 
+    /**
+     * Displays past appointment outcomes for the patient.
+     */
     private void viewPastOutcomes() {
         List<AppointmentOutcomeRecord> pastAppointments = appointmentManager.getAppointmentOutcomeRecordsByPatient(patient);
 

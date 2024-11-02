@@ -15,15 +15,36 @@ import java.util.*;
 
 import static java.util.stream.Collectors.groupingBy;
 
+/**
+ * The {@code AdministratorScreen} represents the screen for the administrator role,
+ * allowing management of various functionalities including notifications, user management,
+ * appointments, and medication inventory.
+ */
 public class AdministratorScreen extends LogoutScreen {
 
-    private final int VIEW_NOTIFICATIONS = 2;
-    private final int VIEW_AND_MANAGE_USERS = 3;
-    private final int VIEW_APPOINTMENTS = 4;
-    private final int VIEW_AND_MANAGE_MEDICATION_INVENTORY = 5;
     /**
-     * Constructor to initialize the AdministratorScreen.
-     **/
+     * Option ID for viewing notifications.
+     */
+    private final int VIEW_NOTIFICATIONS = 2;
+
+    /**
+     * Option ID for viewing and managing users.
+     */
+    private final int VIEW_AND_MANAGE_USERS = 3;
+
+    /**
+     * Option ID for viewing all appointments.
+     */
+    private final int VIEW_APPOINTMENTS = 4;
+
+    /**
+     * Option ID for viewing and managing medication inventory.
+     */
+    private final int VIEW_AND_MANAGE_MEDICATION_INVENTORY = 5;
+
+    /**
+     * Constructs an {@code AdministratorScreen} instance to initialize the administrator menu options.
+     */
     public AdministratorScreen() {
         super("Administrator");
 
@@ -31,9 +52,12 @@ public class AdministratorScreen extends LogoutScreen {
         addOption(VIEW_AND_MANAGE_USERS, "View and Manage Users");
         addOption(VIEW_APPOINTMENTS, "View All Appointments");
         addOption(VIEW_AND_MANAGE_MEDICATION_INVENTORY, "View and Manage Medication Inventory");
-
     }
 
+    /**
+     * Starts the screen by retrieving the currently logged-in user and their notifications,
+     * displaying a welcome message along with the number of notifications.
+     */
     @Override
     public void onStart() {
         User user = getLoginManager().getCurrentlyLoggedInUser();
@@ -41,14 +65,21 @@ public class AdministratorScreen extends LogoutScreen {
         NotificationManagerHolder.getNotificationManager().createNotification(new Notification("Appointment with patient", "You have an appointment with patient 1!", user.getSystemUserId()));
         println("Welcome, " + user.getName() + ", you have " + notifications.size() + " notifications");
         super.onStart();
-
     }
 
+    /**
+     * Handles the logout action by navigating to the main screen.
+     */
     @Override
     protected void onLogout() {
         newScreen(new MainScreen());
     }
 
+    /**
+     * Handles the user's option selection from the administrator menu.
+     *
+     * @param optionId The ID of the selected option.
+     */
     @Override
     protected void handleOption(int optionId) {
         switch (optionId) {
@@ -70,7 +101,6 @@ public class AdministratorScreen extends LogoutScreen {
                 navigateToScreen(new CalendarScreen<>("Appointments", appointments));
 
             }
-
         }
     }
 }

@@ -10,6 +10,10 @@ import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.option.OptionScreen;
 import com.group6.hms.framework.screens.pagination.PrintTableUtils;
 
+/**
+ * The {@code PharmacistConfigurationScreen} allows pharmacists to manage their configuration,
+ * including changing their password and viewing their information.
+ */
 public class PharmacistConfigurationScreen extends OptionScreen {
 
     private static final int CHANGE_PASSWORD = 1;
@@ -17,6 +21,11 @@ public class PharmacistConfigurationScreen extends OptionScreen {
     private final LoginManager loginManager;
     Pharmacist pharmacist;
 
+    /**
+     * Constructor to initialize the PharmacistConfigurationScreen with the specified pharmacist.
+     *
+     * @param pharmacist the pharmacist whose configuration is being managed
+     */
     public PharmacistConfigurationScreen(Pharmacist pharmacist) {
         super("Pharmacist Configuration");
         this.pharmacist = pharmacist;

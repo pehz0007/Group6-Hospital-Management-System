@@ -3,9 +3,33 @@ package com.group6.hms.app;
 import com.group6.hms.app.screens.MainScreen;
 import com.group6.hms.framework.screens.*;
 
+/**
+ * The {@code HMS} class serves as the entry point for the Hospital Management System application.
+ * It initializes the application handle and manages the main screen for UI.
+ */
 public class HMS {
 
-
+    /**
+     * The main method is the entry point of the application.
+     * It checks for console availability and starts the application with the main screen.
+     *
+     * <p>
+     * Example usage:
+     * </p>
+     * <pre>
+     * java -jar hms.jar
+     * </pre>
+     *
+     * <p>
+     * To run the application with command line arguments, you can use:
+     * </p>
+     * <code>
+     * String[] args = {"--config", "config.json"};
+     * HMS.main(args);
+     * </code>
+     *
+     * @param args command line arguments passed to the application
+     */
     public static void main(String[] args) {
         ApplicationHandle appHandle = new ApplicationHandle();
         if (System.console() != null) {

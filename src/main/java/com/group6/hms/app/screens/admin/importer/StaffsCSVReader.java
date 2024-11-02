@@ -8,18 +8,47 @@ import java.io.Reader;
 import java.util.LinkedList;
 import java.util.List;
 
+/**
+ * The {@code StaffsCSVReader} class is responsible for reading staff
+ * data from a CSV file and converting it into a list of {@link Staff}
+ * objects.
+ */
 public class StaffsCSVReader extends CSVReader {
 
     private static final char[] defaultPassword = "password".toCharArray();
 
+    /**
+     * Constructs a {@code StaffsCSVReader} with the specified input
+     * reader and buffer size.
+     *
+     * @param in the reader from which to read the CSV data
+     * @param sz the buffer size for the reader
+     */
     public StaffsCSVReader(Reader in, int sz) {
         super(in, sz);
     }
 
+    /**
+     * Constructs a {@code StaffsCSVReader} with the specified input
+     * reader using the default buffer size.
+     *
+     * @param in the reader from which to read the CSV data
+     */
     public StaffsCSVReader(Reader in) {
         super(in);
     }
 
+    /**
+     * Reads all staff entries from the CSV file and returns them as a
+     * list of {@link Staff} objects. The staff roles are determined
+     * from the CSV data, and appropriate staff objects are created
+     * based on their roles.
+     *
+     * @return a list of {@code Staff} objects representing the
+     *         staff members read from the CSV file
+     * @throws InvalidStaffRoleException if an invalid staff role is
+     *         encountered in the CSV data
+     */
     public List<Staff> readAllStaffs() {
         String[] headers = this.readCSVLine();
 

@@ -14,13 +14,22 @@ import com.group6.hms.app.screens.pharmacist.PharmacistScreen;
 import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.Screen;
 
+/**
+ * The login screen for the application.
+ * This screen handles user authentication and directs users to
+ * their respective roles upon successful login.
+ */
 public class LoginScreen extends Screen {
 
     private LoginManager loginManager;
 
+    /**
+     * Constructs a LoginScreen instance and initializes the
+     * LoginManager for user authentication.
+     */
     public LoginScreen() {
         super("Login");
-//        setPrintHeader(false);
+        //        setPrintHeader(false);
         loginManager = LoginManagerHolder.getLoginManager();
         loginManager.loadUsersFromFile();
     }

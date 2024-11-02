@@ -11,6 +11,10 @@ import com.group6.hms.framework.screens.pagination.PrintTableUtils;
 
 import java.util.Arrays;
 
+/**
+ * The {@code PatientConfigurationScreen} class provides an interface for patients to manage
+ * their configuration settings, including changing their password and email address.
+ */
 public class PatientConfigurationScreen extends OptionScreen {
 
     private static final int CHANGE_PASSWORD = 1;
@@ -18,8 +22,11 @@ public class PatientConfigurationScreen extends OptionScreen {
 
     private final LoginManager loginManager;
     Patient patient;
+
     /**
      * Constructor to initialize the PatientConfigurationScreen.
+     *
+     * @param patient the patient whose configuration is being managed
      */
     public PatientConfigurationScreen(Patient patient) {
         super("Patient Configuration");

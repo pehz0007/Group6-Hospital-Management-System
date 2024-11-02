@@ -13,20 +13,27 @@ import java.time.LocalTime;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The {@code ViewDoctorAvailabilityScreen} provides a screen that allows patients to view doctor availability
+ * and schedule appointments.
+ */
 public class ViewDoctorAvailabilityScreen extends CalendarScreen<Availability, List<Availability>> {
 
-
     /**
-     * Constructor to initialize the screen with a title.
-     *
-     * @param events
+     * Map holding the events based on availability dates.
      */
     Map<LocalDate, List<Availability>> events;
+
     AvailabilityManager availabilityManager = new AvailabilityManager();
     AppointmentManager appointmentManager = new AppointmentManager();
     LoginManager loginManager = LoginManagerHolder.getLoginManager();
     Patient patient;
 
+    /**
+     * Constructor to initialize the screen with a title and events.
+     *
+     * @param events a map of availability events grouped by date
+     */
     public ViewDoctorAvailabilityScreen( Map<LocalDate, List<Availability>> events) {
         super("View Doctor Availability", events);
         this.events = events;

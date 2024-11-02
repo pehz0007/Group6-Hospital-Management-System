@@ -4,6 +4,7 @@ import com.group6.hms.app.models.MedicationStatus;
 import com.group6.hms.app.managers.AppointmentManager;
 import com.group6.hms.app.managers.InventoryManager;
 import com.group6.hms.app.models.*;
+import com.group6.hms.framework.screens.pagination.PaginationTableScreen;
 import com.group6.hms.framework.screens.pagination.PrintTableUtils;
 import com.group6.hms.framework.screens.pagination.SinglePaginationTableScreen;
 
@@ -11,6 +12,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * The {@code UpdateConsultationNotesScreen} class represents the screen for updating consultation notes.
+ *
+ * <p>This class extends {@link PaginationTableScreen} to manage the display
+ * and update of consultation notes for appointments</p>
+ */
 public class UpdateConsultationNotesScreen extends SinglePaginationTableScreen<UUID> {
     AppointmentManager appointmentManager = new AppointmentManager();
     InventoryManager inventoryManager = new InventoryManager();
@@ -24,14 +31,22 @@ public class UpdateConsultationNotesScreen extends SinglePaginationTableScreen<U
         }
     }
 
+    /**
+     * Constructor for the UpdateConsultationNotesScreen.
+     *
+     * @param items a list of UUIDs representing the consultation numbers to be updated
+     */
     public UpdateConsultationNotesScreen(List<UUID> items) {
         super("Update Consultation Notes", items);
         addOption(1, "Update Consultation");
         this.consultationNo = items;
     }
 
-
-
+    /**
+     * Displays a single appointment item for updating consultation notes.
+     *
+     * @param item the UUID of the appointment to display
+     */
     @Override
     public void displaySingleItem(UUID item) {
         if(item==null){
@@ -46,6 +61,10 @@ public class UpdateConsultationNotesScreen extends SinglePaginationTableScreen<U
 
     }
 
+    /**
+     * Prompts the user to update the notes for the selected appointments.
+     * It collects the updated details, selected services, and prescribed medications.
+     */
     public void updateNotes(){
         for(UUID idNo: consultationNo){
             Appointment appointment = appointmentManager.getAppointmentsByUUID(idNo).get(0);

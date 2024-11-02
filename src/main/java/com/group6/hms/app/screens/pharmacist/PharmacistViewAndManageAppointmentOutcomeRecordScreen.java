@@ -12,6 +12,11 @@ import com.group6.hms.framework.screens.pagination.SinglePaginationTableScreen;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * The {@code PharmacistViewandManageAppointmentOutcomeRecordScreen} allows pharmacists to
+ * view appointment outcome records.
+ * It allows pharmacists to dispense update the status of prescribed medications.
+ */
 public class PharmacistViewAndManageAppointmentOutcomeRecordScreen extends SinglePaginationTableScreen<AppointmentOutcomeRecord> {
 
     private final int UPDATE_PRESCRIPTION_STATUS = 4;
@@ -19,6 +24,11 @@ public class PharmacistViewAndManageAppointmentOutcomeRecordScreen extends Singl
     private final AppointmentManager appointmentManager = new AppointmentManager(); //initialise appointment manager
     private final InventoryManager inventoryManager = new InventoryManager(); // initialise inv manager
 
+    /**
+     * Constructor to initialize the PharmacistViewAndManageAppointmentOutcomeRecordScreen.
+     *
+     * @param items The list of appointment outcome records to display.
+     */
     public PharmacistViewAndManageAppointmentOutcomeRecordScreen(List<AppointmentOutcomeRecord> items) {
         super("Appointment Outcome Record", items);
 
@@ -54,6 +64,10 @@ public class PharmacistViewAndManageAppointmentOutcomeRecordScreen extends Singl
     }
 
     //case 3: update prescription status and dispense medication
+    /**
+     * Prompts the pharmacist to update the medication status of a specific appointment outcome record.
+     * If the status is updated to DISPENSED, the corresponding medication stock is decreased accordingly.
+     */
     private void updatePrescriptionStatus() {
         println("Enter the ID of the appointment outcome record you want to update: ");
         String recordId = readString();

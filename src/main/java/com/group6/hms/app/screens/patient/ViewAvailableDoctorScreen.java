@@ -10,6 +10,9 @@ import java.util.Map;
 
 import static java.util.stream.Collectors.groupingBy;
 
+/**
+ *The {@code ViewAvailableDoctorScreen} screen that displays available doctors for booking appointments.
+ */
 public class ViewAvailableDoctorScreen extends CalendarScreen<Availability, List<Availability>> {
 
     private final int BOOK_APPOINTMENT = 4;
@@ -26,6 +29,11 @@ public class ViewAvailableDoctorScreen extends CalendarScreen<Availability, List
         addOption(BOOK_APPOINTMENT, "Book Appointment");
     }
 
+    /**
+     * Updates the available doctors' screen with the availability data.
+     *
+     * @param availabilityManager the manager responsible for handling availability data
+     */
     private void updateAvailableDoctorsScreen(AvailabilityManager availabilityManager) {
         Map<LocalDate, List<Availability>> events = availabilityManager.getAllAvailability().stream().collect(groupingBy(Availability::getAvailableDate));
         setEvents(events);
@@ -37,7 +45,6 @@ public class ViewAvailableDoctorScreen extends CalendarScreen<Availability, List
 
         if(optionId == BOOK_APPOINTMENT) {
             LocalDate selectedDate = selectedDate();
-
         }
 
     }

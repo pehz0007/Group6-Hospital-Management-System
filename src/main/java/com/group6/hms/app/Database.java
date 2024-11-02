@@ -14,10 +14,20 @@ import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+/**
+ * The {@code Database} class serves as a mock database for the Hospital Management System.
+ * It is responsible for creating sample users, scheduling appointments, and managing
+ * various entities within the system.
+ */
 public class Database {
     /**
      * RUN THIS TO RESET DATABASE
      *
+     * This method serves as the entry point for the application.
+     * It initializes sample data, creates users, schedules appointments,
+     * and saves/loading user data to/from a file.
+     *
+     * @param args command line arguments
      */
     public static void main(String[] args) {
         //Generate sample file
@@ -50,11 +60,8 @@ public class Database {
         availabilityManager.addAvailability(avail);
         availabilityManager.addAvailability(avail1);
 
-
-
         appointmentManager.scheduleAppointment(patient, avail);
         appointmentManager.scheduleAppointment(patient, avail1);
-
 
         Appointment appt = appointmentManager.getAllAppointments().getFirst();
         appointmentManager.acceptAppointmentRequest(appt);
@@ -67,7 +74,6 @@ public class Database {
 //
 //        appointmentManager.completeAppointment(appt,record);
 //        List<AppointmentOutcomeRecord> records = appointmentManager.getAppointmentOutcomeRecordsByStatus(MedicationStatus.PENDING);
-
 
         // create a list for prescribed medications
         List<PrescribedMedication> prescribedMedications = new ArrayList<>();
@@ -94,7 +100,6 @@ public class Database {
         // Complete the appointment and retrieve records
         appointmentManager.completeAppointment(appt, record);
         List<AppointmentOutcomeRecord> records = appointmentManager.getAppointmentOutcomeRecordsByStatus(MedicationStatus.PENDING);
-
 
         //CARE PROVIDER
         CareProvider careProvider = new CareProvider();

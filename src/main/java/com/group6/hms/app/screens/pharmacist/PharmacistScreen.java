@@ -11,10 +11,12 @@ import com.group6.hms.app.screens.admin.AdminViewAndManageMedicationScreen;
 import com.group6.hms.framework.screens.pagination.PrintTableUtils;
 import com.group6.hms.framework.screens.pagination.SinglePaginationTableScreen;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
+/**
+ * The {@code PharmacistScreen} serves as the main interface for pharmacists, providing options
+ * to view appointment outcome records and manage medication inventory.
+ */
 public class PharmacistScreen extends LogoutScreen {
     private final AppointmentManager appointmentManager = new AppointmentManager(); //initialise appointment manager
 
@@ -49,6 +51,10 @@ public class PharmacistScreen extends LogoutScreen {
     }
 
     // case 2: view Appointment Outcome Records
+    /**
+     * Prompts the pharmacist to enter a medication status to filter the appointment outcome records.
+     * Retrieves and navigates to the screen displaying the filtered records.
+     */
     private void viewAppointmentOutcomeRecords() {
         println("Enter the medication status to filter by (e.g., PENDING, DISPENSED): ");
         String statusInput = readString().toUpperCase();
@@ -67,6 +73,9 @@ public class PharmacistScreen extends LogoutScreen {
     }
 
     // case 4: view Medication Inventory
+    /**
+     * Navigates to the screen for viewing and managing the medication inventory.
+     */
     private void viewMedicationInventory() {
         navigateToScreen(new PharmacistViewAndManageMedicationScreen());
 //        List<MedicationStock> medications = inventoryManager.getAllMedicationStock();
@@ -81,6 +90,4 @@ public class PharmacistScreen extends LogoutScreen {
 //        ViewAndManageMedicationScreen screen = new ViewAndManageMedicationScreen("Medication Inventory", medications);
 //        navigateToScreen(screen);
     }
-
-
 }

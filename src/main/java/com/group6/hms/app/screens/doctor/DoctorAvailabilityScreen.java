@@ -18,29 +18,55 @@ import java.util.Map;
 
 import static java.util.stream.Collectors.groupingBy;
 
+/**
+ * The {@code DoctorAvailabilityScreen} manages a doctor's availability in a calendar-like view.
+ * It allows the doctor to view and add availability dates and times.
+ *
+ * It extends the {@link CalendarScreen} class to display availabilities.
+ */
 public class DoctorAvailabilityScreen extends CalendarScreen<Availability, List<Availability>> {
 
+    /**
+     * Map to store availability events, grouped by date.
+     */
     private Map<LocalDate, List<Availability>> events;
+
+    /**
+     * The currently logged-in doctor.
+     */
     Doctor doc;
+
+    /**
+     * Manager to handle doctor availability.
+     */
     AvailabilityManager availabilityManager = new AvailabilityManager();
+
+    /**
+     * Manager to handle user login and authentication.
+     */
     LoginManager loginManager = LoginManagerHolder.getLoginManager();
 
+    /**
+     * Starts the screen and loads the doctor's availability data.
+     */
     @Override
     public void onStart() {
         super.onStart();
         this.events = availabilityManager.getAvailabilityByDoctor(doc).stream().collect(groupingBy(Availability::getAvailableDate));
     }
 
+    /**
+     * Displays the calendar screen with the doctor's availability.
+     */
     @Override
     public void onDisplay() {
         super.onDisplay();
     }
 
     /**
-     * Constructor to initialize the screen with a title.
+     * Constructor to initialize the DoctorAvailabilityScreen with the doctor's availability.
      *
-     *   The title of the screen to be displayed as a header.
-     * @param events
+     * @param events A map of availability events grouped by date.
      */
     public DoctorAvailabilityScreen(Map<LocalDate, List<Availability>> events) {
         super("Availability", events);
@@ -51,6 +77,11 @@ public class DoctorAvailabilityScreen extends CalendarScreen<Availability, List<
 
     }
 
+    /**
+     * Handles options selected by the user, such as adding new availability.
+     *
+     * @param optionId The ID of the selected menu option.
+     */
     @Override
     protected void handleOption(int optionId) {
         super.handleOption(optionId);

@@ -27,6 +27,14 @@ import java.io.FileReader;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * The {@code ViewAndManageUsersScreen} class provides a user interface for viewing and managing users
+ * within the system It allows administrators to create, update, delete,
+ * and import user data for various roles, including patients and staff.
+ *
+ * <p>This class extends {@link PaginationTableScreen} to provide a paginated view of user views.
+ * It includes options for user management and filtering users based on their roles.</p>
+ */
 public class ViewAndManageUsersScreen extends PaginationTableScreen<UserView> {
     private final int CREATE_USER = 4;
     private final int IMPORT_STAFFS = 5;
@@ -48,6 +56,9 @@ public class ViewAndManageUsersScreen extends PaginationTableScreen<UserView> {
             FILTER_ADMINISTRATOR, new Option(FILTER_ADMINISTRATOR, "Filter by Administrator", ConsoleColor.PURPLE)
     ));
 
+    /**
+     * Constructs a {@code ViewAndManageUsersScreen} instance, initializing options for user management.
+     */
     public ViewAndManageUsersScreen() {
         super("Users", null);
         addOption(CREATE_USER, "Create New User");
@@ -59,6 +70,12 @@ public class ViewAndManageUsersScreen extends PaginationTableScreen<UserView> {
         setFilterFunction(this::filter);
     }
 
+    /**
+     * Filters the list of users based on the selected role.
+     *
+     * @param users the list of users to be filtered
+     * @return a filtered list of users based on the selected role
+     */
     private List<UserView> filter(List<UserView> users){
         int selectedFilterOption = OptionsUtils.askOptions(consoleInterface, filterOption);
         if(selectedFilterOption == FILTER_NONE){
@@ -74,6 +91,9 @@ public class ViewAndManageUsersScreen extends PaginationTableScreen<UserView> {
     }
 
 
+    /**
+     * Starts the user management screen, initializing the login manager and updating the user views table.
+     */
     @Override
     public void onStart() {
         super.onStart();
@@ -81,12 +101,20 @@ public class ViewAndManageUsersScreen extends PaginationTableScreen<UserView> {
         updateUserViewsTable();
     }
 
+    /**
+     * Updates the table displaying the list of user views based on the current user data.
+     */
     private void updateUserViewsTable() {
         Collection<User> users = loginManager.getAllUsers();
         List<UserView> userViews = users.stream().map(UserView::new).toList();
         setList(userViews);
     }
 
+    /**
+     * Handles user interactions based on the selected option.
+     *
+     * @param optionId the ID of the selected option
+     */
     @Override
     protected void handleOption(int optionId) {
         super.handleOption(optionId);

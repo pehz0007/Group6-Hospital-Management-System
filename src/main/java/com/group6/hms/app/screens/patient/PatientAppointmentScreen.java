@@ -17,18 +17,23 @@ import java.util.List;
 import java.util.Map;
 import static java.util.stream.Collectors.groupingBy;
 
-
+/**
+ * The {@code PatientAppointmentScreen} class provides an interface for patients to view and manage
+ * their appointments.
+ *
+ * It extends {@link CalendarScreen} to display appointments in a calendar format.
+ */
 public class PatientAppointmentScreen extends CalendarScreen<Appointment, List<Appointment>> {
     private Map<LocalDate, List<Appointment>> events;
     private AppointmentManager appointmentManager = new AppointmentManager();
     private AvailabilityManager availabilityManager = new AvailabilityManager();
     private LoginManager loginManager = LoginManagerHolder.getLoginManager();
     Patient user = (Patient) loginManager.getCurrentlyLoggedInUser();
-    /**
-     * Constructor to initialize the screen with a title.
-     *
 
-     * @param events
+    /**
+     * Constructor to initialize the screen with a title and appointment events.
+     *
+     * @param events a map of LocalDate to a list of Appointments
      */
     public PatientAppointmentScreen(Map<LocalDate, List<Appointment>> events) {
         super("Appointment", events);
@@ -47,13 +52,11 @@ public class PatientAppointmentScreen extends CalendarScreen<Appointment, List<A
         super.onDisplay();
         this.events = appointmentManager.getAppointmentsByPatient(user).stream().filter(appointment ->
                 appointment.getStatus() == AppointmentStatus.CONFIRMED || appointment.getStatus() == AppointmentStatus.REQUESTED).collect(groupingBy(Appointment::getDate));
-
     }
 
     @Override
     protected void handleOption(int optionId) {
         super.handleOption(optionId);
-
 
         if(optionId == 5) {
             Map<LocalDate, List<Availability>> avail = availabilityManager.getAllAvailability().stream().collect(groupingBy(Availability::getAvailableDate));
@@ -67,6 +70,5 @@ public class PatientAppointmentScreen extends CalendarScreen<Appointment, List<A
         }else if(optionId == 9) {
 
         }
-
     }
 }
