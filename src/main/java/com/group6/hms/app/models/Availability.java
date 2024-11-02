@@ -14,6 +14,11 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+/**
+ * The {@code Availability} class represents a doctor's available appointment slot,
+ * including the date and start and end times. It implements {@code EventInterface}
+ * for calendar integration and {@code Serializable} for storage.
+ */
 public class Availability implements EventInterface, Serializable {
     private Doctor doctor;
     @HeaderField(renderer = DateRenderer.class)
@@ -23,6 +28,15 @@ public class Availability implements EventInterface, Serializable {
     @HeaderField(renderer = TimeRenderer.class)
     private LocalTime availableEndTime;
 
+    /**
+     * Constructs a new {@code Availability} instance with the specified doctor,
+     * available date, start time, and end time.
+     *
+     * @param doctor       the doctor associated with this availability
+     * @param availableDate the date when the doctor is available
+     * @param startTime    the start time of availability
+     * @param endTime      the end time of availability
+     */
     public Availability(Doctor doctor, LocalDate availableDate, LocalTime startTime, LocalTime endTime) {
         this.doctor = doctor;
         this.availableDate = availableDate;
@@ -30,52 +44,120 @@ public class Availability implements EventInterface, Serializable {
         this.availableEndTime = endTime;
     }
 
+    /**
+     * Returns the doctor associated with this availability.
+     *
+     * @return the doctor
+     */
     public Doctor getDoctor() {
         return doctor;
     }
 
+    /**
+     * Sets the doctor for this availability.
+     *
+     * @param doctor the doctor to set
+     */
     public void setDoctor(Doctor doctor) {
         this.doctor = doctor;
     }
 
+    /**
+     * Returns the available date for this slot.
+     *
+     * @return the available date
+     */
     public LocalDate getAvailableDate() {
         return availableDate;
     }
 
+    /**
+     * Returns a string representation of this availability, including the doctor's ID and available date.
+     *
+     * @return a string representing this availability
+     */
     public String getAvailabilityString() {
         return doctor.getSystemUserId().toString() + "," + availableDate.toString();
     }
 
+    /**
+     * Sets the available date for this slot.
+     *
+     * @param availableDate the date to set as available
+     */
     public void setAvailableDate(LocalDate availableDate) {
         this.availableDate = availableDate;
     }
 
+    /**
+     * Returns the start time of availability.
+     *
+     * @return the available start time
+     */
     public LocalTime getAvailableStartTime() {
         return availableStartTime;
     }
 
+    /**
+     * Sets the start time of availability.
+     *
+     * @param availableStartTime the start time to set
+     */
     public void setAvailableStartTime(LocalTime availableStartTime) {
         this.availableStartTime = availableStartTime;
     }
 
+    /**
+     * Returns the end time of availability.
+     *
+     * @return the available end time
+     */
     public LocalTime getAvailableEndTime() {
         return availableEndTime;
     }
 
+
+    /**
+     * Sets the end time of availability.
+     *
+     * @param availableEndTime the end time to set
+     */
     public void setAvailableEndTime(LocalTime availableEndTime) {
         this.availableEndTime = availableEndTime;
     }
 
+    /**
+     * Returns the event date for calendar integration.
+     *
+     * @return the available date
+     */
     public LocalDate getEventDate(){
         return getAvailableDate();
     }
 
+    /**
+     * Returns the event start time for calendar integration.
+     *
+     * @return the available start time
+     */
     public LocalTime getEventStartTime(){
         return getAvailableStartTime();
     }
+
+    /**
+     * Returns the event end time for calendar integration.
+     *
+     * @return the available end time
+     */
     public LocalTime getEventEndTime(){
         return getAvailableEndTime();
     }
+
+    /**
+     * Displays the availability information as a vertical table on the console.
+     *
+     * @param consoleInterface the console interface for displaying the availability
+     */
     public void displayEvent(ConsoleInterface consoleInterface){
         PrintTableUtils.printItemAsVerticalTable(consoleInterface, this);
     }

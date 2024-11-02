@@ -8,12 +8,19 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.UUID;
 
+/**
+ * The {@code PasswordUtils} class provides utility methods for handling password-related
+ * operations, including generating UUIDs, hashing passwords, and verifying password complexity.
+ */
 public class PasswordUtils {
 
-    public static UUID generateUUID() {
-        return UUID.randomUUID();
-    }
-
+    /**
+     * Hashes a password using SHA-256 and returns the hashed byte array.
+     *
+     * @param password the password to be hashed, provided as a {@code char} array
+     * @return the SHA-256 hashed byte array of the password
+     * @throws RuntimeException if the SHA-256 algorithm is not available
+     */
     public static byte[] hashPassword(char[] password){
         MessageDigest digest = null;
         try {
@@ -25,6 +32,15 @@ public class PasswordUtils {
         return encodedhash;
     }
 
+
+    /**
+     * Verifies that the provided password meets minimum complexity requirements,
+     * such as length, presence of uppercase and lowercase letters, digits, and
+     * special characters.
+     *
+     * @param password the password to verify, provided as a {@code char} array
+     * @throws UserInvalidPasswordException if the password does not meet the complexity requirements
+     */
     public static void verifyPassword(char[] password) {
         // Define the minimum required length for the password
         int minLength = 8;
@@ -68,12 +84,23 @@ public class PasswordUtils {
         }
     }
 
-    // Helper method to determine if a character is a special character
+    /**
+     * Checks if a character is a special character from a predefined set.
+     *
+     * @param c the character to check
+     * @return {@code true} if the character is a special character, {@code false} otherwise
+     */
     private static boolean isSpecialCharacter(char c) {
         String specialChars = "@#$%^&+=!";
         return specialChars.indexOf(c) != -1;
     }
 
+    /**
+     * Converts a {@code char} array to a byte array using UTF-8 encoding.
+     *
+     * @param chars the {@code char} array to convert
+     * @return the UTF-8 encoded byte array
+     */
     private static byte[] toBytes(char[] chars) {
         CharBuffer charBuffer = CharBuffer.wrap(chars);
         ByteBuffer byteBuffer = StandardCharsets.UTF_8.encode(charBuffer);

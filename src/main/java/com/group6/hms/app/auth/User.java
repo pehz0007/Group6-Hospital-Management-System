@@ -5,6 +5,12 @@ import com.group6.hms.app.roles.Gender;
 import java.io.Serializable;
 import java.util.UUID;
 
+/**
+ * {@code User} is an abstract class for users in the system.
+ * It contains basic information about the user, including their unique ID, username, name,
+ * gender, and hashed password. Subclasses of {@code User} represent specific user roles
+ * within the system.
+ */
 public abstract class User implements Serializable {
 
     private final UUID systemUserId;
@@ -34,22 +40,47 @@ public abstract class User implements Serializable {
         this.passwordHashed = PasswordUtils.hashPassword(password);
     }
 
+    /**
+     * Returns the unique system ID for this user.
+     *
+     * @return the system user ID as a {@code UUID}
+     */
     public UUID getSystemUserId() {
         return systemUserId;
     }
 
+    /**
+     * Returns the user ID of this user.
+     *
+     * @return the user ID as a {@code String}
+     */
     public String getUserId() {
         return userId;
     }
 
+    /**
+     * Returns the name of this user.
+     *
+     * @return the name of the user
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Returns the gender of this user.
+     *
+     * @return the {@code Gender} of the user
+     */
     public Gender getGender() {
         return gender;
     }
 
+    /**
+     * Returns the hashed password of this user.
+     *
+     * @return a byte array containing the hashed password
+     */
     public byte[] getPasswordHashed() {
         return passwordHashed;
     }
@@ -63,6 +94,12 @@ public abstract class User implements Serializable {
         this.passwordHashed = PasswordUtils.hashPassword(newPassword);
     }
 
+    /**
+     * Returns the role name of the user.
+     * This method must be implemented by subclasses to define the specific role of the user.
+     *
+     * @return the role name as a {@code String}
+     */
     public abstract String getRoleName();
 
 }
