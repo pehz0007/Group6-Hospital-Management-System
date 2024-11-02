@@ -9,6 +9,7 @@ public class PatientScreen extends LogoutScreen {
 
     private static final int MEDICAL_RECORD = 2;
     private static final int USER_CONFIGURATION = 3;
+    private static final int PATIENT_BOOK_AVAILABLE_DOCTORS = 4;
 
     private Patient patient;
 
@@ -19,6 +20,7 @@ public class PatientScreen extends LogoutScreen {
         super("Patient Menu");
         addOption(MEDICAL_RECORD, "Show Medical Record");
         addOption(USER_CONFIGURATION, "Edit User Profile");
+        addOption(PATIENT_BOOK_AVAILABLE_DOCTORS, "Book Available Doctors");
     }
 
     @Override
@@ -37,6 +39,7 @@ public class PatientScreen extends LogoutScreen {
     protected void handleOption(int optionId) {
         switch (optionId){
             case USER_CONFIGURATION -> navigateToScreen(new PatientConfigurationScreen(patient));
+            case  PATIENT_BOOK_AVAILABLE_DOCTORS -> navigateToScreen(new ViewAvailableDoctorScreen());
         }
     }
 }

@@ -12,9 +12,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import static com.group6.hms.framework.screens.pagination.TextUtils.skipNewLines;
 import static com.group6.hms.framework.screens.terminal.OSUtils.isMacOS;
 import static com.group6.hms.framework.screens.terminal.OSUtils.isWindows;
 
+/**
+ * The {@code FFMConsoleInterface} provides an interactive console for interacting with the application
+ */
 public class FFMConsoleInterface implements InteractiveConsoleInterface {
 
     // Terminal instance that implements the Terminal interface
@@ -218,16 +222,12 @@ public class FFMConsoleInterface implements InteractiveConsoleInterface {
     }
 
     private void newLine(){
-        try {
-            int[] cursor = getCursorPosition();
-            moveCursor(cursor[0] + 1, 0);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        int[] cursor = getCursorPosition();
+        moveCursor(cursor[0] + 1, 0);
     }
 
     // Move cursor to a specific position (row, column)
-    private void moveCursor(int row, int column) {
+    public void moveCursor(int row, int column) {
         System.out.printf("\033[%d;%dH", row, column); // Move to (row, column) using ANSI escape sequence
         System.out.flush();
     }
@@ -236,50 +236,39 @@ public class FFMConsoleInterface implements InteractiveConsoleInterface {
      * Get the current cursor position.
      *
      * @return An array where index 0 is the row, and index 1 is the column.
-     * @throws IOException if an I/O error occurs.
      */
-    private int[] getCursorPosition() throws IOException {
-        // Send the request for the cursor position
-        print("\033[6n");
-        System.out.flush();
+    public int[] getCursorPosition() {
+        try{
+            // Send the request for the cursor position
+            print("\033[6n");
+            System.out.flush();
 
-        // Read the response from the terminal
-        StringBuilder response = new StringBuilder();
-        char ch;
-        while ((ch = (char) System.in.read()) != 'R') {
-            response.append(ch);
-        }
-
-        // The response will be in the format "\033[y;x"
-        String[] parts = response.toString().split(";");
-
-        // Parse the row and column
-        int row = Integer.parseInt(skipNewLines(parts[0]).substring(2)); // Skip the "\033[" part
-        int column = Integer.parseInt(parts[1]);
-
-        return new int[]{row, column};
-    }
-
-    public static String skipNewLines(String prefix) {
-        // Use a StringBuilder to construct the result
-        StringBuilder result = new StringBuilder();
-
-        // Iterate over each character in the prefix
-        for (char ch : prefix.toCharArray()) {
-            // If the character is neither '\r' nor '\n', append it to the result
-            if (ch != '\r' && ch != '\n') {
-                result.append(ch);
+            // Read the response from the terminal
+            StringBuilder response = new StringBuilder();
+            char ch;
+            while ((ch = (char) System.in.read()) != 'R') {
+                response.append(ch);
             }
-        }
 
-        // Return the result as a string
-        return result.toString();
+            // The response will be in the format "\033[y;x"
+            String[] parts = response.toString().split(";");
+
+            // Parse the row and column
+            int row = Integer.parseInt(skipNewLines(parts[0]).substring(2)); // Skip the "\033[" part
+            int column = Integer.parseInt(parts[1]);
+
+            return new int[]{row, column};
+        }catch(IOException e){
+            throw new RuntimeException("Error reading cursor", e);
+        }
     }
 
-    private void clearPartialScreen() {
+    public void clearPartialScreen() {
         System.out.print("\033[J"); // Clear from the cursor to the end of the screen
         System.out.flush();
     }
+
+
 
     @Override
     public Operation readUserKey() {
@@ -323,11 +312,7 @@ public class FFMConsoleInterface implements InteractiveConsoleInterface {
 
     @Override
     public void saveCurrentScreen() {
-        try {
-            cursorPos = getCursorPosition();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        cursorPos = getCursorPosition();
     }
 
     @Override

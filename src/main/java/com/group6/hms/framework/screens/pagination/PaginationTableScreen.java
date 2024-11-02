@@ -7,6 +7,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 
+/**
+ * {@code PaginationTableScreen} provides a reusable component to display and manage tables with pagination functionality in a console-based UI.
+ *
+ * @param <T> the type of items to be displayed in the table.
+ */
 public class PaginationTableScreen<T> extends OptionScreen {
 
     private static final int PREVIOUS_PAGE_ID = 1;
@@ -43,12 +48,22 @@ public class PaginationTableScreen<T> extends OptionScreen {
         }
     }
 
+    /**
+     * Sets the allowBack flag to true, enabling the ability to navigate back to the previous screen,
+     * and then calls the superclass's onStart method.
+     */
     @Override
     public void onStart() {
         setAllowBack(true);
         super.onStart();
     }
 
+    /**
+     * Displays the content of the current page of the filtered list.
+     * If the filtered list is empty, it prints an empty message.
+     * Otherwise, it prints the table of items for the current page
+     * and the pagination counter.
+     */
     @Override
     public void onDisplay() {
         if(filteredList.isEmpty()){
@@ -61,12 +76,21 @@ public class PaginationTableScreen<T> extends OptionScreen {
         super.onDisplay();
     }
 
+    /**
+     * Prints a message to the console indicating that there is nothing to be displayed.
+     */
     private void printEmpty() {
         println("");
         setCurrentTextConsoleColor(ConsoleColor.PURPLE);
         println("Nothing to be displayed");
     }
 
+    /**
+     * Update the list being displayed by the pagination table
+     * Also resets the pagination to the initial state.
+     *
+     * @param list The list of items to be set and displayed.
+     */
     protected void setList(List<T> list) {
         this.list = list;
         this.filteredList = list;
@@ -91,16 +115,29 @@ public class PaginationTableScreen<T> extends OptionScreen {
         }
     }
 
+    /**
+     * Prints the current page number and the maximum page number in the pagination system to the console.
+     */
     private void printPaginationCounter(){
         setCurrentTextConsoleColor(ConsoleColor.YELLOW);
         println("Page " + currentPage + " of " + maxPage);
     }
 
+    /**
+     * Navigates to the previous page in the pagination system.
+     * This method decreases the current page number by one, ensuring that the page number does not go below 1.
+     * After updating the current page, it updates the available navigation options.
+     */
     private void previousPage(){
         currentPage = Math.max(currentPage - 1, 1);
         updateOptions();
     }
 
+    /**
+     * Navigates to the next page in the pagination system.
+     * This method increases the current page number by one, ensuring that the page number does not go above {@link #maxPage}.
+     * After updating the current page, it updates the available navigation options.
+     */
     private void nextPage(){
         currentPage = Math.min(currentPage + 1, maxPage);
         updateOptions();
@@ -109,6 +146,9 @@ public class PaginationTableScreen<T> extends OptionScreen {
     private boolean nextPageOption = false;
     private boolean prevPageOption = false;
 
+    /**
+     * Updates the pagination navigation options based on the current page.
+     */
     private void updateOptions(){
         if(currentPage == 1 && prevPageOption) {
             removeOption(PREVIOUS_PAGE_ID);
@@ -128,20 +168,35 @@ public class PaginationTableScreen<T> extends OptionScreen {
         }
     }
 
+    /**
+     * Calculate the page count for the max page based on the size of the filtered list and reset the page back to 1
+     */
     private void resetPageCount() {
         this.currentPage = 1;
         this.maxPage = (int) Math.ceil((double)(filteredList.size()) / pageSize); // Ceil the page size
         updateOptions();
     }
 
+    /**
+     * Get the current page size
+     * @return the page size of the table
+     */
     public int getPageSize() {
         return pageSize;
     }
 
+    /**
+     * Get the current page number
+     * @return the current page number of the table
+     */
     public int getCurrentPage() {
         return currentPage;
     }
 
+    /**
+     * Get the maximum page number
+     * @return the maximum page number of the table
+     */
     public int getMaxPage() {
         return maxPage;
     }
@@ -169,6 +224,15 @@ public class PaginationTableScreen<T> extends OptionScreen {
         return sourceList.subList(fromIndex, Math.min(fromIndex + pageSize, sourceList.size()));
     }
 
+    /**
+     * Sets the filter function for the PaginationTableScreen.
+     * The filter function determines how the items in the list are filtered.
+     * Once the filter function is set, it automatically adds or removes the filter option
+     * based on the presence of the filter function.
+     *
+     * @param filterFunction The function to apply to the list for filtering.
+     * The function takes a list of items as input and returns a filtered list.
+     */
     public void setFilterFunction(Function<List<T>, List<T>> filterFunction) {
         this.filterFunction = filterFunction;
         if(allowFiltering())addOption(FILTER_PAGE_ID,"Filter");

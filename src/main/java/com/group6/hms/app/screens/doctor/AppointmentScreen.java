@@ -1,14 +1,16 @@
 package com.group6.hms.app.screens.doctor;
 
-import com.group6.hms.app.auth.*;
-import com.group6.hms.app.models.*;
-import com.group6.hms.app.roles.Doctor;
+import com.group6.hms.app.auth.LoginManager;
+import com.group6.hms.app.auth.LoginManagerHolder;
 import com.group6.hms.app.auth.User;
-import com.group6.hms.app.screens.MainScreen;
 import com.group6.hms.app.managers.AppointmentManager;
 import com.group6.hms.app.managers.AvailabilityManager;
+import com.group6.hms.app.models.*;
+import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.app.storage.SerializationStorageProvider;
-import com.group6.hms.app.auth.LoginManagerHolder;
+import com.group6.hms.framework.screens.ConsoleColor;
+import com.group6.hms.framework.screens.calendar.CalendarScreen;
+import com.group6.hms.framework.screens.calendar.EventInterface;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -16,112 +18,79 @@ import java.util.*;
 
 import static java.util.stream.Collectors.groupingBy;
 
-public class DoctorScreen extends LogoutScreen {
-
-    /**
-     * Constructor to initialize the DoctorScreen.
-     */
+public class AppointmentScreen extends CalendarScreen<Appointment, List<Appointment>> {
+    private Map<LocalDate, List<Appointment>> events;
     AppointmentManager appointmentManager = new AppointmentManager();
     LoginManager loginManager = LoginManagerHolder.getLoginManager();
     AvailabilityManager availabilityManager = new AvailabilityManager();
     private SerializationStorageProvider<User> userStorageProvider = new SerializationStorageProvider<>();
     File userFile = new File("data/users.ser");
-
     private Doctor doc;
-    public DoctorScreen() {
-        super("Doctor Menu");
-        addOption(2, "View Patient Medical Records");
-        //addOption(3, "Update Patient Medical Records");
-        addOption(3, "View Personal Schedule");
-        //addOption(5, "Set Availability for Appointments");
-        addOption(4, "View Appointments");
-
-    }
 
     @Override
-    public void onStart() {
-        println("Welcome, " + getLoginManager().getCurrentlyLoggedInUser().getName() + "!");
-        super.onStart();
-    }
+    public void onDisplay() {
+        super.onDisplay();
+        doc = (Doctor) loginManager.getCurrentlyLoggedInUser ();
+        List<Appointment> latestAppointments = appointmentManager.getAppointmentsByDoctor(doc);
 
-    @Override
-    protected void onLogout() {
-        newScreen(new MainScreen());
+        // Filter the appointments based on their status
+        this.events = latestAppointments.stream()
+                .filter(appointment ->
+                        appointment.getStatus() == AppointmentStatus.REQUESTED ||
+                                appointment.getStatus() == AppointmentStatus.CONFIRMED)
+                .collect(groupingBy(Appointment::getDate));
     }
 
     @Override
     protected void handleOption(int optionId) {
-//        loginManager.loadUsersFromFile();
+        super.handleOption(optionId);
         userStorageProvider.loadFromFile(userFile);
         doc = (Doctor) loginManager.getCurrentlyLoggedInUser();
-        User currentUser = getLoginManager().getCurrentlyLoggedInUser();
-        if (currentUser == null) {
-            System.out.println("No user is currently logged in.");
-            return; // Exit or handle accordingly
-        }
+        if(optionId == 5){
+             List<Appointment> requests = appointmentManager.getAppointmentsByDoctorAndStatus(doc, AppointmentStatus.REQUESTED);
+            navigateToScreen(new AcceptOrDeclineScreen(requests));
 
-        switch (optionId) {
-            case 2: {
-                patientMedicalRecords();
-                break;
-            }
+        }else if(optionId == 6){
+            ArrayList<Appointment> appointments = appointmentManager.getAppointmentsByDoctorAndStatus(doc, AppointmentStatus.CONFIRMED);
+            Map<LocalDate, List<UUID>> availabilityMap = new HashMap<>();
 
-            case 3: {
-                Map<LocalDate, List<Availability>> avail_appointments = availabilityManager.getAvailabilityByDoctor(doc).stream().collect(groupingBy(Availability::getAvailableDate));
-                navigateToScreen(new DoctorAvailabilityScreen(avail_appointments));
-//                println("Getting personal schedule...");
-//                List<Availability> avail_appointments = availabilityManager.getAvailabilityByDoctor(doctor);
-//                printAvailability(avail_appointments);
-                break;
-            }
-
-            case 4: {
-
-                Map<LocalDate, List<Appointment>> requests = appointmentManager.getAppointmentsByDoctor(doc).stream()
-                        .filter(appointment ->
-                                appointment.getStatus() == AppointmentStatus.REQUESTED ||
-                                        appointment.getStatus() == AppointmentStatus.CONFIRMED)
-                        .collect(groupingBy(Appointment::getDate));
-                navigateToScreen(new AppointmentScreen(requests));
-                break;
-            }
-
-        }
-    }
-
-    protected void printAvailability(List<Availability> avail_appointments) {
-        // Step 1: Group by date
-        Map<LocalDate, List<Availability>> availabilityMap = new TreeMap<>();
-
-        for (Availability avail : avail_appointments) {
-            LocalDate date = avail.getAvailableDate();
-            availabilityMap.putIfAbsent(date, new ArrayList<>());
-            availabilityMap.get(date).add(avail);
-        }
-
-        if (availabilityMap.isEmpty()) {
-            println("No availability found.");
-        }
-        else {
-            // Step 2: Print grouped availability
-            for (Map.Entry<LocalDate, List<Availability>> entry : availabilityMap.entrySet()) {
-                LocalDate date = entry.getKey();
-                List<Availability> availabilities = entry.getValue();
-
-                println("Availability Date: " + date.toString());
-                for (Availability avail : availabilities) {
-                    println("Availability time: " + avail.getAvailableStartTime().toString() + " - " + avail.getAvailableEndTime().toString());
+            for (Appointment upcoming : appointments) {
+                LocalDate date = upcoming.getDate();
+                if(LocalDate.now().isEqual(date)){
+                    availabilityMap.putIfAbsent(date, new ArrayList<>());
+                    availabilityMap.get(date).add(upcoming.getAppointmentId());
                 }
-                println(""); // Print a blank line for better readability
             }
+            if(availabilityMap.size() == 0){
+                println("\u001B[31m"+ "There isn't any appointments today.");
+            }else{
+                for (Map.Entry<LocalDate, List<UUID>> entry : availabilityMap.entrySet()) {
+                    LocalDate date = entry.getKey();
+                    List<UUID> appointments1 = entry.getValue();
+                    AppointmentService service1;
+                    navigateToScreen(new UpdateConsultationNotesScreen(appointments1));
+
+                }
+            }
+
+
         }
+
     }
 
-    protected void patientMedicalRecords(){
+    /**
+     * Constructor to initialize the screen with a title.
+     *
+     * @param events
+     */
 
-        CareProvider retrievePatients = new CareProvider();
-        Collection<UUID> medicalRecords = retrievePatients.getPatientIDsUnderDoctorCare(doc);
-        navigateToScreen(new PatientMedicalRecordsScreen("Patient Medical Records", medicalRecords.stream().toList()));
+    public AppointmentScreen(Map<LocalDate, List<Appointment>> events) {
+        super("Appointments", events);
+        this.events = events;
+
+
+        addOption(5,"Accept or Decline Upcoming Appointments", ConsoleColor.YELLOW);
+        addOption(6, "Record Consultation Notes", ConsoleColor.YELLOW);
     }
 
 
@@ -153,8 +122,8 @@ public class DoctorScreen extends LogoutScreen {
         for (Appointment upcoming : appointments) {
             LocalDate date = upcoming.getDate();
 
-                availabilityMap.putIfAbsent(date, new ArrayList<>());
-                availabilityMap.get(date).add(upcoming);
+            availabilityMap.putIfAbsent(date, new ArrayList<>());
+            availabilityMap.get(date).add(upcoming);
 
         }
         for (Map.Entry<LocalDate, List<Appointment>> entry : availabilityMap.entrySet()) {
@@ -203,9 +172,9 @@ public class DoctorScreen extends LogoutScreen {
                     if(service.equalsIgnoreCase("consult")){
                         service1 = AppointmentService.CONSULT;
                     }else if(service.equalsIgnoreCase("xray")){
-                         service1 = AppointmentService.XRAY;
+                        service1 = AppointmentService.XRAY;
                     }else {
-                         service1 = AppointmentService.BLOOD_TEST;
+                        service1 = AppointmentService.BLOOD_TEST;
                     }
 
 //                    ArrayList<Medication> medications = new ArrayList<>();
@@ -235,4 +204,6 @@ public class DoctorScreen extends LogoutScreen {
             println(""); // Print a blank line for better readability
         }
     }
+
+
 }

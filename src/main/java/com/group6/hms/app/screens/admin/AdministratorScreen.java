@@ -29,8 +29,6 @@ public class AdministratorScreen extends LogoutScreen {
     private final int VIEW_AND_MANAGE_USERS = 3;
     private final int VIEW_APPOINTMENTS = 4;
     private final int VIEW_AND_MANAGE_MEDICATION_INVENTORY = 5;
-    private final int APPROVE_REPLENISHMENT_REQUEST = 6;
-    private final int IMPORT_MEDICATIONS_STOCK = 7;
     /**
      * Constructor to initialize the AdministratorScreen.
      **/
@@ -41,8 +39,7 @@ public class AdministratorScreen extends LogoutScreen {
         addOption(VIEW_AND_MANAGE_USERS, "View and Manage Users");
         addOption(VIEW_APPOINTMENTS, "View All Appointments");
         addOption(VIEW_AND_MANAGE_MEDICATION_INVENTORY, "View and Manage Medication Inventory");
-        addOption(APPROVE_REPLENISHMENT_REQUEST, "Approve Replenishment Request");
-        addOption(IMPORT_MEDICATIONS_STOCK, "Import Medications");
+
     }
 
     @Override
@@ -70,44 +67,18 @@ public class AdministratorScreen extends LogoutScreen {
             case VIEW_AND_MANAGE_USERS -> {
                 navigateToScreen(new ViewAndManageUsersScreen());
             }
+            case VIEW_AND_MANAGE_MEDICATION_INVENTORY -> {
+                navigateToScreen(new ViewAndManageMedicationScreen());
+            }
             case VIEW_APPOINTMENTS -> {
 
                 //SAMPLE
                 AppointmentManager appointmentManager = new AppointmentManager();
                 Map<LocalDate, List<Appointment>> appointments = appointmentManager.getAllAppointments().stream().collect(groupingBy(Appointment::getDate));
                 navigateToScreen(new CalendarScreen<>("Appointments", appointments));
-//                Multimap<LocalDate, AppointmentView> appointmentViews = MultimapBuilder.hashKeys().arrayListValues().build();
-//                var a1 = new AppointmentView(UUID.randomUUID(), UUID.randomUUID(), AppointmentStatus.CONFIRMED, LocalDateTime.now());
-//                appointmentViews.put(a1.getEventDateTime().toLocalDate(), a1);
-//                navigateToScreen(new CalendarScreen<>("Appointments", appointmentViews));
-
-                //Retrieve all Appointments in the database
-
-                //Display all the Appointments
 
             }
-            case IMPORT_MEDICATIONS_STOCK -> {
-                print("Medication File Location:");
-                String filePath = readString();
-                try {
-                    MedicationStockCSVReader medicationStockCSVReader = new MedicationStockCSVReader(new FileReader(filePath));
-                    List<MedicationStock> medications = medicationStockCSVReader.readAllMedications();
-                    StorageProvider<MedicationStock> medicationStorageProvider = new SerializationStorageProvider<>();
-                    File medicationsFile = new File("data/medications.ser");
 
-                    for (MedicationStock medicationStock : medications) {
-                        medicationStorageProvider.addNewItem(medicationStock);
-                    }
-                    medicationStorageProvider.saveToFile(medicationsFile);
-                    setCurrentTextConsoleColor(ConsoleColor.GREEN);
-                    println("Medication Stock imported successfully!");
-
-                } catch (FileNotFoundException e) {
-                    setCurrentTextConsoleColor(ConsoleColor.RED);
-                    println("Unable to find file!");
-                    waitForKeyPress();
-                }
-            }
         }
     }
 }
