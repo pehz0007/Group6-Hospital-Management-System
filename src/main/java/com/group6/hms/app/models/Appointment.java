@@ -2,6 +2,7 @@ package com.group6.hms.app.models;
 
 import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.app.roles.Patient;
+import com.group6.hms.app.screens.doctor.AppointmentStatusRenderer;
 import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.ConsoleInterface;
 import com.group6.hms.framework.screens.calendar.EventInterface;
@@ -20,6 +21,7 @@ public class Appointment implements Serializable, EventInterface {
     @HeaderField(show = false)
     private final Patient patient;
     private final Doctor doctor;
+    @HeaderField(renderer = AppointmentStatusRenderer.class)
     private AppointmentStatus status;
     private LocalDate date;
     private LocalTime startTime;
@@ -107,16 +109,6 @@ public class Appointment implements Serializable, EventInterface {
 
     @Override
     public void displayEvent(ConsoleInterface consoleInterface) {
-        if(getStatus() == AppointmentStatus.REQUESTED){
-            consoleInterface.setCurrentTextConsoleColor(ConsoleColor.YELLOW);
-            PrintTableUtils.printItemAsVerticalTable(consoleInterface, this);
-        }
-        if(getStatus() == AppointmentStatus.CONFIRMED || getStatus() == AppointmentStatus.COMPLETED){
-            consoleInterface.setCurrentTextConsoleColor(ConsoleColor.GREEN);
-            PrintTableUtils.printItemAsVerticalTable(consoleInterface, this);
-        }else if(getStatus() == AppointmentStatus.CANCELLED){
-            consoleInterface.setCurrentTextConsoleColor(ConsoleColor.RED);
-            PrintTableUtils.printItemAsVerticalTable(consoleInterface, this);
-        }
+        PrintTableUtils.printItemAsVerticalTable(consoleInterface, this);
     }
 }

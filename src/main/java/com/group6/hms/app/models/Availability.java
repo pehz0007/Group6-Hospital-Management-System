@@ -2,7 +2,10 @@ package com.group6.hms.app.models;
 
 import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.framework.screens.ConsoleInterface;
+import com.group6.hms.framework.screens.calendar.DateRenderer;
 import com.group6.hms.framework.screens.calendar.EventInterface;
+import com.group6.hms.framework.screens.calendar.TimeRenderer;
+import com.group6.hms.framework.screens.pagination.HeaderField;
 import com.group6.hms.framework.screens.pagination.PrintTableUtils;
 import com.group6.hms.framework.screens.ConsoleInterface;
 import com.group6.hms.framework.screens.calendar.EventInterface;
@@ -13,8 +16,11 @@ import java.time.LocalTime;
 
 public class Availability implements EventInterface, Serializable {
     private Doctor doctor;
+    @HeaderField(renderer = DateRenderer.class)
     private LocalDate availableDate;
+    @HeaderField(renderer = TimeRenderer.class)
     private LocalTime availableStartTime;
+    @HeaderField(renderer = TimeRenderer.class)
     private LocalTime availableEndTime;
 
     public Availability(Doctor doctor, LocalDate availableDate, LocalTime startTime, LocalTime endTime) {

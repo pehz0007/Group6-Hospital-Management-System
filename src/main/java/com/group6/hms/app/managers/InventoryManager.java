@@ -48,6 +48,10 @@ public class InventoryManager {
         return medicationStockStorageProvider.getItems().stream().map(MedicationStock::getMedication).toList();
     }
 
+    public ReplenishmentRequest getReplenishmentRequestById(String requestId) {
+        return replenishmentStorageProvider.getItems().stream().filter(req -> req.getRequestId().toString().equals(requestId)).findFirst().orElse(null);
+    }
+
     // for Pharmacist to submit request to Administrator
     public void submitReplenishmentRequest(List<ReplenishmentRequest> requests) {
         for (ReplenishmentRequest request : requests) {

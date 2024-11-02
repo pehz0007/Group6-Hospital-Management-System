@@ -41,6 +41,7 @@ public class DoctorScreen extends LogoutScreen {
     @Override
     public void onStart() {
         println("Welcome, " + getLoginManager().getCurrentlyLoggedInUser().getName() + "!");
+        this.doc = (Doctor) getLoginManager().getCurrentlyLoggedInUser();
         super.onStart();
     }
 
