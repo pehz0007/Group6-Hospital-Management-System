@@ -3,21 +3,13 @@ package com.group6.hms.app.screens.admin;
 import com.group6.hms.app.auth.User;
 import com.group6.hms.app.managers.AppointmentManager;
 import com.group6.hms.app.models.Appointment;
-import com.group6.hms.app.models.MedicationStock;
 import com.group6.hms.app.notifications.Notification;
 import com.group6.hms.app.notifications.NotificationManagerHolder;
 import com.group6.hms.app.notifications.NotificationScreen;
 import com.group6.hms.app.screens.MainScreen;
 import com.group6.hms.app.auth.LogoutScreen;
-import com.group6.hms.app.screens.admin.importer.MedicationStockCSVReader;
-import com.group6.hms.app.storage.SerializationStorageProvider;
-import com.group6.hms.app.storage.StorageProvider;
-import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.calendar.CalendarScreen;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -68,7 +60,7 @@ public class AdministratorScreen extends LogoutScreen {
                 navigateToScreen(new ViewAndManageUsersScreen());
             }
             case VIEW_AND_MANAGE_MEDICATION_INVENTORY -> {
-                navigateToScreen(new ViewAndManageMedicationScreen());
+                navigateToScreen(new AdminViewAndManageMedicationScreen());
             }
             case VIEW_APPOINTMENTS -> {
 

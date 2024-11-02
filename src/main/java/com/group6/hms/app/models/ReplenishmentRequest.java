@@ -3,9 +3,10 @@ package com.group6.hms.app.models;
 import com.group6.hms.app.screens.admin.MedicationRenderer;
 import com.group6.hms.framework.screens.pagination.HeaderField;
 
+import java.io.Serializable;
 import java.util.UUID;
 
-public class ReplenishmentRequest {
+public class ReplenishmentRequest implements Serializable {
     private final UUID requestId;
     @HeaderField(renderer = MedicationRenderer.class)
     private Medication medication;

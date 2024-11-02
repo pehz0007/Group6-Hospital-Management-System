@@ -73,7 +73,7 @@ public class Doctor extends Staff {
 
     @Override
     public String toString() {
-        return "Doctor";
+        return getName();
     }
 
 

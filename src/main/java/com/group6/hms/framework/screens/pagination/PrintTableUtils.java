@@ -26,7 +26,7 @@ public class PrintTableUtils {
         ConsoleColor headerFieldColor = ConsoleColor.WHITE;
         Class<?> objClass = obj.getClass();
         Field[] fields = objClass.getDeclaredFields();
-        int width = 50;
+        int width = 100;
         consoleInterface.setCurrentTextConsoleColor(borderColor);
         printSeparator(consoleInterface, width);
         for (Field field : fields) {

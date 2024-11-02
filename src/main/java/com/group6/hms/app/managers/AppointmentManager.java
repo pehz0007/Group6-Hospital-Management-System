@@ -1,6 +1,6 @@
 package com.group6.hms.app.managers;
 
-import com.group6.hms.app.MedicationStatus;
+import com.group6.hms.app.models.MedicationStatus;
 import com.group6.hms.app.auth.LoginManager;
 import com.group6.hms.app.auth.LoginManagerHolder;
 import com.group6.hms.app.models.*;
@@ -11,13 +11,12 @@ import com.group6.hms.app.roles.Patient;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collection;
 import java.util.UUID;
-
+import java.util.Random;
 
 public class AppointmentManager {
     private static final File appointmentsFile = new File("data/appointments.ser");
@@ -25,35 +24,7 @@ public class AppointmentManager {
     private final StorageProvider<Appointment> appointmentStorageProvider = new SerializationStorageProvider<>();
     private final StorageProvider<AppointmentOutcomeRecord> appointmentOutcomeStorageProvider = new SerializationStorageProvider<>();
 
-    public static void main(String[] args) {
-        LoginManager loginManager = LoginManagerHolder.getLoginManager();
-        AppointmentManager appointmentManager = new AppointmentManager();
-        AvailabilityManager availabilityManager = new AvailabilityManager();
-        loginManager.loadUsersFromFile();
-        Doctor doctor = (Doctor) loginManager.findUser("tonkatsu");
-        Patient patient = (Patient) loginManager.findUser("shirokuma");
-        LocalTime timeNow = LocalTime.now();
-        Availability avail = new Availability(doctor, LocalDate.now(), timeNow, timeNow.plusHours(1));
-        Availability avail1 = new Availability(doctor, LocalDate.now(), timeNow.plusHours(1), timeNow.plusHours(2));
 
-        availabilityManager.addAvailability(avail);
-        availabilityManager.addAvailability(avail1);
-
-        appointmentManager.scheduleAppointment(patient, avail);
-        appointmentManager.scheduleAppointment(patient, avail1);
-
-
-//        Appointment appt = appointmentManager.getAllAppointments().getFirst();
-//        appointmentManager.acceptAppointmentRequest(appt);
-//        ArrayList<Medication> medications = new ArrayList<>();
-//        medications.add(new Medication(UUID.randomUUID(), "Panadol"));
-//        medications.add(new Medication(UUID.randomUUID(), "Cough Syrup"));
-//        medications.add(new Medication(UUID.randomUUID(), "Flu Medicine"));
-//        AppointmentOutcomeRecord record = new AppointmentOutcomeRecord(doctor.getUserId(), patient.getUserId(), appt.getDate(), AppointmentService.CONSULT, medications, "high fever", MedicationStatus.PENDING);
-//        appointmentManager.completeAppointment(appt,record);
-//        List<AppointmentOutcomeRecord> records = appointmentManager.getAppointmentOutcomeRecordsByStatus(MedicationStatus.PENDING);
-
-    }
     public AppointmentManager() {
         if (!appointmentsFile.exists()) {
             appointmentStorageProvider.saveToFile(appointmentsFile);
@@ -65,7 +36,7 @@ public class AppointmentManager {
         appointmentOutcomeStorageProvider.loadFromFile(appointmentOutcomesFile);
     }
     public List<Appointment> getAllAppointments() {
-        return (List<Appointment>) appointmentStorageProvider.getItems();
+        return appointmentStorageProvider.getItems().stream().toList();
     }
 
     // New method to get all appointment outcome records
@@ -76,7 +47,7 @@ public class AppointmentManager {
 
     // for the patient to get their scheduled appointments
     public ArrayList<Appointment> getAppointmentsByPatient(Patient patient) {
-        List<Appointment> aptList = appointmentStorageProvider.getItems().stream().filter(apt -> apt.getPatient().getUserId().equals(patient.getUserId())).toList();
+        List<Appointment> aptList = appointmentStorageProvider.getItems().stream().filter(apt -> apt.getPatient().getSystemUserId().equals(patient.getSystemUserId())).toList();
         return new ArrayList<>(aptList);
     }
 
@@ -91,7 +62,7 @@ public class AppointmentManager {
     }
 
     public ArrayList<Appointment> getAppointmentsByDoctorAndStatus(Doctor doctor, AppointmentStatus status) {
-        List<Appointment> aptList = appointmentStorageProvider.getItems().stream().filter(apt -> apt.getDoctor().getUserId().equals(doctor.getUserId()) && apt.getStatus() == status).toList();
+        List<Appointment> aptList = appointmentStorageProvider.getItems().stream().filter(apt -> apt.getDoctor().getSystemUserId().equals(doctor.getSystemUserId()) && apt.getStatus() == status).toList();
         return new ArrayList<>(aptList);
     }
 
@@ -162,17 +133,27 @@ public class AppointmentManager {
     public void completeAppointment(Appointment appointment, AppointmentOutcomeRecord appointmentOutcomeRecord) {
         appointmentStorageProvider.getItems().stream().filter(a -> a.getAppointmentId().equals(appointment.getAppointmentId())).findFirst().ifPresent(a -> {
             a.setStatus(AppointmentStatus.COMPLETED);
+            a.setAppointmentOutcomeRecordId(appointmentOutcomeRecord.getRecordId());
         });
-        appointment.setAppointmentOutcomeRecordId(appointmentOutcomeRecord.getRecordId());
+        appointmentStorageProvider.saveToFile(appointmentsFile);
         appointmentOutcomeStorageProvider.addNewItem(appointmentOutcomeRecord);
         appointmentOutcomeStorageProvider.saveToFile(appointmentOutcomesFile);
     }
 
     // for patient to view their outcomes
     public List<AppointmentOutcomeRecord> getAppointmentOutcomeRecordsByPatient(Patient patient) {
-        return appointmentOutcomeStorageProvider.getItems().stream().filter(outcome ->outcome.getPatientId().equals(patient.getUserId())).toList();
+        return appointmentOutcomeStorageProvider.getItems().stream().filter(outcome ->outcome.getPatientId().equals(patient.getSystemUserId())).toList();
 
     }
+
+    //for doctor to get appointment outcome by uuid
+    public AppointmentOutcomeRecord getAppointmentOutcomeRecordsByUUID(UUID appointmentId) {
+        for (AppointmentOutcomeRecord outcome : appointmentOutcomeStorageProvider.getItems()) {
+            if (outcome.getRecordId().equals(appointmentId)) {
+                return outcome; // Return the found record
+            }
+        }
+        return null;    }
 
     // for Pharmacist to fulfil medication order
     public List<AppointmentOutcomeRecord> getAppointmentOutcomeRecordsByStatus(MedicationStatus medicationStatus) {

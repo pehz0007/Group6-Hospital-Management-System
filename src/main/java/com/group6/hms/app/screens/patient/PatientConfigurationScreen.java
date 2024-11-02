@@ -46,37 +46,44 @@ public class PatientConfigurationScreen extends OptionScreen {
         switch (optionId){
             case CHANGE_PASSWORD -> {
                 //TODO: Add old password checking
-                if (loginManager.getCurrentlyLoggedInUser() instanceof Patient) {
-                    print("Old Password:");
+                print("Current Password:");
+                char[] currentPassword = consoleInterface.readPassword();
+
+                if (Arrays.equals(patient.getPasswordHashed(), PasswordUtils.hashPassword(currentPassword))){
+                    print("New Password:");
                     char[] newPassword = consoleInterface.readPassword();
-                    if (!Arrays.equals(PasswordUtils.hashPassword(newPassword),
-                            loginManager.findUser(patient.getSystemUserId()).getPasswordHashed())) {
+                    try{
+                        loginManager.changePassword(patient, newPassword);
+                        setCurrentTextConsoleColor(ConsoleColor.GREEN);
+                        println("Password has been changed");
+                    }catch (UserInvalidPasswordException e){
                         setCurrentTextConsoleColor(ConsoleColor.RED);
-                        println("Wrong password!");
+                        println(e.getReason());
+                    }finally {
+                        waitForKeyPress();
                     }
-                }
-                print("New Password:");
-                char[] newPassword = consoleInterface.readPassword();
-                try{
-                    loginManager.changePassword(patient, newPassword);
-                    setCurrentTextConsoleColor(ConsoleColor.GREEN);
-                    println("Password has been changed");
-                }catch (UserInvalidPasswordException e){
+                }else{
                     setCurrentTextConsoleColor(ConsoleColor.RED);
-                    println(e.getReason());
-                }finally {
-                    waitForKeyPress();
+                    println("Password does not match. Please try again.");
                 }
             }
             case CHANGE_EMAIL -> {
-                //TODO: Add old password checking
-                print("New Email:");
-                String email = readString();
-                patient.setContactInformation(email);
-                //Update data to file
-                loginManager.saveUsersToFile();
-                setCurrentTextConsoleColor(ConsoleColor.GREEN);
-                println("Email has been changed");
+                //TODO: Add old email checking
+                println("Current Email: " + patient.getContactInformation());
+                String currentEmail = readString();
+
+                if(currentEmail.equals(patient.getContactInformation())){
+                    print("New Email:");
+                    String email = readString();
+                    patient.setContactInformation(email);
+                    //Update data to file
+                    loginManager.saveUsersToFile();
+                    setCurrentTextConsoleColor(ConsoleColor.GREEN);
+                    println("Email has been changed");
+                }else{
+                    setCurrentTextConsoleColor(ConsoleColor.RED);
+                    println("Email does not match. Please try again.");
+                }
                 waitForKeyPress();
             }
         }

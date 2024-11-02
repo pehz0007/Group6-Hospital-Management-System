@@ -1,10 +1,13 @@
 package com.group6.hms.app.auth;
 
+import com.group6.hms.app.models.BloodType;
 import com.group6.hms.app.roles.*;
 import com.group6.hms.app.storage.SerializationStorageProvider;
 import com.group6.hms.app.storage.StorageProvider;
+import com.group6.hms.app.models.MedicalRecord;
 
 import java.io.File;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.UUID;
@@ -16,27 +19,6 @@ public class LoginManager {
 
     private ThreadLocal<User> currentLoginUser = new ThreadLocal<>();
     private static final File usersFile = new File("data/users.ser");
-
-    /**
-     * RUN THIS TO RESET DATABASE
-     *
-     */
-    public static void main(String[] args) {
-        //Generate sample file
-        LoginManager loginManager = LoginManagerHolder.getLoginManager();
-
-        Patient patient = new Patient("P1011", "password".toCharArray(), "freya", Gender.Male);
-//        patient.updateMedicalRecord(medicalRecord);
-
-        loginManager.createUser(patient);
-        loginManager.createUser(new Doctor("D0011", "password".toCharArray(), "ethan", Gender.Male, 22));
-        loginManager.createUser(new Administrator("A001", "password".toCharArray(), "phoebe", Gender.Female, 34));
-        loginManager.createUser(new Pharmacist("P0003", "password".toCharArray(), "sage", Gender.Female, 50));
-
-        loginManager.saveUsersToFile();
-        loginManager.loadUsersFromFile();
-        loginManager.printUsers();
-    }
 
     public LoginManager() {}
 

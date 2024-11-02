@@ -27,8 +27,12 @@ public class DoctorAvailabilityScreen extends CalendarScreen<Availability, List<
     @Override
     public void onStart() {
         super.onStart();
-        Map<LocalDate, List<Availability>> avail_appointments = availabilityManager.getAvailabilityByDoctor(doc).stream().collect(groupingBy(Availability::getAvailableDate));
-        this.events = avail_appointments;
+        this.events = availabilityManager.getAvailabilityByDoctor(doc).stream().collect(groupingBy(Availability::getAvailableDate));
+    }
+
+    @Override
+    public void onDisplay() {
+        super.onDisplay();
     }
 
     /**
@@ -38,7 +42,7 @@ public class DoctorAvailabilityScreen extends CalendarScreen<Availability, List<
      * @param events
      */
     public DoctorAvailabilityScreen(Map<LocalDate, List<Availability>> events) {
-        super("Availability Screen", events);
+        super("Availability", events);
         this.events = events;
         doc = (Doctor) loginManager.getCurrentlyLoggedInUser ();
 
@@ -48,6 +52,7 @@ public class DoctorAvailabilityScreen extends CalendarScreen<Availability, List<
 
     @Override
     protected void handleOption(int optionId) {
+        super.handleOption(optionId);
         if(optionId == 5) {
 //            navigateToScreen(new PaginationTableScreen<>("Availability", events.get(currentDate)));
             println("=".repeat(30));

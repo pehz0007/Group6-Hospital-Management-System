@@ -23,6 +23,4 @@ public class MedicalRecord implements Serializable {
     public void setBloodType(BloodType bloodType) {
         this.bloodType = bloodType;
     }
-
-
 }

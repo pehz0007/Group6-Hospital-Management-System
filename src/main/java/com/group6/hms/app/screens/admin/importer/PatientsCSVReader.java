@@ -34,7 +34,7 @@ public class PatientsCSVReader extends CSVReader {
             BloodType bloodType = BloodType.fromString(values[4]);
             String contactInformation = values[5];
 
-            Patient patient = new Patient(patientId, defaultPassword, patientName, patientGender);
+            Patient patient = new Patient(patientId, defaultPassword, patientName, patientGender,contactInformation);
             patient.setContactInformation(contactInformation);
 
             MedicalRecord medicalRecord = patient.getMedicalRecord();
