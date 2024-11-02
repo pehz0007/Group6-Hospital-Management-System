@@ -11,6 +11,7 @@ import com.group6.hms.framework.screens.pagination.PaginationTableScreen;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -44,7 +45,7 @@ public class DoctorAvailabilityScreen extends CalendarScreen<Availability, List<
     public DoctorAvailabilityScreen(Map<LocalDate, List<Availability>> events) {
         super("Availability", events);
         this.events = events;
-        doc = (Doctor) loginManager.getCurrentlyLoggedInUser ();
+        doc = DoctorScreen.getDoctor();
 
         addOption(5, "Add Availability", ConsoleColor.CYAN);
 
@@ -54,13 +55,25 @@ public class DoctorAvailabilityScreen extends CalendarScreen<Availability, List<
     protected void handleOption(int optionId) {
         super.handleOption(optionId);
         if(optionId == 5) {
-//            navigateToScreen(new PaginationTableScreen<>("Availability", events.get(currentDate)));
+            LocalDate date = null;
+            LocalTime time = null;
             println("=".repeat(30));
-            print("Enter Your Availability Date: ");
-            LocalDate date = LocalDate.parse(readString());
-            print("Enter Start Time:");
-            LocalTime starttime = LocalTime.parse(readString());
-            Availability avail = new Availability(doc, date, starttime, starttime.plusHours(1));
+            try{
+                print("Enter Your Availability Date (YYYY-MM-DD): ");
+                date = LocalDate.parse(readString());
+            } catch (Exception e) {
+                println("\u001B[31m Invalid date format. Please try again.");
+                return;
+            }
+            try{
+                print("Enter Start Time (XX:XX) :");
+                time = LocalTime.parse(readString());
+            }catch (Exception e) {
+                println("\u001B[31m Invalid start time format. Please try again.");
+                return;
+            }
+
+            Availability avail = new Availability(doc, date, time, time.plusHours(1));
             availabilityManager.addAvailability(avail);
             println("Added successfully!");
             println("=".repeat(30));
