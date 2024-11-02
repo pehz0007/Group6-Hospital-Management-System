@@ -20,6 +20,7 @@ import java.util.UUID;
 import java.util.Random;
 
 
+import java.util.*;
 
 public class AppointmentManager {
     private static final File appointmentsFile = new File("data/appointments.ser");
@@ -36,8 +37,16 @@ public class AppointmentManager {
         Patient patient = (Patient) loginManager.findUser("P1011");
         LocalTime timeNow = LocalTime.now();
         Availability avail = new Availability(doctor, LocalDate.now(), timeNow, timeNow.plusHours(1));
+        Availability avail1 = new Availability(doctor, LocalDate.now(), LocalTime.parse("12:00"), LocalTime.parse("13:00"));
+
         availabilityManager.addAvailability(avail);
+        availabilityManager.addAvailability(avail1);
+
+
+
         appointmentManager.scheduleAppointment(patient, avail);
+        appointmentManager.scheduleAppointment(patient, avail1);
+
 
         Appointment appt = appointmentManager.getAllAppointments().getFirst();
         appointmentManager.acceptAppointmentRequest(appt);
@@ -98,10 +107,10 @@ public class AppointmentManager {
         appointmentOutcomeStorageProvider.loadFromFile(appointmentOutcomesFile);
     }
     public List<Appointment> getAllAppointments() {
-        return (List<Appointment>) appointmentStorageProvider.getItems();
+        return appointmentStorageProvider.getItems().stream().toList();
     }
 
-    // to get all appointment outcome records
+    // New method to get all appointment outcome records
     public List<AppointmentOutcomeRecord> getAllAppointmentOutcomeRecords() {
         Collection<AppointmentOutcomeRecord> records = appointmentOutcomeStorageProvider.getItems(); // Get items as a Collection
         return new ArrayList<>(records); // Convert Collection to List
@@ -110,6 +119,16 @@ public class AppointmentManager {
     // for the patient to get their scheduled appointments
     public ArrayList<Appointment> getAppointmentsByPatient(Patient patient) {
         List<Appointment> aptList = appointmentStorageProvider.getItems().stream().filter(apt -> apt.getPatient().getSystemUserId().equals(patient.getSystemUserId())).toList();
+        return new ArrayList<>(aptList);
+    }
+
+    public ArrayList<Appointment> getAppointmentsByUUID(UUID uuid) {
+        List<Appointment> aptList = appointmentStorageProvider.getItems().stream().filter(apt -> apt.getAppointmentId().equals(uuid)).toList();
+        return new ArrayList<>(aptList);
+    }
+
+    public ArrayList<Appointment> getAppointmentsByDoctor(Doctor doctor) {
+        List<Appointment> aptList = appointmentStorageProvider.getItems().stream().filter(apt -> apt.getDoctor().getSystemUserId().equals(doctor.getSystemUserId())).toList();
         return new ArrayList<>(aptList);
     }
 
@@ -185,8 +204,9 @@ public class AppointmentManager {
     public void completeAppointment(Appointment appointment, AppointmentOutcomeRecord appointmentOutcomeRecord) {
         appointmentStorageProvider.getItems().stream().filter(a -> a.getAppointmentId().equals(appointment.getAppointmentId())).findFirst().ifPresent(a -> {
             a.setStatus(AppointmentStatus.COMPLETED);
+            a.setAppointmentOutcomeRecordId(appointmentOutcomeRecord.getRecordId());
         });
-        appointment.setAppointmentOutcomeRecordId(appointmentOutcomeRecord.getRecordId());
+        appointmentStorageProvider.saveToFile(appointmentsFile);
         appointmentOutcomeStorageProvider.addNewItem(appointmentOutcomeRecord);
         appointmentOutcomeStorageProvider.saveToFile(appointmentOutcomesFile);
     }
@@ -196,6 +216,15 @@ public class AppointmentManager {
         return appointmentOutcomeStorageProvider.getItems().stream().filter(outcome ->outcome.getPatientId().equals(patient.getSystemUserId())).toList();
 
     }
+
+    //for doctor to get appointment outcome by uuid
+    public AppointmentOutcomeRecord getAppointmentOutcomeRecordsByUUID(UUID appointmentId) {
+        for (AppointmentOutcomeRecord outcome : appointmentOutcomeStorageProvider.getItems()) {
+            if (outcome.getRecordId().equals(appointmentId)) {
+                return outcome; // Return the found record
+            }
+        }
+        return null;    }
 
     // for Pharmacist to fulfil medication order
     public List<AppointmentOutcomeRecord> getAppointmentOutcomeRecordsByStatus(MedicationStatus medicationStatus) {

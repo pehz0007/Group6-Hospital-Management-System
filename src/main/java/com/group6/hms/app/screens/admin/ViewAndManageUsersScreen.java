@@ -7,6 +7,8 @@ import com.group6.hms.app.models.MedicationStock;
 import com.group6.hms.app.roles.Patient;
 import com.group6.hms.app.roles.Staff;
 import com.group6.hms.app.screens.admin.importer.MedicationStockCSVReader;
+import com.group6.hms.app.screens.doctor.DoctorConfigurationScreen;
+import com.group6.hms.app.screens.pharmacist.PharmacistConfigurationScreen;
 import com.group6.hms.app.storage.SerializationStorageProvider;
 import com.group6.hms.app.storage.StorageProvider;
 import com.group6.hms.app.auth.UserCreationException;
@@ -104,6 +106,13 @@ public class ViewAndManageUsersScreen extends PaginationTableScreen<UserView> {
                 if(user instanceof Patient patient){
                     navigateToScreen(new PatientConfigurationScreen(patient));
                 }
+                else if (user instanceof Doctor doctor) {
+                    navigateToScreen(new DoctorConfigurationScreen(doctor));
+                }
+                else if (user instanceof Pharmacist pharmacist) {
+                    navigateToScreen(new PharmacistConfigurationScreen(pharmacist));
+                }
+
             }else{
                 setCurrentTextConsoleColor(ConsoleColor.RED);
                 println("User not found!");
