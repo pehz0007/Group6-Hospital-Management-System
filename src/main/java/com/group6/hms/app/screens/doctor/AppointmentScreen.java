@@ -130,6 +130,7 @@ public class AppointmentScreen extends CalendarScreen<Appointment, List<Appointm
     @Override
     public void onStart() {
         super.onStart();
+        doc = DoctorScreen.getDoctor();
         this.events = appointmentManager.getAppointmentsByDoctor(doc).stream()
                 .filter(appointment ->
                         appointment.getStatus() == AppointmentStatus.REQUESTED ||
