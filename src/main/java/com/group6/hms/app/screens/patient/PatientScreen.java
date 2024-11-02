@@ -2,17 +2,21 @@ package com.group6.hms.app.screens.patient;
 
 import com.group6.hms.app.managers.AppointmentManager;
 import com.group6.hms.app.managers.AvailabilityManager;
-import com.group6.hms.app.models.Appointment;
-import com.group6.hms.app.models.AppointmentOutcomeRecord;
-import com.group6.hms.app.models.Availability;
-import com.group6.hms.app.models.MedicalRecord;
+import com.group6.hms.app.models.*;
 import com.group6.hms.app.roles.Patient;
 import com.group6.hms.app.screens.MainScreen;
 import com.group6.hms.app.auth.LogoutScreen;
+import com.group6.hms.app.screens.doctor.AppointmentScreen;
 
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+
+import static java.util.Locale.filter;
+import static java.util.stream.Collectors.groupingBy;
+
 
 public class PatientScreen extends LogoutScreen {
     private Patient patient;
@@ -36,18 +40,19 @@ public class PatientScreen extends LogoutScreen {
         super("Patient Menu");
         addOption(MEDICAL_RECORD, "Show Medical Record");
         addOption(USER_CONFIGURATION, "Edit User Profile");
-        addOption(VIEW_AVAILABLE_APPOINTMENTS, "View Available Appointment Slots");
-        addOption(SCHEDULE_APPOINTMENTS, "Schedule Appointments");
-        addOption(RESCHEDULE_APPOINTMENTS, "Reschedule Appointments");
-        addOption(CANCEL_APPOINTMENTS, "Cancel Appointments");
-        addOption(APPOINTMENTS_STATUS, "View Scheduled Appointments Status");
-        addOption(VIEW_PAST_OUTCOMES, "View Past Appointment Outcome Records");
+        addOption(VIEW_AVAILABLE_APPOINTMENTS, "Appointments");
+//        addOption(SCHEDULE_APPOINTMENTS, "Schedule Appointments");
+//        addOption(RESCHEDULE_APPOINTMENTS, "Reschedule Appointments");
+//        addOption(CANCEL_APPOINTMENTS, "Cancel Appointments");
+//        addOption(APPOINTMENTS_STATUS, "View Scheduled Appointments Status");
+//        addOption(VIEW_PAST_OUTCOMES, "View Past Appointment Outcome Records");
     }
 
     @Override
     public void onStart() {
         println("Welcome, " + getLoginManager().getCurrentlyLoggedInUser().getUserId());
         patient = (Patient) getLoginManager().getCurrentlyLoggedInUser();
+        AppointmentManager appointmentManager = new AppointmentManager();
 
         //if no patient, print error
         if (patient == null){
@@ -67,15 +72,15 @@ public class PatientScreen extends LogoutScreen {
     @Override
     protected void handleOption(int optionId) {
         switch (optionId){
-            case USER_CONFIGURATION -> navigateToScreen(new PatientConfigurationScreen(patient));
-            case MEDICAL_RECORD -> viewMedicalRecord();
-            case VIEW_AVAILABLE_APPOINTMENTS -> viewAvailableAppointments();
-            //case SCHEDULE_APPOINTMENTS -> scheduleAppointments(selectedSlot);
-            case RESCHEDULE_APPOINTMENTS -> rescheduleAppointments();
-            case CANCEL_APPOINTMENTS -> cancelAppointments();
-            case APPOINTMENTS_STATUS -> viewAppointmentsStatus();
-            case VIEW_PAST_OUTCOMES -> viewPastOutcomes();
-            default -> println("Invalid option");
+            case 2: navigateToScreen(new PatientConfigurationScreen(patient));
+            case 3: viewMedicalRecord();
+            case 4:{
+                Map<LocalDate, List<Appointment>> appointments = appointmentManager.getAppointmentsByPatient(patient).stream().filter(appointment ->
+                        appointment.getStatus() == AppointmentStatus.CONFIRMED || appointment.getStatus() == AppointmentStatus.REQUESTED).collect(groupingBy(Appointment::getDate));
+                navigateToScreen(new PatientAppointmentScreen(appointments));
+            }
+
+            default: println("Invalid option");
         }
     }
 

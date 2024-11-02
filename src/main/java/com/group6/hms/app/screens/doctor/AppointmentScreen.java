@@ -146,6 +146,16 @@ public class AppointmentScreen extends CalendarScreen<Appointment, List<Appointm
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        this.events = appointmentManager.getAppointmentsByDoctor(doc).stream()
+                .filter(appointment ->
+                        appointment.getStatus() == AppointmentStatus.REQUESTED ||
+                                appointment.getStatus() == AppointmentStatus.CONFIRMED)
+                .collect(groupingBy(Appointment::getDate));
+    }
+
     protected void upcomingAppointments(ArrayList<Appointment> appointments) {
         Map<LocalDate, List<Appointment>> availabilityMap = new TreeMap<>();
 

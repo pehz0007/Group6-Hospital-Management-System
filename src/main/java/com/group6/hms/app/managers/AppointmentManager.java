@@ -30,7 +30,7 @@ public class AppointmentManager {
         Patient patient = (Patient) loginManager.findUser("P1011");
         LocalTime timeNow = LocalTime.now();
         Availability avail = new Availability(doctor, LocalDate.now(), timeNow, timeNow.plusHours(1));
-        Availability avail1 = new Availability(doctor, LocalDate.now(), timeNow.plusHours(1), timeNow.plusHours(2));
+        Availability avail1 = new Availability(doctor, LocalDate.now(), LocalTime.parse("12:00"), LocalTime.parse("13:00"));
 
         availabilityManager.addAvailability(avail);
         availabilityManager.addAvailability(avail1);
