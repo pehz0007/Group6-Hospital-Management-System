@@ -101,6 +101,13 @@ public class OptionsUtils {
             }
         }
     }
+
+    /**
+     * Reads the user's operation from the console using the provided interactive console interface.
+     *
+     * @param consoleInterface The interactive console interface used to display the prompt and read the user's input.
+     * @return The operation performed by the user, as determined by the {@link InteractiveConsoleInterface#readUserKey()} method.
+     */
     private static Operation readUserOperation(InteractiveConsoleInterface consoleInterface){
         consoleInterface.setCurrentTextConsoleColor(ConsoleColor.YELLOW);
         consoleInterface.print("\nPlease select an option by using the arrow key and <enter>: ");
@@ -130,6 +137,13 @@ public class OptionsUtils {
         return selectedOption;
     }
 
+    /**
+     * Reads a user-selected option non-interactively and reads the user's selection as an integer input.
+     *
+     * @param consoleInterface The console interface used for displaying the prompt and reading the user's input.
+     * @param options A map of selectable options where the key is the option ID and the value is the option itself.
+     * @return The ID of the option selected by the user.
+     */
     private static int readUserOptionNonInteractive(ConsoleInterface consoleInterface, Map<Integer, Option> options){
         consoleInterface.setCurrentTextConsoleColor(ConsoleColor.YELLOW);
         consoleInterface.print("\nPlease select an option: ");

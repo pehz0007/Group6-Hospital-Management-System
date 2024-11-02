@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Collection;
 import java.util.UUID;
 
+
 public class AppointmentManager {
     private static final File appointmentsFile = new File("data/appointments.ser");
     private static final File appointmentOutcomesFile = new File("data/appointment_outcomes.ser");

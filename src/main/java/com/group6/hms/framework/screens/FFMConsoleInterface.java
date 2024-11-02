@@ -16,6 +16,9 @@ import static com.group6.hms.framework.screens.pagination.TextUtils.skipNewLines
 import static com.group6.hms.framework.screens.terminal.OSUtils.isMacOS;
 import static com.group6.hms.framework.screens.terminal.OSUtils.isWindows;
 
+/**
+ * The {@code FFMConsoleInterface} provides an interactive console for interacting with the application
+ */
 public class FFMConsoleInterface implements InteractiveConsoleInterface {
 
     // Terminal instance that implements the Terminal interface

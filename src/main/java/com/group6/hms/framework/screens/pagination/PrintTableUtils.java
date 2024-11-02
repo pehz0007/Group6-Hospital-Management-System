@@ -9,8 +9,18 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.stream.Stream;
 
+/**
+ * Utility class for printing objects as tables in a console interface.
+ */
 public class PrintTableUtils {
 
+    /**
+     * Prints the fields of the given object as a vertical table.
+     * Each field is displayed with a header and a value, can be customised by the {@code HeaderField}
+     *
+     * @param consoleInterface The console interface to which the table will be printed.
+     * @param obj The object whose fields will be printed as a vertical table.
+     */
     public static void printItemAsVerticalTable(ConsoleInterface consoleInterface, Object obj) {
         ConsoleColor borderColor = ConsoleColor.PURPLE;
         ConsoleColor headerFieldColor = ConsoleColor.WHITE;
@@ -61,6 +71,13 @@ public class PrintTableUtils {
 
 
 
+    /**
+     * Prints a horizontal separator line of dashes followed by a plus sign.
+     * The width of the separator is determined by the given width parameter.
+     *
+     * @param consoleInterface The console interface to which the separator will be printed.
+     * @param width The number of dashes to be printed before the final plus sign.
+     */
     private static void printSeparator(ConsoleInterface consoleInterface, int width) {
         for (int j = 0; j < width; j++) {
             consoleInterface.print("-");
@@ -68,6 +85,13 @@ public class PrintTableUtils {
         consoleInterface.println("+"); // End with a final "+"
     }
 
+    /**
+     * Prints a horizontal separator line made up of "+" and "-" characters based on the field widths
+     * derived from the annotations or defaults. The separator is printed to the specified console interface.
+     *
+     * @param consoleInterface The console interface to which the separator will be printed.
+     * @param fields The array of fields whose widths (from annotations or default) determine the separator format.
+     */
     private static void printSeparator(ConsoleInterface consoleInterface, Field[] fields) {
         for (Field field : fields) {
             HeaderField headerField = field.getAnnotation(HeaderField.class);
@@ -81,6 +105,12 @@ public class PrintTableUtils {
         consoleInterface.println("+"); // End with a final "+"
     }
 
+    /**
+     * Prints the fields of the given object as a table.
+     *
+     * @param consoleInterface The console interface to which the table will be printed.
+     * @param obj The object whose fields will be printed as a table.
+     */
     public static void printItemAsTable(ConsoleInterface consoleInterface, Object obj) {
         ConsoleColor borderColor = ConsoleColor.PURPLE;
         ConsoleColor headerFieldColor = ConsoleColor.WHITE;
@@ -98,6 +128,12 @@ public class PrintTableUtils {
     }
 
 
+    /**
+     * Prints a collection of items as a table.
+     *
+     * @param consoleInterface The console interface to which the table will be printed.
+     * @param items            The collection of items to be printed as a table.
+     */
     public static <T> void printItemsAsTable(ConsoleInterface consoleInterface, Collection<T> items) {
         if (items == null || items.isEmpty()) {
             consoleInterface.println("No items to display.");
@@ -125,6 +161,13 @@ public class PrintTableUtils {
 //        printSeparator(screen, fields);
     }
 
+    /**
+     * Converts a camelCase string to a normal spaced and capitalized string.
+     *
+     * @param camelCase The camelCase string to be converted.
+     * @return A string where camelCase words are separated by spaces
+     *         and each word is capitalized.
+     */
     private static String convertCamelCaseToNormal(String camelCase){
         if (camelCase == null || camelCase.isEmpty()) {
             return camelCase; // Return null or empty string as is
@@ -149,6 +192,15 @@ public class PrintTableUtils {
         return capitalizedString.toString().trim();
     }
 
+    /**
+     * Prints header fields based on the provided fields array.
+     * The header format is determined by {@code HeaderField}
+     *
+     * @param consoleInterface The console interface to which the headers will be printed.
+     * @param borderColor The color to be used for the border around the headers.
+     * @param fields The array of fields whose headers will be printed.
+     * @param headerFieldColor The color to be used for the header text.
+     */
     private static void printHeaderFields(ConsoleInterface consoleInterface, ConsoleColor borderColor, Field[] fields, ConsoleColor headerFieldColor) {
         // Print top border
         consoleInterface.setCurrentTextConsoleColor(borderColor);
@@ -175,6 +227,15 @@ public class PrintTableUtils {
         printSeparator(consoleInterface, fields);
     }
 
+    /**
+     * Prints the fields of the given item as a table entry.
+     *
+     * @param consoleInterface      The console interface to which the table entry will be printed.
+     * @param fields                The array of fields to be displayed in the table entry.
+     * @param borderColor           The color to be used for the border around the table entry.
+     * @param valueFieldColor       The color to be used for the values of the fields.
+     * @param item                  The object whose fields will be printed as a table entry.
+     */
     private static void printItemEntry(ConsoleInterface consoleInterface, Field[] fields, ConsoleColor borderColor, ConsoleColor valueFieldColor, Object item) {
         FieldRenderer[] renderers = new FieldRenderer[fields.length];
         Field[] filteredFields = Arrays.stream(fields)
@@ -230,6 +291,13 @@ public class PrintTableUtils {
 
     }
 
+    /**
+     * Retrieves an instance of a custom field renderer based on the provided HeaderField annotation.
+     * If the field is null, it defaults to using the StringRenderer.
+     *
+     * @param field The HeaderField annotation providing the custom renderer class.
+     * @return An instance of the specified FieldRenderer or a default StringRenderer if the field is null.
+     */
     private static FieldRenderer getRenderer(HeaderField field) {
         if(field == null) return new StringRenderer();
         try {
