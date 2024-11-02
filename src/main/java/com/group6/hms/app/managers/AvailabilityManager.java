@@ -9,7 +9,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AvailabilityManager {
+public class AvailabilityManager  {
     private static final File availabilitiesFile = new File("data/availabilities.ser");
     private final StorageProvider<Availability> availabilityStorageProvider = new SerializationStorageProvider<>();
 

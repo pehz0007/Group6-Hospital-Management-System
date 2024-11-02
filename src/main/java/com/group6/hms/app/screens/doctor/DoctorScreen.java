@@ -67,6 +67,7 @@ public class DoctorScreen extends LogoutScreen {
             }
 
             case 3: {
+                List<Availability> trial = availabilityManager.getAvailabilityByDoctor(doc);
                 Map<LocalDate, List<Availability>> avail_appointments = availabilityManager.getAvailabilityByDoctor(doc).stream().collect(groupingBy(Availability::getAvailableDate));
                 navigateToScreen(new DoctorAvailabilityScreen(avail_appointments));
 //                println("Getting personal schedule...");
@@ -76,7 +77,8 @@ public class DoctorScreen extends LogoutScreen {
             }
 
             case 4: {
-
+                List<Appointment> getall = appointmentManager.getAllAppointments();
+                List<Appointment> appt = appointmentManager.getAppointmentsByDoctor(doc);
                 Map<LocalDate, List<Appointment>> requests = appointmentManager.getAppointmentsByDoctor(doc).stream()
                         .filter(appointment ->
                                 appointment.getStatus() == AppointmentStatus.REQUESTED ||
