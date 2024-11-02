@@ -37,53 +37,53 @@ public class Doctor extends Staff {
         return "Doctor";
     }
 
-//    /**
-//     * Retrieves a list of all patients associated with this doctor.
-//     */
-//    public void getAllPatients() {
-//        // Method implementation goes here
-//    }
-//
-//    /**
-//     * Views the schedule for a specified schedule instance.
-//     *
-//     * @param schedule the schedule to be viewed
-//     */
-//    public void viewSchedule(Schedule schedule) {
-//        // Method implementation goes here
-//    }
-//
-//    /**
-//     * Sets the availability of the doctor for appointments.
-//     */
-//    public void setAvailability() {
-//        // Method implementation goes here
-//    }
-//
-//    /**
-//     * Updates the status of an unspecified operation.
-//     *
-//     * @return {@code true} if the update is successful; otherwise {@code false}
-//     */
-//    public boolean updateStatus() {
-//        return false; // update unsuccessful
-//    }
-//
-//    /**
-//     * Views upcoming appointments from the doctor's schedule.
-//     */
-//    public void viewUpcomingAppointments() {
-//        // Method implementation goes here
-//    }
-//
-//    /**
-//     * Records the outcome of a specific appointment.
-//     *
-//     * @param appointment the appointment whose outcome is to be recorded
-//     */
-//    public void recordAppointmentOutcome(Appointment appointment) {
-//        // Method implementation goes here
-//    }
+    /**
+     * Retrieves a list of all patients associated with this doctor.
+     */
+    public void getAllPatients() {
+        // Method implementation goes here
+    }
+
+    /**
+     * Views the schedule for a specified schedule instance.
+     *
+     * @param schedule the schedule to be viewed
+     */
+    public void viewSchedule(Schedule schedule) {
+        // Method implementation goes here
+    }
+
+    /**
+     * Sets the availability of the doctor for appointments.
+     */
+    public void setAvailability() {
+        // Method implementation goes here
+    }
+
+    /**
+     * Updates the status of an unspecified operation.
+     *
+     * @return {@code true} if the update is successful; otherwise {@code false}
+     */
+    public boolean updateStatus() {
+        return false; // update unsuccessful
+    }
+
+    /**
+     * Views upcoming appointments from the doctor's schedule.
+     */
+    public void viewUpcomingAppointments() {
+        // Method implementation goes here
+    }
+
+    /**
+     * Records the outcome of a specific appointment.
+     *
+     * @param appointment the appointment whose outcome is to be recorded
+     */
+    public void recordAppointmentOutcome(Appointment appointment) {
+        // Method implementation goes here
+   }
 
     /**
      * Returns a string representation of the doctor, displaying their name.
