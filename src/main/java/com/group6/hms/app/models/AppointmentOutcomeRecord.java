@@ -1,7 +1,5 @@
 package com.group6.hms.app.models;
 
-import com.group6.hms.app.MedicationStatus;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.List;

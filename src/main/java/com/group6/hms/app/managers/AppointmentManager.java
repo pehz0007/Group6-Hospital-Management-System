@@ -1,6 +1,6 @@
 package com.group6.hms.app.managers;
 
-import com.group6.hms.app.MedicationStatus;
+import com.group6.hms.app.models.MedicationStatus;
 import com.group6.hms.app.auth.LoginManager;
 import com.group6.hms.app.auth.LoginManagerHolder;
 import com.group6.hms.app.models.*;
@@ -11,7 +11,6 @@ import com.group6.hms.app.roles.Patient;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,83 +18,13 @@ import java.util.Collection;
 import java.util.UUID;
 import java.util.Random;
 
-
-import java.util.*;
-
 public class AppointmentManager {
     private static final File appointmentsFile = new File("data/appointments.ser");
     private static final File appointmentOutcomesFile = new File("data/appointment_outcomes.ser");
     private final StorageProvider<Appointment> appointmentStorageProvider = new SerializationStorageProvider<>();
     private final StorageProvider<AppointmentOutcomeRecord> appointmentOutcomeStorageProvider = new SerializationStorageProvider<>();
 
-    public static void main(String[] args) {
-        LoginManager loginManager = LoginManagerHolder.getLoginManager();
-        AppointmentManager appointmentManager = new AppointmentManager();
-        AvailabilityManager availabilityManager = new AvailabilityManager();
-        loginManager.loadUsersFromFile();
-        Doctor doctor = (Doctor) loginManager.findUser("D0011");
-        Patient patient = (Patient) loginManager.findUser("P1011");
-        LocalTime timeNow = LocalTime.now();
-        Availability avail = new Availability(doctor, LocalDate.now(), timeNow, timeNow.plusHours(1));
-        Availability avail1 = new Availability(doctor, LocalDate.now(), LocalTime.parse("12:00"), LocalTime.parse("13:00"));
 
-        availabilityManager.addAvailability(avail);
-        availabilityManager.addAvailability(avail1);
-
-
-
-        appointmentManager.scheduleAppointment(patient, avail);
-        appointmentManager.scheduleAppointment(patient, avail1);
-
-
-        Appointment appt = appointmentManager.getAllAppointments().getFirst();
-        appointmentManager.acceptAppointmentRequest(appt);
-//        ArrayList<Medication> medications = new ArrayList<>();
-
-//        PrescribedMedication.add(new Medication(UUID.randomUUID(), "Paracetamol"));
-//        PrescribedMedication.add(new Medication(UUID.randomUUID(), "Ibuprofen"));
-//        PrescribedMedication.add(new Medication(UUID.randomUUID(), "Amoxicillin"));
-//        AppointmentOutcomeRecord record = new AppointmentOutcomeRecord(doctor.getUserId(), patient.getUserId(), appt.getDate(), AppointmentService.CONSULT, medications, "high fever", MedicationStatus.PENDING);
-//
-//        appointmentManager.completeAppointment(appt,record);
-//        List<AppointmentOutcomeRecord> records = appointmentManager.getAppointmentOutcomeRecordsByStatus(MedicationStatus.PENDING);
-
-
-        // create a list for prescribed medications
-        List<PrescribedMedication> prescribedMedications = new ArrayList<>();
-        Random random = new Random();
-
-        // add medications with random quantities (between 1-5)
-        prescribedMedications.add(new PrescribedMedication(new Medication("Paracetamol"), random.nextInt(5) + 1));
-        prescribedMedications.add(new PrescribedMedication(new Medication("Ibuprofen"), random.nextInt(30) + 1));
-        prescribedMedications.add(new PrescribedMedication(new Medication("Amoxicillin"), random.nextInt(5) + 1));
-
-        // generate UUIDs for doctor and patient
-        UUID doctorId = UUID.randomUUID();
-        UUID patientId = UUID.randomUUID();
-
-        // create an AppointmentOutcomeRecord
-        AppointmentOutcomeRecord record = new AppointmentOutcomeRecord(
-                doctorId,
-                patientId,
-                LocalDate.now(),
-                AppointmentService.CONSULT,
-                prescribedMedications,
-                "high fever",
-                MedicationStatus.PENDING
-        );
-
-        // Complete the appointment and retrieve records
-        appointmentManager.completeAppointment(appt, record);
-        List<AppointmentOutcomeRecord> records = appointmentManager.getAppointmentOutcomeRecordsByStatus(MedicationStatus.PENDING);
-
-
-        //CARE PROVIDER
-        CareProvider careProvider = new CareProvider();
-        var p = careProvider.getPatientIDsUnderDoctorCare(doctor);
-        careProvider.addPatientToDoctorCare(patient, doctor);
-
-    }
     public AppointmentManager() {
         if (!appointmentsFile.exists()) {
             appointmentStorageProvider.saveToFile(appointmentsFile);

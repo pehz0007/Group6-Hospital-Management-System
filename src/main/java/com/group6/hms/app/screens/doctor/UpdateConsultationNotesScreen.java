@@ -1,11 +1,9 @@
 package com.group6.hms.app.screens.doctor;
 
-import com.group6.hms.app.MedicationStatus;
+import com.group6.hms.app.models.MedicationStatus;
 import com.group6.hms.app.managers.AppointmentManager;
 import com.group6.hms.app.managers.InventoryManager;
 import com.group6.hms.app.models.*;
-import com.group6.hms.app.roles.Patient;
-import com.group6.hms.app.screens.admin.AppointmentView;
 import com.group6.hms.framework.screens.pagination.PrintTableUtils;
 import com.group6.hms.framework.screens.pagination.SinglePaginationTableScreen;
 
@@ -89,10 +87,9 @@ public class UpdateConsultationNotesScreen extends SinglePaginationTableScreen<U
                     if(name.equalsIgnoreCase("0")){
                         noOfMedicine = false;
                     }else {
-                        Medication medi = new Medication(name);
                         print("Input the quantity needed to prescribe: ");
                         int quantity = readInt();
-                        PrescribedMedication medi1 = new PrescribedMedication(medi,quantity);
+                        PrescribedMedication medi1 = new PrescribedMedication(name, quantity);
                         medication.add(medi1);
                     }
                 }

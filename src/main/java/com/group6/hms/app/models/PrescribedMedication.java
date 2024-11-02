@@ -1,10 +1,10 @@
 package com.group6.hms.app.models;
 
 public class PrescribedMedication extends Medication {
-    private int quantityToPrescribe;
+    private final int quantityToPrescribe;
 
-    public PrescribedMedication(Medication medication, int quantityToPrescribe) {
-        super(medication.getName());
+    public PrescribedMedication(String name, int quantityToPrescribe) {
+        super(name);
         //this.medication = medication;
         this.quantityToPrescribe = quantityToPrescribe;
     }
@@ -14,6 +14,6 @@ public class PrescribedMedication extends Medication {
 
     @Override
     public String toString() {
-        return "Medication: " + medication.getName() + ", Quantity: " + quantityToPrescribe; // medication toString()
+        return "Medication: " + getName() + ", Quantity: " + quantityToPrescribe; // medication toString()
     }
 }

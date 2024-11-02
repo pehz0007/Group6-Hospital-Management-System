@@ -20,31 +20,6 @@ public class LoginManager {
     private ThreadLocal<User> currentLoginUser = new ThreadLocal<>();
     private static final File usersFile = new File("data/users.ser");
 
-    /**
-     * RUN THIS TO RESET DATABASE
-     *
-     */
-    public static void main(String[] args) {
-        //Generate sample file
-        LoginManager loginManager = LoginManagerHolder.getLoginManager();
-
-        MedicalRecord medicalRecord = new MedicalRecord();
-        medicalRecord.setDateOfBirth(LocalDate.of(1997,8,5));
-        medicalRecord.setBloodType(BloodType.AB_PLUS);
-        Patient patient = new Patient("P1011", "password".toCharArray(), "freya", Gender.Male, "patient@example.com");
-        patient.updateMedicalRecord(medicalRecord);
-
-        loginManager.createUser(patient);
-        //loginManager.createUser(new Patient("P1011", "password".toCharArray(), "freya", Gender.Male, "patient@example.com"));
-        loginManager.createUser(new Doctor("D0011", "password".toCharArray(), "ethan", Gender.Male, 22));
-        loginManager.createUser(new Administrator("A001", "password".toCharArray(), "phoebe", Gender.Female, 34));
-        loginManager.createUser(new Pharmacist("P0003", "password".toCharArray(), "sage", Gender.Female, 50));
-
-        loginManager.saveUsersToFile();
-        loginManager.loadUsersFromFile();
-        loginManager.printUsers();
-    }
-
     public LoginManager() {}
 
     public void loadUsersFromFile(){

@@ -4,11 +4,9 @@ import com.group6.hms.app.auth.LogoutScreen;
 import com.group6.hms.app.managers.AppointmentManager;
 import com.group6.hms.app.managers.InventoryManager;
 import com.group6.hms.app.models.*;
-import com.group6.hms.app.MedicationStatus;
+import com.group6.hms.app.models.MedicationStatus;
 import com.group6.hms.app.roles.Pharmacist;
 import com.group6.hms.app.screens.MainScreen;
-import com.group6.hms.app.screens.admin.ViewAndManageUsersScreen;
-import com.group6.hms.app.screens.pharmacist.ViewAndManageMedicationScreen;
 import com.group6.hms.framework.screens.pagination.SinglePaginationTableScreen;
 
 import java.util.ArrayList;
@@ -80,7 +78,7 @@ public class PharmacistScreen extends LogoutScreen {
 
                     // display all prescribed medications with their quantities
                     for (PrescribedMedication prescribedMedication : item.getPrescribedMedications()) {
-                        println("Medication: " + prescribedMedication.getMedication().getName());
+                        println("Medication: " + prescribedMedication.getName());
                         println("Quantity Needed: " + prescribedMedication.getQuantityToPrescribe());
                     }
                     println("===================================================");
@@ -113,15 +111,14 @@ public class PharmacistScreen extends LogoutScreen {
                 if (status == MedicationStatus.DISPENSED) {
                     for (PrescribedMedication prescribedMedication : record.getPrescribedMedications()) {
                         int quantity = prescribedMedication.getQuantityToPrescribe();
-                        Medication med = prescribedMedication.getMedication();
 
-                        MedicationStock stock = inventoryManager.getMedicationStock(med);
+                        MedicationStock stock = inventoryManager.getMedicationStock(prescribedMedication);
 
                         if (stock != null && stock.getCurrentStock() >= quantity) {
-                            inventoryManager.decreaseMedicationStock(med, quantity);
-                            println("Medication " + med.getName() + " dispensed. Stock updated.");
+                            inventoryManager.decreaseMedicationStock(prescribedMedication, quantity);
+                            println("Medication " + prescribedMedication.getName() + " dispensed. Stock updated.");
                         } else {
-                            println("Insufficient stock or medication not found for " + med.getName());
+                            println("Insufficient stock or medication not found for " + prescribedMedication.getName());
                         }
                     }
                 }
