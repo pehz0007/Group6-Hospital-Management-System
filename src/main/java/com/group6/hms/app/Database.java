@@ -79,13 +79,11 @@ public class Database {
         prescribedMedications.add(new PrescribedMedication("Amoxicillin", random.nextInt(5) + 1));
 
         // generate UUIDs for doctor and patient
-        UUID doctorId = UUID.randomUUID();
-        UUID patientId = UUID.randomUUID();
 
         // create an AppointmentOutcomeRecord
         AppointmentOutcomeRecord record = new AppointmentOutcomeRecord(
-                doctorId,
-                patientId,
+                doctor.getSystemUserId(),
+                patient.getSystemUserId(),
                 LocalDate.now(),
                 AppointmentService.CONSULT,
                 prescribedMedications,

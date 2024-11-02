@@ -13,14 +13,15 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.List;
 
-public class ViewAndManageMedicationScreen extends PaginationTableScreen<MedicationStock> {
+public class AdminViewAndManageMedicationScreen extends PaginationTableScreen<MedicationStock> {
 
     private InventoryManager inventoryManager;
 
+    //ADMIN OPTIONS
     private final int APPROVE_REPLENISHMENT_REQUEST = 4;
     private final int IMPORT_MEDICATIONS_STOCK = 5;
 
-    public ViewAndManageMedicationScreen() {
+    public AdminViewAndManageMedicationScreen() {
         super("Medications", null);
         this.inventoryManager = new InventoryManager();
         updateMedicationStocks();
