@@ -13,6 +13,14 @@ import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
+/**
+ * The {@code CalendarScreen} display a navigable calendar on to the console.
+ *
+ * It also allows the user to view calendar events on specific dates
+ *
+ * @param <Event> Type parameter representing events implementing EventInterface.
+ * @param <Collection> Collection of events for a specific date.
+ */
 public class CalendarScreen<Event extends EventInterface, Collection extends java.util.Collection<Event>> extends OptionScreen {
 
     // Store events
@@ -55,6 +63,9 @@ public class CalendarScreen<Event extends EventInterface, Collection extends jav
         addOption(NAVIGATE_CALENDAR, "Navigate Calendar", ConsoleColor.PURPLE);
     }
 
+    /**
+     * Display the Calendar
+     */
     @Override
     public void onDisplay() {
         if(consoleInterface instanceof InteractiveConsoleInterface interactiveConsoleInterface){
@@ -67,6 +78,10 @@ public class CalendarScreen<Event extends EventInterface, Collection extends jav
         super.onDisplay();
     }
 
+    /**
+     * Change the data used for storing the events
+     * @param events A {@code Map<LocalDate, Collection>} type which stores the key as the {@code LocalDate} and value as a {@code List<Event>}
+     */
     protected void setEvents(Map<LocalDate, Collection> events) {
         this.events = events;
     }
@@ -83,6 +98,10 @@ public class CalendarScreen<Event extends EventInterface, Collection extends jav
         stopDisplayingCalendar = true;
     }
 
+    /**
+     * When the Navigate Calendar is selected, we enable the user to navigate the screen either by arrow key or manual date input (non-interactive mode)
+     * @param optionId The ID of the option selected by the user.
+     */
     @Override
     protected void handleOption(int optionId) {
         if (optionId == NAVIGATE_CALENDAR) {
@@ -94,6 +113,11 @@ public class CalendarScreen<Event extends EventInterface, Collection extends jav
         }
     }
 
+    /**
+     * Allows the user to select a date in the calendar.
+     *
+     * @return The currently selected date.
+     */
     protected LocalDate selectedDate(){
         selectDate = true;
         if (consoleInterface instanceof InteractiveConsoleInterface interactiveConsoleInterface) {
@@ -104,11 +128,19 @@ public class CalendarScreen<Event extends EventInterface, Collection extends jav
         return currentDate;
     }
 
+    /**
+     * Non-interactive navigation for calendar (used in non-interactive interfaces).
+     */
     private void navigateCalendarByNonInteraction() {
         LocalDate calendarDate = DateUtils.readDate(consoleInterface);
         currentDate = calendarDate;
     }
 
+    /**
+     * Interactive calendar navigation for consoles with interactive capabilities.
+     *
+     * @param interactiveConsoleInterface The interface instance supporting interaction.
+     */
     private void navigateCalendarByInteraction(InteractiveConsoleInterface interactiveConsoleInterface) {
         //Event loop to read key presses and navigate calendar
         stopDisplayingCalendar = false;
@@ -152,7 +184,9 @@ public class CalendarScreen<Event extends EventInterface, Collection extends jav
         }
     }
 
-    // Display the calendar for the current date and highlight the selected day
+    /**
+     * Display the calendar for the current date and highlight the selected day
+     */
     private void displayCalendar() {
         setCurrentTextConsoleColor(ConsoleColor.WHITE);
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("MMMM yyyy");

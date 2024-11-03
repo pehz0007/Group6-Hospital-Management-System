@@ -16,7 +16,7 @@ public class PatientConfigurationScreen extends OptionScreen {
     private static final int CHANGE_PASSWORD = 1;
     private static final int CHANGE_EMAIL = 2;
 
-    private LoginManager loginManager;
+    private final LoginManager loginManager;
     Patient patient;
     /**
      * Constructor to initialize the PatientConfigurationScreen.

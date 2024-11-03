@@ -1,6 +1,5 @@
 package com.group6.hms.app.roles;
 
-import com.group6.hms.app.models.Schedule;
 import com.group6.hms.app.models.Appointment;
 
 
@@ -42,10 +41,6 @@ public class Doctor extends Staff {
 //        return false; // never update properly
 //    }
 
-    public void viewSchedule(Schedule schedule) {
-
-    }
-
 //    public boolean viewPersonalSchedule() {
 //        ArrayList<Appointment> schedules= new ArrayList<>();
 //        schedules = this.schedules.getAppointments();
@@ -73,7 +68,7 @@ public class Doctor extends Staff {
 
     @Override
     public String toString() {
-        return "Doctor";
+        return getName();
     }
 
 
