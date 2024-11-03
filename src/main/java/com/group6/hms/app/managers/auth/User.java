@@ -1,7 +1,5 @@
-package com.group6.hms.app.managers.auth.models;
+package com.group6.hms.app.managers.auth;
 
-import com.group6.hms.app.managers.auth.LoginManager;
-import com.group6.hms.app.managers.auth.PasswordUtils;
 import com.group6.hms.app.roles.Gender;
 
 import java.io.Serializable;

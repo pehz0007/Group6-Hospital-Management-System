@@ -2,7 +2,7 @@ package com.group6.hms.app.screens.admin;
 
 import com.group6.hms.app.managers.auth.LoginManager;
 import com.group6.hms.app.managers.auth.LoginManagerHolder;
-import com.group6.hms.app.managers.auth.models.User;
+import com.group6.hms.app.managers.auth.User;
 import com.group6.hms.app.roles.Patient;
 import com.group6.hms.app.roles.Staff;
 import com.group6.hms.app.screens.doctor.DoctorConfigurationScreen;

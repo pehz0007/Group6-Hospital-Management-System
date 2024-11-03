@@ -1,6 +1,6 @@
 package com.group6.hms.app.roles;
 
-import com.group6.hms.app.managers.auth.models.User;
+import com.group6.hms.app.managers.auth.User;
 
 public abstract class Staff extends User {
 

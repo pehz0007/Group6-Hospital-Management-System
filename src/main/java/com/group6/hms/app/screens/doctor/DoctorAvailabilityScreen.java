@@ -59,7 +59,7 @@ public class DoctorAvailabilityScreen extends CalendarScreen<Availability, List<
             LocalDate date = LocalDate.parse(readString());
             print("Enter Start Time:");
             LocalTime starttime = LocalTime.parse(readString());
-            Availability avail = new Availability(doc, date, starttime, starttime.plusHours(1), AvailabilityStatus.Available);
+            Availability avail = new Availability(doc, date, AvailabilityStatus.Available, starttime, starttime.plusHours(1));
             availabilityManager.addAvailability(avail);
             println("Added successfully!");
             println("=".repeat(30));

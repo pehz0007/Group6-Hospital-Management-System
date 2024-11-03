@@ -1,6 +1,6 @@
     package com.group6.hms.app.roles;
 
-    import com.group6.hms.app.managers.auth.models.User;
+    import com.group6.hms.app.managers.auth.User;
     import com.group6.hms.app.managers.appointment.models.AppointmentOutcomeRecord;
     import com.group6.hms.app.models.MedicalRecord;
 

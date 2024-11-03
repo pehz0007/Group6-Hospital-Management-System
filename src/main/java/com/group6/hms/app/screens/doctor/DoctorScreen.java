@@ -9,7 +9,7 @@ import com.group6.hms.app.managers.availability.models.Availability;
 import com.group6.hms.app.managers.inventory.models.PrescribedMedication;
 import com.group6.hms.app.models.*;
 import com.group6.hms.app.roles.Doctor;
-import com.group6.hms.app.managers.auth.models.User;
+import com.group6.hms.app.managers.auth.User;
 import com.group6.hms.app.screens.MainScreen;
 import com.group6.hms.app.managers.appointment.AppointmentManager;
 import com.group6.hms.app.managers.availability.AvailabilityManager;

@@ -1,6 +1,6 @@
 package com.group6.hms.app.screens.admin;
 
-import com.group6.hms.app.managers.auth.models.User;
+import com.group6.hms.app.managers.auth.User;
 import com.group6.hms.app.managers.appointment.AppointmentManager;
 import com.group6.hms.app.managers.appointment.models.Appointment;
 import com.group6.hms.app.notifications.Notification;
