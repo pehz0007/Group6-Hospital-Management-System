@@ -1,12 +1,15 @@
 package com.group6.hms.app.screens.patient;
 
-import com.group6.hms.app.managers.AppointmentManager;
-import com.group6.hms.app.managers.AvailabilityManager;
+import com.group6.hms.app.managers.appointment.models.Appointment;
+import com.group6.hms.app.managers.appointment.AppointmentManager;
+import com.group6.hms.app.managers.appointment.models.AppointmentOutcomeRecord;
+import com.group6.hms.app.managers.appointment.models.AppointmentStatus;
+import com.group6.hms.app.managers.availability.models.Availability;
+import com.group6.hms.app.managers.availability.AvailabilityManager;
 import com.group6.hms.app.models.*;
 import com.group6.hms.app.roles.Patient;
 import com.group6.hms.app.screens.MainScreen;
-import com.group6.hms.app.auth.LogoutScreen;
-import com.group6.hms.app.screens.doctor.AppointmentScreen;
+import com.group6.hms.app.managers.auth.LogoutScreen;
 
 
 import java.time.LocalDate;

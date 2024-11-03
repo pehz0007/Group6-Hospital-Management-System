@@ -1,11 +1,10 @@
 package com.group6.hms.app.screens.pharmacist;
 
-import com.group6.hms.app.auth.LoginManager;
-import com.group6.hms.app.auth.LoginManagerHolder;
-import com.group6.hms.app.auth.UserInvalidPasswordException;
+import com.group6.hms.app.managers.auth.LoginManager;
+import com.group6.hms.app.managers.auth.LoginManagerHolder;
+import com.group6.hms.app.managers.auth.UserInvalidPasswordException;
 import com.group6.hms.app.roles.Pharmacist;
 import com.group6.hms.app.screens.admin.StaffDataView;
-import com.group6.hms.app.screens.patient.PatientDataView;
 import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.option.OptionScreen;
 import com.group6.hms.framework.screens.pagination.PrintTableUtils;

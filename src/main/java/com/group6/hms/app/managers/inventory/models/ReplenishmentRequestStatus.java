@@ -1,4 +1,4 @@
-package com.group6.hms.app.models;
+package com.group6.hms.app.managers.inventory.models;
 
 /**
  * The {@code ReplenishmentRequestStatus} enum represents the status of a

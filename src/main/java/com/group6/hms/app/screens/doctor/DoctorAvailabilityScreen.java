@@ -1,18 +1,17 @@
 package com.group6.hms.app.screens.doctor;
 
-import com.group6.hms.app.auth.LoginManager;
-import com.group6.hms.app.auth.LoginManagerHolder;
-import com.group6.hms.app.managers.AvailabilityManager;
-import com.group6.hms.app.models.Availability;
+import com.group6.hms.app.managers.auth.LoginManager;
+import com.group6.hms.app.managers.auth.LoginManagerHolder;
+import com.group6.hms.app.managers.availability.AvailabilityManager;
+import com.group6.hms.app.managers.availability.models.Availability;
+import com.group6.hms.app.managers.availability.models.AvailabilityStatus;
 import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.calendar.CalendarScreen;
-import com.group6.hms.framework.screens.pagination.PaginationTableScreen;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import static java.util.stream.Collectors.groupingBy;
@@ -60,7 +59,7 @@ public class DoctorAvailabilityScreen extends CalendarScreen<Availability, List<
             LocalDate date = LocalDate.parse(readString());
             print("Enter Start Time:");
             LocalTime starttime = LocalTime.parse(readString());
-            Availability avail = new Availability(doc, date, starttime, starttime.plusHours(1));
+            Availability avail = new Availability(doc, date, starttime, starttime.plusHours(1), AvailabilityStatus.Available);
             availabilityManager.addAvailability(avail);
             println("Added successfully!");
             println("=".repeat(30));

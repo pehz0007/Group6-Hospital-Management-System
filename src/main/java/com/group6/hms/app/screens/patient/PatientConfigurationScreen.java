@@ -1,9 +1,9 @@
 package com.group6.hms.app.screens.patient;
 
-import com.group6.hms.app.auth.LoginManager;
-import com.group6.hms.app.auth.LoginManagerHolder;
-import com.group6.hms.app.auth.PasswordUtils;
-import com.group6.hms.app.auth.UserInvalidPasswordException;
+import com.group6.hms.app.managers.auth.LoginManager;
+import com.group6.hms.app.managers.auth.LoginManagerHolder;
+import com.group6.hms.app.managers.auth.PasswordUtils;
+import com.group6.hms.app.managers.auth.UserInvalidPasswordException;
 import com.group6.hms.app.roles.Patient;
 import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.option.OptionScreen;

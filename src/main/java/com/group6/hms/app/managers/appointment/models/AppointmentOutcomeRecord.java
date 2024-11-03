@@ -1,4 +1,7 @@
-package com.group6.hms.app.models;
+package com.group6.hms.app.managers.appointment.models;
+
+import com.group6.hms.app.managers.inventory.models.MedicationStatus;
+import com.group6.hms.app.managers.inventory.models.PrescribedMedication;
 
 import java.io.Serializable;
 import java.time.LocalDate;

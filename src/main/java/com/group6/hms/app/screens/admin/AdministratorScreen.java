@@ -1,13 +1,13 @@
 package com.group6.hms.app.screens.admin;
 
-import com.group6.hms.app.auth.User;
-import com.group6.hms.app.managers.AppointmentManager;
-import com.group6.hms.app.models.Appointment;
+import com.group6.hms.app.managers.auth.models.User;
+import com.group6.hms.app.managers.appointment.AppointmentManager;
+import com.group6.hms.app.managers.appointment.models.Appointment;
 import com.group6.hms.app.notifications.Notification;
 import com.group6.hms.app.notifications.NotificationManagerHolder;
 import com.group6.hms.app.notifications.NotificationScreen;
 import com.group6.hms.app.screens.MainScreen;
-import com.group6.hms.app.auth.LogoutScreen;
+import com.group6.hms.app.managers.auth.LogoutScreen;
 import com.group6.hms.framework.screens.calendar.CalendarScreen;
 
 import java.time.LocalDate;

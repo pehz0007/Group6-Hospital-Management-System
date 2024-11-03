@@ -1,22 +1,23 @@
-package com.group6.hms.app.managers;
+package com.group6.hms.app.managers.appointment;
 
-import com.group6.hms.app.models.MedicationStatus;
-import com.group6.hms.app.auth.LoginManager;
-import com.group6.hms.app.auth.LoginManagerHolder;
-import com.group6.hms.app.models.*;
+import com.group6.hms.app.managers.appointment.models.Appointment;
+import com.group6.hms.app.managers.appointment.models.AppointmentOutcomeRecord;
+import com.group6.hms.app.managers.appointment.models.AppointmentStatus;
+import com.group6.hms.app.managers.availability.AvailabilityManager;
+import com.group6.hms.app.managers.availability.models.Availability;
+import com.group6.hms.app.managers.availability.AvailabilityManagerHolder;
+import com.group6.hms.app.managers.availability.models.AvailabilityStatus;
+import com.group6.hms.app.managers.inventory.models.MedicationStatus;
 import com.group6.hms.app.storage.SerializationStorageProvider;
 import com.group6.hms.app.storage.StorageProvider;
 import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.app.roles.Patient;
 
 import java.io.File;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collection;
 import java.util.UUID;
-import java.util.Random;
 
 /**
  * The {@code AppointmentManager} class manages appointment scheduling, updating, and cancellation
@@ -132,9 +133,14 @@ public class AppointmentManager {
      * @param appointment the {@code Appointment} to be declined
      */
     public void declineAppointmentRequest(Appointment appointment) {
-        appointmentStorageProvider.getItems().stream().filter(a -> a.getAppointmentId().equals(appointment.getAppointmentId())).findFirst().ifPresent(a -> {
-            a.setStatus(AppointmentStatus.CANCELLED);
-        });
+//        appointmentStorageProvider.getItems().stream().filter(a -> a.getAppointmentId().equals(appointment.getAppointmentId())).findFirst().ifPresent(a -> {
+//            a.setStatus(AppointmentStatus.CANCELLED);
+//        });
+
+        appointment.setStatus(AppointmentStatus.CANCELLED);
+        // UPDATE AVAILABILITY
+        Availability availability = AvailabilityManagerHolder.getAvailabilityManager().getAvailabilityById(appointment.getAppointmentId());
+        availability.setAvailabilityStatus(AvailabilityStatus.Available);
 
         // update file
         appointmentStorageProvider.saveToFile(appointmentsFile);
@@ -151,7 +157,9 @@ public class AppointmentManager {
      */
     public void scheduleAppointment(Patient patient, Availability availability) {
         // schedule the appointment
-        Appointment appt = new Appointment(patient, availability.getDoctor(), AppointmentStatus.REQUESTED, availability.getAvailableDate(), availability.getAvailableStartTime(), availability.getAvailableEndTime());
+        Appointment appt = new Appointment(patient, availability.getDoctor(), AppointmentStatus.REQUESTED, availability);
+        // UPDATE AVAILABILITY
+        AvailabilityManagerHolder.getAvailabilityManager().updateAvailability(availability, AvailabilityStatus.Booked);
 
         // update file
         appointmentStorageProvider.addNewItem(appt);
@@ -167,15 +175,27 @@ public class AppointmentManager {
      * @param availability the new {@code Availability} for the appointment
      */
     public void rescheduleAppointment(Appointment appointment, Availability availability) {
-        appointmentStorageProvider.getItems().stream().filter(a -> a.getAppointmentId().equals(appointment.getAppointmentId())).findFirst().ifPresent(a -> {
-            appointment.setDate(availability.getAvailableDate());
-            appointment.setStartTime(availability.getAvailableStartTime());
-            appointment.setEndTime(availability.getAvailableEndTime());
-        });
+//        appointmentStorageProvider.getItems().stream().filter(a -> a.getAppointmentId().equals(appointment.getAppointmentId())).findFirst().ifPresent(a -> {
+//            appointment.setDate(availability.getAvailableDate());
+//            appointment.setStartTime(availability.getAvailableStartTime());
+//            appointment.setEndTime(availability.getAvailableEndTime());
+//        });
+
+        AvailabilityManager availabilityManager = AvailabilityManagerHolder.getAvailabilityManager();
+
+        Availability previousAvailability = availabilityManager.getAvailabilityById(appointment.getAvailabilityId());
+        availabilityManager.updateAvailability(previousAvailability, AvailabilityStatus.Available);
+
+        appointment.setDate(availability.getAvailableDate());
+        appointment.setStartTime(availability.getAvailableStartTime());
+        appointment.setEndTime(availability.getAvailableEndTime());
+
+        // UPDATE AVAILABILITY
+        availabilityManager.updateAvailability(availability, AvailabilityStatus.Booked);
 
         // update file
         appointmentStorageProvider.saveToFile(appointmentsFile);
-        System.out.println("Successfully changed appointment date and time. The doctor will have to confirm your appointment again.");
+        //System.out.println("Successfully changed appointment date and time. The doctor will have to confirm your appointment again.");
     }
 
     /**
@@ -188,10 +208,14 @@ public class AppointmentManager {
         appointmentStorageProvider.getItems().stream().filter(a -> a.getAppointmentId().equals(appointment.getAppointmentId())).findFirst().ifPresent(a -> {
             a.setStatus(AppointmentStatus.CANCELLED);
         });
+        // UPDATE AVAILABILITY
+        AvailabilityManager availabilityManager = AvailabilityManagerHolder.getAvailabilityManager();
+        Availability availability = availabilityManager.getAvailabilityById(appointment.getAvailabilityId());
+        availabilityManager.updateAvailability(availability, AvailabilityStatus.Available);
 
         // update file
         appointmentStorageProvider.saveToFile(appointmentsFile);
-        System.out.println("Successfully cancelled appointment");
+        //System.out.println("Successfully cancelled appointment");
     }
 
     /**

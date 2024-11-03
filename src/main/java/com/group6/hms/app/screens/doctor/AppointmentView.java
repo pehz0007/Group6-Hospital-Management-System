@@ -1,10 +1,10 @@
 package com.group6.hms.app.screens.doctor;
 
-import com.group6.hms.app.models.MedicationStatus;
-import com.group6.hms.app.auth.LoginManager;
-import com.group6.hms.app.auth.LoginManagerHolder;
-import com.group6.hms.app.models.AppointmentOutcomeRecord;
-import com.group6.hms.app.models.AppointmentService;
+import com.group6.hms.app.managers.inventory.models.MedicationStatus;
+import com.group6.hms.app.managers.auth.LoginManager;
+import com.group6.hms.app.managers.auth.LoginManagerHolder;
+import com.group6.hms.app.managers.appointment.models.AppointmentOutcomeRecord;
+import com.group6.hms.app.managers.appointment.models.AppointmentService;
 import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.app.roles.Patient;
 

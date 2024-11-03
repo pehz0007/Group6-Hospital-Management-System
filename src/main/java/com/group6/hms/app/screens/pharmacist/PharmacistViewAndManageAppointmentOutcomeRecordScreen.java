@@ -1,11 +1,11 @@
 package com.group6.hms.app.screens.pharmacist;
 
-import com.group6.hms.app.managers.AppointmentManager;
-import com.group6.hms.app.managers.InventoryManager;
-import com.group6.hms.app.models.AppointmentOutcomeRecord;
-import com.group6.hms.app.models.MedicationStatus;
-import com.group6.hms.app.models.MedicationStock;
-import com.group6.hms.app.models.PrescribedMedication;
+import com.group6.hms.app.managers.appointment.AppointmentManager;
+import com.group6.hms.app.managers.inventory.InventoryManager;
+import com.group6.hms.app.managers.appointment.models.AppointmentOutcomeRecord;
+import com.group6.hms.app.managers.inventory.models.MedicationStatus;
+import com.group6.hms.app.managers.inventory.models.MedicationStock;
+import com.group6.hms.app.managers.inventory.models.PrescribedMedication;
 import com.group6.hms.framework.screens.pagination.PrintTableUtils;
 import com.group6.hms.framework.screens.pagination.SinglePaginationTableScreen;
 

@@ -1,13 +1,14 @@
-package com.group6.hms.app.managers;
+package com.group6.hms.app.managers.availability;
 
-import com.group6.hms.app.models.Availability;
+import com.group6.hms.app.managers.availability.models.Availability;
+import com.group6.hms.app.managers.availability.models.AvailabilityStatus;
 import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.app.storage.SerializationStorageProvider;
 import com.group6.hms.app.storage.StorageProvider;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * The {@code AvailabilityManager} class manages doctor availability slots in the system.
@@ -30,13 +31,31 @@ public class AvailabilityManager  {
     }
 
     /**
+     * Retrieves the specific availability slot by its corresponding availability id
+     * @param id the corresponding availability id of the {@code Availability}
+     */
+    public Availability getAvailabilityById(UUID id) {
+        return availabilityStorageProvider.getItems().stream().filter(a -> a.getAvailabilityId().equals(id)).findFirst().orElse(null);
+    }
+
+    /**
      * Retrieves all availability slots for all doctors.
-     * This method is intended for patients to view available appointment slots.
+     * This method is intended for patients to view appointment slots.
      *
      * @return a {@code List} of all {@code Availability} objects
      */
     public List<Availability> getAllAvailability() {
         return (List<Availability>) availabilityStorageProvider.getItems();
+    }
+
+    /**
+     * Retrieves all availability slots with the status {@link AvailabilityStatus#Available}.
+     * This method is intended for patients to view available appointment slots.
+     *
+     * @return a {@code List} of all {@code Availability} objects with the {@code AvailabilityStatus} set to {@link AvailabilityStatus#Available}
+     */
+    public List<Availability> getAllAvailableAvailability() {
+        return availabilityStorageProvider.getItems().stream().filter(a -> a.getAvailabilityStatus() == AvailabilityStatus.Available).toList();
     }
 
     /**
@@ -48,6 +67,16 @@ public class AvailabilityManager  {
      */
     public List<Availability> getAvailabilityByDoctor(Doctor doctor) {
         return availabilityStorageProvider.getItems().stream().filter(avail -> avail.getDoctor().getSystemUserId().equals(doctor.getSystemUserId())).toList();
+    }
+
+    /**
+     * Update the given availability slot status. It also updates the availabilities serializable file.
+     *
+     * @param availability - the {@code Availability} slot to be updated
+     */
+    public void updateAvailability(Availability availability, AvailabilityStatus availabilityStatus) {
+        availability.setAvailabilityStatus(availabilityStatus);
+        availabilityStorageProvider.saveToFile(availabilitiesFile);
     }
 
     /**

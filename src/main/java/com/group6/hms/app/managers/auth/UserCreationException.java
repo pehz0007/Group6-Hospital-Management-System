@@ -1,4 +1,4 @@
-package com.group6.hms.app.auth;
+package com.group6.hms.app.managers.auth;
 
 
 /**

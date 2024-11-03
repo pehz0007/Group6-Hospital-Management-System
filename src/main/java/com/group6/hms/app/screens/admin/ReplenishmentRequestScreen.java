@@ -1,7 +1,7 @@
 package com.group6.hms.app.screens.admin;
 
-import com.group6.hms.app.managers.InventoryManager;
-import com.group6.hms.app.models.ReplenishmentRequest;
+import com.group6.hms.app.managers.inventory.InventoryManager;
+import com.group6.hms.app.managers.inventory.models.ReplenishmentRequest;
 import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.pagination.PrintTableUtils;
 import com.group6.hms.framework.screens.pagination.SinglePaginationTableScreen;

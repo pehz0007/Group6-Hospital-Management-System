@@ -1,11 +1,10 @@
 package com.group6.hms.app.screens.pharmacist;
 
-import com.group6.hms.app.auth.LoginManager;
-import com.group6.hms.app.auth.LoginManagerHolder;
-import com.group6.hms.app.models.AppointmentOutcomeRecord;
-import com.group6.hms.app.models.AppointmentService;
-import com.group6.hms.app.models.MedicationStatus;
-import com.group6.hms.app.models.PrescribedMedication;
+import com.group6.hms.app.managers.auth.LoginManagerHolder;
+import com.group6.hms.app.managers.appointment.models.AppointmentOutcomeRecord;
+import com.group6.hms.app.managers.appointment.models.AppointmentService;
+import com.group6.hms.app.managers.inventory.models.MedicationStatus;
+import com.group6.hms.app.managers.inventory.models.PrescribedMedication;
 
 import java.time.LocalDate;
 import java.util.List;

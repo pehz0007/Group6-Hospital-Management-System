@@ -1,4 +1,4 @@
-package com.group6.hms.app.models;
+package com.group6.hms.app.managers.inventory.models;
 
 import java.io.Serializable;
 

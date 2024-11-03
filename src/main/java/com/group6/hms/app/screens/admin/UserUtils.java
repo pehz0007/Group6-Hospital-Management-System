@@ -1,7 +1,7 @@
 package com.group6.hms.app.screens.admin;
 
-import com.group6.hms.app.auth.LoginManager;
-import com.group6.hms.app.auth.User;
+import com.group6.hms.app.managers.auth.LoginManager;
+import com.group6.hms.app.managers.auth.models.User;
 import com.group6.hms.app.roles.*;
 import com.group6.hms.app.screens.admin.importer.InvalidStaffRoleException;
 import com.group6.hms.framework.screens.ConsoleColor;

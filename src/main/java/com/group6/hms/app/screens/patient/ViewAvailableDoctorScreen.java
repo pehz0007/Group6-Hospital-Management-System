@@ -1,7 +1,7 @@
 package com.group6.hms.app.screens.patient;
 
-import com.group6.hms.app.managers.AvailabilityManager;
-import com.group6.hms.app.models.Availability;
+import com.group6.hms.app.managers.availability.AvailabilityManager;
+import com.group6.hms.app.managers.availability.models.Availability;
 import com.group6.hms.framework.screens.calendar.CalendarScreen;
 
 import java.time.LocalDate;

@@ -1,10 +1,10 @@
 package com.group6.hms.app.screens.patient;
 
-import com.group6.hms.app.auth.LoginManager;
-import com.group6.hms.app.auth.LoginManagerHolder;
-import com.group6.hms.app.managers.AppointmentManager;
-import com.group6.hms.app.managers.AvailabilityManager;
-import com.group6.hms.app.models.Availability;
+import com.group6.hms.app.managers.auth.LoginManager;
+import com.group6.hms.app.managers.auth.LoginManagerHolder;
+import com.group6.hms.app.managers.appointment.AppointmentManager;
+import com.group6.hms.app.managers.availability.AvailabilityManager;
+import com.group6.hms.app.managers.availability.models.Availability;
 import com.group6.hms.app.roles.Patient;
 import com.group6.hms.framework.screens.calendar.CalendarScreen;
 

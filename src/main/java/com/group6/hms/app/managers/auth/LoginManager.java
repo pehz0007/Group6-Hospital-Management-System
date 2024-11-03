@@ -1,13 +1,11 @@
-package com.group6.hms.app.auth;
+package com.group6.hms.app.managers.auth;
 
-import com.group6.hms.app.models.BloodType;
+import com.group6.hms.app.managers.auth.models.User;
 import com.group6.hms.app.roles.*;
 import com.group6.hms.app.storage.SerializationStorageProvider;
 import com.group6.hms.app.storage.StorageProvider;
-import com.group6.hms.app.models.MedicalRecord;
 
 import java.io.File;
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.UUID;

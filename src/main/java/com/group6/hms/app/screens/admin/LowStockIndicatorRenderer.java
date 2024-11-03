@@ -1,6 +1,6 @@
 package com.group6.hms.app.screens.admin;
 
-import com.group6.hms.app.models.MedicationStock;
+import com.group6.hms.app.managers.inventory.models.MedicationStock;
 import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.pagination.StringRenderer;
 

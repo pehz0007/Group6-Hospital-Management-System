@@ -1,12 +1,11 @@
 package com.group6.hms.app.screens.doctor;
 
-import com.group6.hms.app.auth.LoginManager;
-import com.group6.hms.app.auth.LoginManagerHolder;
-import com.group6.hms.app.auth.User;
-import com.group6.hms.app.managers.AppointmentManager;
-import com.group6.hms.app.managers.AvailabilityManager;
+import com.group6.hms.app.managers.auth.LoginManager;
+import com.group6.hms.app.managers.auth.LoginManagerHolder;
+import com.group6.hms.app.managers.auth.models.User;
+import com.group6.hms.app.managers.appointment.AppointmentManager;
+import com.group6.hms.app.managers.availability.AvailabilityManager;
 import com.group6.hms.app.models.BloodType;
-import com.group6.hms.app.models.CareProvider;
 import com.group6.hms.app.models.MedicalRecord;
 import com.group6.hms.app.roles.Patient;
 import com.group6.hms.app.roles.Doctor;
@@ -15,7 +14,6 @@ import com.group6.hms.framework.screens.Screen;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.util.Scanner;
 
 public class UpdatePatientMedicalScreen extends Screen {
     private final AppointmentManager appointmentManager = new AppointmentManager();

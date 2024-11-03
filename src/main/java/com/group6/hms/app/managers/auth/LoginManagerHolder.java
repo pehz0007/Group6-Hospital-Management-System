@@ -1,4 +1,4 @@
-package com.group6.hms.app.auth;
+package com.group6.hms.app.managers.auth;
 
 /**
  * The {@code LoginManagerHolder} class implements the Singleton pattern to manage a single instance

@@ -1,13 +1,11 @@
 package com.group6.hms.app.screens.doctor;
 
-import com.group6.hms.app.auth.LoginManager;
-import com.group6.hms.app.auth.LoginManagerHolder;
-import com.group6.hms.app.auth.User;
+import com.group6.hms.app.managers.auth.LoginManager;
+import com.group6.hms.app.managers.auth.LoginManagerHolder;
 import com.group6.hms.app.models.CareProvider;
 import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.app.roles.Patient;
 import com.group6.hms.framework.screens.ConsoleColor;
-import com.group6.hms.framework.screens.Screen;
 import com.group6.hms.framework.screens.pagination.PrintTableUtils;
 import com.group6.hms.framework.screens.pagination.SinglePaginationTableScreen;
 

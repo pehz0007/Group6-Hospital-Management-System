@@ -1,9 +1,9 @@
-package com.group6.hms.app.managers;
+package com.group6.hms.app.managers.inventory;
 
-import com.group6.hms.app.models.Medication;
-import com.group6.hms.app.models.MedicationStock;
-import com.group6.hms.app.models.ReplenishmentRequest;
-import com.group6.hms.app.models.ReplenishmentRequestStatus;
+import com.group6.hms.app.managers.inventory.models.Medication;
+import com.group6.hms.app.managers.inventory.models.MedicationStock;
+import com.group6.hms.app.managers.inventory.models.ReplenishmentRequest;
+import com.group6.hms.app.managers.inventory.models.ReplenishmentRequestStatus;
 import com.group6.hms.app.storage.SerializationStorageProvider;
 import com.group6.hms.app.storage.StorageProvider;
 

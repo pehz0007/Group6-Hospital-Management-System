@@ -1,17 +1,13 @@
 package com.group6.hms.app.screens.admin;
 
-import com.group6.hms.app.auth.LoginManager;
-import com.group6.hms.app.auth.LoginManagerHolder;
-import com.group6.hms.app.auth.User;
-import com.group6.hms.app.models.MedicationStock;
+import com.group6.hms.app.managers.auth.LoginManager;
+import com.group6.hms.app.managers.auth.LoginManagerHolder;
+import com.group6.hms.app.managers.auth.models.User;
 import com.group6.hms.app.roles.Patient;
 import com.group6.hms.app.roles.Staff;
-import com.group6.hms.app.screens.admin.importer.MedicationStockCSVReader;
 import com.group6.hms.app.screens.doctor.DoctorConfigurationScreen;
 import com.group6.hms.app.screens.pharmacist.PharmacistConfigurationScreen;
-import com.group6.hms.app.storage.SerializationStorageProvider;
-import com.group6.hms.app.storage.StorageProvider;
-import com.group6.hms.app.auth.UserCreationException;
+import com.group6.hms.app.managers.auth.UserCreationException;
 import com.group6.hms.app.roles.*;
 import com.group6.hms.app.screens.admin.importer.PatientsCSVReader;
 import com.group6.hms.app.screens.admin.importer.StaffsCSVReader;
@@ -21,11 +17,9 @@ import com.group6.hms.framework.screens.option.Option;
 import com.group6.hms.framework.screens.option.OptionsUtils;
 import com.group6.hms.framework.screens.pagination.PaginationTableScreen;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class ViewAndManageUsersScreen extends PaginationTableScreen<UserView> {
     private final int CREATE_USER = 4;

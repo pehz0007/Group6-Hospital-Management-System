@@ -1,9 +1,9 @@
-package com.group6.hms.app.models;
+package com.group6.hms.app.managers.appointment.models;
 
+import com.group6.hms.app.managers.availability.models.Availability;
 import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.app.roles.Patient;
 import com.group6.hms.app.screens.doctor.AppointmentStatusRenderer;
-import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.ConsoleInterface;
 import com.group6.hms.framework.screens.calendar.EventInterface;
 import com.group6.hms.framework.screens.pagination.HeaderField;
@@ -11,7 +11,6 @@ import com.group6.hms.framework.screens.pagination.PrintTableUtils;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.UUID;
 /**
@@ -29,6 +28,7 @@ public class Appointment implements Serializable, EventInterface {
     private final Doctor doctor;
     @HeaderField(renderer = AppointmentStatusRenderer.class)
     private AppointmentStatus status;
+    private UUID availabilityId;
     private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;
@@ -36,23 +36,22 @@ public class Appointment implements Serializable, EventInterface {
     private UUID appointmentOutcomeRecordId;
 
     /**
-     * Constructs a new {@code Appointment} with specified patient, doctor, status, date, start time, and end time.
+     * Constructs a new {@code Appointment} with specified patient, doctor, status, availability
      *
-     * @param patient  the patient associated with the appointment
-     * @param doctor   the doctor associated with the appointment
-     * @param status   the status of the appointment
-     * @param date     the date of the appointment
-     * @param startTime the start time of the appointment
-     * @param endTime  the end time of the appointment
+     * @param patient       the patient associated with the appointment
+     * @param doctor        the doctor associated with the appointment
+     * @param status        the status of the appointment
+     * @param availability  the {@code Availability} associated with this {@code Appointment}
      */
-    public Appointment(Patient patient, Doctor doctor, AppointmentStatus status, LocalDate date, LocalTime startTime, LocalTime endTime) {
+    public Appointment(Patient patient, Doctor doctor, AppointmentStatus status, Availability availability) {
         this.appointmentId = UUID.randomUUID();
         this.patient = patient;
         this.doctor = doctor;
         this.status = status;
-        this.date = date;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.availabilityId = availability.getAvailabilityId();
+        this.date = availability.getAvailableDate();
+        this.startTime = availability.getEventStartTime();
+        this.endTime = availability.getEventEndTime();
     }
 
 
@@ -81,6 +80,24 @@ public class Appointment implements Serializable, EventInterface {
      */
     public Doctor getDoctor() {
         return doctor;
+    }
+
+    /**
+     * Returns the availability id associated with the appointment.
+     *
+     * @return the UUID of the associated {@code Availability}
+     */
+    public UUID getAvailabilityId() {
+        return availabilityId;
+    }
+
+    /**
+     * Sets the availability id of the appointment.
+     *
+     * @param availabilityId the availability id to set
+     */
+    public void setAvailabilityId(UUID availabilityId) {
+        this.availabilityId = availabilityId;
     }
 
     /**

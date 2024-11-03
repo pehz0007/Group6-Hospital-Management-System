@@ -1,6 +1,6 @@
 package com.group6.hms.app.roles;
 
-import com.group6.hms.app.models.Appointment;
+import com.group6.hms.app.managers.appointment.models.Appointment;
 
 
 public class Doctor extends Staff {

@@ -1,9 +1,16 @@
 package com.group6.hms.app;
 
-import com.group6.hms.app.auth.LoginManager;
-import com.group6.hms.app.auth.LoginManagerHolder;
-import com.group6.hms.app.managers.AppointmentManager;
-import com.group6.hms.app.managers.AvailabilityManager;
+import com.group6.hms.app.managers.appointment.models.Appointment;
+import com.group6.hms.app.managers.appointment.models.AppointmentOutcomeRecord;
+import com.group6.hms.app.managers.appointment.models.AppointmentService;
+import com.group6.hms.app.managers.auth.LoginManager;
+import com.group6.hms.app.managers.auth.LoginManagerHolder;
+import com.group6.hms.app.managers.appointment.AppointmentManager;
+import com.group6.hms.app.managers.availability.models.Availability;
+import com.group6.hms.app.managers.availability.AvailabilityManager;
+import com.group6.hms.app.managers.availability.models.AvailabilityStatus;
+import com.group6.hms.app.managers.inventory.models.MedicationStatus;
+import com.group6.hms.app.managers.inventory.models.PrescribedMedication;
 import com.group6.hms.app.models.*;
 import com.group6.hms.app.roles.*;
 
@@ -12,7 +19,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 public class Database {
     /**
@@ -44,8 +50,8 @@ public class Database {
         loginManager.loadUsersFromFile();
         Doctor doctor = (Doctor) loginManager.findUser("D0011");
         LocalTime timeNow = LocalTime.now();
-        Availability avail = new Availability(doctor, LocalDate.now(), timeNow, timeNow.plusHours(1));
-        Availability avail1 = new Availability(doctor, LocalDate.now(), LocalTime.parse("12:00"), LocalTime.parse("13:00"));
+        Availability avail = new Availability(doctor, LocalDate.now(), timeNow, timeNow.plusHours(1), AvailabilityStatus.Available);
+        Availability avail1 = new Availability(doctor, LocalDate.now(), LocalTime.parse("12:00"), LocalTime.parse("13:00"), AvailabilityStatus.Available);
 
         availabilityManager.addAvailability(avail);
         availabilityManager.addAvailability(avail1);

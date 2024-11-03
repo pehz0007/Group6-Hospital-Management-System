@@ -1,6 +1,6 @@
 package com.group6.hms.app.screens.admin;
 
-import com.group6.hms.app.models.Medication;
+import com.group6.hms.app.managers.inventory.models.Medication;
 import com.group6.hms.framework.screens.pagination.StringRenderer;
 
 public class MedicationRenderer extends StringRenderer {
