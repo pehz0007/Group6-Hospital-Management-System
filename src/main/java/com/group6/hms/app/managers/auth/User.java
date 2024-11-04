@@ -19,6 +19,8 @@ public abstract class User implements Serializable {
     private final Gender gender;
     private byte[] passwordHashed;
 
+    private boolean firstTimeLogin = true;
+
     /**
      * Create a new user object with the user id and password.
      *
@@ -102,4 +104,21 @@ public abstract class User implements Serializable {
      */
     public abstract String getRoleName();
 
+    /**
+     * Sets the first-time login status for the user.
+     *
+     * @param firstTimeLogin a boolean indicating if this is the user's first time logging in.
+     */
+    public void setFirstTimeLogin(boolean firstTimeLogin) {
+        this.firstTimeLogin = firstTimeLogin;
+    }
+
+    /**
+     * Checks if this is the user's first time logging in.
+     *
+     * @return {@code true} if this is the first time the user is logging in, {@code false} otherwise.
+     */
+    public boolean isFirstTimeLogin() {
+        return firstTimeLogin;
+    }
 }

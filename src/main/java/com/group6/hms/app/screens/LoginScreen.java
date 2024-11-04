@@ -1,8 +1,6 @@
 package com.group6.hms.app.screens;
 
-import com.group6.hms.app.managers.auth.LoginManager;
-import com.group6.hms.app.managers.auth.LoginManagerHolder;
-import com.group6.hms.app.managers.auth.User;
+import com.group6.hms.app.managers.auth.*;
 import com.group6.hms.app.roles.Administrator;
 import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.app.roles.Patient;
@@ -13,6 +11,8 @@ import com.group6.hms.app.screens.patient.PatientScreen;
 import com.group6.hms.app.screens.pharmacist.PharmacistScreen;
 import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.Screen;
+
+import java.util.Arrays;
 
 public class LoginScreen extends Screen {
 
@@ -47,6 +47,7 @@ public class LoginScreen extends Screen {
                 println("Login Successful");
 
                 User currentUser = loginManager.getCurrentlyLoggedInUser();
+                if(currentUser.isFirstTimeLogin())firstTimeLoginPassword(currentUser);
 
                 switch (currentUser) {
                     case Patient patient -> newScreen(new PatientScreen());
@@ -61,4 +62,27 @@ public class LoginScreen extends Screen {
             }
         }
     }
+
+    private void firstTimeLoginPassword(User user){
+        println("Password changed required for first time user!");
+        while(true){
+            setCurrentTextConsoleColor(ConsoleColor.PURPLE);
+            print("New Password:");
+            char[] newPassword = consoleInterface.readPassword();
+            try{
+                loginManager.changePassword(user, newPassword);
+                setCurrentTextConsoleColor(ConsoleColor.GREEN);
+                println("Password has been changed");
+                user.setFirstTimeLogin(false);
+                loginManager.saveUsersToFile();
+                return;
+            }catch (UserInvalidPasswordException e){
+                setCurrentTextConsoleColor(ConsoleColor.RED);
+                println(e.getReason());
+            }finally {
+                waitForKeyPress();
+            }
+        }
+    }
+
 }
