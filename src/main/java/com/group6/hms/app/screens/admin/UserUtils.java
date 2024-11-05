@@ -73,8 +73,10 @@ public class UserUtils {
         }else if(selectedOptionId == PATIENT_ID) {
             //Create patient
             consoleInterface.print("Email: ");
+            consoleInterface.print("Phone Number: ");
             String contactInformation = String.valueOf(consoleInterface.readInt());
-            user = new Patient(userId, password, name, gender, contactInformation);
+            String phoneNumber = String.valueOf(consoleInterface.readInt());
+            user = new Patient(userId, password, name, gender, contactInformation, phoneNumber);
 
         }else throw new InvalidStaffRoleException("Unexpected role value: " + selectedOptionId);
 

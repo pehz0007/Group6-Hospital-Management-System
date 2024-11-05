@@ -20,9 +20,7 @@ import java.util.UUID;
  * for calendar integration and {@code Serializable} for storage.
  */
 public class Availability implements EventInterface, Serializable {
-
     private UUID availabilityId;
-
     private Doctor doctor;
     @HeaderField(renderer = DateRenderer.class)
     private LocalDate availableDate;
@@ -43,6 +41,7 @@ public class Availability implements EventInterface, Serializable {
      * @param endTime      the end time of availability
      */
     public Availability(Doctor doctor, LocalDate availableDate, AvailabilityStatus availabilityStatus, LocalTime startTime, LocalTime endTime) {
+        this.availabilityId = UUID.randomUUID();
         this.doctor = doctor;
         this.availableDate = availableDate;
         this.availableStartTime = startTime;

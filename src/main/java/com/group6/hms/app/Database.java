@@ -32,7 +32,7 @@ public class Database {
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setDateOfBirth(LocalDate.of(1997,8,5));
         medicalRecord.setBloodType(BloodType.AB_PLUS);
-        Patient patient = new Patient("P1011", "password".toCharArray(), "freya", Gender.Male, "patient@example.com");
+        Patient patient = new Patient("P1011", "password".toCharArray(), "freya", Gender.Male, "patient@example.com", "1234-5678");
         patient.updateMedicalRecord(medicalRecord);
 
         loginManager.createUser(patient);

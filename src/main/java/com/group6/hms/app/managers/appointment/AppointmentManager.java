@@ -1,4 +1,4 @@
-package com.group6.hms.app.managers.appointment;
+package com.group6.hms.app.managers;
 
 import com.group6.hms.app.managers.appointment.models.Appointment;
 import com.group6.hms.app.managers.appointment.models.AppointmentOutcomeRecord;
@@ -88,6 +88,18 @@ public class AppointmentManager {
     }
 
     /**
+     * Retrieves appointments from appointmentStorageProvider by their unique identifier.
+     *
+     * @param id the unique identifier of the appointment
+     * @return a {@code Appointment} object matching the specified UUID
+     */
+    public Appointment getAppointmentByID(String id) {
+        return appointmentStorageProvider.getItems().stream()
+                .filter(apt -> apt.getAppointmentId().toString().equals(id))
+                .findFirst().orElse(null);
+    }
+
+    /**
      * Retrieves appointments from appointmentStorageProvider for a specific doctor.
 
      * @param doctor the {@code Doctor} whose appointments are to be retrieved
@@ -164,7 +176,7 @@ public class AppointmentManager {
         // update file
         appointmentStorageProvider.addNewItem(appt);
         appointmentStorageProvider.saveToFile(appointmentsFile);
-        System.out.println("Successfully requested for an appointment. Do come back to check if the doctor has confirmed the appointment.");
+        //System.out.println("Successfully requested for an appointment. Do come back to check if the doctor has confirmed the appointment.");
     }
 
     /**
@@ -174,7 +186,7 @@ public class AppointmentManager {
      * @param appointment  the {@code Appointment} to be rescheduled
      * @param availability the new {@code Availability} for the appointment
      */
-    public void rescheduleAppointment(Appointment appointment, Availability availability) {
+    public void rescheduleAppointment(Patient patient, Appointment appointment, Availability availability) {
 //        appointmentStorageProvider.getItems().stream().filter(a -> a.getAppointmentId().equals(appointment.getAppointmentId())).findFirst().ifPresent(a -> {
 //            appointment.setDate(availability.getAvailableDate());
 //            appointment.setStartTime(availability.getAvailableStartTime());
@@ -195,7 +207,8 @@ public class AppointmentManager {
 
         // update file
         appointmentStorageProvider.saveToFile(appointmentsFile);
-        //System.out.println("Successfully changed appointment date and time. The doctor will have to confirm your appointment again.");
+        //System.out.println("Successfully changed appointment date
+//        appointmentStorageProvider.addNewItem(appt);
     }
 
     /**
@@ -205,9 +218,10 @@ public class AppointmentManager {
      * @param appointment the {@code Appointment} to be canceled
      */
     public void cancelAppointment(Appointment appointment) {
-        appointmentStorageProvider.getItems().stream().filter(a -> a.getAppointmentId().equals(appointment.getAppointmentId())).findFirst().ifPresent(a -> {
-            a.setStatus(AppointmentStatus.CANCELLED);
-        });
+//        appointmentStorageProvider.getItems().stream().filter(a -> a.getAppointmentId().equals(appointment.getAppointmentId())).findFirst().ifPresent(a -> {
+//            a.setStatus(AppointmentStatus.CANCELLED);
+//        });
+        appointment.setStatus(AppointmentStatus.CANCELLED);
         // UPDATE AVAILABILITY
         AvailabilityManager availabilityManager = AvailabilityManagerHolder.getAvailabilityManager();
         Availability availability = availabilityManager.getAvailabilityById(appointment.getAvailabilityId());
@@ -260,7 +274,8 @@ public class AppointmentManager {
                 return outcome; // Return the found record
             }
         }
-        return null;    }
+        return null;
+    }
 
     /**
      * Retrieves appointment outcome records with a specific medication status.
