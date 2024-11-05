@@ -87,6 +87,18 @@ public class AppointmentManager {
     }
 
     /**
+     * Retrieves appointments from appointmentStorageProvider by their unique identifier.
+     *
+     * @param id the unique identifier of the appointment
+     * @return a {@code Appointment} object matching the specified UUID
+     */
+    public Appointment getAppointmentByID(String id) {
+        return appointmentStorageProvider.getItems().stream()
+                .filter(apt -> apt.getAppointmentId().toString().equals(id))
+                .findFirst().orElse(null);
+    }
+
+    /**
      * Retrieves appointments from appointmentStorageProvider for a specific doctor.
 
      * @param doctor the {@code Doctor} whose appointments are to be retrieved

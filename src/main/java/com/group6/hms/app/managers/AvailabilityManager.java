@@ -51,6 +51,18 @@ public class AvailabilityManager  {
     }
 
     /**
+     * Retrieves availability slots by id.
+     *
+     * @param systemId systemId of the Availability
+     * @return a {@code Availability} object from the id
+     */
+    public Availability getAvailabilityById(String systemId) {
+        return availabilityStorageProvider.getItems().stream()
+                .filter(avail -> avail.getAvailabilityId().toString().equals(systemId))
+                .findFirst().orElse(null);
+    }
+
+    /**
      * Adds a new availability slot for a doctor and updates the availability list in the availabilityStorageProvider. It also updates the availabilities serializable file.
      * This method is intended for doctors to add new available appointment times.
      *
