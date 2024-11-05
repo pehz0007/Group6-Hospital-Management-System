@@ -6,7 +6,6 @@ import com.group6.hms.app.auth.UserInvalidPasswordException;
 import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.app.roles.Pharmacist;
 import com.group6.hms.app.screens.admin.StaffDataView;
-import com.group6.hms.app.screens.patient.PatientDataView;
 import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.option.OptionScreen;
 import com.group6.hms.framework.screens.pagination.PrintTableUtils;

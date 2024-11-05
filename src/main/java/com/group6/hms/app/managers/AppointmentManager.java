@@ -168,7 +168,7 @@ public class AppointmentManager {
         // update file
         appointmentStorageProvider.addNewItem(appt);
         appointmentStorageProvider.saveToFile(appointmentsFile);
-        System.out.println("Successfully requested for an appointment. Do come back to check if the doctor has confirmed the appointment.");
+        //System.out.println("Successfully requested for an appointment. Do come back to check if the doctor has confirmed the appointment.");
     }
 
     /**
@@ -178,14 +178,18 @@ public class AppointmentManager {
      * @param appointment  the {@code Appointment} to be rescheduled
      * @param availability the new {@code Availability} for the appointment
      */
-    public void rescheduleAppointment(Appointment appointment, Availability availability) {
+    public void rescheduleAppointment(Patient patient, Appointment appointment, Availability availability) {
         appointmentStorageProvider.getItems().stream().filter(a -> a.getAppointmentId().equals(appointment.getAppointmentId())).findFirst().ifPresent(a -> {
             appointment.setDate(availability.getAvailableDate());
             appointment.setStartTime(availability.getAvailableStartTime());
             appointment.setEndTime(availability.getAvailableEndTime());
+            appointment.setStatus(AppointmentStatus.CANCELLED);
         });
 
+        Appointment appt = new Appointment(patient, availability.getDoctor(), AppointmentStatus.REQUESTED, availability.getAvailableDate(), availability.getAvailableStartTime(), availability.getAvailableEndTime());
+
         // update file
+        appointmentStorageProvider.addNewItem(appt);
         appointmentStorageProvider.saveToFile(appointmentsFile);
         System.out.println("Successfully changed appointment date and time. The doctor will have to confirm your appointment again.");
     }

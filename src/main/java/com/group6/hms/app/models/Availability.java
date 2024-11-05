@@ -13,6 +13,7 @@ import com.group6.hms.framework.screens.calendar.EventInterface;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.UUID;
 
 /**
  * The {@code Availability} class represents a doctor's available appointment slot,
@@ -20,6 +21,7 @@ import java.time.LocalTime;
  * for calendar integration and {@code Serializable} for storage.
  */
 public class Availability implements EventInterface, Serializable {
+    private UUID availabilityId;
     private Doctor doctor;
     @HeaderField(renderer = DateRenderer.class)
     private LocalDate availableDate;
@@ -38,11 +40,14 @@ public class Availability implements EventInterface, Serializable {
      * @param endTime      the end time of availability
      */
     public Availability(Doctor doctor, LocalDate availableDate, LocalTime startTime, LocalTime endTime) {
+        this.availabilityId = UUID.randomUUID();
         this.doctor = doctor;
         this.availableDate = availableDate;
         this.availableStartTime = startTime;
         this.availableEndTime = endTime;
     }
+
+    public UUID getAvailabilityId(){return availabilityId;}
 
     /**
      * Returns the doctor associated with this availability.

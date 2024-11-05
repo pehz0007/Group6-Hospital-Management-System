@@ -1,5 +1,6 @@
 package com.group6.hms.framework.screens.calendar;
 
+import com.group6.hms.app.screens.patient.ViewAvailableDoctorScreen;
 import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.InteractiveConsoleInterface;
 import com.group6.hms.framework.screens.Operation;
@@ -122,11 +123,16 @@ public class CalendarScreen<Event extends EventInterface, Collection extends jav
         selectDate = true;
         if (consoleInterface instanceof InteractiveConsoleInterface interactiveConsoleInterface) {
             navigateCalendarByInteraction(interactiveConsoleInterface);
+            //displayPatientAppointmentOptions();
         } else {
             navigateCalendarByNonInteraction();
         }
         return currentDate;
     }
+
+//    private void displayPatientAppointmentOptions(){
+//        navigateToScreen(new ViewAvailableDoctorScreen());
+//    }
 
     /**
      * Non-interactive navigation for calendar (used in non-interactive interfaces).
