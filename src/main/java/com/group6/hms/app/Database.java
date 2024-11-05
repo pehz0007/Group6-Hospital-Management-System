@@ -1,9 +1,20 @@
 package com.group6.hms.app;
 
-import com.group6.hms.app.auth.LoginManager;
-import com.group6.hms.app.auth.LoginManagerHolder;
-import com.group6.hms.app.managers.AppointmentManager;
-import com.group6.hms.app.managers.AvailabilityManager;
+import com.group6.hms.app.managers.careprovider.CareProvider;
+import com.group6.hms.app.managers.appointment.AppointmentManager;
+import com.group6.hms.app.managers.appointment.AppointmentManagerHolder;
+import com.group6.hms.app.managers.appointment.models.Appointment;
+import com.group6.hms.app.managers.appointment.models.AppointmentOutcomeRecord;
+import com.group6.hms.app.managers.appointment.models.AppointmentService;
+import com.group6.hms.app.managers.auth.LoginManager;
+import com.group6.hms.app.managers.auth.LoginManagerHolder;
+import com.group6.hms.app.managers.availability.AvailabilityManagerHolder;
+import com.group6.hms.app.managers.availability.models.Availability;
+import com.group6.hms.app.managers.availability.AvailabilityManager;
+import com.group6.hms.app.managers.availability.models.AvailabilityStatus;
+import com.group6.hms.app.managers.careprovider.CareProviderHolder;
+import com.group6.hms.app.managers.inventory.models.MedicationStatus;
+import com.group6.hms.app.managers.inventory.models.PrescribedMedication;
 import com.group6.hms.app.models.*;
 import com.group6.hms.app.roles.*;
 
@@ -12,7 +23,6 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.UUID;
 
 public class Database {
     /**
@@ -26,7 +36,7 @@ public class Database {
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord.setDateOfBirth(LocalDate.of(1997,8,5));
         medicalRecord.setBloodType(BloodType.AB_PLUS);
-        Patient patient = new Patient("P1011", "password".toCharArray(), "freya", Gender.Male, "patient@example.com");
+        Patient patient = new Patient("P1011", "password".toCharArray(), "freya", Gender.Male, "patient@example.com", "1234-5678");
         patient.updateMedicalRecord(medicalRecord);
 
         loginManager.createUser(patient);
@@ -39,13 +49,13 @@ public class Database {
         loginManager.loadUsersFromFile();
         loginManager.printUsers();
 
-        AppointmentManager appointmentManager = new AppointmentManager();
-        AvailabilityManager availabilityManager = new AvailabilityManager();
+        AppointmentManager appointmentManager = AppointmentManagerHolder.getAppointmentManager();
+        AvailabilityManager availabilityManager = AvailabilityManagerHolder.getAvailabilityManager();
         loginManager.loadUsersFromFile();
         Doctor doctor = (Doctor) loginManager.findUser("D0011");
         LocalTime timeNow = LocalTime.now();
-        Availability avail = new Availability(doctor, LocalDate.now(), timeNow, timeNow.plusHours(1));
-        Availability avail1 = new Availability(doctor, LocalDate.now(), LocalTime.parse("12:00"), LocalTime.parse("13:00"));
+        Availability avail = new Availability(doctor, LocalDate.now(), AvailabilityStatus.AVAILABLE, timeNow, timeNow.plusHours(1));
+        Availability avail1 = new Availability(doctor, LocalDate.now(), AvailabilityStatus.AVAILABLE, LocalTime.parse("12:00"), LocalTime.parse("13:00"));
 
         availabilityManager.addAvailability(avail);
         availabilityManager.addAvailability(avail1);
@@ -97,7 +107,7 @@ public class Database {
 
 
         //CARE PROVIDER
-        CareProvider careProvider = new CareProvider();
+        CareProvider careProvider = CareProviderHolder.getCareProvider();
         var p = careProvider.getPatientIDsUnderDoctorCare(doctor);
         careProvider.addPatientToDoctorCare(patient, doctor);
 

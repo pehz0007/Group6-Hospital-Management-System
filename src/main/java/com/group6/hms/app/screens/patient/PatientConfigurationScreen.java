@@ -1,9 +1,9 @@
 package com.group6.hms.app.screens.patient;
 
-import com.group6.hms.app.auth.LoginManager;
-import com.group6.hms.app.auth.LoginManagerHolder;
-import com.group6.hms.app.auth.PasswordUtils;
-import com.group6.hms.app.auth.UserInvalidPasswordException;
+import com.group6.hms.app.managers.auth.LoginManager;
+import com.group6.hms.app.managers.auth.LoginManagerHolder;
+import com.group6.hms.app.managers.auth.PasswordUtils;
+import com.group6.hms.app.managers.auth.UserInvalidPasswordException;
 import com.group6.hms.app.roles.Patient;
 import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.option.OptionScreen;
@@ -15,6 +15,7 @@ public class PatientConfigurationScreen extends OptionScreen {
 
     private static final int CHANGE_PASSWORD = 1;
     private static final int CHANGE_EMAIL = 2;
+    private static final int CHANGE_PHONENUMBER = 3;
 
     private final LoginManager loginManager;
     Patient patient;
@@ -26,6 +27,7 @@ public class PatientConfigurationScreen extends OptionScreen {
         this.patient = patient;
         addOption(CHANGE_PASSWORD, "Change Password", ConsoleColor.YELLOW);
         addOption(CHANGE_EMAIL, "Change Email", ConsoleColor.YELLOW);
+        addOption(CHANGE_PHONENUMBER, "Change Phone Number", ConsoleColor.YELLOW);
         loginManager = LoginManagerHolder.getLoginManager();
     }
 
@@ -50,26 +52,38 @@ public class PatientConfigurationScreen extends OptionScreen {
                 char[] currentPassword = consoleInterface.readPassword();
 
                 if (Arrays.equals(patient.getPasswordHashed(), PasswordUtils.hashPassword(currentPassword))){
-                    print("New Password:");
-                    char[] newPassword = consoleInterface.readPassword();
-                    try{
-                        loginManager.changePassword(patient, newPassword);
-                        setCurrentTextConsoleColor(ConsoleColor.GREEN);
-                        println("Password has been changed");
-                    }catch (UserInvalidPasswordException e){
-                        setCurrentTextConsoleColor(ConsoleColor.RED);
-                        println(e.getReason());
-                    }finally {
-                        waitForKeyPress();
+                    boolean validPassword = false;
+                    setCurrentTextConsoleColor(ConsoleColor.BLUE);
+                    println("New Password Requirements: ");
+                    println("1. Password length must be at least 8 characters.");
+                    println("2. Password must contain at least one uppercase letter.");
+                    println("3. Password must contain at least one digit.");
+                    println("4. Password must contain at least one special character (@#$%^&+=!).");
+
+                    while(!validPassword){
+                        setCurrentTextConsoleColor(ConsoleColor.YELLOW);
+                        print("New Password:");
+                        char[] newPassword = consoleInterface.readPassword();
+                        try{
+                            loginManager.changePassword(patient, newPassword);
+                            setCurrentTextConsoleColor(ConsoleColor.GREEN);
+                            println("Password has been changed");
+                            validPassword = true;
+                        }catch (UserInvalidPasswordException e){
+                            setCurrentTextConsoleColor(ConsoleColor.RED);
+                            println(e.getReason());
+                        }finally {
+                            setCurrentTextConsoleColor(ConsoleColor.GREEN);
+                        }
                     }
                 }else{
                     setCurrentTextConsoleColor(ConsoleColor.RED);
                     println("Password does not match. Please try again.");
-                }
+                }waitForKeyPress();
             }
             case CHANGE_EMAIL -> {
                 //TODO: Add old email checking
-                println("Current Email: " + patient.getContactInformation());
+                print("Current Email: ");//+ patient.getContactInformation());
                 String currentEmail = readString();
 
                 if(currentEmail.equals(patient.getContactInformation())){
@@ -85,6 +99,22 @@ public class PatientConfigurationScreen extends OptionScreen {
                     println("Email does not match. Please try again.");
                 }
                 waitForKeyPress();
+            }
+            case CHANGE_PHONENUMBER -> {
+                print("Current Phone Number: ");
+                String currentPhoneNumber = readString();
+
+                if(currentPhoneNumber.equals(patient.getPhoneNumber())){
+                    print("New Phone Number:");
+                    String phoneNumber = readString();
+                    patient.setPhoneNumber(phoneNumber);
+                    loginManager.saveUsersToFile();
+                    setCurrentTextConsoleColor(ConsoleColor.GREEN);
+                    println("Phone number has been changed");
+                }else{
+                    setCurrentTextConsoleColor(ConsoleColor.RED);
+                    println("Phone number does not match. Please try again.");
+                }
             }
         }
     }

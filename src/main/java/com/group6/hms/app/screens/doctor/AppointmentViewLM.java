@@ -1,7 +1,7 @@
 package com.group6.hms.app.screens.doctor;
 
-import com.group6.hms.app.models.Appointment;
-import com.group6.hms.app.models.AppointmentStatus;
+import com.group6.hms.app.managers.appointment.models.Appointment;
+import com.group6.hms.app.managers.appointment.models.AppointmentStatus;
 
 import java.util.UUID;
 

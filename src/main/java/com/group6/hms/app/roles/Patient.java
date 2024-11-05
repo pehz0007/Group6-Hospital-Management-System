@@ -1,30 +1,18 @@
     package com.group6.hms.app.roles;
 
-    import com.group6.hms.app.auth.User;
-    import com.group6.hms.app.models.AppointmentOutcomeRecord;
+    import com.group6.hms.app.managers.auth.User;
     import com.group6.hms.app.models.MedicalRecord;
-
-    import java.util.List;
-    import java.util.ArrayList;
 
     public class Patient extends User {
         private String contactInformation; // Email
+        private String phoneNumber;
         private MedicalRecord medicalRecord;
-        private List<AppointmentOutcomeRecord> appointmentOutcomeRecord;
 
-        public Patient(String userId, char[] password, String name, Gender gender, String contactInformation) {
+        public Patient(String userId, char[] password, String name, Gender gender, String contactInformation, String phoneNumber) {
             super(userId, password, name, gender);
             this.contactInformation = contactInformation;
+            this.phoneNumber = phoneNumber;
             this.medicalRecord = new MedicalRecord();
-            this.appointmentOutcomeRecord = new ArrayList<>();
-        }
-
-        public List<AppointmentOutcomeRecord> getPastTreatments(){
-            return appointmentOutcomeRecord;
-        }
-
-        public List<AppointmentOutcomeRecord> getPastDiagnoses(){
-            return appointmentOutcomeRecord;
         }
 
         public void updateMedicalRecord(MedicalRecord medicalRecord) {
@@ -41,8 +29,21 @@
             this.contactInformation = contactInformation;
         }
 
+        public String getPhoneNumber() {
+            return phoneNumber;
+        }
+
+        public void setPhoneNumber(String phoneNumber) {
+            this.phoneNumber = phoneNumber;
+        }
+
         @Override
         public String getRoleName() {
             return "Patient";
+        }
+
+        @Override
+        public String toString() {
+            return getName();
         }
     }

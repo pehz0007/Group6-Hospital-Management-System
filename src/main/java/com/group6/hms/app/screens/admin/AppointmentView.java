@@ -1,7 +1,8 @@
 package com.group6.hms.app.screens.admin;
 
-import com.group6.hms.app.models.Appointment;
-import com.group6.hms.app.models.AppointmentStatus;
+import com.group6.hms.app.managers.appointment.models.Appointment;
+import com.group6.hms.app.managers.appointment.models.AppointmentStatus;
+import com.group6.hms.app.managers.availability.models.Availability;
 import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.app.roles.Patient;
 import com.group6.hms.framework.screens.ConsoleInterface;
@@ -12,8 +13,8 @@ import java.time.LocalTime;
 
 public class AppointmentView extends Appointment implements EventInterface {
 
-    public AppointmentView(Patient patient, Doctor doctor, AppointmentStatus status, LocalDate date, LocalTime startTime, LocalTime endTime ) {
-        super(patient, doctor, status, date, startTime, endTime);
+    public AppointmentView(Patient patient, Doctor doctor, Availability availability, AppointmentStatus status ) {
+        super(patient, doctor, status, availability);
     }
 
     @Override

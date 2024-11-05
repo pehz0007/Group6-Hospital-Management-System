@@ -1,27 +1,17 @@
 package com.group6.hms.app.screens.doctor;
 
-import com.group6.hms.app.auth.LoginManager;
-import com.group6.hms.app.auth.LoginManagerHolder;
-import com.group6.hms.app.managers.AppointmentManager;
-import com.group6.hms.app.managers.AvailabilityManager;
-import com.group6.hms.app.models.Appointment;
-import com.group6.hms.app.roles.Doctor;
-import com.group6.hms.app.storage.SerializationStorageProvider;
-import com.group6.hms.app.storage.StorageProvider;
-import com.group6.hms.framework.screens.pagination.HeaderField;
+import com.group6.hms.app.managers.appointment.AppointmentManager;
+import com.group6.hms.app.managers.appointment.AppointmentManagerHolder;
+import com.group6.hms.app.managers.appointment.models.Appointment;
 import com.group6.hms.framework.screens.pagination.PaginationTableScreen;
 
-import java.io.File;
 import java.util.List;
 
 public class AcceptOrDeclineScreen extends PaginationTableScreen<Appointment> {
 
-    private static final File appointmentsFile = new File("data/appointments.ser");
-    private final StorageProvider<Appointment> appointmentStorageProvider = new SerializationStorageProvider<>();
-    List<Appointment> appointments;
+    private List<Appointment> appointments;
 
-    AppointmentManager appointmentManager = new AppointmentManager();
-    AvailabilityManager availabilityManager = new AvailabilityManager();
+    private AppointmentManager appointmentManager = AppointmentManagerHolder.getAppointmentManager();
 
 
     @Override
@@ -66,9 +56,10 @@ public class AcceptOrDeclineScreen extends PaginationTableScreen<Appointment> {
                 appointmentManager.acceptAppointmentRequest(appointment);
                 items.remove(appointment);
                 //appointmentStorageProvider.saveToFile(appointmentsFile);
-                break;
+                return;
             }
         }
+        println("\u001B[31m Invalid input. Please try again.");
     }
 
     protected void declineAppointment(List<Appointment> appointment){
@@ -83,8 +74,9 @@ public class AcceptOrDeclineScreen extends PaginationTableScreen<Appointment> {
                 appointment.remove(appointments);
                 //appointmentStorageProvider.saveToFile(appointmentsFile);
 
-                break;
+                return;
             }
         }
+        println("\u001B[31m Invalid input. Please try again.");
     }
 }

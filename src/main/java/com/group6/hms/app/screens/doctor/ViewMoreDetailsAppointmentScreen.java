@@ -1,10 +1,10 @@
 package com.group6.hms.app.screens.doctor;
 
-import com.group6.hms.app.managers.AppointmentManager;
-import com.group6.hms.app.models.Appointment;
-import com.group6.hms.app.models.AppointmentOutcomeRecord;
-import com.group6.hms.app.models.PrescribedMedication;
-import com.group6.hms.app.roles.Patient;
+
+import com.group6.hms.app.managers.appointment.AppointmentManager;
+import com.group6.hms.app.managers.appointment.AppointmentManagerHolder;
+import com.group6.hms.app.managers.appointment.models.AppointmentOutcomeRecord;
+import com.group6.hms.app.managers.inventory.models.PrescribedMedication;
 import com.group6.hms.framework.screens.pagination.PrintTableUtils;
 import com.group6.hms.framework.screens.pagination.SinglePaginationTableScreen;
 
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class ViewMoreDetailsAppointmentScreen extends SinglePaginationTableScreen<UUID> {
-    AppointmentManager appointmentManager = new AppointmentManager();
+    private AppointmentManager appointmentManager = AppointmentManagerHolder.getAppointmentManager();
     public ViewMoreDetailsAppointmentScreen( List<UUID> items) {
         super("Confirmed Appointment Details", items);
     }

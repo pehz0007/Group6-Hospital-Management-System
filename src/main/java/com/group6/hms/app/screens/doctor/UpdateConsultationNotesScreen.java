@@ -1,9 +1,15 @@
 package com.group6.hms.app.screens.doctor;
 
-import com.group6.hms.app.models.MedicationStatus;
-import com.group6.hms.app.managers.AppointmentManager;
-import com.group6.hms.app.managers.InventoryManager;
-import com.group6.hms.app.models.*;
+import com.group6.hms.app.managers.appointment.AppointmentManager;
+import com.group6.hms.app.managers.appointment.AppointmentManagerHolder;
+import com.group6.hms.app.managers.appointment.models.Appointment;
+import com.group6.hms.app.managers.appointment.models.AppointmentOutcomeRecord;
+import com.group6.hms.app.managers.appointment.models.AppointmentService;
+import com.group6.hms.app.managers.inventory.InventoryManagerHolder;
+import com.group6.hms.app.managers.inventory.models.Medication;
+import com.group6.hms.app.managers.inventory.models.MedicationStatus;
+import com.group6.hms.app.managers.inventory.InventoryManager;
+import com.group6.hms.app.managers.inventory.models.PrescribedMedication;
 import com.group6.hms.framework.screens.pagination.PrintTableUtils;
 import com.group6.hms.framework.screens.pagination.SinglePaginationTableScreen;
 
@@ -12,9 +18,9 @@ import java.util.List;
 import java.util.UUID;
 
 public class UpdateConsultationNotesScreen extends SinglePaginationTableScreen<UUID> {
-    AppointmentManager appointmentManager = new AppointmentManager();
-    InventoryManager inventoryManager = new InventoryManager();
-    List<UUID> consultationNo;
+    private AppointmentManager appointmentManager = AppointmentManagerHolder.getAppointmentManager();
+    private InventoryManager inventoryManager = InventoryManagerHolder.getInventoryManager();
+    private List<UUID> consultationNo;
 
     @Override
     protected void handleOption(int optionId) {
@@ -58,11 +64,24 @@ public class UpdateConsultationNotesScreen extends SinglePaginationTableScreen<U
             print("Is this the appointment you want to update for today?(Y/N): ");
             String result = readString();
             if(result.equalsIgnoreCase("y")){
+                String details = null;
+                String service = null;
                 AppointmentService service1;
-                print("Appointment Details Update:");
-                String details = readString();
-                print("Appointment Service (Consult or Xray or Blood Test): ");
-                String service = readString();
+                try{
+                    print("Appointment Details Update:");
+                    details = readString();
+                } catch (Exception e) {
+                    println("\u001B[31m Invalid format. Please enter again");
+                    return;
+                }
+                try{
+                    print("Appointment Service (Consult or Xray or Blood Test): ");
+                    service = readString();
+                } catch (Exception e) {
+                    println("\u001B[31m Invalid format. Please enter again");
+                    return;
+                }
+
                 if(service.equalsIgnoreCase("consult")){
                     service1 = AppointmentService.CONSULT;
                 }else if(service.equalsIgnoreCase("xray")){

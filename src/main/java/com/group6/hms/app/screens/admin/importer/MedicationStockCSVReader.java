@@ -1,7 +1,7 @@
 package com.group6.hms.app.screens.admin.importer;
 
-import com.group6.hms.app.models.Medication;
-import com.group6.hms.app.models.MedicationStock;
+import com.group6.hms.app.managers.inventory.models.Medication;
+import com.group6.hms.app.managers.inventory.models.MedicationStock;
 
 import java.io.Reader;
 import java.util.LinkedList;

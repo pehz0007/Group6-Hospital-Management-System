@@ -1,7 +1,7 @@
 package com.group6.hms.app.screens.admin;
 
-import com.group6.hms.app.auth.LoginManager;
-import com.group6.hms.app.auth.User;
+import com.group6.hms.app.managers.auth.LoginManager;
+import com.group6.hms.app.managers.auth.User;
 import com.group6.hms.app.roles.*;
 import com.group6.hms.app.screens.admin.importer.InvalidStaffRoleException;
 import com.group6.hms.framework.screens.ConsoleColor;
@@ -73,8 +73,10 @@ public class UserUtils {
         }else if(selectedOptionId == PATIENT_ID) {
             //Create patient
             consoleInterface.print("Email: ");
+            consoleInterface.print("Phone Number: ");
             String contactInformation = String.valueOf(consoleInterface.readInt());
-            user = new Patient(userId, password, name, gender, contactInformation);
+            String phoneNumber = String.valueOf(consoleInterface.readInt());
+            user = new Patient(userId, password, name, gender, contactInformation, phoneNumber);
 
         }else throw new InvalidStaffRoleException("Unexpected role value: " + selectedOptionId);
 

@@ -1,6 +1,6 @@
 package com.group6.hms.app.screens.admin;
 
-import com.group6.hms.app.auth.User;
+import com.group6.hms.app.managers.auth.User;
 import com.group6.hms.app.roles.Gender;
 import com.group6.hms.framework.screens.pagination.HeaderField;
 

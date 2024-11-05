@@ -1,19 +1,12 @@
 package com.group6.hms.app.screens.pharmacist;
 
-import com.group6.hms.app.managers.InventoryManager;
-import com.group6.hms.app.models.MedicationStock;
-import com.group6.hms.app.models.ReplenishmentRequest;
-import com.group6.hms.app.models.ReplenishmentRequestStatus;
-import com.group6.hms.app.screens.admin.ReplenishmentRequestScreen;
-import com.group6.hms.app.screens.admin.importer.MedicationStockCSVReader;
-import com.group6.hms.app.storage.SerializationStorageProvider;
-import com.group6.hms.app.storage.StorageProvider;
-import com.group6.hms.framework.screens.ConsoleColor;
+import com.group6.hms.app.managers.inventory.InventoryManager;
+import com.group6.hms.app.managers.inventory.InventoryManagerHolder;
+import com.group6.hms.app.managers.inventory.models.MedicationStock;
+import com.group6.hms.app.managers.inventory.models.ReplenishmentRequest;
+import com.group6.hms.app.managers.inventory.models.ReplenishmentRequestStatus;
 import com.group6.hms.framework.screens.pagination.PaginationTableScreen;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -27,7 +20,7 @@ public class PharmacistViewAndManageMedicationScreen extends PaginationTableScre
 
     public PharmacistViewAndManageMedicationScreen() {
         super("Medications", null);
-        this.inventoryManager = new InventoryManager();
+        this.inventoryManager = InventoryManagerHolder.getInventoryManager();
         updateMedicationStocks();
 
         addOption(SUBMIT_REPLENISHMENT_REQUEST, "Submit Replenishment Request");

@@ -1,13 +1,12 @@
 package com.group6.hms.app.screens.doctor;
 
-import com.group6.hms.app.auth.LoginManager;
-import com.group6.hms.app.auth.LoginManagerHolder;
-import com.group6.hms.app.auth.User;
-import com.group6.hms.app.models.CareProvider;
+import com.group6.hms.app.managers.auth.LoginManager;
+import com.group6.hms.app.managers.auth.LoginManagerHolder;
+import com.group6.hms.app.managers.careprovider.CareProvider;
+import com.group6.hms.app.managers.careprovider.CareProviderHolder;
 import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.app.roles.Patient;
 import com.group6.hms.framework.screens.ConsoleColor;
-import com.group6.hms.framework.screens.Screen;
 import com.group6.hms.framework.screens.pagination.PrintTableUtils;
 import com.group6.hms.framework.screens.pagination.SinglePaginationTableScreen;
 
@@ -17,7 +16,7 @@ import java.util.UUID;
 
 public class PatientMedicalRecordsScreen extends SinglePaginationTableScreen<UUID> {
     LoginManager loginManager = LoginManagerHolder.getLoginManager();
-    Doctor doc = (Doctor) loginManager.getCurrentlyLoggedInUser();
+    Doctor doc = DoctorScreen.getDoctor();
 
     public PatientMedicalRecordsScreen(String header, List<UUID> items) {
         super(header, items);
@@ -37,7 +36,7 @@ public class PatientMedicalRecordsScreen extends SinglePaginationTableScreen<UUI
     public void onStart() {
         super.onStart();
 
-        CareProvider retrievePatients = new CareProvider();
+        CareProvider retrievePatients = CareProviderHolder.getCareProvider();
         Collection<UUID> medicalRecords = retrievePatients.getPatientIDsUnderDoctorCare(doc);
     }
 
@@ -48,7 +47,11 @@ public class PatientMedicalRecordsScreen extends SinglePaginationTableScreen<UUI
                 print("Patient ID:");
                 String userId = readString();
                 Patient user = (Patient) loginManager.findUser(userId);
-                navigateToScreen(new UpdatePatientMedicalScreen(user));
+                if(user != null) {
+                    navigateToScreen(new UpdatePatientMedicalScreen(user));
+                }else{
+                    println("\u001B[31m Cannot find user. Please enter again");
+                }
                 break;
             }
         }
