@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class PatientMedicalRecordsScreen extends SinglePaginationTableScreen<UUID> {
     LoginManager loginManager = LoginManagerHolder.getLoginManager();
-    Doctor doc = (Doctor) loginManager.getCurrentlyLoggedInUser();
+    Doctor doc = DoctorScreen.getDoctor();
 
     public PatientMedicalRecordsScreen(String header, List<UUID> items) {
         super(header, items);
@@ -46,7 +46,11 @@ public class PatientMedicalRecordsScreen extends SinglePaginationTableScreen<UUI
                 print("Patient ID:");
                 String userId = readString();
                 Patient user = (Patient) loginManager.findUser(userId);
-                navigateToScreen(new UpdatePatientMedicalScreen(user));
+                if(user != null) {
+                    navigateToScreen(new UpdatePatientMedicalScreen(user));
+                }else{
+                    println("\u001B[31m Cannot find user. Please enter again");
+                }
                 break;
             }
         }

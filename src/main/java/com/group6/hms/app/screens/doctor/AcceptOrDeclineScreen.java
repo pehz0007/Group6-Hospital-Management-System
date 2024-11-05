@@ -62,9 +62,10 @@ public class AcceptOrDeclineScreen extends PaginationTableScreen<Appointment> {
                 appointmentManager.acceptAppointmentRequest(appointment);
                 items.remove(appointment);
                 //appointmentStorageProvider.saveToFile(appointmentsFile);
-                break;
+                return;
             }
         }
+        println("\u001B[31m Invalid input. Please try again.");
     }
 
     protected void declineAppointment(List<Appointment> appointment){
@@ -79,8 +80,9 @@ public class AcceptOrDeclineScreen extends PaginationTableScreen<Appointment> {
                 appointment.remove(appointments);
                 //appointmentStorageProvider.saveToFile(appointmentsFile);
 
-                break;
+                return;
             }
         }
+        println("\u001B[31m Invalid input. Please try again.");
     }
 }

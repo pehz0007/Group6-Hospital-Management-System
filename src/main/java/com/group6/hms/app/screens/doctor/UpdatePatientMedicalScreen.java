@@ -39,7 +39,7 @@ public class UpdatePatientMedicalScreen extends Screen {
 
     public UpdatePatientMedicalScreen(Patient patient) {
         super("Update " + patient.getName() + " Medical Records");
-        this.doc = (Doctor) loginManager.getCurrentlyLoggedInUser ();
+        this.doc = DoctorScreen.getDoctor();
         this.patient = patient;// Assuming current user is a doctor
         //updatePatientMedicalRecords(patient);
     }

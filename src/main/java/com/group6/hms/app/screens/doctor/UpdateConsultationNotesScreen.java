@@ -62,11 +62,24 @@ public class UpdateConsultationNotesScreen extends SinglePaginationTableScreen<U
             print("Is this the appointment you want to update for today?(Y/N): ");
             String result = readString();
             if(result.equalsIgnoreCase("y")){
+                String details = null;
+                String service = null;
                 AppointmentService service1;
-                print("Appointment Details Update:");
-                String details = readString();
-                print("Appointment Service (Consult or Xray or Blood Test): ");
-                String service = readString();
+                try{
+                    print("Appointment Details Update:");
+                    details = readString();
+                } catch (Exception e) {
+                    println("\u001B[31m Invalid format. Please enter again");
+                    return;
+                }
+                try{
+                    print("Appointment Service (Consult or Xray or Blood Test): ");
+                    service = readString();
+                } catch (Exception e) {
+                    println("\u001B[31m Invalid format. Please enter again");
+                    return;
+                }
+
                 if(service.equalsIgnoreCase("consult")){
                     service1 = AppointmentService.CONSULT;
                 }else if(service.equalsIgnoreCase("xray")){
