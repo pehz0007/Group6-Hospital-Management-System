@@ -1,26 +1,37 @@
 package com.group6.hms.app.screens.patient;
 
+import com.group6.hms.app.managers.AppointmentManager;
+import com.group6.hms.app.models.AppointmentOutcomeRecord;
 import com.group6.hms.app.roles.Patient;
 import com.group6.hms.app.screens.MainScreen;
 import com.group6.hms.app.auth.LogoutScreen;
+import com.group6.hms.app.managers.AvailabilityManager;
+import com.group6.hms.app.models.Availability;
+
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+
+import static java.util.stream.Collectors.groupingBy;
 
 public class PatientScreen extends LogoutScreen {
-
-
-    private static final int MEDICAL_RECORD = 2;
+    private static final int VIEW_MEDICAL_RECORD = 2;
     private static final int USER_CONFIGURATION = 3;
-    private static final int PATIENT_BOOK_AVAILABLE_DOCTORS = 4;
+    private static final int APPOINTMENT_SYSTEM = 4;
+    private static final int VIEW_PAST_APPOINTMENT_OUTCOME_RECORDS = 5;
 
-    private Patient patient;
+    Patient patient;
+    AvailabilityManager availabilityManager = new AvailabilityManager();
 
     /**
      * Constructor to initialize the PatientScreen.
      */
     public PatientScreen() {
         super("Patient Menu");
-        addOption(MEDICAL_RECORD, "Show Medical Record");
-        addOption(USER_CONFIGURATION, "Edit User Profile");
-        addOption(PATIENT_BOOK_AVAILABLE_DOCTORS, "Book Available Doctors");
+        addOption(VIEW_MEDICAL_RECORD, "View Medical Record");
+        addOption(USER_CONFIGURATION, "Edit Personal Information");
+        addOption(APPOINTMENT_SYSTEM, "View Available Appointment Slots");
+        addOption(VIEW_PAST_APPOINTMENT_OUTCOME_RECORDS, "View Past Appointment Outcome Records");
     }
 
     @Override
@@ -38,8 +49,25 @@ public class PatientScreen extends LogoutScreen {
     @Override
     protected void handleOption(int optionId) {
         switch (optionId){
+            case VIEW_MEDICAL_RECORD -> viewMedicalRecord();
             case USER_CONFIGURATION -> navigateToScreen(new PatientConfigurationScreen(patient));
-            case  PATIENT_BOOK_AVAILABLE_DOCTORS -> navigateToScreen(new ViewAvailableDoctorScreen());
+            case APPOINTMENT_SYSTEM -> {
+                Map<LocalDate, List<Availability>> avail = availabilityManager.getAllAvailability().stream().collect(groupingBy(Availability::getAvailableDate));
+                navigateToScreen(new ViewAvailableDoctorScreen());
+            }
+            case VIEW_PAST_APPOINTMENT_OUTCOME_RECORDS -> viewPastOutcomeRecords();
         }
+    }
+
+    private void viewMedicalRecord() {
+        AppointmentManager appointmentManager = new AppointmentManager();
+        List<AppointmentOutcomeRecord> appointmentOutcomeRecords = appointmentManager.getAppointmentOutcomeRecordsByPatient(patient);
+        navigateToScreen(new MedicalRecordScreen(appointmentOutcomeRecords));
+    }
+
+    private void viewPastOutcomeRecords() {
+        AppointmentManager appointmentManager = new AppointmentManager();
+        List<AppointmentOutcomeRecord> appointmentOutcomeRecords = appointmentManager.getAppointmentOutcomeRecordsByPatient(patient);
+        navigateToScreen(new PastOutcomeRecordsScreen(appointmentOutcomeRecords));
     }
 }
