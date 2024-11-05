@@ -49,13 +49,13 @@ public class AvailabilityManager  {
     }
 
     /**
-     * Retrieves all availability slots with the status {@link AvailabilityStatus#Available}.
+     * Retrieves all availability slots with the status {@link AvailabilityStatus#AVAILABLE}.
      * This method is intended for patients to view available appointment slots.
      *
-     * @return a {@code List} of all {@code Availability} objects with the {@code AvailabilityStatus} set to {@link AvailabilityStatus#Available}
+     * @return a {@code List} of all {@code Availability} objects with the {@code AvailabilityStatus} set to {@link AvailabilityStatus#AVAILABLE}
      */
     public List<Availability> getAllAvailableAvailability() {
-        return availabilityStorageProvider.getItems().stream().filter(a -> a.getAvailabilityStatus() == AvailabilityStatus.Available).toList();
+        return availabilityStorageProvider.getItems().stream().filter(a -> a.getAvailabilityStatus() == AvailabilityStatus.AVAILABLE).toList();
     }
 
     /**

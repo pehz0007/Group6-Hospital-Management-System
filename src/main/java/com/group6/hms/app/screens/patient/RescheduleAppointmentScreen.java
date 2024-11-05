@@ -1,8 +1,8 @@
 package com.group6.hms.app.screens.patient;
 
 import com.group6.hms.app.managers.AppointmentManager;
-import com.group6.hms.app.models.Appointment;
-import com.group6.hms.app.models.Availability;
+import com.group6.hms.app.managers.appointment.models.Appointment;
+import com.group6.hms.app.managers.availability.models.Availability;
 import com.group6.hms.app.roles.Patient;
 import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.pagination.PaginationTableScreen;
@@ -35,6 +35,7 @@ public class RescheduleAppointmentScreen extends PaginationTableScreen<Appointme
 
     @Override
     protected void handleOption(int optionId) {
+        super.handleOption(optionId);
         if(optionId == RESCHEDULE_APPOINTMENT){
             rescheduleAppointment();
         }
@@ -46,14 +47,15 @@ public class RescheduleAppointmentScreen extends PaginationTableScreen<Appointme
         Optional<Appointment> appointmentOptional = findAppointmentById(selectedAppointmentId);
 
         if (appointmentOptional.isPresent()) {
-            appointmentManager.rescheduleAppointment(patient,appointmentOptional.get(), availability);
+            appointmentManager.rescheduleAppointment(appointmentOptional.get(), availability);
             updateAppointmentList();
             setCurrentTextConsoleColor(ConsoleColor.GREEN);
             println("Appointment rescheduled successfully.");
         } else {
             setCurrentTextConsoleColor(ConsoleColor.RED);
             println("No appointment found.");
-        }waitForKeyPress();
+        }
+        waitForKeyPress();
     }
 
     private Optional<Appointment> findAppointmentById(String appointmentId){

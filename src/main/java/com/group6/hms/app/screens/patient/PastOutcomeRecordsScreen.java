@@ -1,8 +1,8 @@
 package com.group6.hms.app.screens.patient;
 
-import com.group6.hms.app.auth.LoginManager;
-import com.group6.hms.app.auth.LoginManagerHolder;
-import com.group6.hms.app.models.AppointmentOutcomeRecord;
+import com.group6.hms.app.managers.appointment.models.AppointmentOutcomeRecord;
+import com.group6.hms.app.managers.auth.LoginManager;
+import com.group6.hms.app.managers.auth.LoginManagerHolder;
 import com.group6.hms.app.roles.Patient;
 import com.group6.hms.framework.screens.pagination.PrintTableUtils;
 import com.group6.hms.framework.screens.pagination.SinglePaginationTableScreen;

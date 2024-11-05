@@ -1,11 +1,11 @@
 package com.group6.hms.app.screens.patient;
 
-import com.group6.hms.app.models.AppointmentService;
+import com.group6.hms.app.managers.appointment.models.AppointmentOutcomeRecord;
+import com.group6.hms.app.managers.appointment.models.AppointmentService;
+import com.group6.hms.app.managers.inventory.models.PrescribedMedication;
 import com.group6.hms.app.models.BloodType;
-import com.group6.hms.app.models.PrescribedMedication;
 import com.group6.hms.app.roles.Gender;
 import com.group6.hms.app.roles.Patient;
-import com.group6.hms.app.models.AppointmentOutcomeRecord;
 
 import java.time.LocalDate;
 import java.util.List;

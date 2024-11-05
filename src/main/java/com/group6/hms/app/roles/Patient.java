@@ -1,6 +1,6 @@
     package com.group6.hms.app.roles;
 
-    import com.group6.hms.app.auth.User;
+    import com.group6.hms.app.managers.auth.User;
     import com.group6.hms.app.models.MedicalRecord;
 
     public class Patient extends User {
@@ -40,5 +40,10 @@
         @Override
         public String getRoleName() {
             return "Patient";
+        }
+
+        @Override
+        public String toString() {
+            return getName();
         }
     }

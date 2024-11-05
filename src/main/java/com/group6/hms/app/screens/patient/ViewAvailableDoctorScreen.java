@@ -1,6 +1,8 @@
 package com.group6.hms.app.screens.patient;
 
+import com.group6.hms.app.managers.appointment.AppointmentManagerHolder;
 import com.group6.hms.app.managers.availability.AvailabilityManager;
+import com.group6.hms.app.managers.availability.AvailabilityManagerHolder;
 import com.group6.hms.app.managers.availability.models.Availability;
 import com.group6.hms.app.managers.auth.LoginManager;
 import com.group6.hms.app.managers.auth.LoginManagerHolder;
@@ -24,8 +26,8 @@ public class ViewAvailableDoctorScreen extends CalendarScreen<Availability, List
     private final int RESCHEDULE_APPOINTMENT = 3;
     private final int CANCEL_APPOINTMENT = 4;
     private final int VIEW_SCHEDULED_APPOINTMENTS = 5;
-    private AvailabilityManager availabilityManager = new AvailabilityManager();
-    private AppointmentManager appointmentManager = new AppointmentManager();
+    private AvailabilityManager availabilityManager = AvailabilityManagerHolder.getAvailabilityManager();
+    private AppointmentManager appointmentManager = AppointmentManagerHolder.getAppointmentManager();
     private LoginManager loginManager = LoginManagerHolder.getLoginManager();
     private Patient patient;
 
@@ -35,15 +37,21 @@ public class ViewAvailableDoctorScreen extends CalendarScreen<Availability, List
     public ViewAvailableDoctorScreen() {
         super("Available Appointments", null);
 
-        updateAvailableDoctorsScreen(availabilityManager);
+        updateAvailableDoctorsScreen();
         addOption(SCHEDULE_APPOINTMENT, "Schedule Appointment", ConsoleColor.CYAN);
         addOption(RESCHEDULE_APPOINTMENT, "Reschedule Appointment", ConsoleColor.CYAN);
         addOption(CANCEL_APPOINTMENT, "Cancel Appointment", ConsoleColor.CYAN);
         addOption(VIEW_SCHEDULED_APPOINTMENTS, "View Scheduled Appointments", ConsoleColor.CYAN);
     }
 
-    private void updateAvailableDoctorsScreen(AvailabilityManager availabilityManager) {
-        Map<LocalDate, List<Availability>> events = availabilityManager.getAllAvailability().stream().collect(groupingBy(Availability::getAvailableDate));
+    @Override
+    public void onRefresh() {
+        super.onRefresh();
+        updateAvailableDoctorsScreen();
+    }
+
+    private void updateAvailableDoctorsScreen() {
+        Map<LocalDate, List<Availability>> events = availabilityManager.getAllAvailableAvailability().stream().collect(groupingBy(Availability::getAvailableDate));
         setEvents(events);
     }
 
@@ -63,7 +71,7 @@ public class ViewAvailableDoctorScreen extends CalendarScreen<Availability, List
                 appointmentManager.scheduleAppointment(this.patient, availability);
                 setCurrentTextConsoleColor(ConsoleColor.GREEN);
                 println("Successfully requested for an appointment. To view your appointment status, please go to 'View Schedules Appointments' screen.");
-                updateAvailableDoctorsScreen(availabilityManager);
+                updateAvailableDoctorsScreen();
             }
             waitForKeyPress();
         }else if(optionId == RESCHEDULE_APPOINTMENT) {

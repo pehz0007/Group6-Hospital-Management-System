@@ -1,6 +1,7 @@
 package com.group6.hms.app.screens.pharmacist;
 
-import com.group6.hms.app.managers.appointment.AppointmentManager;
+import com.group6.hms.app.managers.AppointmentManager;
+import com.group6.hms.app.managers.appointment.AppointmentManagerHolder;
 import com.group6.hms.app.managers.inventory.InventoryManager;
 import com.group6.hms.app.managers.appointment.models.AppointmentOutcomeRecord;
 import com.group6.hms.app.managers.inventory.models.MedicationStatus;
@@ -16,7 +17,7 @@ public class PharmacistViewAndManageAppointmentOutcomeRecordScreen extends Singl
 
     private final int UPDATE_PRESCRIPTION_STATUS = 4;
 
-    private final AppointmentManager appointmentManager = new AppointmentManager(); //initialise appointment manager
+    private final AppointmentManager appointmentManager = AppointmentManagerHolder.getAppointmentManager(); //initialise appointment manager
     private final InventoryManager inventoryManager = new InventoryManager(); // initialise inv manager
 
     public PharmacistViewAndManageAppointmentOutcomeRecordScreen(List<AppointmentOutcomeRecord> items) {

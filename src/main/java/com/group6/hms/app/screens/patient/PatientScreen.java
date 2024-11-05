@@ -1,13 +1,13 @@
 package com.group6.hms.app.screens.patient;
 
 import com.group6.hms.app.managers.AppointmentManager;
-import com.group6.hms.app.models.AppointmentOutcomeRecord;
+import com.group6.hms.app.managers.appointment.models.AppointmentOutcomeRecord;
+import com.group6.hms.app.managers.auth.LogoutScreen;
+import com.group6.hms.app.managers.availability.AvailabilityManager;
+import com.group6.hms.app.managers.availability.AvailabilityManagerHolder;
+import com.group6.hms.app.managers.availability.models.Availability;
 import com.group6.hms.app.roles.Patient;
 import com.group6.hms.app.screens.MainScreen;
-import com.group6.hms.app.auth.LogoutScreen;
-import com.group6.hms.app.managers.AvailabilityManager;
-import com.group6.hms.app.models.Availability;
-
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -20,8 +20,8 @@ public class PatientScreen extends LogoutScreen {
     private static final int APPOINTMENT_SYSTEM = 4;
     private static final int VIEW_PAST_APPOINTMENT_OUTCOME_RECORDS = 5;
 
-    Patient patient;
-    AvailabilityManager availabilityManager = new AvailabilityManager();
+    private Patient patient;
+    private AvailabilityManager availabilityManager = AvailabilityManagerHolder.getAvailabilityManager();
 
     /**
      * Constructor to initialize the PatientScreen.

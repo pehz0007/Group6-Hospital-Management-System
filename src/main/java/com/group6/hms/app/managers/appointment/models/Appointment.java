@@ -22,9 +22,7 @@ import java.util.UUID;
  */
 
 public class Appointment implements Serializable, EventInterface {
-    @HeaderField(width = 40)
     private final UUID appointmentId;
-    @HeaderField(show = false)
     private final Patient patient;
     private final Doctor doctor;
     @HeaderField(renderer = AppointmentStatusRenderer.class)

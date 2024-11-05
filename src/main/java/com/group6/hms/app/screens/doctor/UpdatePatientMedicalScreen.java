@@ -1,9 +1,9 @@
 package com.group6.hms.app.screens.doctor;
 
+import com.group6.hms.app.managers.AppointmentManager;
 import com.group6.hms.app.managers.auth.LoginManager;
 import com.group6.hms.app.managers.auth.LoginManagerHolder;
 import com.group6.hms.app.managers.auth.User;
-import com.group6.hms.app.managers.appointment.AppointmentManager;
 import com.group6.hms.app.managers.availability.AvailabilityManager;
 import com.group6.hms.app.models.BloodType;
 import com.group6.hms.app.models.MedicalRecord;

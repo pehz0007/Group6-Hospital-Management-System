@@ -1,6 +1,7 @@
 package com.group6.hms.app.screens.doctor;
 
-import com.group6.hms.app.managers.appointment.AppointmentManager;
+
+import com.group6.hms.app.managers.AppointmentManager;
 import com.group6.hms.app.managers.appointment.models.AppointmentOutcomeRecord;
 import com.group6.hms.app.managers.inventory.models.PrescribedMedication;
 import com.group6.hms.framework.screens.pagination.PrintTableUtils;

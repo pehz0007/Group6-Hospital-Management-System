@@ -1,8 +1,9 @@
 package com.group6.hms.app.screens.pharmacist;
 
+import com.group6.hms.app.managers.AppointmentManager;
+import com.group6.hms.app.managers.appointment.AppointmentManagerHolder;
 import com.group6.hms.app.managers.appointment.models.AppointmentOutcomeRecord;
 import com.group6.hms.app.managers.auth.LogoutScreen;
-import com.group6.hms.app.managers.appointment.AppointmentManager;
 import com.group6.hms.app.managers.inventory.models.MedicationStatus;
 import com.group6.hms.app.roles.Pharmacist;
 import com.group6.hms.app.screens.MainScreen;
@@ -10,7 +11,7 @@ import com.group6.hms.app.screens.MainScreen;
 import java.util.List;
 
 public class PharmacistScreen extends LogoutScreen {
-    private final AppointmentManager appointmentManager = new AppointmentManager(); //initialise appointment manager
+    private AppointmentManager appointmentManager = AppointmentManagerHolder.getAppointmentManager(); //initialise appointment manager
 
     /**
      * Constructor to initialize the PharmacistScreen.

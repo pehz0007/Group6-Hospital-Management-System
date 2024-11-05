@@ -152,7 +152,7 @@ public class AppointmentManager {
         appointment.setStatus(AppointmentStatus.CANCELLED);
         // UPDATE AVAILABILITY
         Availability availability = AvailabilityManagerHolder.getAvailabilityManager().getAvailabilityById(appointment.getAppointmentId());
-        availability.setAvailabilityStatus(AvailabilityStatus.Available);
+        availability.setAvailabilityStatus(AvailabilityStatus.AVAILABLE);
 
         // update file
         appointmentStorageProvider.saveToFile(appointmentsFile);
@@ -171,7 +171,7 @@ public class AppointmentManager {
         // schedule the appointment
         Appointment appt = new Appointment(patient, availability.getDoctor(), AppointmentStatus.REQUESTED, availability);
         // UPDATE AVAILABILITY
-        AvailabilityManagerHolder.getAvailabilityManager().updateAvailability(availability, AvailabilityStatus.Booked);
+        AvailabilityManagerHolder.getAvailabilityManager().updateAvailability(availability, AvailabilityStatus.BOOKED);
 
         // update file
         appointmentStorageProvider.addNewItem(appt);
@@ -180,30 +180,31 @@ public class AppointmentManager {
     }
 
     /**
-     * Reschedules an existing appointment to a new date and time based on the given availability.
+     * Reschedules an existing appointment to a new date and time based on the given newAvailability.
      * Saves the updated appointments list to the serializable appointments file
      *
      * @param appointment  the {@code Appointment} to be rescheduled
-     * @param availability the new {@code Availability} for the appointment
+     * @param newAvailability the new {@code Availability} for the appointment
      */
-    public void rescheduleAppointment(Patient patient, Appointment appointment, Availability availability) {
+    public void rescheduleAppointment(Appointment appointment, Availability newAvailability) {
 //        appointmentStorageProvider.getItems().stream().filter(a -> a.getAppointmentId().equals(appointment.getAppointmentId())).findFirst().ifPresent(a -> {
-//            appointment.setDate(availability.getAvailableDate());
-//            appointment.setStartTime(availability.getAvailableStartTime());
-//            appointment.setEndTime(availability.getAvailableEndTime());
+//            appointment.setDate(newAvailability.getAvailableDate());
+//            appointment.setStartTime(newAvailability.getAvailableStartTime());
+//            appointment.setEndTime(newAvailability.getAvailableEndTime());
 //        });
 
         AvailabilityManager availabilityManager = AvailabilityManagerHolder.getAvailabilityManager();
 
         Availability previousAvailability = availabilityManager.getAvailabilityById(appointment.getAvailabilityId());
-        availabilityManager.updateAvailability(previousAvailability, AvailabilityStatus.Available);
+        availabilityManager.updateAvailability(previousAvailability, AvailabilityStatus.AVAILABLE);
 
-        appointment.setDate(availability.getAvailableDate());
-        appointment.setStartTime(availability.getAvailableStartTime());
-        appointment.setEndTime(availability.getAvailableEndTime());
+        appointment.setAvailabilityId(newAvailability.getAvailabilityId());
+        appointment.setDate(newAvailability.getAvailableDate());
+        appointment.setStartTime(newAvailability.getAvailableStartTime());
+        appointment.setEndTime(newAvailability.getAvailableEndTime());
 
         // UPDATE AVAILABILITY
-        availabilityManager.updateAvailability(availability, AvailabilityStatus.Booked);
+        availabilityManager.updateAvailability(newAvailability, AvailabilityStatus.BOOKED);
 
         // update file
         appointmentStorageProvider.saveToFile(appointmentsFile);
@@ -225,7 +226,7 @@ public class AppointmentManager {
         // UPDATE AVAILABILITY
         AvailabilityManager availabilityManager = AvailabilityManagerHolder.getAvailabilityManager();
         Availability availability = availabilityManager.getAvailabilityById(appointment.getAvailabilityId());
-        availabilityManager.updateAvailability(availability, AvailabilityStatus.Available);
+        availabilityManager.updateAvailability(availability, AvailabilityStatus.AVAILABLE);
 
         // update file
         appointmentStorageProvider.saveToFile(appointmentsFile);

@@ -1,5 +1,7 @@
 package com.group6.hms.app.managers.appointment;
 
+import com.group6.hms.app.managers.AppointmentManager;
+
 public class AppointmentManagerHolder {
 
     private static volatile AppointmentManager instance;

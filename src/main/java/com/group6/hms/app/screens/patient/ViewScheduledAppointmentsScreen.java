@@ -1,7 +1,7 @@
 package com.group6.hms.app.screens.patient;
 
 import com.group6.hms.app.managers.AppointmentManager;
-import com.group6.hms.app.models.Appointment;
+import com.group6.hms.app.managers.appointment.models.Appointment;
 import com.group6.hms.app.roles.Patient;
 import com.group6.hms.framework.screens.pagination.PaginationTableScreen;
 

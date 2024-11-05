@@ -1,11 +1,11 @@
 package com.group6.hms.app.screens.doctor;
 
+import com.group6.hms.app.managers.AppointmentManager;
 import com.group6.hms.app.managers.appointment.models.Appointment;
 import com.group6.hms.app.managers.appointment.models.AppointmentOutcomeRecord;
 import com.group6.hms.app.managers.appointment.models.AppointmentService;
 import com.group6.hms.app.managers.inventory.models.Medication;
 import com.group6.hms.app.managers.inventory.models.MedicationStatus;
-import com.group6.hms.app.managers.appointment.AppointmentManager;
 import com.group6.hms.app.managers.inventory.InventoryManager;
 import com.group6.hms.app.managers.inventory.models.PrescribedMedication;
 import com.group6.hms.framework.screens.pagination.PrintTableUtils;
@@ -16,9 +16,9 @@ import java.util.List;
 import java.util.UUID;
 
 public class UpdateConsultationNotesScreen extends SinglePaginationTableScreen<UUID> {
-    AppointmentManager appointmentManager = new AppointmentManager();
-    InventoryManager inventoryManager = new InventoryManager();
-    List<UUID> consultationNo;
+    private AppointmentManager appointmentManager = new AppointmentManager();
+    private InventoryManager inventoryManager = new InventoryManager();
+    private List<UUID> consultationNo;
 
     @Override
     protected void handleOption(int optionId) {
