@@ -1,14 +1,15 @@
 package com.group6.hms.app.screens.doctor;
 
-import com.group6.hms.app.managers.AppointmentManager;
+import com.group6.hms.app.managers.careprovider.CareProvider;
+import com.group6.hms.app.managers.appointment.AppointmentManager;
+import com.group6.hms.app.managers.appointment.AppointmentManagerHolder;
 import com.group6.hms.app.managers.appointment.models.Appointment;
-import com.group6.hms.app.managers.appointment.models.AppointmentService;
 import com.group6.hms.app.managers.appointment.models.AppointmentStatus;
 import com.group6.hms.app.managers.auth.LoginManager;
 import com.group6.hms.app.managers.auth.LogoutScreen;
+import com.group6.hms.app.managers.availability.AvailabilityManagerHolder;
 import com.group6.hms.app.managers.availability.models.Availability;
-import com.group6.hms.app.managers.inventory.models.PrescribedMedication;
-import com.group6.hms.app.models.*;
+import com.group6.hms.app.managers.careprovider.CareProviderHolder;
 import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.app.managers.auth.User;
 import com.group6.hms.app.screens.MainScreen;
@@ -27,11 +28,11 @@ public class DoctorScreen extends LogoutScreen {
     /**
      * Constructor to initialize the DoctorScreen.
      */
-    AppointmentManager appointmentManager = new AppointmentManager();
-    LoginManager loginManager = LoginManagerHolder.getLoginManager();
-    AvailabilityManager availabilityManager = new AvailabilityManager();
+    private AppointmentManager appointmentManager = AppointmentManagerHolder.getAppointmentManager();
+    private LoginManager loginManager = LoginManagerHolder.getLoginManager();
+    private AvailabilityManager availabilityManager = AvailabilityManagerHolder.getAvailabilityManager();
     private SerializationStorageProvider<User> userStorageProvider = new SerializationStorageProvider<>();
-    File userFile = new File("data/users.ser");
+    private File userFile = new File("data/users.ser");
 
     private static Doctor doc;
     public DoctorScreen() {
@@ -101,7 +102,7 @@ public class DoctorScreen extends LogoutScreen {
 
     protected void patientMedicalRecords(){
 
-        CareProvider retrievePatients = new CareProvider();
+        CareProvider retrievePatients = CareProviderHolder.getCareProvider();
         Collection<UUID> medicalRecords = retrievePatients.getPatientIDsUnderDoctorCare(doc);
         navigateToScreen(new PatientMedicalRecordsScreen("Patient Medical Records", medicalRecords.stream().toList()));
     }

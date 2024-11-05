@@ -1,6 +1,7 @@
 package com.group6.hms.app.screens.patient;
 
-import com.group6.hms.app.managers.AppointmentManager;
+import com.group6.hms.app.managers.appointment.AppointmentManager;
+import com.group6.hms.app.managers.appointment.AppointmentManagerHolder;
 import com.group6.hms.app.managers.appointment.models.AppointmentOutcomeRecord;
 import com.group6.hms.app.managers.auth.LogoutScreen;
 import com.group6.hms.app.managers.availability.AvailabilityManager;
@@ -8,6 +9,7 @@ import com.group6.hms.app.managers.availability.AvailabilityManagerHolder;
 import com.group6.hms.app.managers.availability.models.Availability;
 import com.group6.hms.app.roles.Patient;
 import com.group6.hms.app.screens.MainScreen;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +24,7 @@ public class PatientScreen extends LogoutScreen {
 
     private Patient patient;
     private AvailabilityManager availabilityManager = AvailabilityManagerHolder.getAvailabilityManager();
+    private AppointmentManager appointmentManager = AppointmentManagerHolder.getAppointmentManager();
 
     /**
      * Constructor to initialize the PatientScreen.
@@ -48,7 +51,7 @@ public class PatientScreen extends LogoutScreen {
 
     @Override
     protected void handleOption(int optionId) {
-        switch (optionId){
+        switch (optionId) {
             case VIEW_MEDICAL_RECORD -> viewMedicalRecord();
             case USER_CONFIGURATION -> navigateToScreen(new PatientConfigurationScreen(patient));
             case APPOINTMENT_SYSTEM -> {
@@ -60,13 +63,11 @@ public class PatientScreen extends LogoutScreen {
     }
 
     private void viewMedicalRecord() {
-        AppointmentManager appointmentManager = new AppointmentManager();
         List<AppointmentOutcomeRecord> appointmentOutcomeRecords = appointmentManager.getAppointmentOutcomeRecordsByPatient(patient);
         navigateToScreen(new MedicalRecordScreen(appointmentOutcomeRecords));
     }
 
     private void viewPastOutcomeRecords() {
-        AppointmentManager appointmentManager = new AppointmentManager();
         List<AppointmentOutcomeRecord> appointmentOutcomeRecords = appointmentManager.getAppointmentOutcomeRecordsByPatient(patient);
         navigateToScreen(new PastOutcomeRecordsScreen(appointmentOutcomeRecords));
     }

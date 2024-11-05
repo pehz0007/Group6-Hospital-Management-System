@@ -33,7 +33,7 @@ public class PrintTableUtils {
             HeaderField headerField = field.getAnnotation(HeaderField.class);
             FieldRenderer renderer = getRenderer(headerField);
             boolean show = (headerField == null || headerField.show()); // Default to true if annotation is missing
-            int fieldWidth = (headerField != null) ? headerField.width() : 20; // Default width if no annotation
+            int fieldWidth = (headerField != null) ? headerField.verticalWidth() : 20; // Default width if no annotation
             String fieldName = (headerField != null && !headerField.name().isEmpty())
                     ? headerField.name() : convertCamelCaseToNormal(field.getName());
 

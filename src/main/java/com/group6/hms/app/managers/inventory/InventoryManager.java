@@ -28,7 +28,7 @@ public class InventoryManager {
      * and replenishment requests from storage files. If the medication stock file
      * does not exist, an error message is displayed.
      */
-    public InventoryManager() {
+    InventoryManager() {
        if (!medicationStockFile.exists()) {
            System.err.println("Administrator must import Medication Stock first!");
            return;

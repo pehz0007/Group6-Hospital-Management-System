@@ -1,7 +1,7 @@
 package com.group6.hms.app.screens.admin;
 
-import com.group6.hms.app.managers.AppointmentManager;
 import com.group6.hms.app.managers.appointment.AppointmentManagerHolder;
+import com.group6.hms.app.managers.appointment.AppointmentManager;
 import com.group6.hms.app.managers.auth.User;
 import com.group6.hms.app.managers.appointment.models.Appointment;
 import com.group6.hms.app.notifications.Notification;
@@ -65,7 +65,6 @@ public class AdministratorScreen extends LogoutScreen {
             }
             case VIEW_APPOINTMENTS -> {
 
-                //SAMPLE
                 AppointmentManager appointmentManager = AppointmentManagerHolder.getAppointmentManager();
                 Map<LocalDate, List<Appointment>> appointments = appointmentManager.getAllAppointments().stream().collect(groupingBy(Appointment::getDate));
                 navigateToScreen(new CalendarScreen<>("Appointments", appointments));

@@ -2,7 +2,8 @@ package com.group6.hms.app.screens.doctor;
 
 import com.group6.hms.app.managers.auth.LoginManager;
 import com.group6.hms.app.managers.auth.LoginManagerHolder;
-import com.group6.hms.app.models.CareProvider;
+import com.group6.hms.app.managers.careprovider.CareProvider;
+import com.group6.hms.app.managers.careprovider.CareProviderHolder;
 import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.app.roles.Patient;
 import com.group6.hms.framework.screens.ConsoleColor;
@@ -35,7 +36,7 @@ public class PatientMedicalRecordsScreen extends SinglePaginationTableScreen<UUI
     public void onStart() {
         super.onStart();
 
-        CareProvider retrievePatients = new CareProvider();
+        CareProvider retrievePatients = CareProviderHolder.getCareProvider();
         Collection<UUID> medicalRecords = retrievePatients.getPatientIDsUnderDoctorCare(doc);
     }
 

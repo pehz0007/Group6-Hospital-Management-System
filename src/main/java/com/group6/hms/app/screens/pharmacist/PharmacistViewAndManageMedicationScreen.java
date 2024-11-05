@@ -1,6 +1,7 @@
 package com.group6.hms.app.screens.pharmacist;
 
 import com.group6.hms.app.managers.inventory.InventoryManager;
+import com.group6.hms.app.managers.inventory.InventoryManagerHolder;
 import com.group6.hms.app.managers.inventory.models.MedicationStock;
 import com.group6.hms.app.managers.inventory.models.ReplenishmentRequest;
 import com.group6.hms.app.managers.inventory.models.ReplenishmentRequestStatus;
@@ -19,7 +20,7 @@ public class PharmacistViewAndManageMedicationScreen extends PaginationTableScre
 
     public PharmacistViewAndManageMedicationScreen() {
         super("Medications", null);
-        this.inventoryManager = new InventoryManager();
+        this.inventoryManager = InventoryManagerHolder.getInventoryManager();
         updateMedicationStocks();
 
         addOption(SUBMIT_REPLENISHMENT_REQUEST, "Submit Replenishment Request");

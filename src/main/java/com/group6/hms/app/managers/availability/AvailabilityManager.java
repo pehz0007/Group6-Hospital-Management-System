@@ -23,7 +23,7 @@ public class AvailabilityManager  {
      * Initializes the {@code AvailabilityManager} and loads existing availabilities from storage.
      * If the availability storage file does not exist, it creates a new file.
      */
-    public AvailabilityManager() {
+    AvailabilityManager() {
         if (!availabilitiesFile.exists()) {
             availabilityStorageProvider.saveToFile(availabilitiesFile);
         }

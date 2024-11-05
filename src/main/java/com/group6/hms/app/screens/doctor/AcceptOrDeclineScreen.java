@@ -1,23 +1,17 @@
 package com.group6.hms.app.screens.doctor;
 
-import com.group6.hms.app.managers.AppointmentManager;
-import com.group6.hms.app.managers.availability.AvailabilityManager;
+import com.group6.hms.app.managers.appointment.AppointmentManager;
+import com.group6.hms.app.managers.appointment.AppointmentManagerHolder;
 import com.group6.hms.app.managers.appointment.models.Appointment;
-import com.group6.hms.app.storage.SerializationStorageProvider;
-import com.group6.hms.app.storage.StorageProvider;
 import com.group6.hms.framework.screens.pagination.PaginationTableScreen;
 
-import java.io.File;
 import java.util.List;
 
 public class AcceptOrDeclineScreen extends PaginationTableScreen<Appointment> {
 
-    private static final File appointmentsFile = new File("data/appointments.ser");
-    private final StorageProvider<Appointment> appointmentStorageProvider = new SerializationStorageProvider<>();
     private List<Appointment> appointments;
 
-    private AppointmentManager appointmentManager = new AppointmentManager();
-    private AvailabilityManager availabilityManager = new AvailabilityManager();
+    private AppointmentManager appointmentManager = AppointmentManagerHolder.getAppointmentManager();
 
 
     @Override

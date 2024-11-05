@@ -1,6 +1,7 @@
 package com.group6.hms.app.screens.patient;
 
-import com.group6.hms.app.managers.AppointmentManager;
+import com.group6.hms.app.managers.appointment.AppointmentManager;
+import com.group6.hms.app.managers.appointment.AppointmentManagerHolder;
 import com.group6.hms.app.managers.appointment.models.Appointment;
 import com.group6.hms.app.managers.availability.models.Availability;
 import com.group6.hms.app.roles.Patient;
@@ -14,7 +15,7 @@ public class RescheduleAppointmentScreen extends PaginationTableScreen<Appointme
     private Patient patient;
     private Availability availability;
     private List<Appointment> appointmentList;
-    private AppointmentManager appointmentManager = new AppointmentManager();
+    private AppointmentManager appointmentManager = AppointmentManagerHolder.getAppointmentManager();
 
     private final int RESCHEDULE_APPOINTMENT = 3;
 

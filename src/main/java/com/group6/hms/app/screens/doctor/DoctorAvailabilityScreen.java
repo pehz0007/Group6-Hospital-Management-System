@@ -1,19 +1,18 @@
 package com.group6.hms.app.screens.doctor;
 
-import com.group6.hms.app.auth.LoginManager;
-import com.group6.hms.app.auth.LoginManagerHolder;
-import com.group6.hms.app.managers.AvailabilityManager;
-import com.group6.hms.app.models.Availability;
+import com.group6.hms.app.managers.auth.LoginManager;
+import com.group6.hms.app.managers.auth.LoginManagerHolder;
+import com.group6.hms.app.managers.availability.AvailabilityManager;
+import com.group6.hms.app.managers.availability.AvailabilityManagerHolder;
+import com.group6.hms.app.managers.availability.models.Availability;
+import com.group6.hms.app.managers.availability.models.AvailabilityStatus;
 import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.calendar.CalendarScreen;
-import com.group6.hms.framework.screens.pagination.PaginationTableScreen;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeParseException;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 import static java.util.stream.Collectors.groupingBy;
@@ -21,19 +20,25 @@ import static java.util.stream.Collectors.groupingBy;
 public class DoctorAvailabilityScreen extends CalendarScreen<Availability, List<Availability>> {
 
     private Map<LocalDate, List<Availability>> events;
-    Doctor doc;
-    AvailabilityManager availabilityManager = new AvailabilityManager();
-    LoginManager loginManager = LoginManagerHolder.getLoginManager();
+    private Doctor doc;
+    private AvailabilityManager availabilityManager = AvailabilityManagerHolder.getAvailabilityManager();
+    private LoginManager loginManager = LoginManagerHolder.getLoginManager();
 
     @Override
     public void onStart() {
         super.onStart();
-        this.events = availabilityManager.getAvailabilityByDoctor(doc).stream().collect(groupingBy(Availability::getAvailableDate));
     }
 
     @Override
     public void onDisplay() {
         super.onDisplay();
+    }
+
+    @Override
+    public void onRefresh() {
+        super.onRefresh();
+        Map<LocalDate, List<Availability>> items = availabilityManager.getAvailabilityByDoctor(doc).stream().collect(groupingBy(Availability::getAvailableDate));
+        setEvents(items);
     }
 
     /**
@@ -73,7 +78,7 @@ public class DoctorAvailabilityScreen extends CalendarScreen<Availability, List<
                 return;
             }
 
-            Availability avail = new Availability(doc, date, time, time.plusHours(1));
+            Availability avail = new Availability(doc, date, AvailabilityStatus.AVAILABLE, time, time.plusHours(1));
             availabilityManager.addAvailability(avail);
             println("Added successfully!");
             println("=".repeat(30));

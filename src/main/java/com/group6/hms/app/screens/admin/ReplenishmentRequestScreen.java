@@ -1,6 +1,7 @@
 package com.group6.hms.app.screens.admin;
 
 import com.group6.hms.app.managers.inventory.InventoryManager;
+import com.group6.hms.app.managers.inventory.InventoryManagerHolder;
 import com.group6.hms.app.managers.inventory.models.ReplenishmentRequest;
 import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.pagination.PrintTableUtils;
@@ -13,7 +14,7 @@ public class ReplenishmentRequestScreen extends SinglePaginationTableScreen<Repl
 
     public ReplenishmentRequestScreen() {
         super("Replenishment Request", null);
-        this.inventoryManager = new InventoryManager();
+        this.inventoryManager = InventoryManagerHolder.getInventoryManager();
         setList(inventoryManager.getAllReplenishmentRequest());
         addOption(APPROVE_REQUEST, "Approve Request");
     }

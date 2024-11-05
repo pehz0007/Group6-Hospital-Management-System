@@ -1,4 +1,4 @@
-package com.group6.hms.app.models;
+package com.group6.hms.app.managers.careprovider;
 
 import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.app.roles.Patient;
@@ -55,8 +55,8 @@ public class CareProvider {
     public void addPatientToDoctorCare(Patient patient, Doctor doctor){
         StorageProvider<UUID> patientUUIDs = storageFromDoctorToPatientID.getStorageProvider(doctor.getSystemUserId());
         StorageProvider<UUID> doctorUUIDs = storageFromPatientToDoctorID.getStorageProvider(patient.getSystemUserId());
-        patientUUIDs.addNewItem(patient.getSystemUserId());
-        doctorUUIDs.addNewItem(doctor.getSystemUserId());
+        if(!patientUUIDs.getItems().contains(patient.getSystemUserId()))patientUUIDs.addNewItem(patient.getSystemUserId());
+        if(!doctorUUIDs.getItems().contains(doctor.getSystemUserId()))doctorUUIDs.addNewItem(doctor.getSystemUserId());
         saveStorageProviders(patient, doctor);
     }
 

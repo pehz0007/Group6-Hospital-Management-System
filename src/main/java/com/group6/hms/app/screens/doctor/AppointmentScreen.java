@@ -1,16 +1,18 @@
 package com.group6.hms.app.screens.doctor;
 
-import com.group6.hms.app.auth.LoginManager;
-import com.group6.hms.app.auth.LoginManagerHolder;
-import com.group6.hms.app.auth.User;
-import com.group6.hms.app.managers.AppointmentManager;
-import com.group6.hms.app.managers.AvailabilityManager;
-import com.group6.hms.app.models.*;
+import com.group6.hms.app.managers.appointment.AppointmentManager;
+import com.group6.hms.app.managers.appointment.AppointmentManagerHolder;
+import com.group6.hms.app.managers.appointment.models.Appointment;
+import com.group6.hms.app.managers.appointment.models.AppointmentService;
+import com.group6.hms.app.managers.appointment.models.AppointmentStatus;
+import com.group6.hms.app.managers.auth.LoginManager;
+import com.group6.hms.app.managers.auth.LoginManagerHolder;
+import com.group6.hms.app.managers.auth.User;
+import com.group6.hms.app.managers.availability.AvailabilityManager;
 import com.group6.hms.app.roles.Doctor;
 import com.group6.hms.app.storage.SerializationStorageProvider;
 import com.group6.hms.framework.screens.ConsoleColor;
 import com.group6.hms.framework.screens.calendar.CalendarScreen;
-import com.group6.hms.framework.screens.calendar.EventInterface;
 
 import java.io.File;
 import java.time.LocalDate;
@@ -20,11 +22,9 @@ import static java.util.stream.Collectors.groupingBy;
 
 public class AppointmentScreen extends CalendarScreen<Appointment, List<Appointment>> {
     private Map<LocalDate, List<Appointment>> events;
-    AppointmentManager appointmentManager = new AppointmentManager();
-    LoginManager loginManager = LoginManagerHolder.getLoginManager();
-    AvailabilityManager availabilityManager = new AvailabilityManager();
+    private AppointmentManager appointmentManager = AppointmentManagerHolder.getAppointmentManager();
     private SerializationStorageProvider<User> userStorageProvider = new SerializationStorageProvider<>();
-    File userFile = new File("data/users.ser");
+    private File userFile = new File("data/users.ser");
     private Doctor doc;
 
     @Override

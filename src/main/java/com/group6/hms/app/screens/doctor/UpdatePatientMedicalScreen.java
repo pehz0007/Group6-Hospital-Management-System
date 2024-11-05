@@ -1,10 +1,12 @@
 package com.group6.hms.app.screens.doctor;
 
-import com.group6.hms.app.managers.AppointmentManager;
+import com.group6.hms.app.managers.appointment.AppointmentManager;
+import com.group6.hms.app.managers.appointment.AppointmentManagerHolder;
 import com.group6.hms.app.managers.auth.LoginManager;
 import com.group6.hms.app.managers.auth.LoginManagerHolder;
 import com.group6.hms.app.managers.auth.User;
 import com.group6.hms.app.managers.availability.AvailabilityManager;
+import com.group6.hms.app.managers.availability.AvailabilityManagerHolder;
 import com.group6.hms.app.models.BloodType;
 import com.group6.hms.app.models.MedicalRecord;
 import com.group6.hms.app.roles.Patient;
@@ -16,9 +18,9 @@ import java.io.File;
 import java.time.LocalDate;
 
 public class UpdatePatientMedicalScreen extends Screen {
-    private final AppointmentManager appointmentManager = new AppointmentManager();
+    private final AppointmentManager appointmentManager = AppointmentManagerHolder.getAppointmentManager();
     private final LoginManager loginManager = LoginManagerHolder.getLoginManager();
-    private final AvailabilityManager availabilityManager = new AvailabilityManager();
+    private final AvailabilityManager availabilityManager = AvailabilityManagerHolder.getAvailabilityManager();
     private final SerializationStorageProvider<User> userStorageProvider = new SerializationStorageProvider<>();
     private final Doctor doc;
     private Patient patient;

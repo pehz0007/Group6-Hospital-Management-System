@@ -1,4 +1,4 @@
-package com.group6.hms.app.managers;
+package com.group6.hms.app.managers.appointment;
 
 import com.group6.hms.app.managers.appointment.models.Appointment;
 import com.group6.hms.app.managers.appointment.models.AppointmentOutcomeRecord;
@@ -7,6 +7,8 @@ import com.group6.hms.app.managers.availability.AvailabilityManager;
 import com.group6.hms.app.managers.availability.models.Availability;
 import com.group6.hms.app.managers.availability.AvailabilityManagerHolder;
 import com.group6.hms.app.managers.availability.models.AvailabilityStatus;
+import com.group6.hms.app.managers.careprovider.CareProvider;
+import com.group6.hms.app.managers.careprovider.CareProviderHolder;
 import com.group6.hms.app.managers.inventory.models.MedicationStatus;
 import com.group6.hms.app.storage.SerializationStorageProvider;
 import com.group6.hms.app.storage.StorageProvider;
@@ -35,7 +37,7 @@ public class AppointmentManager {
      * Initializes the {@code AppointmentManager} and loads existing appointments and appointment
      * outcome records from storage files. The file I/O for the appointment and appointment outcomes are managed by separate {@link SerializationStorageProvider} instances.
      */
-    public AppointmentManager() {
+    AppointmentManager() {
         if (!appointmentsFile.exists()) {
             appointmentStorageProvider.saveToFile(appointmentsFile);
         }
@@ -177,6 +179,10 @@ public class AppointmentManager {
         appointmentStorageProvider.addNewItem(appt);
         appointmentStorageProvider.saveToFile(appointmentsFile);
         //System.out.println("Successfully requested for an appointment. Do come back to check if the doctor has confirmed the appointment.");
+
+        //Put patient under doctor care
+        CareProvider careProvider = CareProviderHolder.getCareProvider();
+        careProvider.addPatientToDoctorCare(patient, availability.getDoctor());
     }
 
     /**

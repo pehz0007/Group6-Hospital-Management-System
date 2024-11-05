@@ -1,5 +1,7 @@
 package com.group6.hms.framework.screens.pagination;
 
+import com.group6.hms.framework.screens.ConsoleInterface;
+
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -33,6 +35,16 @@ public @interface HeaderField {
      * @return the width of the field as an integer
      */
     int width() default 20;
+
+    /**
+     * Specifies the width of the column in the vertical table for the annotated field.
+     * Used by {@link PrintTableUtils#printItemAsVerticalTable(ConsoleInterface, Object)}
+     * If not provided, the default width is 20.
+     *
+     * @return the width of the field as an integer
+     */
+    int verticalWidth() default 20;
+
     /**
      * Specifies a custom renderer class for the annotated field.
      * The custom renderer class must extend from {@code FieldRenderer}.
