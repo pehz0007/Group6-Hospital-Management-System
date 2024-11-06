@@ -17,6 +17,9 @@ import com.group6.hms.framework.screens.Screen;
 import java.io.File;
 import java.time.LocalDate;
 
+/**
+ * The {@code UpdatePatientMedicalScreen} class represents the screen for updating a patient's medical records.
+ */
 public class UpdatePatientMedicalScreen extends Screen {
     private final AppointmentManager appointmentManager = AppointmentManagerHolder.getAppointmentManager();
     private final LoginManager loginManager = LoginManagerHolder.getLoginManager();
@@ -39,6 +42,11 @@ public class UpdatePatientMedicalScreen extends Screen {
         updatePatientMedicalRecords(patient);
     }
 
+    /**
+     * Initializes the UpdatePatientMedicalScreen.
+     *
+     * @param patient the Patient whose medical records are to be updated
+     */
     public UpdatePatientMedicalScreen(Patient patient) {
         super("Update " + patient.getName() + " Medical Records");
         this.doc = DoctorScreen.getDoctor();
@@ -46,6 +54,11 @@ public class UpdatePatientMedicalScreen extends Screen {
         //updatePatientMedicalRecords(patient);
     }
 
+    /**
+     * Updates the medical records of the specified patient.
+     *
+     * @param patient the Patient whose medical records are to be updated
+     */
     protected void updatePatientMedicalRecords(Patient patient) {
         userStorageProvider.loadFromFile(userFile);
         try {

@@ -13,6 +13,12 @@ import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
+/**
+ * The {@code UserUtils} class provides utility methods for managing user creation
+ * within the administration interface of the Hospital Management System (HMS).
+ * It facilitates the input of user information and the creation of user objects
+ * for different roles, including Administrator, Doctor, Pharmacist, and Patient.
+ */
 public class UserUtils {
 
     private static final int ADMIN_ID = 1;
@@ -35,6 +41,17 @@ public class UserUtils {
             MALE_ID, new Option(MALE_ID, "Male", ConsoleColor.PURPLE)
     ));
 
+    /**
+     * Prompts the user to enter information required for creating a new user in the system.
+     * <p>
+     * Based on the role selected (e.g., Admin, Doctor, Pharmacist, or Patient), different input fields
+     * are displayed to gather necessary data. The new user is then created and registered within
+     * the specified {@link LoginManager}.
+     *
+     * @param consoleInterface the interface through which user input is received
+     * @param loginManager     the login manager responsible for user management operations
+     * @throws InvalidStaffRoleException if an invalid role selection is encountered
+     */
     public static void askForUserCreation(ConsoleInterface consoleInterface, LoginManager loginManager) {
         int selectedOptionId = OptionsUtils.askOptions(consoleInterface, options);
         // Create user

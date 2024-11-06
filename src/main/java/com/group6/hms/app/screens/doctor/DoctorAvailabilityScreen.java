@@ -17,23 +17,55 @@ import java.util.Map;
 
 import static java.util.stream.Collectors.groupingBy;
 
+/**
+ * The {@code DoctorAvailabilityScreen} manages a doctor's availability in a calendar-like view.
+ * It fetches the doctor's availability data from {@code AvailabilityManager}
+ *
+ * It extends the {@link CalendarScreen} class to display availabilities
+ * and groups them by date, setting these as the calendar's events.
+ */
 public class DoctorAvailabilityScreen extends CalendarScreen<Availability, List<Availability>> {
 
+    /**
+     * Map to store availability events, grouped by date.
+     */
     private Map<LocalDate, List<Availability>> events;
+
+
+    /**
+     * The currently logged-in doctor.
+     */
     private Doctor doc;
+
+    /**
+     * Manager to handle doctor availability.
+     */
     private AvailabilityManager availabilityManager = AvailabilityManagerHolder.getAvailabilityManager();
+
+    /**
+     * Manager to handle user login and authentication.
+     */
     private LoginManager loginManager = LoginManagerHolder.getLoginManager();
 
+    /**
+     * Starts the screen and loads the doctor's availability data.
+     */
     @Override
     public void onStart() {
         super.onStart();
     }
 
+    /**
+     * Displays the calendar screen with the doctor's availability.
+     */
     @Override
     public void onDisplay() {
         super.onDisplay();
     }
 
+    /**
+     * Refreshes the availability data and updates the calendar view.
+     */
     @Override
     public void onRefresh() {
         super.onRefresh();
@@ -42,10 +74,9 @@ public class DoctorAvailabilityScreen extends CalendarScreen<Availability, List<
     }
 
     /**
-     * Constructor to initialize the screen with a title.
+     * Constructor to initialize the DoctorAvailabilityScreen with the doctor's availability.
      *
-     *   The title of the screen to be displayed as a header.
-     * @param events
+     * @param events A map of availability events grouped by date.
      */
     public DoctorAvailabilityScreen(Map<LocalDate, List<Availability>> events) {
         super("Availability", events);
@@ -56,6 +87,11 @@ public class DoctorAvailabilityScreen extends CalendarScreen<Availability, List<
 
     }
 
+    /**
+     * Handles options selected by the user, such as adding new availability.
+     *
+     * @param optionId The ID of the selected menu option.
+     */
     @Override
     protected void handleOption(int optionId) {
         super.handleOption(optionId);

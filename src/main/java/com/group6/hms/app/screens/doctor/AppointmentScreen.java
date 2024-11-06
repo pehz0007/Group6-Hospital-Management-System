@@ -20,27 +20,43 @@ import java.util.*;
 
 import static java.util.stream.Collectors.groupingBy;
 
+/**
+ * The {@code AppointmentScreen} class represents a screen where doctors can manage their appointments,
+ * including accepting or declining appointments, recording consultation notes, and viewing detailed information.
+ *
+ * It extends the {@link CalendarScreen} class to display appointment events organized by date.
+ */
 public class AppointmentScreen extends CalendarScreen<Appointment, List<Appointment>> {
+
+    /** A map of dates to appointments, used to display events on specific days. */
     private Map<LocalDate, List<Appointment>> events;
+
+    /** Manages operations related to appointments. */
     private AppointmentManager appointmentManager = AppointmentManagerHolder.getAppointmentManager();
+
+    /** Provides serialization storage for users. */
     private SerializationStorageProvider<User> userStorageProvider = new SerializationStorageProvider<>();
+
+    /** File storage location for serialized user data. */
     private File userFile = new File("data/users.ser");
+
+    /** The doctor currently logged in to the system. */
     private Doctor doc;
 
+    /**
+     * Invoked when the screen is displayed. Fetches the currently logged-in doctor
+     * and retrieves appointments to display based on their status.
+     */
     @Override
     public void onDisplay() {
         super.onDisplay();
-//        doc = (Doctor) loginManager.getCurrentlyLoggedInUser ();
-//        List<Appointment> latestAppointments = appointmentManager.getAppointmentsByDoctor(doc);
-//
-//        // Filter the appointments based on their status
-//        this.events = latestAppointments.stream()
-//                .filter(appointment ->
-//                        appointment.getStatus() == AppointmentStatus.REQUESTED ||
-//                                appointment.getStatus() == AppointmentStatus.CONFIRMED)
-//                .collect(groupingBy(Appointment::getDate));
     }
 
+    /**
+     * Handles user-selected options for managing appointments.
+     *
+     * @param optionId the ID of the selected option
+     */
     @Override
     protected void handleOption(int optionId) {
         super.handleOption(optionId);
@@ -108,11 +124,10 @@ public class AppointmentScreen extends CalendarScreen<Appointment, List<Appointm
     }
 
     /**
-     * Constructor to initialize the screen with a title.
+     * Constructor to initialize the AppointmentScreen with a title and events.
      *
-     * @param events
+     * @param events a map of dates to a list of {@link Appointment} objects, representing scheduled events
      */
-
     public AppointmentScreen(Map<LocalDate, List<Appointment>> events) {
         super("Appointments", events);
         this.events = events;
@@ -123,10 +138,10 @@ public class AppointmentScreen extends CalendarScreen<Appointment, List<Appointm
         addOption(7, "View More Information", ConsoleColor.YELLOW);
     }
 
-
-
-
-
+    /**
+     * Invoked when the screen starts. Sets the currently logged-in doctor and retrieves upcoming
+     * appointments that are either requested or confirmed, organized by date.
+     */
     @Override
     public void onStart() {
         super.onStart();

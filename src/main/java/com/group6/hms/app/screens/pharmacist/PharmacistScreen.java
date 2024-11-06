@@ -22,6 +22,9 @@ public class PharmacistScreen extends LogoutScreen {
         addOption(3, "View Medication Inventory");
     }
 
+    /**
+     * Displays a welcome message and initializes the currently logged-in pharmacist.
+     */
     @Override
     public void onStart() {
         println("Welcome, " + getLoginManager().getCurrentlyLoggedInUser().getUserId());
@@ -29,11 +32,20 @@ public class PharmacistScreen extends LogoutScreen {
         super.onStart();
     }
 
+    /**
+     * Navigates to the main screen upon logout.
+     */
     @Override
     protected void onLogout() {
         newScreen(new MainScreen());
     }
 
+
+    /**
+     * Handles the user's option selection from the menu.
+     *
+     * @param optionId The ID of the selected menu option.
+     */
     @Override
     protected void handleOption(int optionId) {
         switch (optionId) {
@@ -44,6 +56,10 @@ public class PharmacistScreen extends LogoutScreen {
     }
 
     // case 2: view Appointment Outcome Records
+    /**
+     * Prompts the pharmacist to enter a medication status to filter the appointment outcome records.
+     * Retrieves and navigates to the screen displaying the filtered records.
+     */
     private void viewAppointmentOutcomeRecords() {
         println("Enter the medication status to filter by (e.g., PENDING, DISPENSED): ");
         String statusInput = readString().toUpperCase();
@@ -62,20 +78,10 @@ public class PharmacistScreen extends LogoutScreen {
     }
 
     // case 4: view Medication Inventory
+    /**
+     * Navigates to the screen for viewing and managing the medication inventory.
+     */
     private void viewMedicationInventory() {
         navigateToScreen(new PharmacistViewAndManageMedicationScreen());
-//        List<MedicationStock> medications = inventoryManager.getAllMedicationStock();
-//
-//        // check if medications are retrieved successfully
-//        if (medications.isEmpty()) {
-//            println("No medications found in the inventory.");
-//            return; // exit
-//        }
-//
-//        // navigate to the ViewAndManageMedicationScreen
-//        ViewAndManageMedicationScreen screen = new ViewAndManageMedicationScreen("Medication Inventory", medications);
-//        navigateToScreen(screen);
     }
-
-
 }

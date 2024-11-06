@@ -23,18 +23,45 @@ import java.util.*;
 
 import static java.util.stream.Collectors.groupingBy;
 
+/**
+ * The {@code DoctorScreen} class provides a menu interface for doctors to manage their operations,
+ * such as viewing patient records and personal schedules.
+ */
 public class DoctorScreen extends LogoutScreen {
 
     /**
-     * Constructor to initialize the DoctorScreen.
+     * Appointment manager to handle appointment-related operations.
      */
     private AppointmentManager appointmentManager = AppointmentManagerHolder.getAppointmentManager();
+
+    /**
+     * Login manager to handle user authentication and sessions.
+     */
     private LoginManager loginManager = LoginManagerHolder.getLoginManager();
+
+    /**
+     * Availability manager to manage doctor's availability for appointments.
+     */
     private AvailabilityManager availabilityManager = AvailabilityManagerHolder.getAvailabilityManager();
+
+    /**
+     * Storage provider for serializing user data.
+     */
     private SerializationStorageProvider<User> userStorageProvider = new SerializationStorageProvider<>();
+
+    /**
+     * File object to specify the user data file.
+     */
     private File userFile = new File("data/users.ser");
 
+    /**
+     * The currently logged-in doctor.
+     */
     private static Doctor doc;
+
+    /**
+     * Constructs a DoctorScreen instance and initializes the menu options.
+     */
     public DoctorScreen() {
         super("Doctor Menu");
         addOption(2, "View Patient Medical Records");
@@ -45,6 +72,9 @@ public class DoctorScreen extends LogoutScreen {
 
     }
 
+    /**
+     * Displays a welcome message and initializes the currently logged-in doctor.
+     */
     @Override
     public void onStart() {
         println("Welcome, " + getLoginManager().getCurrentlyLoggedInUser().getName() + "!");
@@ -52,11 +82,19 @@ public class DoctorScreen extends LogoutScreen {
         super.onStart();
     }
 
+    /**
+     * Navigates to the main screen upon logout.
+     */
     @Override
     protected void onLogout() {
         newScreen(new MainScreen());
     }
 
+    /**
+     * Handles the user's option selection from the menu.
+     *
+     * @param optionId The ID of the selected menu option.
+     */
     @Override
     protected void handleOption(int optionId) {
 //        loginManager.loadUsersFromFile();
@@ -99,7 +137,10 @@ public class DoctorScreen extends LogoutScreen {
         }
     }
 
-
+    /**
+     * Navigates to the screen displaying the patient's medical records
+     * under the care of the currently logged-in doctor.
+     */
     protected void patientMedicalRecords(){
 
         CareProvider retrievePatients = CareProviderHolder.getCareProvider();
@@ -107,6 +148,11 @@ public class DoctorScreen extends LogoutScreen {
         navigateToScreen(new PatientMedicalRecordsScreen("Patient Medical Records", medicalRecords.stream().toList()));
     }
 
+    /**
+     * Returns the currently logged-in doctor.
+     *
+     * @return The currently logged-in doctor.
+     */
     public static Doctor getDoctor() {
         return doc; // Provide a static method to access the doctor
     }

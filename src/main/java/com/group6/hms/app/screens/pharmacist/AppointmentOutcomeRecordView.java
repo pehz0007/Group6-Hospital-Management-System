@@ -10,6 +10,11 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * The {@code AppointmentOutcomeRecordView} displays the outcome record of an appointment,
+ * encapsulating details such as doctor and patient information, appointment date,
+ * service type, prescribed medications, consultation notes, and medication status.
+ */
 public class AppointmentOutcomeRecordView {
 
     private UUID recordId;
@@ -23,6 +28,11 @@ public class AppointmentOutcomeRecordView {
     private String consultationNotes;
     private MedicationStatus medicationStatus;
 
+    /**
+     * Constructor to initialize the AppointmentOutcomeRecordView with details from an AppointmentOutcomeRecord.
+     *
+     * @param appointmentOutcomeRecord the appointment outcome record containing relevant data
+     */
     public AppointmentOutcomeRecordView(AppointmentOutcomeRecord appointmentOutcomeRecord) {
         this.recordId = appointmentOutcomeRecord.getRecordId();
         this.doctorId = appointmentOutcomeRecord.getDoctorId();
