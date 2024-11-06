@@ -11,6 +11,12 @@ import com.group6.hms.framework.screens.pagination.PrintTableUtils;
 
 import java.util.Arrays;
 
+/**
+ * The {@code PatientConfigurationScreen} class represents the screen where a patient can edit their non-medical personal information,
+ * including password, email and phone number.
+ *
+ * <p>This screen extends {@link OptionScreen} to provide a menu for patients to select their desired option.</p>
+ */
 public class PatientConfigurationScreen extends OptionScreen {
 
     private static final int CHANGE_PASSWORD = 1;
@@ -21,6 +27,8 @@ public class PatientConfigurationScreen extends OptionScreen {
     Patient patient;
     /**
      * Constructor to initialize the PatientConfigurationScreen.
+     *
+     * @param patient The {@link Patient} whose cofiguration details will be displayed and can be edited.
      */
     public PatientConfigurationScreen(Patient patient) {
         super("Patient Configuration");
@@ -31,23 +39,36 @@ public class PatientConfigurationScreen extends OptionScreen {
         loginManager = LoginManagerHolder.getLoginManager();
     }
 
+    /**
+     * Called when the screen starts.
+     * Sets the option to allow going back and initializes the screen.
+     */
     @Override
     public void onStart() {
         setAllowBack(true);
         super.onStart();
     }
 
+    /**
+     * Display the current patient data in a vertical table format.
+     * This includes information such as the patient's personal information detials.
+     */
     @Override
     public void onDisplay() {
         PrintTableUtils.printItemAsVerticalTable(consoleInterface, new PatientDataView(patient));
         super.onDisplay();
     }
 
+    /**
+     * Handles the selection of a configuration option by the patient.
+     * 3 information that are allowed for patient to change it, which is password, email and phone number.
+     *
+     * @param optionId The ID of the option selected by the user.
+     */
     @Override
     protected void handleOption(int optionId) {
         switch (optionId){
             case CHANGE_PASSWORD -> {
-                //TODO: Add old password checking
                 print("Current Password:");
                 char[] currentPassword = consoleInterface.readPassword();
 
@@ -82,7 +103,6 @@ public class PatientConfigurationScreen extends OptionScreen {
                 }waitForKeyPress();
             }
             case CHANGE_EMAIL -> {
-                //TODO: Add old email checking
                 print("Current Email: ");//+ patient.getContactInformation());
                 String currentEmail = readString();
 
