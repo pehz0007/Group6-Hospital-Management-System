@@ -63,6 +63,19 @@ public class InventoryManager {
     }
 
     /**
+     * Retrieves the stock information for a specific medication.
+     *
+     * @param medicationName the {@code String} of the medication to search for
+     * @return the {@code MedicationStock} object for the specified medication, or {@code null} if not found
+     */
+    public MedicationStock getMedicationStock(String medicationName) {
+        return medicationStockStorageProvider.getItems().stream()
+                .filter(stock -> stock.getMedication().getName().equals(medicationName))
+                .findFirst()
+                .orElse(null);
+    }
+
+    /**
      * Retrieves a list of all medications in the system, excluding their stock quantities.
      * This method is intended for doctors to select medications for prescriptions.
      *
@@ -139,6 +152,27 @@ public class InventoryManager {
         replenishmentStorageProvider.saveToFile(replenishmentRequestFile);
         medicationStockStorageProvider.saveToFile(medicationStockFile);
         System.out.printf("Stock for %s increased from %d to %d\n", medicationToReplenish.getMedication().getName(), previousStockLevel, newStockLevel);
+    }
+
+    /**
+     * Adds a list of medication stock items to the medication stock storage.
+     *
+     * This method takes a list of {@code MedicationStock} objects and iterates through each item,
+     * adding it to the storage provider using the `addNewItem` method.
+     * This process helps ensure each medication stock item in the list is stored individually.
+     *
+     * @param medicationStock {@code List<MedicationStock>} objects to be added to the storage.
+     */
+    public void addMedicationStocks(List<MedicationStock> medicationStock) {
+        for (MedicationStock stock : medicationStock) {
+            MedicationStock prevStock = getMedicationStock(stock.getMedication());
+            if (prevStock == null) {
+                medicationStockStorageProvider.addNewItem(stock);
+            }else{
+                prevStock.addStock(stock.getCurrentStock());
+            }
+        }
+        medicationStockStorageProvider.saveToFile(medicationStockFile);
     }
 
     /**

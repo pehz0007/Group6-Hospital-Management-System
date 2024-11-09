@@ -33,6 +33,7 @@ public class AdminViewAndManageMedicationScreen extends PaginationTableScreen<Me
 
     private void updateMedicationStocks() {
         List<MedicationStock> medications = inventoryManager.getAllMedicationStock();
+
         setList(medications);
     }
 
@@ -48,13 +49,7 @@ public class AdminViewAndManageMedicationScreen extends PaginationTableScreen<Me
                 try {
                     MedicationStockCSVReader medicationStockCSVReader = new MedicationStockCSVReader(new FileReader(filePath));
                     List<MedicationStock> medications = medicationStockCSVReader.readAllMedications();
-                    StorageProvider<MedicationStock> medicationStorageProvider = new SerializationStorageProvider<>();
-                    File medicationsFile = new File("data/medications.ser");
-
-                    for (MedicationStock medicationStock : medications) {
-                        medicationStorageProvider.addNewItem(medicationStock);
-                    }
-                    medicationStorageProvider.saveToFile(medicationsFile);
+                    inventoryManager.addMedicationStocks(medications);
                     setCurrentTextConsoleColor(ConsoleColor.GREEN);
                     println("Medication Stock imported successfully!");
                     waitForKeyPress();
