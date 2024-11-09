@@ -18,6 +18,16 @@ import java.util.Map;
 
 import static java.util.stream.Collectors.groupingBy;
 
+/**
+ * The {@code ViewAvailabledDoctorScreen} class displays a calendar, allow users to navigate calendar
+ * and view available doctor appointment.
+ * The class contains options to let patient schedule, reschedule, cancel, and view scheduled appointments.
+ * This class extends {@link CalendarScreen} to show the calendar and allow patient to navigate it for viewing available slots.
+ *
+ * <p>This screen provides an interactive interface where patients can manage their appointment schedule
+ * by viewing available slots, selecting a slot to book or reschedule, and viewing their scheduled appointments.</p>
+ */
+
 public class ViewAvailableDoctorScreen extends CalendarScreen<Availability, List<Availability>> {
 
     private final int SCHEDULE_APPOINTMENT = 2;
@@ -31,6 +41,7 @@ public class ViewAvailableDoctorScreen extends CalendarScreen<Availability, List
 
     /**
      * Constructor to initialize the screen with a title.
+     * This constructor sets up options to schedule, reschedule, cancel and view scheduled appointments for patient.
      */
     public ViewAvailableDoctorScreen() {
         super("Available Appointments", null);
@@ -42,17 +53,29 @@ public class ViewAvailableDoctorScreen extends CalendarScreen<Availability, List
         addOption(VIEW_SCHEDULED_APPOINTMENTS, "View Scheduled Appointments", ConsoleColor.CYAN);
     }
 
+    /**
+     * Refreshes the available doctor appointments and update the displays.
+     */
     @Override
     public void onRefresh() {
         super.onRefresh();
         updateAvailableDoctorsScreen();
     }
 
+    /**
+     * Updates the available doctors' screen by grouping available appointments by date.
+     */
     private void updateAvailableDoctorsScreen() {
         Map<LocalDate, List<Availability>> events = availabilityManager.getAllAvailableAvailability().stream().collect(groupingBy(Availability::getAvailableDate));
         setEvents(events);
     }
 
+    /**
+     * Handles the selection of an option by the user, such as scheduling, rescheduling, cancelling appointments,
+     * or viewing scheduled appointments.
+     *
+     * @param optionId The ID of the option selected by the user.
+     */
     @Override
     protected void handleOption(int optionId) {
         super.handleOption(optionId);
@@ -86,19 +109,24 @@ public class ViewAvailableDoctorScreen extends CalendarScreen<Availability, List
                 navigateToScreen(new RescheduleAppointmentScreen(patientAppointments, availability, this.patient));
             }
         }else if(optionId == CANCEL_APPOINTMENT) {
-//            List<Appointment> patientAppointments = appointmentManager.getAppointmentsByPatient(this.patient);
             navigateToScreen(new CancelAppointmentScreen(this.patient));
         }else if(optionId == VIEW_SCHEDULED_APPOINTMENTS) {
             navigateToScreen(new ViewScheduledAppointmentsScreen(this.patient));
         }
     }
 
+    /**
+     * Display the screen, including any updates to available appointments.
+     */
     @Override
     public void onDisplay() {
         super.onDisplay();
 
     }
 
+    /**
+     * Initializes the screen by setting the current logged-in patient.
+     */
     @Override
     public void onStart() {
         this.patient = (Patient) loginManager.getCurrentlyLoggedInUser();

@@ -16,6 +16,13 @@ import java.util.Map;
 
 import static java.util.stream.Collectors.groupingBy;
 
+/**
+ * The {@code PatientScreen} class represents the main interface for patients, providing options
+ * It extends {@link LogoutScreen} to let this screen inherits the attributes of logout
+ * Patients can view their medical record, edit non-medical personal information,view available appointment slots,
+ * and review past appointment outcome records.
+ */
+
 public class PatientScreen extends LogoutScreen {
     private static final int VIEW_MEDICAL_RECORD = 2;
     private static final int USER_CONFIGURATION = 3;
@@ -27,7 +34,7 @@ public class PatientScreen extends LogoutScreen {
     private AppointmentManager appointmentManager = AppointmentManagerHolder.getAppointmentManager();
 
     /**
-     * Constructor to initialize the PatientScreen.
+     * Constructor to initialize the menu options for PatientScreen.
      */
     public PatientScreen() {
         super("Patient Menu");
@@ -37,6 +44,11 @@ public class PatientScreen extends LogoutScreen {
         addOption(VIEW_PAST_APPOINTMENT_OUTCOME_RECORDS, "View Past Appointment Outcome Records");
     }
 
+    /**
+     * Called when the screen is displayed.
+     * Initialize the {@code Patient} object
+     * and displays a welcome message with the login user's name
+     */
     @Override
     public void onStart() {
         patient = (Patient) getLoginManager().getCurrentlyLoggedInUser();
@@ -44,11 +56,19 @@ public class PatientScreen extends LogoutScreen {
         super.onStart();
     }
 
+    /**
+     * Defines the behaviour when patients logout, redirect to main screen
+     */
     @Override
     protected void onLogout() {
         newScreen(new MainScreen());
     }
 
+
+    /**
+     * Handles the selection of menu options based on the specified {@code optionId}
+     * @param optionId The ID of the option selected by the user.
+     */
     @Override
     protected void handleOption(int optionId) {
         switch (optionId) {
@@ -62,11 +82,18 @@ public class PatientScreen extends LogoutScreen {
         }
     }
 
+    /**
+     * Navigates to MedicalRecordScreen to display the patient's personal information and medical record
+     * including appointment outcome records associated with the patients
+     */
     private void viewMedicalRecord() {
         List<AppointmentOutcomeRecord> appointmentOutcomeRecords = appointmentManager.getAppointmentOutcomeRecordsByPatient(patient);
         navigateToScreen(new MedicalRecordScreen(appointmentOutcomeRecords));
     }
 
+    /**
+     * Navigate to PastOutcomeRecordsScreen to display the past appointment outcome records
+     */
     private void viewPastOutcomeRecords() {
         List<AppointmentOutcomeRecord> appointmentOutcomeRecords = appointmentManager.getAppointmentOutcomeRecordsByPatient(patient);
         navigateToScreen(new PastOutcomeRecordsScreen(appointmentOutcomeRecords));

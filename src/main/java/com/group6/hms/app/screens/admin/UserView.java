@@ -6,6 +6,12 @@ import com.group6.hms.framework.screens.pagination.HeaderField;
 
 import java.util.UUID;
 
+/**
+ * The {@code UserView} class represents a view model for a user in the Hospital
+ * Management System (HMS). It encapsulates user details, including the user's
+ * ID, name, gender, hashed password, and role. This class is primarily used
+ * for displaying user information in the administrative interface.
+ */
 public class UserView {
 
     @HeaderField(width = 40)
@@ -19,6 +25,11 @@ public class UserView {
     @HeaderField(show = false)
     private User user;
 
+    /**
+     * Constructs a {@code UserView} instance from a {@code User} object.
+     *
+     * @param user the user object containing user details to be displayed
+     */
     public UserView(User user){
         this.user = user;
         this.systemUserId = user.getSystemUserId();
@@ -29,6 +40,11 @@ public class UserView {
         role = user.getRoleName();
     }
 
+    /**
+     * Retrieves the underlying {@code User} object associated with this view.
+     *
+     * @return the user object
+     */
     public User getUser() {
         return user;
     }

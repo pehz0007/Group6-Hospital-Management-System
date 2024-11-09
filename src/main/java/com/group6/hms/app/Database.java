@@ -24,10 +24,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * The {@code Database} class is a utility for resetting and populating the database with
+ * sample data.
+ * <p>Running this class will initialize entities including patients, doctors, administrators,
+ *  and pharmacists, and also schedules sample appointments, availabilities, and appointment
+ *  outcome records.</p>
+ */
 public class Database {
+
     /**
      * RUN THIS TO RESET DATABASE
      *
+     * This method serves as the entry point for the application.
+     * It initializes sample data, creates users, schedules appointments,
+     * and saves/loading user data to/from a file.
+     *
+     * @param args command line arguments
      */
     public static void main(String[] args) {
         //Generate sample file

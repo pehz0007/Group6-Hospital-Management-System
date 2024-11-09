@@ -11,6 +11,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * The {@code PharmacistViewAndManageMedicationScreen} allows pharmacists to view and manage medication stocks.
+ * This screen displays current stock levels of medications and submitting
+ * replenishment requests for medication that are low in stock.
+ *
+ * <p>This class extends {@link PaginationTableScreen} to manage and display the medication stock.</p>
+ */
 public class PharmacistViewAndManageMedicationScreen extends PaginationTableScreen<MedicationStock> {
 
     private InventoryManager inventoryManager;
@@ -18,6 +25,10 @@ public class PharmacistViewAndManageMedicationScreen extends PaginationTableScre
     //PHARMACIST OPTIONS
     private final int SUBMIT_REPLENISHMENT_REQUEST = 4;
 
+    /**
+     * Constructs a PharmacistViewAndManageMedicationScreen.
+     * Initializes the inventory manager and updates the medication stocks.
+     */
     public PharmacistViewAndManageMedicationScreen() {
         super("Medications", null);
         this.inventoryManager = InventoryManagerHolder.getInventoryManager();
@@ -26,6 +37,9 @@ public class PharmacistViewAndManageMedicationScreen extends PaginationTableScre
         addOption(SUBMIT_REPLENISHMENT_REQUEST, "Submit Replenishment Request");
     }
 
+    /**
+     * Updates the list of medication stocks by retrieving them from the inventory manager.
+     */
     private void updateMedicationStocks() {
         List<MedicationStock> medications = inventoryManager.getAllMedicationStock();
         setList(medications);
@@ -42,6 +56,11 @@ public class PharmacistViewAndManageMedicationScreen extends PaginationTableScre
     }
 
     // case 5: submit replenishment request
+    /**
+     * Submits a replenishment request for medications that are low in stock.
+     * It retrieves the medications with low stock levels, prompts the pharmacist
+     * for confirmation to submit requests, and processes the requests accordingly.
+     */
     private void submitReplenishmentRequest() {
         List<MedicationStock> lowStockMedications = inventoryManager.getAllMedicationStock().stream()
                 .filter(inventoryManager::isStockLow)

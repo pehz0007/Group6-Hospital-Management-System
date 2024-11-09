@@ -11,12 +11,30 @@ import com.group6.hms.framework.screens.pagination.SinglePaginationTableScreen;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * The {@code ViewMoreDetailsAppointmentScreen} class provides an interface
+ * to view appointment details and any prescribed medications.
+ *
+ * <p>This class extends {@link SinglePaginationTableScreen} to manage the display of appointment details</p>
+ */
 public class ViewMoreDetailsAppointmentScreen extends SinglePaginationTableScreen<UUID> {
     private AppointmentManager appointmentManager = AppointmentManagerHolder.getAppointmentManager();
+
+    /**
+     * Constructs a ViewMoreDetailsAppointmentScreen.
+     *
+     * @param items a list of UUIDs representing the confirmed appointments to display
+     */
     public ViewMoreDetailsAppointmentScreen( List<UUID> items) {
         super("Confirmed Appointment Details", items);
     }
 
+    /**
+     * Generates a formatted table of prescribed medications from an appointment outcome record.
+     *
+     * @param appointment the AppointmentOutcomeRecord containing prescribed medications
+     * @return a string representation of the prescribed medications table
+     */
     public String getPrescribedMedicationTable(AppointmentOutcomeRecord appointment) {
         StringBuilder tableBuilder = new StringBuilder();
         tableBuilder.append(String.format("%-20s %-20s%n", "Medication Name", "Dosage"));
@@ -31,6 +49,12 @@ public class ViewMoreDetailsAppointmentScreen extends SinglePaginationTableScree
         return tableBuilder.toString();
     }
 
+    /**
+     * Displays detailed information for a single appointment outcome record.
+     *
+     * @param item The unique identifier (UUID) of the appointment outcome record to display.
+     * Retrieves the record, formats it as a vertical table, and displays prescribed medication details.
+     */
     @Override
     public void displaySingleItem(UUID item) {
         //Patient user = (Patient) loginManager.findUser(item);

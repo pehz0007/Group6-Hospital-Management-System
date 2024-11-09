@@ -14,6 +14,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.List;
 
+/**
+ * The {@code AdminViewAndManageMedicationScreen} is a screen for viewing and managing medication stocks in the inventory.
+ * It provides functionalities for approving replenishment requests and importing medication stock data.
+ *
+ * * <p>This class extends {@link PaginationTableScreen} to manage and display the medication stock.</p>
+ */
 public class AdminViewAndManageMedicationScreen extends PaginationTableScreen<MedicationStock> {
 
     private InventoryManager inventoryManager;
@@ -22,6 +28,10 @@ public class AdminViewAndManageMedicationScreen extends PaginationTableScreen<Me
     private final int APPROVE_REPLENISHMENT_REQUEST = 4;
     private final int IMPORT_MEDICATIONS_STOCK = 5;
 
+    /**
+     * Constructor to initialize the {@code AdminViewAndManageMedicationScreen}.
+     * It sets up the inventory manager and updates the medication stock list.
+     */
     public AdminViewAndManageMedicationScreen() {
         super("Medications", null);
         this.inventoryManager = InventoryManagerHolder.getInventoryManager();
@@ -31,12 +41,22 @@ public class AdminViewAndManageMedicationScreen extends PaginationTableScreen<Me
         addOption(IMPORT_MEDICATIONS_STOCK, "Import Medications");
     }
 
+    /**
+     * Updates the list of medication stocks displayed on the screen.
+     * This method retrieves all medication stocks from the {@code inventoryManager}
+     * and sets them to be displayed.
+     */
     private void updateMedicationStocks() {
         List<MedicationStock> medications = inventoryManager.getAllMedicationStock();
 
         setList(medications);
     }
 
+    /**
+     * Handles the user's option selection from the medication management menu.
+     *
+     * @param optionId The ID of the selected option.
+     */
     @Override
     protected void handleOption(int optionId) {
         switch (optionId){
