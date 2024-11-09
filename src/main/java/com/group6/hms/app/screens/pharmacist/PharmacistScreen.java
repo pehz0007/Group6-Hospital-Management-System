@@ -5,7 +5,6 @@ import com.group6.hms.app.managers.appointment.AppointmentManagerHolder;
 import com.group6.hms.app.managers.appointment.models.AppointmentOutcomeRecord;
 import com.group6.hms.app.managers.auth.LogoutScreen;
 import com.group6.hms.app.managers.inventory.models.MedicationStatus;
-import com.group6.hms.app.roles.Pharmacist;
 import com.group6.hms.app.screens.MainScreen;
 
 import java.util.List;
@@ -25,7 +24,6 @@ public class PharmacistScreen extends LogoutScreen {
     @Override
     public void onStart() {
         println("Welcome, " + getLoginManager().getCurrentlyLoggedInUser().getUserId());
-        Pharmacist pharmacist = (Pharmacist) getLoginManager().getCurrentlyLoggedInUser();
         super.onStart();
     }
 
