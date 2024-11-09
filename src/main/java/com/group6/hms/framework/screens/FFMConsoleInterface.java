@@ -87,19 +87,53 @@ public class FFMConsoleInterface implements InteractiveConsoleInterface {
     @Override
     public char[] readPassword() {
         StringBuilder input = new StringBuilder();
+        int cursorPosition = 0;
         try {
             while (true) {
                 int character = System.in.read();
 
+                //Exit program
+                if(character == 3){
+                    clearConsole();
+                    terminal.restoreTerminalMode();
+                    System.exit(0);
+                }
+
+                // Handle arrow keys (escape sequence)
+                if (character == 27) { // ESC
+                    System.in.read(); // skip '['
+                    int arrowKey = System.in.read();
+
+                    switch (arrowKey) {
+                        case 'C': // Right Arrow
+                            if (cursorPosition < input.length()) {
+                                System.out.print("*");
+                                cursorPosition++;
+                            }
+                            break;
+                        case 'D': // Left Arrow
+                            if (cursorPosition > 0) {
+                                System.out.print("\b");
+                                cursorPosition--;
+                            }
+                            break;
+                    }
+                    continue;
+                }
+
                 // Handle backspace
                 if (character == 8 || character == 127) { // ASCII for backspace
-                    if (!input.isEmpty()) {
-                        // Remove the last character from the input
-                        input.deleteCharAt(input.length() - 1);
-                        // Move the cursor back, clear the character, and replace it with a space
-                        System.out.print("\b \b"); // Move back, print space, and move back again
+                    if (cursorPosition > 0) {
+                        input.deleteCharAt(cursorPosition - 1);
+                        cursorPosition--;
+
+                        // Clear the current line and reprint
+                        System.out.print("\b \b");
+                        System.out.print(input.substring(cursorPosition).replaceAll(".", "*"));
+                        System.out.print(" ");
+                        System.out.print("\b".repeat(input.length() - cursorPosition + 1));
                     }
-                    continue; // Skip echoing the character and wait for the next input
+                    continue;
                 }
 
                 // Handle enter or carriage return
@@ -109,14 +143,15 @@ public class FFMConsoleInterface implements InteractiveConsoleInterface {
                 }
 
                 // Echo the character back to the terminal
-                System.out.print('*');
-                input.append((char) character); // Append the character to the input
+                input.insert(cursorPosition, (char) character);
+                cursorPosition++;
+                System.out.print(input.substring(cursorPosition - 1).replaceAll(".", "*"));
+                System.out.print("\b".repeat(input.length() - cursorPosition));
             }
         } catch (IOException e) {
             throw new RuntimeException("Error reading user input", e);
         }
-
-        return input.toString().toCharArray();
+        return input.toString().toCharArray(); // Return the complete input as a string
     }
 
     @Override
@@ -134,6 +169,7 @@ public class FFMConsoleInterface implements InteractiveConsoleInterface {
     @Override
     public String readString() {
         StringBuilder input = new StringBuilder();
+        int cursorPosition = 0;
         try {
             while (true) {
                 int character = System.in.read();
@@ -145,15 +181,41 @@ public class FFMConsoleInterface implements InteractiveConsoleInterface {
                     System.exit(0);
                 }
 
+                // Handle arrow keys (escape sequence)
+                if (character == 27) { // ESC
+                    System.in.read(); // skip '['
+                    int arrowKey = System.in.read();
+
+                    switch (arrowKey) {
+                        case 'C': // Right Arrow
+                            if (cursorPosition < input.length()) {
+                                System.out.print(input.charAt(cursorPosition));
+                                cursorPosition++;
+                            }
+                            break;
+                        case 'D': // Left Arrow
+                            if (cursorPosition > 0) {
+                                System.out.print("\b");
+                                cursorPosition--;
+                            }
+                            break;
+                    }
+                    continue;
+                }
+
                 // Handle backspace
                 if (character == 8 || character == 127) { // ASCII for backspace
-                    if (!input.isEmpty()) {
-                        // Remove the last character from the input
-                        input.deleteCharAt(input.length() - 1);
-                        // Move the cursor back, clear the character, and replace it with a space
-                        System.out.print("\b \b"); // Move back, print space, and move back again
+                    if (cursorPosition > 0) {
+                        input.deleteCharAt(cursorPosition - 1);
+                        cursorPosition--;
+
+                        // Clear the current line and reprint
+                        System.out.print("\b \b");
+                        System.out.print(input.substring(cursorPosition));
+                        System.out.print(" ");
+                        System.out.print("\b".repeat(input.length() - cursorPosition + 1));
                     }
-                    continue; // Skip echoing the character and wait for the next input
+                    continue;
                 }
 
                 // Handle enter or carriage return
@@ -163,8 +225,10 @@ public class FFMConsoleInterface implements InteractiveConsoleInterface {
                 }
 
                 // Echo the character back to the terminal
-                System.out.print((char) character);
-                input.append((char) character); // Append the character to the input
+                input.insert(cursorPosition, (char) character);
+                cursorPosition++;
+                System.out.print(input.substring(cursorPosition - 1));
+                System.out.print("\b".repeat(input.length() - cursorPosition));
             }
         } catch (IOException e) {
             throw new RuntimeException("Error reading user input", e);
