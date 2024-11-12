@@ -5,7 +5,7 @@ import com.group6.hms.framework.screens.ConsoleInterface;
 /**
  * The {@code FieldRenderer} class allow the {@code PaginationTableScreen} to display custom field with different type
  */
-public interface FieldRenderer {
+public interface FieldRenderer<T> {
 
     /**
      * Initialise the Field Renderer object and setting up values based on a row's data.
