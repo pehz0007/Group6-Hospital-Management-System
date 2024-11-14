@@ -5,6 +5,7 @@ import com.group6.hms.app.managers.appointment.AppointmentManagerHolder;
 import com.group6.hms.app.managers.appointment.models.AppointmentOutcomeRecord;
 import com.group6.hms.app.managers.auth.LogoutScreen;
 import com.group6.hms.app.managers.inventory.models.MedicationStatus;
+import com.group6.hms.app.roles.Pharmacist;
 import com.group6.hms.app.screens.MainScreen;
 
 import java.util.List;
@@ -19,6 +20,7 @@ public class PharmacistScreen extends LogoutScreen {
         super("Pharmacist Menu");
         addOption(2, "View Appointment Outcome Record");
         addOption(3, "View Medication Inventory");
+        addOption(4, "Edit Profile");
     }
 
     /**
@@ -49,6 +51,7 @@ public class PharmacistScreen extends LogoutScreen {
         switch (optionId) {
             case 2 -> viewAppointmentOutcomeRecords();
             case 3 -> viewMedicationInventory();
+            case 4 -> navigateToScreen(new PharmacistConfigurationScreen((Pharmacist) getLoginManager().getCurrentlyLoggedInUser()));
             default -> println("Invalid option. Please choose a valid option.");
         }
     }

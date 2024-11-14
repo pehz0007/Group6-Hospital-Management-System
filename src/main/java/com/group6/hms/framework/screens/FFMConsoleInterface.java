@@ -4,6 +4,7 @@ import com.group6.hms.framework.screens.option.ConsoleInputFormatException;
 import com.group6.hms.framework.screens.terminal.AnsiColor;
 import com.group6.hms.framework.screens.terminal.Terminal;
 import com.group6.hms.framework.screens.terminal.mac.MacOsTerminal;
+import com.group6.hms.framework.screens.terminal.unix.UnixTerminal;
 import com.group6.hms.framework.screens.terminal.win.WindowsTerminal;
 
 import java.io.Console;
@@ -39,6 +40,7 @@ public class FFMConsoleInterface implements InteractiveConsoleInterface {
         } else if (isMacOS()) {
             terminal = new MacOsTerminal();
         } else {
+            terminal = new UnixTerminal();
             throw new RuntimeException("Running on an unsupported OS.");
         }
         this.terminal.enableRawMode();  // Enable raw mode using the terminal interface

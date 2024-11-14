@@ -18,6 +18,11 @@ import com.group6.hms.app.managers.inventory.models.PrescribedMedication;
 import com.group6.hms.app.models.*;
 import com.group6.hms.app.roles.*;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -42,7 +47,12 @@ public class Database {
      *
      * @param args command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+
+        for(File file: Paths.get("./data").toFile().listFiles())
+            if (!file.isDirectory())
+                file.delete();
+
         //Generate sample file
         LoginManager loginManager = LoginManagerHolder.getLoginManager();
 
