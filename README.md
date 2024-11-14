@@ -21,11 +21,12 @@ performance, and modularity.
 
 ## Resources
 
-| Resource Name    | Link                      |
-|------------------|---------------------------|
-| Report           | [View Report]()           |
-| Slides           | [View Slides]()           |
-| UML Diagrams             | [View UML Diagrams]()     |
+| Resource Name   | Link                      |
+|-----------------|---------------------------|
+| Report          | [View Report]()           |
+| Slides          | [View Slides]()           |
+| UML Diagrams    | [View UML Diagrams]()     |
+| JavaDoc         | [View JavaDoc]()          |
 | Test Case Videos | [View Test Case Videos]() |
 
 
