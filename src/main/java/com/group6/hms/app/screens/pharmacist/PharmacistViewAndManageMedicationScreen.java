@@ -81,6 +81,9 @@ public class PharmacistViewAndManageMedicationScreen extends PaginationTableScre
         println("Would you like to submit a replenishment request for all low stock medications? (yes/no)");
         String confirmation = readString().toLowerCase();
 
+        println("How many medications would you like to replenish?");
+        int amount = readInt();
+
         if (confirmation.equals("yes")) {
             List<ReplenishmentRequest> requests = new ArrayList<>(); // i create a list to hold requests
             for (MedicationStock medicationStock : lowStockMedications) {
@@ -88,7 +91,7 @@ public class PharmacistViewAndManageMedicationScreen extends PaginationTableScre
                 ReplenishmentRequest request = new ReplenishmentRequest(
                         UUID.randomUUID(),
                         medicationStock.getMedication(),
-                        0, // set a default amount to replenish?? (0 or any other constant)
+                        amount, // set a default amount to replenish?? (0 or any other constant)
                         ReplenishmentRequestStatus.PENDING
                 );
                 requests.add(request); // add the request to the list

@@ -1,5 +1,6 @@
 package com.group6.hms.app.notifications;
 
+import com.group6.hms.framework.screens.calendar.DateTimeRenderer;
 import com.group6.hms.framework.screens.pagination.HeaderField;
 
 import java.time.LocalDateTime;
@@ -12,7 +13,7 @@ import java.util.UUID;
 public class Notification {
     private String title;
     private String message;
-    @HeaderField(show = false)
+    @HeaderField(show = true, renderer = DateTimeRenderer.class)
     private LocalDateTime timestamp;
     @HeaderField(show = false)
     private UUID userID;
