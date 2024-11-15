@@ -28,7 +28,7 @@ public class MedicalRecordScreen extends SinglePaginationTableScreen<Appointment
      * @param records List of appointment outcome records associated with the patient.
      */
     public MedicalRecordScreen(List<AppointmentOutcomeRecord> records) {
-        super("Appointment Outcome Record",records);
+        super("Medical Record",records);
     }
 
     /**
