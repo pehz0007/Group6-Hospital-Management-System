@@ -205,6 +205,7 @@ public class AppointmentManager {
         availabilityManager.updateAvailability(previousAvailability, AvailabilityStatus.AVAILABLE);
 
         appointment.setAvailabilityId(newAvailability.getAvailabilityId());
+        appointment.setStatus(AppointmentStatus.REQUESTED);
         appointment.setDate(newAvailability.getAvailableDate());
         appointment.setStartTime(newAvailability.getAvailableStartTime());
         appointment.setEndTime(newAvailability.getAvailableEndTime());
@@ -235,6 +236,7 @@ public class AppointmentManager {
         availabilityManager.updateAvailability(availability, AvailabilityStatus.AVAILABLE);
 
         // update file
+        appointmentStorageProvider.removeItem(appointment);
         appointmentStorageProvider.saveToFile(appointmentsFile);
         //System.out.println("Successfully cancelled appointment");
     }

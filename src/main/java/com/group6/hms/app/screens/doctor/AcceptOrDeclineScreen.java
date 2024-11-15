@@ -105,7 +105,7 @@ public class AcceptOrDeclineScreen extends PaginationTableScreen<Appointment> {
             println("Patient Name: "+ appointments.getPatient().getName());
             print("\u001B[37m Is this the appointment you want to decline? (Y/N): ");
             String result = readString();
-            if(result.equalsIgnoreCase("n")){
+            if(result.equalsIgnoreCase("y")){
                 appointmentManager.declineAppointmentRequest(appointments);
                 appointment.remove(appointments);
                 //appointmentStorageProvider.saveToFile(appointmentsFile);
