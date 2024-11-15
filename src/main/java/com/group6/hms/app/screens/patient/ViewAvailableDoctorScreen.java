@@ -81,7 +81,7 @@ public class ViewAvailableDoctorScreen extends CalendarScreen<Availability, List
         super.handleOption(optionId);
 
         if(optionId == SCHEDULE_APPOINTMENT) {
-            print("Enter the appointment ID that you would like to book: ");
+            print("Enter the availability ID that you would like to book: ");
             String id = readString();
             Availability availability = availabilityManager.getAvailabilityById(id);
 
@@ -98,7 +98,7 @@ public class ViewAvailableDoctorScreen extends CalendarScreen<Availability, List
         }else if(optionId == RESCHEDULE_APPOINTMENT) {
             List<Appointment> patientAppointments = appointmentManager.getAppointmentsByPatient(this.patient);
 
-            print("Enter the appointment ID that you would like to book: ");
+            print("Enter the availability ID that you would like to book: ");
             String id = readString();
             Availability availability = availabilityManager.getAvailabilityById(id);
 
