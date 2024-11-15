@@ -64,10 +64,13 @@ public class CancelAppointmentScreen extends PaginationTableScreen<Appointment>{
             if(appointmentOptional.isPresent()){
                 appointmentManager.cancelAppointment(appointmentOptional.get());
                 updateAppointmentList();
+                setCurrentTextConsoleColor(ConsoleColor.GREEN);
+                println("Appointment cancelled successfully.");
             }else{
                 setCurrentTextConsoleColor(ConsoleColor.RED);
                 println("Unable to find appointment with id " + selectedAppointmentId);
             }
+            waitForKeyPress();
         }
     }
 }
