@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.group6.hms.framework.screens.Screen</OriginalElement>
+  <nodes>
+    <node x="2226.5044525120015" y="579.0">com.group6.hms.framework.screens.ApplicationHandle</node>
+    <node x="365.5" y="350.0">com.group6.hms.framework.screens.pagination.PaginationTableScreen</node>
+    <node x="1687.5" y="486.0">com.group6.hms.framework.screens.ScreenManager</node>
+    <node x="300.0" y="-14.0">com.group6.hms.framework.screens.calendar.CalendarScreen</node>
+    <node x="1256.5" y="166.0">com.group6.hms.framework.screens.Screen</node>
+    <node x="1735.0" y="213.95489052294684">com.group6.hms.framework.screens.ScreenLifeCycle</node>
+    <node x="853.5" y="358.0">com.group6.hms.framework.screens.option.OptionScreen</node>
+    <node x="-153.0" y="251.0">com.group6.hms.framework.screens.pagination.SinglePaginationTableScreen</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.group6.hms.framework.screens.pagination.SinglePaginationTableScreen" target="com.group6.hms.framework.screens.pagination.PaginationTableScreen" relationship="GENERALIZATION">
+      <point x="178.0" y="-0.0" />
+      <point x="705.0" y="319.0" />
+      <point x="705.0" y="659.0" />
+      <point x="159.5" y="-0.0" />
+    </edge>
+    <edge source="com.group6.hms.framework.screens.ScreenManager" target="com.group6.hms.framework.screens.Screen" relationship="TO_ONE">
+      <point x="157.5" y="-0.0" />
+      <point x="2025.0" y="639.0" />
+      <point x="2025.0" y="819.0" />
+      <point x="1625.0" y="819.0" />
+      <point x="1625.0" y="665.5" />
+      <point x="168.5" y="166.5" />
+    </edge>
+    <edge source="com.group6.hms.framework.screens.Screen" target="com.group6.hms.framework.screens.ScreenManager" relationship="TO_ONE">
+      <point x="168.5" y="166.5" />
+      <point x="1645.0" y="665.5" />
+      <point x="1645.0" y="459.0" />
+      <point x="2045.0" y="459.0" />
+      <point x="2045.0" y="639.0" />
+      <point x="157.5" y="-0.0" />
+    </edge>
+    <edge source="com.group6.hms.framework.screens.option.OptionScreen" target="com.group6.hms.framework.screens.Screen" relationship="GENERALIZATION">
+      <point x="151.5" y="-0.0" />
+      <point x="-168.5" y="-0.0" />
+    </edge>
+    <edge source="com.group6.hms.framework.screens.pagination.PaginationTableScreen" target="com.group6.hms.framework.screens.option.OptionScreen" relationship="GENERALIZATION">
+      <point x="159.5" y="-0.0" />
+      <point x="1185.0" y="659.0" />
+      <point x="1185.0" y="499.0" />
+      <point x="151.5" y="-0.0" />
+    </edge>
+    <edge source="com.group6.hms.framework.screens.calendar.CalendarScreen" target="com.group6.hms.framework.screens.option.OptionScreen" relationship="GENERALIZATION">
+      <point x="225.0" y="-0.0" />
+      <point x="785.0" y="139.0" />
+      <point x="785.0" y="659.0" />
+      <point x="1185.0" y="659.0" />
+      <point x="1185.0" y="499.0" />
+      <point x="151.5" y="-0.0" />
+    </edge>
+    <edge source="com.group6.hms.framework.screens.Screen" target="com.group6.hms.framework.screens.ScreenLifeCycle" relationship="REALIZATION">
+      <point x="168.5" y="-166.5" />
+      <point x="1625.0" y="332.5" />
+      <point x="1625.0" y="305.4548905229468" />
+      <point x="-110.0" y="-0.0" />
+    </edge>
+    <edge source="com.group6.hms.framework.screens.ApplicationHandle" target="com.group6.hms.framework.screens.ScreenManager" relationship="TO_ONE">
+      <point x="-118.0" y="-35.0" />
+      <point x="157.5" y="-15.0" />
+    </edge>
+    <edge source="com.group6.hms.framework.screens.ScreenManager" target="com.group6.hms.framework.screens.ApplicationHandle" relationship="TO_ONE">
+      <point x="157.5" y="20.0" />
+      <point x="-118.0" y="0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.8108853463241192" showDependencies="true" x="1678.400877112761" y="725.4009914359549" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.group6.hms.app.screens.patient.PatientConfigurationScreen</OriginalElement>
+  <nodes>
+    <node x="1797.5" y="-54.5">com.group6.hms.app.screens.patient.ViewScheduledAppointmentsScreen</node>
+    <node x="-146.0" y="1034.5">com.group6.hms.framework.screens.ScreenManagerNotCreatedException</node>
+    <node x="796.0" y="405.5">com.group6.hms.app.screens.patient.MedicalRecordScreen</node>
+    <node x="-166.0" y="649.5">com.group6.hms.app.screens.patient.PatientScreen</node>
+    <node x="406.0" y="937.5">com.group6.hms.app.screens.patient.PatientConfigurationScreen</node>
+    <node x="385.0" y="-22.5">com.group6.hms.app.screens.patient.ViewAvailableDoctorScreen</node>
+    <node x="315.0" y="665.5">com.group6.hms.app.screens.patient.PastOutcomeRecordsScreen</node>
+    <node x="1369.0" y="1288.5">com.group6.hms.app.managers.appointment.AppointmentManagerHolder</node>
+    <node x="2239.0" y="820.5">com.group6.hms.app.managers.appointment.AppointmentManager</node>
+    <node x="1327.5" y="-274.5">com.group6.hms.app.screens.patient.RescheduleAppointmentScreen</node>
+    <node x="1385.0" y="41.5">com.group6.hms.app.screens.patient.CancelAppointmentScreen</node>
+    <node x="1440.0" y="1010.0">com.group6.hms.app.screens.patient.PatientDataView</node>
+    <node x="1801.0" y="628.5">com.group6.hms.app.managers.auth.LoginManager</node>
+    <node x="874.5" y="788.5">com.group6.hms.app.managers.auth.LoginManagerHolder</node>
+    <node x="1312.5" y="294.0">com.group6.hms.app.screens.patient.PatientMedicalRecordDataView</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.group6.hms.app.screens.patient.PatientConfigurationScreen" target="com.group6.hms.app.managers.auth.LoginManager" relationship="TO_ONE">
+      <point x="138.0" y="-64.25" />
+      <point x="1244.0" y="1001.75" />
+      <point x="1244.0" y="746.0" />
+      <point x="1764.0" y="746.0" />
+      <point x="1764.0" y="747.25" />
+      <point x="-163.0" y="-118.75" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.patient.MedicalRecordScreen" target="com.group6.hms.app.screens.patient.PatientMedicalRecordDataView" relationship="CREATE">
+      <point x="208.0" y="-40.25" />
+      <point x="1264.0" y="445.75" />
+      <point x="1264.0" y="446.0" />
+      <point x="-231.5" y="-0.0" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.patient.ViewAvailableDoctorScreen" target="com.group6.hms.app.screens.patient.RescheduleAppointmentScreen" relationship="CREATE">
+      <point x="159.0" y="-94.25" />
+      <point x="724.0" y="71.75" />
+      <point x="724.0" y="66.0" />
+      <point x="1304.0" y="66.0" />
+      <point x="1304.0" y="-134.0" />
+      <point x="-216.5" y="-0.0" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.patient.PatientScreen" target="com.group6.hms.app.screens.patient.ViewAvailableDoctorScreen" relationship="CREATE">
+      <point x="190.0" y="-88.25" />
+      <point x="244.0" y="737.75" />
+      <point x="244.0" y="746.0" />
+      <point x="304.0" y="746.0" />
+      <point x="304.0" y="-54.0" />
+      <point x="744.0" y="-54.0" />
+      <point x="744.0" y="71.75" />
+      <point x="159.0" y="-94.25" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.patient.ViewAvailableDoctorScreen" target="com.group6.hms.app.screens.patient.CancelAppointmentScreen" relationship="CREATE">
+      <point x="159.0" y="-94.25" />
+      <point x="724.0" y="71.75" />
+      <point x="724.0" y="66.0" />
+      <point x="1304.0" y="66.0" />
+      <point x="1304.0" y="146.0" />
+      <point x="-159.0" y="-0.0" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.patient.PatientScreen" target="com.group6.hms.app.managers.appointment.AppointmentManager" relationship="TO_ONE">
+      <point x="190.0" y="88.25" />
+      <point x="244.0" y="914.25" />
+      <point x="244.0" y="1266.0" />
+      <point x="2164.0" y="1266.0" />
+      <point x="2164.0" y="266.0" />
+      <point x="2204.0" y="266.0" />
+      <point x="2204.0" y="963.25" />
+      <point x="-325.0" y="-142.75" />
+    </edge>
+    <edge source="com.group6.hms.app.managers.auth.LoginManagerHolder" target="com.group6.hms.app.managers.auth.LoginManager" relationship="TO_ONE">
+      <point x="129.5" y="-28.75" />
+      <point x="1244.0" y="817.25" />
+      <point x="1244.0" y="746.0" />
+      <point x="1764.0" y="746.0" />
+      <point x="1764.0" y="747.25" />
+      <point x="-163.0" y="-118.75" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.patient.MedicalRecordScreen" target="com.group6.hms.app.managers.auth.LoginManager" relationship="TO_ONE">
+      <point x="208.0" y="40.25" />
+      <point x="1244.0" y="526.25" />
+      <point x="1244.0" y="746.0" />
+      <point x="1764.0" y="746.0" />
+      <point x="1764.0" y="747.25" />
+      <point x="-163.0" y="-118.75" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.patient.RescheduleAppointmentScreen" target="com.group6.hms.app.managers.appointment.AppointmentManager" relationship="TO_ONE">
+      <point x="216.5" y="-0.0" />
+      <point x="2164.0" y="-134.0" />
+      <point x="2164.0" y="266.0" />
+      <point x="2204.0" y="266.0" />
+      <point x="2204.0" y="963.25" />
+      <point x="-325.0" y="-142.75" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.patient.PatientScreen" target="com.group6.hms.app.screens.patient.PatientConfigurationScreen" relationship="CREATE">
+      <point x="190.0" y="-88.25" />
+      <point x="244.0" y="737.75" />
+      <point x="244.0" y="746.0" />
+      <point x="304.0" y="746.0" />
+      <point x="304.0" y="1226.0" />
+      <point x="704.0" y="1226.0" />
+      <point x="704.0" y="1130.25" />
+      <point x="138.0" y="64.25" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.patient.ViewScheduledAppointmentsScreen" target="com.group6.hms.app.managers.appointment.AppointmentManager" relationship="TO_ONE">
+      <point x="166.5" y="-0.0" />
+      <point x="2164.0" y="26.0" />
+      <point x="2164.0" y="266.0" />
+      <point x="2204.0" y="266.0" />
+      <point x="2204.0" y="963.25" />
+      <point x="-325.0" y="-142.75" />
+    </edge>
+    <edge source="com.group6.hms.app.managers.appointment.AppointmentManagerHolder" target="com.group6.hms.app.managers.appointment.AppointmentManager" relationship="CREATE">
+      <point x="175.0" y="28.75" />
+      <point x="2184.0" y="1374.75" />
+      <point x="2184.0" y="1248.75" />
+      <point x="-325.0" y="142.75" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.patient.ViewAvailableDoctorScreen" target="com.group6.hms.app.managers.appointment.AppointmentManager" relationship="TO_ONE">
+      <point x="159.0" y="94.25" />
+      <point x="724.0" y="260.25" />
+      <point x="724.0" y="266.0" />
+      <point x="2204.0" y="266.0" />
+      <point x="2204.0" y="963.25" />
+      <point x="-325.0" y="-142.75" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.patient.PatientScreen" target="com.group6.hms.app.screens.patient.PastOutcomeRecordsScreen" relationship="CREATE">
+      <point x="190.0" y="-88.25" />
+      <point x="244.0" y="737.75" />
+      <point x="244.0" y="746.0" />
+      <point x="-229.0" y="-0.0" />
+    </edge>
+    <edge source="com.group6.hms.app.managers.appointment.AppointmentManagerHolder" target="com.group6.hms.app.managers.appointment.AppointmentManager" relationship="TO_ONE">
+      <point x="175.0" y="-28.75" />
+      <point x="2164.0" y="1317.25" />
+      <point x="2164.0" y="266.0" />
+      <point x="2204.0" y="266.0" />
+      <point x="2204.0" y="963.25" />
+      <point x="-325.0" y="-142.75" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.patient.PastOutcomeRecordsScreen" target="com.group6.hms.app.managers.auth.LoginManager" relationship="TO_ONE">
+      <point x="229.0" y="-0.0" />
+      <point x="1764.0" y="746.0" />
+      <point x="1764.0" y="747.25" />
+      <point x="-163.0" y="-118.75" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.patient.CancelAppointmentScreen" target="com.group6.hms.app.managers.appointment.AppointmentManager" relationship="TO_ONE">
+      <point x="159.0" y="-0.0" />
+      <point x="2164.0" y="146.0" />
+      <point x="2164.0" y="266.0" />
+      <point x="2204.0" y="266.0" />
+      <point x="2204.0" y="963.25" />
+      <point x="-325.0" y="-142.75" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.patient.ViewAvailableDoctorScreen" target="com.group6.hms.app.screens.patient.ViewScheduledAppointmentsScreen" relationship="CREATE">
+      <point x="159.0" y="-94.25" />
+      <point x="724.0" y="71.75" />
+      <point x="724.0" y="66.0" />
+      <point x="1304.0" y="66.0" />
+      <point x="1304.0" y="26.0" />
+      <point x="-166.5" y="-0.0" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.patient.PatientConfigurationScreen" target="com.group6.hms.app.screens.patient.PatientDataView" relationship="CREATE">
+      <point x="138.0" y="64.25" />
+      <point x="724.0" y="1130.25" />
+      <point x="724.0" y="1126.0" />
+      <point x="-104.0" y="-0.0" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.patient.PatientScreen" target="com.group6.hms.app.screens.patient.MedicalRecordScreen" relationship="CREATE">
+      <point x="190.0" y="-88.25" />
+      <point x="244.0" y="737.75" />
+      <point x="244.0" y="746.0" />
+      <point x="304.0" y="746.0" />
+      <point x="304.0" y="386.0" />
+      <point x="1244.0" y="386.0" />
+      <point x="1244.0" y="445.75" />
+      <point x="208.0" y="-40.25" />
+    </edge>
+    <edge source="com.group6.hms.app.managers.auth.LoginManagerHolder" target="com.group6.hms.app.managers.auth.LoginManager" relationship="CREATE">
+      <point x="129.5" y="28.75" />
+      <point x="1264.0" y="874.75" />
+      <point x="1264.0" y="984.75" />
+      <point x="-163.0" y="118.75" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.patient.ViewAvailableDoctorScreen" target="com.group6.hms.app.managers.auth.LoginManager" relationship="TO_ONE">
+      <point x="159.0" y="94.25" />
+      <point x="724.0" y="260.25" />
+      <point x="724.0" y="266.0" />
+      <point x="1284.0" y="266.0" />
+      <point x="1284.0" y="746.0" />
+      <point x="1764.0" y="746.0" />
+      <point x="1764.0" y="747.25" />
+      <point x="-163.0" y="-118.75" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.42024720423778694" showDependencies="true" x="1371.5" y="574.5" />
+  <SelectedNodes>
+    <node>com.group6.hms.app.managers.auth.LoginManagerHolder</node>
+    <node>com.group6.hms.app.managers.auth.LoginManager</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

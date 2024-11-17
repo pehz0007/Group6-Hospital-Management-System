@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.group6.hms.framework.screens.FFMConsoleInterface</OriginalElement>
+  <nodes>
+    <node x="378.8243898051576" y="270.2436634802703">com.group6.hms.framework.screens.terminal.Terminal</node>
+    <node x="734.7999633181279" y="829.9283009822734">com.group6.hms.framework.screens.FFMConsoleInterface</node>
+    <node x="1152.4257497038302" y="235.54904633715944">com.group6.hms.framework.screens.SimpleConsoleInterface</node>
+    <node x="-131.29630979783087" y="459.0224640805708">com.group6.hms.framework.screens.terminal.win.WindowsTerminal</node>
+    <node x="695.715891507862" y="-13.251398380620685">com.group6.hms.framework.screens.ConsoleInterface</node>
+    <node x="382.2320801359541" y="777.4132767621554">com.group6.hms.framework.screens.terminal.mac.MacOsTerminal</node>
+    <node x="377.95313109824417" y="483.37780331012334">com.group6.hms.framework.screens.terminal.unix.UnixTerminal</node>
+    <node x="710.5802858994017" y="447.0224640805708">com.group6.hms.framework.screens.InteractiveConsoleInterface</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.group6.hms.framework.screens.FFMConsoleInterface" target="com.group6.hms.framework.screens.terminal.unix.UnixTerminal" relationship="CREATE">
+      <point x="-74.71967741872606" y="-260.5" />
+      <point x="828.5802858994017" y="708.5224640805708" />
+      <point x="488.9531310982441" y="708.5224640805708" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="com.group6.hms.framework.screens.InteractiveConsoleInterface" target="com.group6.hms.framework.screens.ConsoleInterface" relationship="INTERFACE_GENERALIZATION">
+      <point x="20.635605608460423" y="-92.0" />
+      <point x="0.0" y="175.99999999999997" />
+    </edge>
+    <edge source="com.group6.hms.framework.screens.terminal.mac.MacOsTerminal" target="com.group6.hms.framework.screens.terminal.Terminal" relationship="REALIZATION">
+      <point x="-111.00008013595419" y="-2.7676215540850535E-4" />
+      <point x="269.4999999999999" y="833.413" />
+      <point x="269.4999999999999" y="448.0" />
+      <point x="489.8239999999999" y="448.0" />
+      <point x="-3.8980515768116675E-4" y="43.50033651972973" />
+    </edge>
+    <edge source="com.group6.hms.framework.screens.terminal.unix.UnixTerminal" target="com.group6.hms.framework.screens.terminal.Terminal" relationship="REALIZATION">
+      <point x="-1.3109824425328043E-4" y="-55.9998033101233" />
+      <point x="488.95299999999986" y="448.0" />
+      <point x="489.8239999999999" y="448.0" />
+      <point x="-3.8980515768116675E-4" y="43.50033651972973" />
+    </edge>
+    <edge source="com.group6.hms.framework.screens.FFMConsoleInterface" target="com.group6.hms.framework.screens.terminal.Terminal" relationship="TO_ONE">
+      <point x="-168.5" y="-15.0" />
+      <point x="651.7320801359541" y="1075.4283009822734" />
+      <point x="651.7320801359541" y="313.7436634802703" />
+      <point x="111.0" y="0.0" />
+    </edge>
+    <edge source="com.group6.hms.framework.screens.FFMConsoleInterface" target="com.group6.hms.framework.screens.InteractiveConsoleInterface" relationship="REALIZATION">
+      <point x="-59.719677418726064" y="-260.5" />
+      <point x="0.0" y="92.0" />
+    </edge>
+    <edge source="com.group6.hms.framework.screens.FFMConsoleInterface" target="com.group6.hms.framework.screens.terminal.mac.MacOsTerminal" relationship="CREATE">
+      <point x="-168.5" y="-253.0" />
+      <point x="111.0" y="4.0150242201179935" />
+    </edge>
+    <edge source="com.group6.hms.framework.screens.SimpleConsoleInterface" target="com.group6.hms.framework.screens.ConsoleInterface" relationship="REALIZATION">
+      <point x="-168.5" y="-169.0" />
+      <point x="168.5" y="80.3004447177801" />
+    </edge>
+    <edge source="com.group6.hms.framework.screens.FFMConsoleInterface" target="com.group6.hms.framework.screens.terminal.win.WindowsTerminal" relationship="CREATE">
+      <point x="-168.5" y="-0.0" />
+      <point x="43.20369020216913" y="1090.4283009822734" />
+      <point x="-0.0" y="80.0" />
+    </edge>
+    <edge source="com.group6.hms.framework.screens.terminal.win.WindowsTerminal" target="com.group6.hms.framework.screens.terminal.Terminal" relationship="REALIZATION">
+      <point x="-0.0" y="-80.0" />
+      <point x="43.20369020216913" y="313.7436634802703" />
+      <point x="-111.0" y="-0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.42625892257723774" showDependencies="true" x="988.6891176141241" y="768.5314613053378" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
