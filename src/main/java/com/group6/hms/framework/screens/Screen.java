@@ -2,6 +2,7 @@ package com.group6.hms.framework.screens;
 
 import com.github.lalyos.jfiglet.FigletFont;
 
+import java.io.IOException;
 import java.util.Objects;
 
 /**
@@ -201,7 +202,12 @@ public abstract class Screen implements ScreenLifeCycle {
         consoleInterface.setCurrentTextConsoleColor(ConsoleColor.CYAN);
 
         // Generate the ASCII art for the title
-        String asciiTitle = FigletFont.convertOneLine(title);
+        String asciiTitle;
+        try {
+            asciiTitle = FigletFont.convertOneLine(title);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
         // Split the generated ASCII art into lines
         String[] asciiTitleLines = asciiTitle.split("\n");
