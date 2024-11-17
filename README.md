@@ -37,14 +37,26 @@ javac -p libs -sourcepath src/main/java -d target src/main/java/com/group6/hms/a
 ```
 
 To populate the application with fake data for testing, use the following command:
+
+Windows:
 ```bash
 java -p libs;target -m hms/com.group6.hms.app.Database
+```
+Mac:
+```bash
+java -p libs:target -m hms/com.group6.hms.app.Database
 ```
 
 
 After compiling, use the following command to run the application:
+
+Windows:
 ```bash
 java -p libs;target -m hms/com.group6.hms.app.HMS
+```
+Mac:
+```bash
+java -p libs:target -m hms/com.group6.hms.app.HMS
 ```
 
 ## Team Members
