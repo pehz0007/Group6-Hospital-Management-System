@@ -52,11 +52,11 @@ After compiling, use the following command to run the application:
 
 Windows:
 ```bash
-java -p libs;target -m hms/com.group6.hms.app.HMS
+java -p libs;target -m hms/com.group6.hms.app.HMS --enable-native-access=hms
 ```
 Mac:
 ```bash
-java -p libs:target -m hms/com.group6.hms.app.HMS
+java -p libs:target -m hms/com.group6.hms.app.HMS --enable-native-access=hms
 ```
 
 ## Team Members
