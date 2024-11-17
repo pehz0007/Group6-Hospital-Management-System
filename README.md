@@ -21,13 +21,13 @@ performance, and modularity.
 
 ## Resources
 
-| Resource Name   | Link                      |
-|-----------------|---------------------------|
-| Report          | [View Report]()           |
-| Slides          | [View Slides]()           |
-| UML Diagrams    | [View UML Diagrams]()     |
-| JavaDoc         | [View JavaDoc]()          |
-| Test Case Videos | [View Test Case Videos]() |
+| Resource Name   | Link                                                                                                         |
+|-----------------|--------------------------------------------------------------------------------------------------------------|
+| Report          | [View Report]()                                                                                              |
+| Slides          | [View Slides]()                                                                                              |
+| UML Diagrams    | [View UML Diagrams](https://drive.google.com/drive/folders/1h7-biUokU041arcabtcZxpX8gxfnv2rH?usp=drive_link) |
+| JavaDoc         | [View JavaDoc](./docs/index.html)                                                                            |
+| Test Case Videos | [View Test Case Videos](https://drive.google.com/drive/folders/1EGRNOWcOczaYgVPRFSOOuMQgtG_wGtPK?usp=drive_link)                                                                                    |
 
 
 ## Compiling & Running
