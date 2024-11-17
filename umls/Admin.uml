@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.group6.hms.app.screens.admin.AppointmentView</OriginalElement>
+  <nodes>
+    <node x="-193.88463038050463" y="908.6860747167132">com.group6.hms.app.screens.admin.AdminViewAndManageMedicationScreen</node>
+    <node x="-239.3339491131805" y="463.3842665467174">com.group6.hms.app.managers.inventory.InventoryManagerHolder</node>
+    <node x="-264.5" y="-7.5">com.group6.hms.app.managers.inventory.InventoryManager</node>
+    <node x="631.3856542138813" y="510.45738314447556">com.group6.hms.app.screens.admin.importer.PatientsCSVReader</node>
+    <node x="403.2674341681691" y="1065.5">com.group6.hms.app.screens.admin.AdministratorScreen</node>
+    <node x="263.5" y="451.8842665467174">com.group6.hms.app.screens.admin.importer.MedicationStockCSVReader</node>
+    <node x="1370.5" y="568.5">com.group6.hms.app.managers.auth.LoginManager</node>
+    <node x="189.88472589854177" y="714.0">com.group6.hms.app.screens.admin.ReplenishmentRequestScreen</node>
+    <node x="745.5" y="-22.96114714782607">com.group6.hms.app.screens.admin.importer.CSVReader</node>
+    <node x="781.0" y="1190.0">com.group6.hms.app.screens.admin.ViewAndManageUsersScreen</node>
+    <node x="1393.0" y="1065.5">com.group6.hms.app.managers.auth.LoginManagerHolder</node>
+    <node x="1059.0" y="446.0">com.group6.hms.app.screens.admin.UserUtils</node>
+    <node x="867.0" y="714.0">com.group6.hms.app.screens.admin.importer.StaffsCSVReader</node>
+    <node x="886.6473321207818" y="866.9611471478261">com.group6.hms.app.screens.admin.importer.InvalidStaffRoleException</node>
+    <node x="877.5" y="222.64533986286398">com.group6.hms.app.roles.Administrator</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.group6.hms.app.screens.admin.ViewAndManageUsersScreen" target="com.group6.hms.app.managers.auth.LoginManager" relationship="TO_ONE">
+      <point x="72.0" y="-80.0" />
+      <point x="997.0" y="1030.0" />
+      <point x="1445.0" y="1030.0" />
+      <point x="1445.0" y="1010.0" />
+      <point x="1437.75" y="1010.0" />
+      <point x="-67.25" y="201.5" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.admin.AdminViewAndManageMedicationScreen" target="com.group6.hms.app.screens.admin.ReplenishmentRequestScreen" relationship="CREATE">
+      <point x="177.5" y="-56.0" />
+      <point x="168.61536961949537" y="867.3430373583566" />
+      <point x="219.7742416865176" y="867.3430373583566" />
+      <point x="-139.61048421202418" y="56.0" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.admin.UserUtils" target="com.group6.hms.app.screens.admin.importer.InvalidStaffRoleException" relationship="CREATE">
+      <point x="0.0" y="44.0" />
+      <point x="1265.0" y="847.0" />
+      <point x="1014.647" y="847.0" />
+      <point x="-3.321207817634786E-4" y="-31.500147147826056" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.admin.importer.StaffsCSVReader" target="com.group6.hms.app.screens.admin.importer.InvalidStaffRoleException" relationship="CREATE">
+      <point x="0.0" y="56.0" />
+      <point x="985.0" y="847.0" />
+      <point x="1014.647" y="847.0" />
+      <point x="-3.321207817634786E-4" y="-31.500147147826056" />
+    </edge>
+    <edge source="com.group6.hms.app.managers.auth.LoginManagerHolder" target="com.group6.hms.app.managers.auth.LoginManager" relationship="TO_ONE">
+      <point x="-56.0" y="-44.5" />
+      <point x="1449.0" y="1030.0" />
+      <point x="1445.0" y="1030.0" />
+      <point x="1445.0" y="1010.0" />
+      <point x="1437.75" y="1010.0" />
+      <point x="-67.25" y="201.5" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.admin.importer.MedicationStockCSVReader" target="com.group6.hms.app.screens.admin.importer.CSVReader" relationship="GENERALIZATION">
+      <point x="0.0" y="-56.0" />
+      <point x="425.0" y="45.03885285217393" />
+      <point x="-99.5" y="0.0" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.admin.importer.PatientsCSVReader" target="com.group6.hms.app.screens.admin.importer.CSVReader" relationship="GENERALIZATION">
+      <point x="0.0" y="-56.0" />
+      <point x="755.8856542138813" y="410.0" />
+      <point x="845.0" y="410.0" />
+      <point x="0.0" y="68.0" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.admin.AdminViewAndManageMedicationScreen" target="com.group6.hms.app.managers.inventory.InventoryManager" relationship="TO_ONE">
+      <point x="28.7257583134824" y="-56.0" />
+      <point x="19.84112793297777" y="628.0930373583566" />
+      <point x="71.0" y="628.0930373583566" />
+      <point x="15.0" y="177.5" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.admin.ViewAndManageUsersScreen" target="com.group6.hms.app.screens.admin.importer.StaffsCSVReader" relationship="CREATE">
+      <point x="-72.0" y="-80.0" />
+      <point x="853.0" y="1170.0" />
+      <point x="845.0" y="1170.0" />
+      <point x="845.0" y="390.0" />
+      <point x="1044.0" y="390.0" />
+      <point x="59.0" y="-56.0" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.admin.ViewAndManageUsersScreen" target="com.group6.hms.app.screens.admin.importer.PatientsCSVReader" relationship="CREATE">
+      <point x="-72.0" y="-80.0" />
+      <point x="853.0" y="1170.0" />
+      <point x="845.0" y="1170.0" />
+      <point x="845.0" y="1130.0" />
+      <point x="755.8856542138813" y="1130.0" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.admin.AdministratorScreen" target="com.group6.hms.app.screens.admin.AdminViewAndManageMedicationScreen" relationship="CREATE">
+      <point x="-105.0" y="0.0" />
+      <point x="-8.884630380504632" y="1133.5" />
+      <point x="0.0" y="56.0" />
+    </edge>
+    <edge source="com.group6.hms.app.managers.inventory.InventoryManagerHolder" target="com.group6.hms.app.managers.inventory.InventoryManager" relationship="CREATE">
+      <point x="15.0" y="-44.5" />
+      <point x="-141.8339491131805" y="177.5" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.admin.importer.StaffsCSVReader" target="com.group6.hms.app.screens.admin.importer.CSVReader" relationship="GENERALIZATION">
+      <point x="-59.0" y="-56.0" />
+      <point x="926.0" y="410.0" />
+      <point x="845.0" y="410.0" />
+      <point x="0.0" y="68.0" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.admin.ReplenishmentRequestScreen" target="com.group6.hms.app.managers.inventory.InventoryManager" relationship="TO_ONE">
+      <point x="-169.5" y="0.0" />
+      <point x="130.0" y="770.0" />
+      <point x="130.0" y="708.0" />
+      <point x="56.0" y="708.0" />
+      <point x="0.0" y="177.5" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.admin.AdministratorScreen" target="com.group6.hms.app.screens.admin.ViewAndManageUsersScreen" relationship="CREATE">
+      <point x="105.0" y="64.0" />
+      <point x="-144.0" y="-72.5" />
+    </edge>
+    <edge source="com.group6.hms.app.managers.inventory.InventoryManagerHolder" target="com.group6.hms.app.managers.inventory.InventoryManager" relationship="TO_ONE">
+      <point x="0.0" y="-44.5" />
+      <point x="-156.8339491131805" y="177.5" />
+    </edge>
+    <edge source="com.group6.hms.app.managers.auth.LoginManagerHolder" target="com.group6.hms.app.managers.auth.LoginManager" relationship="CREATE">
+      <point x="56.0" y="-44.5" />
+      <point x="1561.0" y="1030.0" />
+      <point x="1572.25" y="1030.0" />
+      <point x="67.25" y="201.5" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.admin.UserUtils" target="com.group6.hms.app.roles.Administrator" relationship="CREATE">
+      <point x="-206.0" y="0.0" />
+      <point x="985.0" y="490.0" />
+      <point x="985.0" y="375.0" />
+      <point x="1044.0" y="375.0" />
+      <point x="-6.0" y="44.499660137136004" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.admin.importer.StaffsCSVReader" target="com.group6.hms.app.roles.Administrator" relationship="CREATE">
+      <point x="19.5" y="-56.0" />
+      <point x="1004.5" y="513.0" />
+      <point x="985.0" y="513.0" />
+      <point x="985.0" y="375.0" />
+      <point x="1044.0" y="375.0" />
+      <point x="-6.0" y="44.499660137136004" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.admin.AdminViewAndManageMedicationScreen" target="com.group6.hms.app.screens.admin.importer.MedicationStockCSVReader" relationship="CREATE">
+      <point x="185.0" y="-0.6860747167131649" />
+      <point x="546.3847258985418" y="964.0" />
+      <point x="121.38472589854177" y="56.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.45489472139466636" showDependencies="true" x="665.6776780065779" y="690.7085101039047" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

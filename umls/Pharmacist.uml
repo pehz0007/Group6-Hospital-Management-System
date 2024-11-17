@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.group6.hms.app.screens.pharmacist.AppointmentOutcomeRecordView</OriginalElement>
+  <nodes>
+    <node x="696.5" y="-14.0">com.group6.hms.app.screens.pharmacist.PharmacistViewAndManageMedicationScreen</node>
+    <node x="127.0" y="146.0">com.group6.hms.app.screens.pharmacist.PharmacistViewAndManageAppointmentOutcomeRecordScreen</node>
+    <node x="1305.5545454545456" y="-71.85454545454547">com.group6.hms.app.screens.pharmacist.PharmacistConfigurationScreen</node>
+    <node x="1215.0" y="182.5">com.group6.hms.app.screens.pharmacist.AppointmentOutcomeRecordView</node>
+    <node x="-272.0" y="82.0">com.group6.hms.app.screens.pharmacist.PharmacistScreen</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.group6.hms.app.screens.pharmacist.PharmacistScreen" target="com.group6.hms.app.screens.pharmacist.PharmacistViewAndManageAppointmentOutcomeRecordScreen" relationship="CREATE">
+      <point x="152.0" y="-0.0" />
+      <point x="100.0" y="174.0" />
+      <point x="100.0" y="314.0" />
+      <point x="700.0" y="314.0" />
+      <point x="700.0" y="214.0" />
+      <point x="273.0" y="-0.0" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.pharmacist.PharmacistViewAndManageAppointmentOutcomeRecordScreen" target="com.group6.hms.app.screens.pharmacist.AppointmentOutcomeRecordView" relationship="CREATE">
+      <point x="273.0" y="-0.0" />
+      <point x="-225.0" y="-0.0" />
+    </edge>
+    <edge source="com.group6.hms.app.screens.pharmacist.PharmacistScreen" target="com.group6.hms.app.screens.pharmacist.PharmacistViewAndManageMedicationScreen" relationship="CREATE">
+      <point x="152.0" y="-0.0" />
+      <point x="100.0" y="174.0" />
+      <point x="100.0" y="54.0" />
+      <point x="-203.5" y="-0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.47516198704103674" showDependencies="true" x="885.5" y="160.0" />
+  <SelectedNodes>
+    <node>com.group6.hms.app.screens.pharmacist.PharmacistConfigurationScreen</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+

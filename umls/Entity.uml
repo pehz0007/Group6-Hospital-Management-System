@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement>com.group6.hms.app.roles.Pharmacist</OriginalElement>
+  <nodes>
+    <node x="724.0" y="-201.0">com.group6.hms.app.roles.Patient</node>
+    <node x="1560.5" y="-68.0">com.group6.hms.app.roles.Gender</node>
+    <node x="-76.5" y="56.0">com.group6.hms.app.roles.Pharmacist</node>
+    <node x="1195.0" y="-201.0">com.group6.hms.app.managers.auth.User</node>
+    <node x="-63.0" y="-156.5">com.group6.hms.app.roles.Doctor</node>
+    <node x="276.5" y="-64.0">com.group6.hms.app.roles.Administrator</node>
+    <node x="763.0" y="128.5">com.group6.hms.app.roles.Staff</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="com.group6.hms.app.roles.Administrator" target="com.group6.hms.app.roles.Staff" relationship="GENERALIZATION">
+      <point x="172.5" y="-0.0" />
+      <point x="649.0" y="-20.0" />
+      <point x="649.0" y="100.0" />
+      <point x="1089.0" y="100.0" />
+      <point x="1089.0" y="160.0" />
+      <point x="146.0" y="-0.0" />
+    </edge>
+    <edge source="com.group6.hms.app.roles.Pharmacist" target="com.group6.hms.app.roles.Staff" relationship="GENERALIZATION">
+      <point x="165.5" y="-0.0" />
+      <point x="1089.0" y="100.0" />
+      <point x="1089.0" y="160.0" />
+      <point x="146.0" y="-0.0" />
+    </edge>
+    <edge source="com.group6.hms.app.roles.Patient" target="com.group6.hms.app.managers.auth.User" relationship="GENERALIZATION">
+      <point x="185.0" y="-0.0" />
+      <point x="1129.0" y="-60.0" />
+      <point x="1129.0" y="0.0" />
+      <point x="-134.0" y="-0.0" />
+    </edge>
+    <edge source="com.group6.hms.app.roles.Doctor" target="com.group6.hms.app.roles.Staff" relationship="GENERALIZATION">
+      <point x="152.0" y="-0.0" />
+      <point x="649.0" y="-100.0" />
+      <point x="649.0" y="100.0" />
+      <point x="1089.0" y="100.0" />
+      <point x="1089.0" y="160.0" />
+      <point x="146.0" y="-0.0" />
+    </edge>
+    <edge source="com.group6.hms.app.roles.Staff" target="com.group6.hms.app.managers.auth.User" relationship="GENERALIZATION">
+      <point x="146.0" y="-0.0" />
+      <point x="1129.0" y="160.0" />
+      <point x="1129.0" y="0.0" />
+      <point x="-134.0" y="-0.0" />
+    </edge>
+    <edge source="com.group6.hms.app.managers.auth.User" target="com.group6.hms.app.roles.Gender" relationship="TO_ONE">
+      <point x="134.0" y="-0.0" />
+      <point x="-108.5" y="-0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Compact" zoom="0.606963218726801" showDependencies="true" x="988.0924515724182" y="63.21351814270008" />
+  <SelectedNodes />
+  <Categories>
+    <Category>Constructors</Category>
+    <Category>Fields</Category>
+    <Category>Methods</Category>
+    <Category>Properties</Category>
+  </Categories>
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
