@@ -23,13 +23,11 @@ performance, and modularity.
 
 | Resource Name    | Link                                                                                                             |
 |------------------|------------------------------------------------------------------------------------------------------------------|
-| Report           | [View Report]()                                                                                                  |
-| Slides           | [View Slides]()                                                                                                  |
-| Data Files       | [View Data Files](./csv_files)                                                                                   |
 | UML Diagrams     | [View UML Diagrams](https://drive.google.com/drive/folders/1h7-biUokU041arcabtcZxpX8gxfnv2rH?usp=drive_link)     |
-| JavaDoc          | [View JavaDoc](./docs/index.html)                                                                                |
 | Test Case Videos | [View Test Case Videos](https://drive.google.com/drive/folders/1EGRNOWcOczaYgVPRFSOOuMQgtG_wGtPK?usp=drive_link) |
 
+## Notes
+- Data Files is included in the submission folder, but you do not need the data files folder to use our application, because its already included
 
 ## Compiling & Running
 
